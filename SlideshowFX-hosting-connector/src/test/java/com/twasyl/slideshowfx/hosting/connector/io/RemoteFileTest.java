@@ -16,9 +16,11 @@
 
 package com.twasyl.slideshowfx.hosting.connector.io;
 
-import org.testng.annotations.Test;
+import org.junit.Test;
 
-import static org.testng.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Performs test on the {@link RemoteFile} class.
@@ -33,7 +35,8 @@ public class RemoteFileTest {
      * Ensure the {@link RemoteFile#toString()} method to return the expected value when a RemoteFile is constructed
      * with only the name and no parent.
      */
-    @Test public void toStringWithOnlyName() {
+    @Test
+    public void toStringWithOnlyName() {
         final RemoteFile parent = new RemoteFile("parent");
 
         assertEquals(parent.toString(), "/parent");

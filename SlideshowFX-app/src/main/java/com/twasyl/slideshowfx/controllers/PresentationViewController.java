@@ -695,14 +695,14 @@ public class PresentationViewController implements Initializable {
     }
 
     /**
-     * Start the slideshow for the current presentation. The slideshow is only started if:
+     * Start the slideshowfx for the current presentation. The slideshowfx is only started if:
      * <ul>
      *     <li>{@link com.twasyl.slideshowfx.engine.presentation.PresentationEngine#getConfiguration()} returns a non
      *     null value</li>
      *     <li>{@link com.twasyl.slideshowfx.engine.presentation.configuration.PresentationConfiguration#getPresentationFile()}
      *     returns a non null value and a file that exists</li>
      * </ul>
-     * @param leapMotionEnabled Indicates if the LeapMotion controller should be enabled during the slideshow.
+     * @param leapMotionEnabled Indicates if the LeapMotion controller should be enabled during the slideshowfx.
      */
     public void startSlideshow(final boolean leapMotionEnabled, final String fromSlideId) {
         if (this.presentationEngine.getConfiguration() != null

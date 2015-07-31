@@ -69,7 +69,7 @@ public class SlideshowPane extends StackPane {
     private final CollapsibleToolPane collapsibleToolPane = new CollapsibleToolPane();
 
     /**
-     * Creates a SlideshowPane object for the given {@code context}. The slideshow will be started at the
+     * Creates a SlideshowPane object for the given {@code context}. The slideshowfx will be started at the
      * given {@link Context#getStartAtSlideId()}.
      *
      * @param context The context to create the {@link SlideshowPane}.
@@ -131,7 +131,7 @@ public class SlideshowPane extends StackPane {
     public static SlideshowPane getSingleton() { return singleton; }
 
     /**
-     * Closes the slideshow pane. It takes care to set to {@code null} the singleton for this class.
+     * Closes the slideshowfx pane. It takes care to set to {@code null} the singleton for this class.
      */
     public void close() {
         SlideshowPane.singleton = null;

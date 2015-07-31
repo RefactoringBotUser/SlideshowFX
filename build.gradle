@@ -64,9 +64,9 @@ allprojects {
         wikitext
         zxing
 
-        testng
-        cucumber
         automaton
+        junit
+        mockito
     }
 
     dependencies {
@@ -84,9 +84,9 @@ allprojects {
         wikitext fileTree(dir: new File(allLibs, 'WikiText'), include: '*.jar')
         zxing 'com.google.zxing:core:3.2.0', 'com.google.zxing:javase:3.2.0'
 
-        testng 'org.testng:testng:6.8.13', 'com.beust:jcommander:1.47'
-        cucumber 'info.cukes:cucumber-core:1.2.2', 'info.cukes:cucumber-java:1.2.2', 'info.cukes:cucumber-testng:1.2.2'
         automaton 'com.athaydes.automaton:Automaton:1.1.0'
+        junit 'junit:junit:4.12'
+        mockito 'org.mockito:mockito-core:1.10.19'
     }
 
 }
@@ -155,6 +155,7 @@ task installMarkupPlugins(dependsOn: [':SlideshowFX-asciidoctor:jar',
 }
 
 task installContentExtensionPlugins(dependsOn: [':SlideshowFX-alert-extension:jar',
+                                               ':SlideshowFX-chart-extension:jar',
                                                ':SlideshowFX-code-extension:jar',
                                                ':SlideshowFX-image-extension:jar',
                                                ':SlideshowFX-link-extension:jar',
@@ -164,6 +165,7 @@ task installContentExtensionPlugins(dependsOn: [':SlideshowFX-alert-extension:ja
 
     copy {
         from project(':SlideshowFX-alert-extension').jar.archivePath
+        from project(':SlideshowFX-chart-extension').jar.archivePath
         from project(':SlideshowFX-code-extension').jar.archivePath
         from project(':SlideshowFX-image-extension').jar.archivePath
         from project(':SlideshowFX-link-extension').jar.archivePath
@@ -197,9 +199,16 @@ task installSnippetExecutorPlugins(dependsOn : [':SlideshowFX-golo-executor:jar'
     }
 }
 
+task installAllPlugins(dependsOn: ['installMarkupPlugins',
+                                   'installContentExtensionPlugins',
+                                   'installHostingConnectorPlugins',
+                                   'installSnippetExecutorPlugins']) << {
+
+}
+
 task packageSlideshowFX(dependsOn : [ 'clean',
                                       ':SlideshowFX-asciidoctor:jar', ':SlideshowFX-html:jar', ':SlideshowFX-markdown:jar', ':SlideshowFX-textile:jar',
-                                      ':SlideshowFX-code-extension:jar', ':SlideshowFX-image-extension:jar', ':SlideshowFX-link-extension:jar', ':SlideshowFX-quote-extension:jar', ':SlideshowFX-sequence-diagram-extension:jar', ':SlideshowFX-snippet-extension:jar',
+                                      ':SlideshowFX-chart-extension:jar', ':SlideshowFX-code-extension:jar', ':SlideshowFX-image-extension:jar', ':SlideshowFX-link-extension:jar', ':SlideshowFX-quote-extension:jar', ':SlideshowFX-sequence-diagram-extension:jar', ':SlideshowFX-snippet-extension:jar',
                                       ':SlideshowFX-golo-executor:jar', ':SlideshowFX-groovy-executor:jar', ':SlideshowFX-java-executor:jar',
                                       ':SlideshowFX-app:jar',
                                       'asciidoctor']) {
@@ -229,6 +238,7 @@ task packageSlideshowFX(dependsOn : [ 'clean',
         copy {
             from project(':SlideshowFX-alert-extension').jar.archivePath
             from project(':SlideshowFX-code-extension').jar.archivePath
+            from project(':SlideshowFX-chart-extension').jar.archivePath
             from project(':SlideshowFX-image-extension').jar.archivePath
             from project(':SlideshowFX-link-extension').jar.archivePath
             from project(':SlideshowFX-quote-extension').jar.archivePath

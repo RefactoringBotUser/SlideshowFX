@@ -18,15 +18,16 @@ package com.twasyl.slideshowfx.io;
 
 import com.twasyl.slideshowfx.engine.template.TemplateEngine;
 import com.twasyl.slideshowfx.utils.ZipUtils;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static org.junit.Assert.fail;
 
 public class ZipTest {
 
@@ -72,52 +73,52 @@ public class ZipTest {
 
     }
 
-    @Test(enabled = false)
+    @Test
     public void unzipRevealjsTemplate() throws IOException {
         try {
             templateEngine.loadArchive(revealjsTemplateFile);
         } catch (IllegalAccessException e) {
             LOGGER.log(Level.SEVERE, "Error while unzipping template", e);
-            Assert.fail();
+            fail();
         }
     }
 
-    @Test(enabled = false)
+    @Test
     public void zipRevealjsTemplateFolder() throws IOException {
         ZipUtils.zip(reveljsTemplateFolder, revealjsTemplateFile);
     }
 
-    @Test(enabled = false)
+    @Test
     public void unzipImpressjsTemplate() throws IOException {
         try {
             templateEngine.loadArchive(impressjsTemplateFile);
         } catch (IllegalAccessException e) {
             LOGGER.log(Level.SEVERE, "Error while unzipping template", e);
-            Assert.fail();
+            fail();
         }
     }
 
-    @Test(enabled = false)
+    @Test
     public void zipImpressjsTemplateFolder() throws IOException {
         ZipUtils.zip(impressjsTemplateFolder, impressjsTemplateFile);
     }
 
-    @Test(enabled = false)
+    @Test
     public void unzipBespokejsTemplate() throws IOException {
         try {
             templateEngine.loadArchive(bespokejsTemplateFile);
         } catch (IllegalAccessException e) {
             LOGGER.log(Level.SEVERE, "Error while unzipping template", e);
-            Assert.fail();
+            fail();
         }
     }
 
-    @Test(enabled = false)
+    @Test
     public void zipBespokejsTemplateFolder() throws IOException {
         ZipUtils.zip(bespokejsTemplateFolder, bespokejsTemplateFile);
     }
 
-    @Test(enabled = false)
+    @Test
     public void zipPresentationExample() throws IOException {
         ZipUtils.zip(presentationExampleFolder, presentationExampleFile);
     }

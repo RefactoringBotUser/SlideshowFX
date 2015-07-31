@@ -27,6 +27,7 @@ include 'SlideshowFX-markup'
 include 'SlideshowFX-textile'
 
 include 'SlideshowFX-alert-extension'
+include 'SlideshowFX-chart-extension'
 include 'SlideshowFX-content-extension'
 include 'SlideshowFX-code-extension'
 include 'SlideshowFX-image-extension'

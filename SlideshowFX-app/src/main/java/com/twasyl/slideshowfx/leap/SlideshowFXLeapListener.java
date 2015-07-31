@@ -24,7 +24,7 @@ import java.util.Iterator;
 import java.util.logging.Logger;
 
 /**
- * This class is used the LeapMotion listener for controlling the slideshow. It has to be created using a
+ * This class is used the LeapMotion listener for controlling the slideshowfx. It has to be created using a
  * {@link SlideshowPane} instance with which LeapMotion will interact.
  *
  * @author Thierry Wasylczenko

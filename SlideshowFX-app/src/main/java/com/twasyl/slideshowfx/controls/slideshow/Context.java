@@ -52,14 +52,14 @@ public class Context {
     public void setLeapMotionEnabled(boolean leapMotionEnabled) { this.leapMotionEnabled = leapMotionEnabled; }
 
     /**
-     * Indicates at which slide the slideshow must start. If nothing is specified, {@code null} is returned and the
-     * slideshow will start from the begining.
-     * @return The slide ID where the slideshow must start or {@code null} if it hasn't been defined.
+     * Indicates at which slide the slideshowfx must start. If nothing is specified, {@code null} is returned and the
+     * slideshowfx will start from the begining.
+     * @return The slide ID where the slideshowfx must start or {@code null} if it hasn't been defined.
      */
     public String getStartAtSlideId() { return startAtSlideId; }
 
     /**
-     * Defines at which slide the slideshow must start. If {@code null} is passed as parameter, the slideshow will
+     * Defines at which slide the slideshowfx must start. If {@code null} is passed as parameter, the slideshowfx will
      * start from the beginning.
      * @param startAtSlideId
      */

@@ -21,7 +21,7 @@ dependencies {
     compile configurations.felix
     compile configurations.wikitext
 
-    testCompile configurations.testng
+    testCompile configurations.junit
     testCompile configurations.jsoup
 }
 

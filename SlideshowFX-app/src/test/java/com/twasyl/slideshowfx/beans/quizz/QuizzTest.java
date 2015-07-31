@@ -16,9 +16,11 @@
 
 package com.twasyl.slideshowfx.beans.quizz;
 
-import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Perform tests on a quizz.
@@ -66,26 +68,26 @@ public class QuizzTest {
 
     @Test
     public void testWithoutAnswers() {
-        Assert.assertFalse(quizz.checkAnswers());
+        assertFalse(quizz.checkAnswers());
     }
 
     @Test
     public void testWithFalseAnswer() {
-        Assert.assertFalse(quizz.checkAnswers(1L));
+        assertFalse(quizz.checkAnswers(1L));
     }
 
     @Test
     public void testWithoutAllCorrectAnswers() {
-        Assert.assertFalse(quizz.checkAnswers(2L));
+        assertFalse(quizz.checkAnswers(2L));
     }
 
     @Test
     public void testWithAllCorrectAnswersAndAWrongAnswer() {
-        Assert.assertFalse(quizz.checkAnswers(1L, 2L, 3L));
+        assertFalse(quizz.checkAnswers(1L, 2L, 3L));
     }
 
     @Test
     public void testWithCorrectAnswers() {
-        Assert.assertTrue(quizz.checkAnswers(2L, 3L));
+        assertTrue(quizz.checkAnswers(2L, 3L));
     }
 }

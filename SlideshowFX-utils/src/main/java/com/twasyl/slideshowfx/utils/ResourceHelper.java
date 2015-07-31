@@ -39,7 +39,7 @@ public class ResourceHelper {
      * @param url The URL of the resource to read the content.
      * @return The String representing the content of the resource
      */
-    public static String readResource(String url) {
+    public static String readResource(final String url) {
         final StringBuilder builder = new StringBuilder();
 
         try(final BufferedReader reader = new BufferedReader(new InputStreamReader(ResourceHelper.class.getResourceAsStream(url)))) {
@@ -56,21 +56,29 @@ public class ResourceHelper {
      * @param url The URL of the resource to get the external form.
      * @return The string representing the external form of the given {@code url}.
      */
-    public static String getExternalForm(String url) {
+    public static String getExternalForm(final String url) {
         return ResourceHelper.class.getResource(url).toExternalForm();
     }
 
     /**
      * This method get the InputStream for the given internal resource {@code url}.
-     * @param url The URL of the resource to get the InputStream.
+     * @param url The URL of the resource to get the {@link InputStream}.
      * @return The InputStream for the given {@code url}.
      */
-    public static InputStream getInputStream(String url) { return ResourceHelper.class.getResourceAsStream(url); }
+    public static InputStream getInputStream(final String url) { return ResourceHelper.class.getResourceAsStream(url); }
 
     /**
      * Get the URL object associated to the given resource.
-     * @param url The URL resource to get the URL object from.
+     * @param url The URL resource to get the {@link URL} object from.
      * @return The URL object associated to {@code url}.
      */
-    public static URL getURL(String url) { return ResourceHelper.class.getResource(url); }
+    public static URL getURL(final String url) { return ResourceHelper.class.getResource(url); }
+
+    /**
+     * Get the URL object associated to the given resource. The URL is loaded from the given {@link ClassLoader}.
+     * @param loader The class loader to load the resource from.
+     * @param url The URL resource to get the {@link URL} object from.
+     * @return
+     */
+    public static URL getURL(final ClassLoader loader, final String url) { return loader.getResource(url); }
 }

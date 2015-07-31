@@ -30,10 +30,10 @@ import javafx.stage.StageStyle;
 import java.util.logging.Logger;
 
 /**
- * The stage is defined when the presentation enters in slideshow mode. It defines a stage with the expected behaviour
+ * The stage is defined when the presentation enters in slideshowfx mode. It defines a stage with the expected behaviour
  * with LeapMotion and interaction with the keyboard. It is necessary to create the stage with a {@link Context}
  * to properly configure the stage.
- * The stage will take care of the creation of the necessary screens (slideshow and information screens) as well as
+ * The stage will take care of the creation of the necessary screens (slideshowfx and information screens) as well as
  * defining to which event screen will respond (key event and so on).
  *
  * @author Thierry Wasylczenko
@@ -81,8 +81,8 @@ public class SlideshowStage {
 
         /*
         Getting the number of screens in order to place the stage for the presentation on the right one. If there is
-        more than one screen, then the slideshow is displayed on the first secondary screen in order to put the
-        information stage on the primary one. If there is only one screen then the slideshow will be displayed on it.
+        more than one screen, then the slideshowfx is displayed on the first secondary screen in order to put the
+        information stage on the primary one. If there is only one screen then the slideshowfx will be displayed on it.
          */
         final int numberOfScreens = Screen.getScreens().size();
         Screen screenToDisplayOn = null;
@@ -222,7 +222,7 @@ public class SlideshowStage {
     }
 
     /**
-     * Displays the slideshow and the information screen if it was previously created.
+     * Displays the slideshowfx and the information screen if it was previously created.
      */
     public void show() {
         if(this.slideshowStage != null) {

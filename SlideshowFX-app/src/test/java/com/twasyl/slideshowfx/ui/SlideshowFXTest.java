@@ -23,10 +23,14 @@ import com.twasyl.slideshowfx.app.SlideshowFX;
 import javafx.scene.Node;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
-import static org.testng.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  *
@@ -34,6 +38,7 @@ import static org.testng.Assert.*;
  *  @version 1.0
  *  @since SlideshowFX 1.0.0
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SlideshowFXTest {
 
     private static FXer fxer;
@@ -61,7 +66,8 @@ public class SlideshowFXTest {
     /**
      * Test the presence of the MenuBar in the application.
      */
-    @Test public void testMenuBar() {
+    @Test
+    public void test_001_menuBar() {
         final Node menuBar = fxer.getAt("#menuBar");
 
         assertNotNull(menuBar);
@@ -77,7 +83,7 @@ public class SlideshowFXTest {
      *     <li>?</li>
      * </ul>
      */
-    @Test(dependsOnMethods = "testMenuBar") public void testMenuBarContent() {
+    @Test public void test_002_menuBarContent() {
         final MenuBar menuBar = (MenuBar) fxer.getAt("#menuBar");
 
         assertEquals(menuBar.getMenus().size(), 4);
@@ -100,7 +106,7 @@ public class SlideshowFXTest {
         assertEquals(menuItem.getText(), "?");
     }
 
-    @Test(dependsOnMethods = "testMenuBarContent") public void quitApp() {
+    @Test public void test_003_quitApp() {
         fxer.clickOn("#fileMenu", Speed.VERY_FAST);
         fxer.clickOn("#quitMenuItem", Speed.VERY_FAST);
     }

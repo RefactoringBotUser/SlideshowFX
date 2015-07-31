@@ -20,5 +20,5 @@ dependencies {
     compile project(':SlideshowFX-engines')
     compile project(':SlideshowFX-global-configuration')
 
-    testCompile configurations.testng
+    testCompile configurations.junit
 }

@@ -21,7 +21,7 @@ dependencies {
     compile configurations.felix
     compile configurations.asciidoctorj
 
-    testCompile configurations.testng
+    testCompile configurations.junit
 }
 
 jar {

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright 2015 Thierry Wasylczenko
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<?import com.twasyl.slideshowfx.content.extension.chart.controllers.ChartContentExtensionController?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.twasyl.slideshowfx.content.extension.chart.controllers.ChartContentExtensionController">
+    <top>
+        <ToolBar>
+            <Label text="Type:" />
+            <ChoiceBox fx:id="chartType">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <ChartContentExtensionController fx:constant="CHART_TYPE_SERIAL" />
+                        <!--<ChartContentExtensionController fx:constant="CHART_TYPE_PIE" />-->
+                        <!--<ChartContentExtensionController fx:constant="CHART_TYPE_XY" />-->
+                        <!--<ChartContentExtensionController fx:constant="CHART_TYPE_RADAR" />-->
+                        <!--<ChartContentExtensionController fx:constant="CHART_TYPE_FUNNEL" />-->
+                        <!--<ChartContentExtensionController fx:constant="CHART_TYPE_GAUGE" />-->
+                        <!--<ChartContentExtensionController fx:constant="CHART_TYPE_MAP" />-->
+                        <!--<ChartContentExtensionController fx:constant="CHART_TYPE_STOCK" />-->
+                    </FXCollections>
+                </items>
+            </ChoiceBox>
+
+            <Label text="Style:" />
+            <ChoiceBox fx:id="chartStyle">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <ChartContentExtensionController fx:constant="CHART_THEME_CHALK" />
+                    </FXCollections>
+                </items>
+            </ChoiceBox>
+
+            <Button fx:id="addDataButton" onAction="#addNewData">
+                <graphic>
+                    <FontAwesomeIconView glyphName="PLUS_SQUARE" glyphSize="20" glyphStyle="-fx-fill: white" />
+                </graphic>
+                <tooltip>
+                    <Tooltip text="Add data" />
+                </tooltip>
+            </Button>
+        </ToolBar>
+    </top>
+
+    <center>
+        <ScrollPane minHeight="350" minWidth="500">
+            <VBox spacing="5" fx:id="dataContainer" />
+        </ScrollPane>
+    </center>
+</BorderPane>
+
