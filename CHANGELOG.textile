@@ -10,6 +10,7 @@ h4. New and noteworthy
 
 * Code extension now supports the markdown syntax
 * Link extension now supports the markdown syntax
+* Remove support for LeapMotion
 
 h3(#1_2). "Version 1.2":#1_2
 

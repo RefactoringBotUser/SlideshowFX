@@ -25,7 +25,6 @@ public class TemplateConfiguration implements IConfiguration {
     private String contentDefinerMethod;
     private String updateCodeSnippetConsoleMethod;
     private String gotoSlideMethod;
-    private String leapMotionMethod;
     private String getCurrentSlideMethod;
     private String jsObject;
     private String sfxServerObject;
@@ -86,9 +85,6 @@ public class TemplateConfiguration implements IConfiguration {
 
     public String getGotoSlideMethod() { return gotoSlideMethod; }
     public void setGotoSlideMethod(String gotoSlideMethod) { this.gotoSlideMethod = gotoSlideMethod; }
-
-    public String getLeapMotionMethod() { return leapMotionMethod; }
-    public void setLeapMotionMethod(String leapMotionMethod) { this.leapMotionMethod = leapMotionMethod; }
 
     public SlideTemplate getSlideTemplate(int slideId) {
         SlideTemplate searchedTemplate = null;

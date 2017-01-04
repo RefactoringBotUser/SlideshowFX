@@ -30,7 +30,6 @@ allprojects {
         fontawesomefx
         freemarker
         jsoup
-        leapmotion
         markdown
         twitter4j
         vertx
@@ -50,7 +49,6 @@ allprojects {
         fontawesomefx 'de.jensd:fontawesomefx-fontawesome:4.6.1-2'
         freemarker 'org.freemarker:freemarker:2.3.23'
         jsoup 'org.jsoup:jsoup:1.9.2'
-        leapmotion fileTree(dir: "${rootDir.absolutePath}/lib/Leap", include: '*/**')
         markdown 'com.github.rjeschke:txtmark:0.13'
         twitter4j 'org.twitter4j:twitter4j-core:4.0.4', 'org.twitter4j:twitter4j-stream:4.0.4'
         vertx 'io.vertx:vertx-core:3.3.2', 'io.vertx:vertx-web:3.3.2'
@@ -247,7 +245,7 @@ apply plugin: 'distribution'
 version = '@@NEXT-VERSION@@'
 
 wrapper {
-    gradleVersion = '3.2'
+    gradleVersion = '3.3'
 }
 
 asciidoctorj {
@@ -273,7 +271,6 @@ asciidoctor {
             'freemarker-version': "${configurations.freemarker.dependencies[0].version}",
             'fontawesomefx-version' : "${configurations.fontawesomefx.dependencies[0].version}",
             'jsoup-version': "${configurations.jsoup.dependencies[0].version}",
-            'leapmotion-sdk-version': '2.3.1.31549',
             'wikitext-core-version': '2.10.0.N20160630-1705',
             'wikitext-textile-core-version': '2.10.0.N20160630-1705',
             'twitter4j-version': "${configurations.twitter4j.dependencies[0].version}",

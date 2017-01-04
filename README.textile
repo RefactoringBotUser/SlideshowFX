@@ -9,9 +9,7 @@ h3. But why SlideshowFX ?
 p. Even if you like web technologies, it could be long to completely create your presentation by writing HTML code. The goal of SlideshowFX is to facilitate that task by allowing you to use a template and then simply set titles, content, images, copying slides, moving them and more. All with a nice and simple interface. 
 And because you may not want to write HTML code, you will also be able to set the content using Textile, Markdown and Asciidoctor. It's up to you.
 
-But SlideshowFX also brings features that aren't provided by existing tools. Indeed you can use a LeapMotion controller to switch slides and point something on the screen. So you don't need a laser pointer that you always forget at home.
-
-You can also start a chat with which your attendees can ask you questions that are resend to all others attendees connected to the chat. But questions could also be asked through Twitter with a hashtag you define. 
+But SlideshowFX also brings features that aren't provided by existing tools. Indeed you can start a chat with which your attendees can ask you questions that are resend to all others attendees connected to the chat. But questions could also be asked through Twitter with a hashtag you define.
 
 Are you a big lover of quizs? If yes you can even create quizs in your presentations that attendees can answer to and results will be displayed live! Cool, isn't it?
 

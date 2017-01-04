@@ -87,9 +87,6 @@ public class TemplateEngine extends AbstractEngine<TemplateConfiguration> {
         templateConfiguration.setUpdateCodeSnippetConsoleMethod("updateCodeSnippetConsole");
         LOGGER.fine("[Template configuration] update code snippet console method = " + templateConfiguration.getUpdateCodeSnippetConsoleMethod());
 
-        templateConfiguration.setLeapMotionMethod("slideshowFXLeap");
-        LOGGER.fine("[Template configuration] content definer method = " + templateConfiguration.getLeapMotionMethod());
-
         // Settings the default variables
         templateConfiguration.setDefaultVariables(new HashSet<>());
         JsonArray defaultVariablesJson = templateJson.getJsonArray("default-variables");
