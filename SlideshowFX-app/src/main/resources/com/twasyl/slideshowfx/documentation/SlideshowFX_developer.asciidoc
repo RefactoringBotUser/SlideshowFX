@@ -360,6 +360,7 @@ The configuration of the presentation is wrapped into an JSON configuration file
 ----
 {
   "presentation": {
+    "id": 123456789,
     "custom-resources": [
         {
             "type": "<type>",

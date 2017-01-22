@@ -799,7 +799,9 @@ public class SlideshowFXController implements Initializable {
      * @param engine the engine used for the template builder that will be created.
      */
     private void showTemplateBuilder(final TemplateEngine engine) {
-        new TemplateBuilderStage(engine).show();
+        final TemplateBuilderStage stage = new TemplateBuilderStage(engine);
+        stage.setMaximized(true);
+        stage.show();
     }
 
     /**
