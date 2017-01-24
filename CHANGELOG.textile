@@ -13,6 +13,8 @@ h4. New and noteworthy
 * Remove support for LeapMotion
 * The editor for the template configuration file inside the template builder has been improved ("#21":https://github.com/twasyl/SlideshowFX/issues/21)
 * The treeview inside the template builder only expands the root element at the opening
+* The image extension allows to delete images stored within the presentation ("#22":https://github.com/twasyl/SlideshowFX/issues/22)
+* If no image is selected in the image extension, nothing is inserted within the slide editor
 
 h3(#1_2). "Version 1.2":#1_2
 

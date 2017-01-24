@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  * elements to insert text directly in the editor.
  *
  * @author Thierry Wasylczenko
- * @version @@NEXT-VERSION@@
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class ConfigurationFileEditor extends AbstractFileEditor<TemplateConfigurationFilePane> {

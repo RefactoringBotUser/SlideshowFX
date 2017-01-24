@@ -30,7 +30,7 @@ import java.util.logging.Logger;
  * Controller class used for the Template Builder.
  *
  * @author Thierry Wasylczenko
- * @version @@NEXT-VERSION@@ // was 1.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class TemplateBuilderController implements Initializable {

@@ -11,7 +11,7 @@ import java.io.*;
  * This class provides utility methods for manipulating JSON objects.
  *
  * @author Thierry Wasylczenko
- * @version @@NEXT-VERSION@@
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class JSONHelper {

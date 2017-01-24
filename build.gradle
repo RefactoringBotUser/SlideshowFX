@@ -139,7 +139,7 @@ ext {
 
     alertContentExtensionBintrayUploadEnabled = false
     codeContentExtensionBintrayUploadEnabled = true
-    imageContentExtensionBintrayUploadEnabled = false
+    imageContentExtensionBintrayUploadEnabled = true
     linkContentExtensionBintrayUploadEnabled = true
     quizContentExtensionBintrayUploadEnabled = false
     quoteContentExtensionBintrayUploadEnabled = false

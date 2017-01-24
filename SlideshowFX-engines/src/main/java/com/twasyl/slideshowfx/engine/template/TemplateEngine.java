@@ -26,7 +26,7 @@ import static com.twasyl.slideshowfx.global.configuration.GlobalConfiguration.ge
  * The extension of a template is {@code sfxt}.
  *
  * @author Thierry Wasylczenko
- * @version @@NEXT-VERSION@@
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class TemplateEngine extends AbstractEngine<TemplateConfiguration> {

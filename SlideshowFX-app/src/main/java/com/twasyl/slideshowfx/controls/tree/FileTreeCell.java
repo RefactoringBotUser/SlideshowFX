@@ -13,12 +13,12 @@ import java.util.logging.Logger;
 
 /**
  * This class is used to create TreeCell for a TreeView containing files.
- * It defines a actions possible when the {@link javafx.scene.control.ContextMenu} is triggered for this cell.
- * It also set the drag events defined in the parent {@link com.twasyl.slideshowfx.controls.tree.TemplateTreeView} to this
+ * It defines a actions possible when the {@link ContextMenu} is triggered for this cell.
+ * It also set the drag events defined in the parent {@link TemplateTreeView} to this
  * cell.
  *
  * @author Thierry Wasylczenko
- * @version @@NEXT-VERSION@@ // was 1.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class FileTreeCell extends TreeCell<File> {

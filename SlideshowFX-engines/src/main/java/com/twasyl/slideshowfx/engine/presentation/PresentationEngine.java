@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
  * The extension of a presentation is {@code sfx}.
  *
  * @author Thierry Wasylczenko
- * @version @@NEXT-VERSION@@
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class PresentationEngine extends AbstractEngine<PresentationConfiguration> {

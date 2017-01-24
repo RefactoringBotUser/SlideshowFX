@@ -1,4 +1,4 @@
-version = '@@NEXT-VERSION@@'
+version = '1.2'
 
 dependencies {
     compile configurations.fontawesomefx

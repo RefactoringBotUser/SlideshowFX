@@ -31,7 +31,7 @@ import java.util.logging.Logger;
  * filesystem.
  *
  * @author Thierry Wasylczenko
- * @version @@NEXT-VERSION@@ // was 1.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class TemplateTreeView extends TreeView<File> {
