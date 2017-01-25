@@ -9,12 +9,16 @@ h3(#NEXT_VERSION). "Version NEXT_VERSION":#NEXT_VERSION
 h4. New and noteworthy
 
 * Code extension now supports the markdown syntax
+* Code extension has been updated to support more languages
+* Code extension's UI has been changed to allow better language's selection
 * Link extension now supports the markdown syntax
 * Remove support for LeapMotion
 * The editor for the template configuration file inside the template builder has been improved ("#21":https://github.com/twasyl/SlideshowFX/issues/21)
 * The treeview inside the template builder only expands the root element at the opening
 * The image extension allows to delete images stored within the presentation ("#22":https://github.com/twasyl/SlideshowFX/issues/22)
 * If no image is selected in the image extension, nothing is inserted within the slide editor
+* Uses ACE 1.2.6 in the slide content editor
+* Update libraries
 
 h3(#1_2). "Version 1.2":#1_2
 

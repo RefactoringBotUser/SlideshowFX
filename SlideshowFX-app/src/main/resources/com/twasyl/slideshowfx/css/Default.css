@@ -188,6 +188,8 @@
     -fx-border-radius: 3px;
 }
 
+.combo-box:showing .list-cell:hover { -fx-background-color: app-color-menu-in-use; }
+
 .split-menu-button:hover, .combo-box:hover {
     -fx-border-width: 1px;
     -fx-border-style: solid;
@@ -369,6 +371,10 @@
     -fx-background-color: app-color-mouse-over;
     -fx-border-color: app-color-text-fill;
 }
+.list-view  { -fx-background-color: app-color-input-background, app-color-input-background; }
+.list-view:focused  {
+    -fx-background-color: transparent, app-color-input-background, transparent;
+}
 
 .tree-cell:filled, .tree-cell:empty,
 .list-cell:filled, .list-cell:empty {
@@ -376,17 +382,14 @@
     -fx-background-color: app-color-background;
 }
 
-.tree-cell:filled:selected {
+.tree-cell:filled:selected,
+.list-view .list-cell:filled:selected {
     -fx-background-color: app-color-menu-in-use;
 }
 
-.list-cell:filled:hover {
-    -fx-background-color: app-color-menu-in-use;
-}
+.list-cell:filled:hover { -fx-background-color: app-color-menu-in-use; }
 
-.tree-disclosure-node .arrow {
-    -fx-background-color: app-color-text-fill;
-}
+.tree-disclosure-node .arrow { -fx-background-color: app-color-text-fill; }
 
 .split-pane {
     -fx-background-color: app-color-background;
