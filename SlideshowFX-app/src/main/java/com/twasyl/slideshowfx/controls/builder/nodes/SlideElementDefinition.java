@@ -23,7 +23,7 @@ import static com.twasyl.slideshowfx.ui.controls.validators.Validators.isNotEmpt
  *
  * @author Thierry Wasylczenko
  * @version 1.0
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 1.3
  */
 public class SlideElementDefinition extends FlowPane {
     private static final Logger LOGGER = Logger.getLogger(SlideElementDefinition.class.getName());

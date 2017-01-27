@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 /**
  * @author Thierry Wasylczenko
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 1.3
  */
 public class ConfigurationFilePaneTest extends Application {
 

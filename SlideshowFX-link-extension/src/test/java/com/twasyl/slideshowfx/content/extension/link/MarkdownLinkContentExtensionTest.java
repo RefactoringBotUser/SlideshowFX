@@ -14,7 +14,7 @@ import static org.mockito.Mockito.when;
 /**
  * This class tests the {@link LinkContentExtension} using a markdown markup.
  * @author Thierry Wasylczenko
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 1.3
  */
 public class MarkdownLinkContentExtensionTest {
 

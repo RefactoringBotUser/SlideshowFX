@@ -11,7 +11,7 @@ import static org.mockito.Mockito.when;
  * Base class for testing the {@link CodeContentExtension} class.
  *
  * @author Thierry Wasylczenko
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 1.3
  */
 public abstract class BaseCodeContentExtensionTest {
 

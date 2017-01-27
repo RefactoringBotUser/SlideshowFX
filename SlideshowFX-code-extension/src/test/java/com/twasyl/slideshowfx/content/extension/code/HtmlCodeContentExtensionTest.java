@@ -15,7 +15,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * This class tests the {@link CodeContentExtension} class using a HTML markup.
  * @author Thierry Wasylczenko
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 1.3
  */
 public class HtmlCodeContentExtensionTest extends BaseCodeContentExtensionTest {
 

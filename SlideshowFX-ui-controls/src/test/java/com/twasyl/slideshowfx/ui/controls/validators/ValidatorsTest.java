@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
  *
  * @author Thierry Wasylczenko
  * @version 1.0
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 1.3
  */
 public class ValidatorsTest {
 
