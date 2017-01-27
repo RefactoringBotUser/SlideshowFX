@@ -20,6 +20,32 @@ h4. New and noteworthy
 * Uses ACE 1.2.6 in the slide content editor
 * Update libraries
 
+h4. Included plugins within the packaging
+
+|_. Plugin |_. Version |
+| SlideshowFX-alert-extension | 1.1 |
+| SlideshowFX-asciidoctor | 1.0 |
+| SlideshowFX-box-hosting-connector | 1.1 |
+| SlideshowFX-code-extension | 1.1 |
+| SlideshowFX-drive-hosting-connector | 1.2 |
+| SlideshowFX-dropbox-hosting-connector | 1.1 |
+| SlideshowFX-go-executor | 1.0 |
+| SlideshowFX-golo-executor | 1.0 |
+| SlideshowFX-groovy-executor | 1.0 |
+| SlideshowFX-html | 1.0 |
+| SlideshowFX-image-extension | 1.2 |
+| SlideshowFX-java-executor | 1.0 |
+| SlideshowFX-javascript-executor | 1.0 |
+| SlideshowFX-kotlin-executor | 1.0 |
+| SlideshowFX-link-extension | 1.1 |
+| SlideshowFX-markdown | 1.0 |
+| SlideshowFX-quiz-extension | 1.0 |
+| SlideshowFX-quote-extension | 1.0 |
+| SlideshowFX-scala-executor | 1.0 |
+| SlideshowFX-sequence-diagram-extension | 1.0 |
+| SlideshowFX-snippet-extension | 1.1 |
+| SlideshowFX-textile | 1.1 |
+
 h3(#1_2). "Version 1.2":#1_2
 
 h4. New and noteworthy

@@ -137,7 +137,7 @@ ext {
     driveHostingConnectorBintrayUploadEnabled = false
     dropboxHostingConnectorBintrayUploadEnabled = true
 
-    alertContentExtensionBintrayUploadEnabled = false
+    alertContentExtensionBintrayUploadEnabled = true
     codeContentExtensionBintrayUploadEnabled = true
     imageContentExtensionBintrayUploadEnabled = true
     linkContentExtensionBintrayUploadEnabled = true

@@ -484,3 +484,7 @@
      -fx-background-color: linear-gradient(from 50% 0% to 50% 100%, -app-color-dark-green 0%, -app-color-light-green 100%);
      -fx-text-fill: black;
 }
+
+.extended-text-field .label .text { -fx-fill: app-color-light-gray; -fx-font-size: 11px; }
+.extended-text-field .label:focused .text { -fx-fill: app-color-orange; }
+.extended-text-field .text-field:error { -fx-background-color: app-color-error, app-color-input-background; }
