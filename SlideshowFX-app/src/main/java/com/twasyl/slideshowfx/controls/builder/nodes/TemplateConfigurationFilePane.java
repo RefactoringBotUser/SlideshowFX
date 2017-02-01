@@ -332,11 +332,13 @@ public class TemplateConfigurationFilePane extends VBox {
                         definition.setName(template.getName());
                         definition.setFile(template.getFile().getName());
 
-                        for (SlideElementTemplate elementTemplate : template.getElements()) {
-                            final SlideElementDefinition slideElementDefinition = definition.addSlideElement();
-                            slideElementDefinition.setElementId(elementTemplate.getId());
-                            slideElementDefinition.setHtmlId(elementTemplate.getHtmlId());
-                            slideElementDefinition.setDefaultContent(elementTemplate.getDefaultContent());
+                        if (template.getElements() != null) {
+                            for (SlideElementTemplate elementTemplate : template.getElements()) {
+                                final SlideElementDefinition slideElementDefinition = definition.addSlideElement();
+                                slideElementDefinition.setElementId(elementTemplate.getId());
+                                slideElementDefinition.setHtmlId(elementTemplate.getHtmlId());
+                                slideElementDefinition.setDefaultContent(elementTemplate.getDefaultContent());
+                            }
                         }
                     });
         } catch (IOException | IllegalAccessException e) {
