@@ -10,6 +10,7 @@ h4. New and noteworthy
 
 * Create files and directories directly from the tree view of the template builder ("#26":https://github.com/twasyl/SlideshowFX/issues/26)
 * Display the application version in the splash screen ("#29":https://github.com/twasyl/SlideshowFX/issues/29)
+* Go to the newly added slide when adding a slide ("#30":https://github.com/twasyl/SlideshowFX/issues/30)
 
 h4. Bug fixes
 
