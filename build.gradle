@@ -242,10 +242,10 @@ ext {
 apply plugin: 'org.asciidoctor.convert'
 apply plugin: 'distribution'
 
-version = '@@NEXT-VERSION@@'
+version = '1.4'
 
 wrapper {
-    gradleVersion = '3.3'
+    gradleVersion = '3.4'
 }
 
 asciidoctorj {

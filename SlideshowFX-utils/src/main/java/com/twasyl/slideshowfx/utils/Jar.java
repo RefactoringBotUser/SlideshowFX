@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  *
  * @author Thierry Wasylczenko
  * @version 1.0
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 1.4
  */
 public class Jar implements AutoCloseable {
     private static final Logger LOGGER = Logger.getLogger(Jar.class.getName());
