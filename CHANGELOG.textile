@@ -4,6 +4,12 @@ p. Changes to the SlideshowFX software are listed by version within this documen
 
 h2. Versions
 
+h3(#NEXT_VERSION). "Version @@NEXT-VERSION@@":#NEXT_VERSION
+
+h4. New and noteworthy
+
+h4. Bug fixes
+
 h3(#1_4). "Version 1.4":#1_4
 
 h4. New and noteworthy
