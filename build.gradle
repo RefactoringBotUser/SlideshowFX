@@ -46,7 +46,7 @@ allprojects {
         drive 'com.google.apis:google-api-services-drive:v3-rev55-1.22.0'
         dropbox 'com.dropbox.core:dropbox-core-sdk:2.1.2'
         felix 'org.apache.felix:org.apache.felix.framework:5.6.1'
-        fontawesomefx 'de.jensd:fontawesomefx-fontawesome:4.7.0-2'
+        fontawesomefx 'de.jensd:fontawesomefx-fontawesome:4.7.0'
         freemarker 'org.freemarker:freemarker:2.3.25-incubating'
         jsoup 'org.jsoup:jsoup:1.10.2'
         markdown 'com.github.rjeschke:txtmark:0.13'
