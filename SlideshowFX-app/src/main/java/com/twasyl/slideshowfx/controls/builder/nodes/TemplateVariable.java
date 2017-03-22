@@ -1,8 +1,8 @@
 package com.twasyl.slideshowfx.controls.builder.nodes;
 
+import com.twasyl.slideshowfx.icons.FontAwesome;
+import com.twasyl.slideshowfx.icons.Icon;
 import com.twasyl.slideshowfx.ui.controls.ExtendedTextField;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -17,7 +17,7 @@ import static com.twasyl.slideshowfx.ui.controls.validators.Validators.isNotEmpt
  * Control allowing to define a default template variable.
  *
  * @author Thierry Wasylczenko
- * @version 1.0
+ * @version 1.1
  * @since SlideshowFX 1.3
  */
 public class TemplateVariable extends FlowPane {
@@ -44,7 +44,7 @@ public class TemplateVariable extends FlowPane {
 
     private void initializeDeleteButton() {
         this.delete.getStyleClass().add("delete-default-template-variable");
-        this.delete.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.TRASH_ALT));
+        this.delete.setGraphic(new FontAwesome(Icon.TRASH_ALT));
         this.delete.setTooltip(new Tooltip("Delete this default template variable"));
     }
 

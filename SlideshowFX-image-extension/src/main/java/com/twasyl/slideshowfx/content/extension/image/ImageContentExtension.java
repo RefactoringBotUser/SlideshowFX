@@ -3,7 +3,6 @@ package com.twasyl.slideshowfx.content.extension.image;
 import com.twasyl.slideshowfx.content.extension.AbstractContentExtension;
 import com.twasyl.slideshowfx.content.extension.image.controllers.ImageContentExtensionController;
 import com.twasyl.slideshowfx.markup.IMarkup;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
@@ -11,13 +10,15 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static com.twasyl.slideshowfx.icons.Icon.PICTURE_ALT;
+
 /**
  * The ImageContentExtension extends the AbstractContentExtension. It allows to build a content containing images to insert
  * inside a SlideshowFX presentation.
  * This extension supports HTML and Textile markup languages.
  *
  * @author Thierry Wasylczenko
- * @version 1.2
+ * @version 1.3
  * @since SlideshowFX 1.0
  */
 public class ImageContentExtension extends AbstractContentExtension {
@@ -27,7 +28,7 @@ public class ImageContentExtension extends AbstractContentExtension {
 
     public ImageContentExtension() {
         super("IMAGE", null,
-                FontAwesomeIcon.PICTURE_ALT,
+                PICTURE_ALT,
                 "Insert an image",
                 "Insert an image");
     }

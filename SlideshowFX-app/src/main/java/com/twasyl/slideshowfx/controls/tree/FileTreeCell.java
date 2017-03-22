@@ -1,8 +1,8 @@
 package com.twasyl.slideshowfx.controls.tree;
 
+import com.twasyl.slideshowfx.icons.FontAwesome;
+import com.twasyl.slideshowfx.icons.Icon;
 import com.twasyl.slideshowfx.utils.DialogHelper;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  * cell.
  *
  * @author Thierry Wasylczenko
- * @version 1.2
+ * @version 1.3
  * @since SlideshowFX 1.0
  */
 public class FileTreeCell extends TreeCell<File> {
@@ -69,12 +69,12 @@ public class FileTreeCell extends TreeCell<File> {
 
             if(this.getTreeItem().getValue().isDirectory()) {
                 if (this.getTreeItem().isExpanded()) {
-                    setGraphic(new FontAwesomeIconView(FontAwesomeIcon.FOLDER_OPEN));
+                    setGraphic(new FontAwesome(Icon.FOLDER_OPEN));
                 } else {
-                    setGraphic(new FontAwesomeIconView(FontAwesomeIcon.FOLDER));
+                    setGraphic(new FontAwesome(Icon.FOLDER));
                 }
             } else {
-                setGraphic(new FontAwesomeIconView(FontAwesomeIcon.FILE_TEXT_ALT));
+                setGraphic(new FontAwesome(Icon.FILE_TEXT_ALT));
             }
         } else {
             setGraphic(null);

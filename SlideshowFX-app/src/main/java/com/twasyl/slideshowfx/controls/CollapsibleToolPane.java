@@ -1,7 +1,7 @@
 package com.twasyl.slideshowfx.controls;
 
+import com.twasyl.slideshowfx.icons.FontAwesome;
 import com.twasyl.slideshowfx.utils.ResourceHelper;
-import de.jensd.fx.glyphs.GlyphIcon;
 import javafx.animation.TranslateTransition;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
@@ -18,7 +18,7 @@ import javafx.util.Duration;
  * by translating in the scene.
  *
  * @author Thierry Wasylczenko
- * @version 1.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class CollapsibleToolPane extends Region {
@@ -29,13 +29,13 @@ public class CollapsibleToolPane extends Region {
     private final ToggleGroup iconsGroup = new ToggleGroup();
 
     public CollapsibleToolPane() {
-        this.getStylesheets().add(ResourceHelper.getExternalForm("/com/twasyl/slideshowfx/css/collapsible-tool-pane.css"));
+        this.getStylesheets().add(CollapsibleToolPane.class.getResource("/com/twasyl/slideshowfx/css/collapsible-tool-pane.css").toExternalForm());
 
         /* Ensure that when the scene is shown, the panel is placed completely
          * on the right of the screen, only displaying the toolbar
          */
         this.sceneProperty().addListener((sceneValue, oldScene, newScene) -> {
-            if(newScene != null) {
+            if (newScene != null) {
                 newScene.widthProperty().addListener((widthValue, oldValue, newWidth) -> {
                     if (newWidth != null) {
                         this.setTranslateX(newWidth.doubleValue() - this.toolbar.getWidth());
@@ -49,11 +49,11 @@ public class CollapsibleToolPane extends Region {
 
         // Ensure the content is always next to the toolbar
         this.content.addListener((value, oldContent, newContent) -> {
-            if(oldContent != null) {
+            if (oldContent != null) {
                 this.getChildren().remove(oldContent);
             }
 
-            if(newContent != null) {
+            if (newContent != null) {
                 newContent.layoutXProperty().bind(this.toolbar.widthProperty());
                 newContent.setLayoutY(0);
 
@@ -67,23 +67,30 @@ public class CollapsibleToolPane extends Region {
 
     /**
      * Indicates if this panel is collapse or not.
+     *
      * @return The property indicating if this panel is collapsed.
      */
-    public ReadOnlyBooleanProperty collapsedProperty() { return collapsed; }
+    public ReadOnlyBooleanProperty collapsedProperty() {
+        return collapsed;
+    }
 
     /**
      * Indicates if this panel is collapse or not.
+     *
      * @return <code>true</code> if this panel is collapsed, <code>false</code> otherwise.
      */
-    public boolean isCollapsed() { return collapsed.get(); }
+    public boolean isCollapsed() {
+        return collapsed.get();
+    }
 
     /**
      * Adds an icon associated to its content to this panel.
-     * @param icon The icon that will always be visible in the toolbar.
+     *
+     * @param icon    The icon that will always be visible in the toolbar.
      * @param content The content that will be displayed when the icon is triggered.
      * @return Return this panel.
      */
-    public CollapsibleToolPane addContent(final GlyphIcon icon, final Region content) {
+    public CollapsibleToolPane addContent(final FontAwesome icon, final Region content) {
         final ToggleButton button = new ToggleButton();
         button.setToggleGroup(this.iconsGroup);
         button.setGraphic(icon);
@@ -91,7 +98,7 @@ public class CollapsibleToolPane extends Region {
         button.setOnAction(event -> {
 
             // If the panel is already opened, close it and only open it if the current content is different of the given content
-            if(!this.isCollapsed()) {
+            if (!this.isCollapsed()) {
                 final TranslateTransition translation = new TranslateTransition(Duration.millis(500), this);
                 translation.setByX(this.content.get().getWidth());
 
@@ -99,7 +106,7 @@ public class CollapsibleToolPane extends Region {
                     ((SimpleBooleanProperty) this.collapsedProperty()).set(true);
 
                     // Reopen the panel if this content is different from the given one
-                    if(this.content.get() != content) {
+                    if (this.content.get() != content) {
                         this.content.set(content);
 
                         final TranslateTransition internalTranslation = new TranslateTransition(Duration.millis(500), this);

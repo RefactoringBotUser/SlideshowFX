@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.twasyl.slideshowfx.controls.tree.TemplateTreeView?>
-<?import de.jensd.fx.glyphs.fontawesome.*?>
-<?import de.jensd.fx.glyphs.GlyphsStack?>
+<?import com.twasyl.slideshowfx.icons.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
@@ -11,8 +10,8 @@
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.twasyl.slideshowfx.controllers.TemplateBuilderController"
             prefHeight="700" prefWidth="1024">
     <stylesheets>
-        <URL value="@/com/twasyl/slideshowfx/css/Default.css" />
-        <URL value="@/com/twasyl/slideshowfx/css/TemplateBuilder.css" />
+        <URL value="@../css/Default.css" />
+        <URL value="@../css/TemplateBuilder.css" />
     </stylesheets>
 
     <fx:define>
@@ -24,7 +23,7 @@
         <ToolBar>
             <SplitMenuButton fx:id="buildButton" onAction="#buildTemplateArchive">
                 <graphic>
-                    <FontAwesomeIconView glyphName="ARCHIVE" glyphSize="$TOOLBAR_ICON_WIDTH" glyphStyle="-fx-fill: app-color-orange;" />
+                    <FontAwesome icon="ARCHIVE" size="$TOOLBAR_ICON_WIDTH" color="app-color-orange;" />
                 </graphic>
                 <tooltip>
                     <Tooltip text="Build template archive" />
@@ -36,7 +35,7 @@
 
             <SplitMenuButton fx:id="saveButton" onAction="#saveCurrentFile">
                 <graphic>
-                    <FontAwesomeIconView glyphName="FLOPPY_ALT" glyphSize="$TOOLBAR_ICON_WIDTH" glyphStyle="-fx-fill: app-color-orange" />
+                    <FontAwesome icon="FLOPPY" size="$TOOLBAR_ICON_WIDTH" color="app-color-orange" />
                 </graphic>
                 <tooltip>
                     <Tooltip text="Save" />
@@ -50,10 +49,10 @@
 
             <SplitMenuButton fx:id="addFileButton" onAction="#addFileToTreeView">
                 <graphic>
-                    <GlyphsStack>
-                        <FontAwesomeIconView glyphName="FILE" glyphSize="$TOOLBAR_ICON_WIDTH" glyphStyle="-fx-fill: white;" />
-                        <FontAwesomeIconView glyphName="PLUS" glyphSize="15" glyphStyle="-fx-fill: app-color-orange;" StackPane.alignment="BOTTOM_CENTER" />
-                    </GlyphsStack>
+                    <IconStack>
+                        <FontAwesome icon="FILE" size="$TOOLBAR_ICON_WIDTH" color="white" />
+                        <FontAwesome icon="PLUS" size="15" color="app-color-orange" StackPane.alignment="BOTTOM_CENTER" />
+                    </IconStack>
                 </graphic>
                 <tooltip>
                     <Tooltip text="Add file" />
@@ -65,10 +64,10 @@
 
             <SplitMenuButton fx:id="addFolderButton" onAction="#addFolderToTreeView">
                 <graphic>
-                    <GlyphsStack>
-                        <FontAwesomeIconView glyphName="FOLDER" glyphSize="$TOOLBAR_ICON_WIDTH" glyphStyle="-fx-fill: white;" />
-                        <FontAwesomeIconView glyphName="PLUS" glyphSize="13" glyphStyle="-fx-fill: app-color-orange;" StackPane.alignment="CENTER" />
-                    </GlyphsStack>
+                    <IconStack>
+                        <FontAwesome icon="FOLDER" size="$TOOLBAR_ICON_WIDTH" color="white" />
+                        <FontAwesome icon="PLUS" size="13" color="app-color-orange" StackPane.alignment="CENTER" />
+                    </IconStack>
                 </graphic>
                 <tooltip>
                     <Tooltip text="Add folder" />
@@ -83,7 +82,7 @@
                     <Tooltip text="Delete selection" />
                 </tooltip>
                 <graphic>
-                    <FontAwesomeIconView glyphName="TRASH_ALT" glyphSize="$TOOLBAR_ICON_WIDTH" glyphStyle="-fx-fill: app-color-orange" />
+                    <FontAwesome icon="TRASH_ALT" size="$TOOLBAR_ICON_WIDTH" color="app-color-orange" />
                 </graphic>
             </Button>
         </ToolBar>

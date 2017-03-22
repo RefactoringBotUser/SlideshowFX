@@ -1,24 +1,23 @@
 package com.twasyl.slideshowfx.beans.properties;
 
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.concurrent.Task;
 
 /**
- * This bindings converts the status of a given {@link Task} to the name of a glyph used by FontAwesomeFX. The name
- * returned belongs to the {@link FontAwesomeIcon} enum.
+ * This binding converts the status of a given {@link Task} to a string defining the CSS color a
+ * {@link com.twasyl.slideshowfx.icons.FontAwesome} can use.
  *
  * @author Thierry Wasylczenko
- * @version 1.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
-public class TaskStatusGlyphNameBinding extends StringBinding {
+public class TaskStatusIconColorBinding extends StringBinding {
 
     private final ObjectProperty<Task> task = new SimpleObjectProperty<>();
 
-    public TaskStatusGlyphNameBinding(final Task task) {
+    public TaskStatusIconColorBinding(final Task task) {
         if(task == null) throw new NullPointerException("The task can not be null");
 
         this.task.set(task);
@@ -29,19 +28,22 @@ public class TaskStatusGlyphNameBinding extends StringBinding {
     @Override
     protected String computeValue() {
 
+        final StringBuilder style = new StringBuilder();
+
         switch(this.task.get().getState()) {
             case SCHEDULED:
             case READY:
             case RUNNING:
-                return FontAwesomeIcon.SPINNER.name();
             case CANCELLED:
             case FAILED:
-                return FontAwesomeIcon.EXCLAMATION_CIRCLE.name();
+                style.append("app-color-orange");
+                break;
             case SUCCEEDED:
-                return FontAwesomeIcon.CHECK_CIRCLE.name();
+                style.append("green");
+                break;
         }
 
-        return null;
+        return style.toString();
     }
 
     @Override

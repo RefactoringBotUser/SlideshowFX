@@ -1,9 +1,8 @@
 package com.twasyl.slideshowfx.controls;
 
+import com.twasyl.slideshowfx.icons.FontAwesome;
+import com.twasyl.slideshowfx.icons.Icon;
 import com.twasyl.slideshowfx.utils.PlatformHelper;
-import com.twasyl.slideshowfx.utils.ResourceHelper;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
@@ -31,14 +30,14 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 /**
- * This class allows to create a guided tour for a given screen. A list of {@link com.twasyl.slideshowfx.controls.Tour.Step}
+ * This class allows to create a guided tour for a given screen. A list of {@link Step}
  * is provided and must be filled. They are displayed when the user * uses the <code>RIGHT</code> arrow key to move
  * forward and the <code>LEFT</code> arrow key to move backward. The <code>ESCAPE</code> key is used to exit the tour.
  * In order to start the tour, the {@link #start()} method must be called. To end the tour, the user must hit the
  * <code>ESCAPE</code> key or the {@link #end()} method must be called.
  *
  * @author Thierry Wasylczenko
- * @version 1.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class Tour extends StackPane {
@@ -52,11 +51,21 @@ public class Tour extends StackPane {
             this.tooltip = tooltip;
         }
 
-        public String getSelector() { return selector; }
-        public void setSelector(String selector) { this.selector = selector; }
+        public String getSelector() {
+            return selector;
+        }
 
-        public String getTooltip() { return tooltip; }
-        public void setTooltip(String tooltip) { this.tooltip = tooltip; }
+        public void setSelector(String selector) {
+            this.selector = selector;
+        }
+
+        public String getTooltip() {
+            return tooltip;
+        }
+
+        public void setTooltip(String tooltip) {
+            this.tooltip = tooltip;
+        }
     }
 
     private ObservableList<Step> steps = FXCollections.observableArrayList();
@@ -162,7 +171,7 @@ public class Tour extends StackPane {
      * Go to the next step of the tour. When the end of the tour is reach, the reload screen is displayed.
      */
     public synchronized void next() {
-        if(this.currentStep < this.steps.size() - 1) {
+        if (this.currentStep < this.steps.size() - 1) {
             this.moveHighlight(this.steps.get(++this.currentStep), null);
         } else {
             this.moveHighlight(null, this.getReloadNode());
@@ -174,9 +183,9 @@ public class Tour extends StackPane {
      * displayed.
      */
     public synchronized void previous() {
-        if(this.currentStep > 0) {
+        if (this.currentStep > 0) {
             this.moveHighlight(this.steps.get(--this.currentStep), null);
-        } else if(this.currentStep == 0) {
+        } else if (this.currentStep == 0) {
             this.moveHighlight(null, this.getInstructionsNode());
         }
     }
@@ -193,6 +202,7 @@ public class Tour extends StackPane {
      * Moves the highlight to the target represented by {@code step.getSelector()}. The additional {@code graphic} is added
      * to the tooltip as part of the {@code step.getTooltip()}. Both {@code step} and {@code graphic} could be null, but
      * the displayed result may not be accurate.
+     *
      * @param step
      * @param graphic
      */
@@ -209,7 +219,7 @@ public class Tour extends StackPane {
         scale.setToY(scaleToY);
 
         final Bounds targetBounds = target == null ? new BoundingBox(0, 0, 0, 0) :
-                                                     target.localToScene(target.getLayoutBounds());
+                target.localToScene(target.getLayoutBounds());
 
         final TranslateTransition translateTransition = new TranslateTransition(Duration.millis(500), this.tourHighlight);
         translateTransition.setToX(targetBounds.getMinX() + scaleToX / 2 - 5);
@@ -224,12 +234,13 @@ public class Tour extends StackPane {
     /**
      * Update the tooltip with the given {@code step} and {@code graphic}. If the {@code step} is null or it's text, the
      * text of the tooltip is set to {@code null}. If the {@code graphic} is null, then the graphic of the tooltip will also be null.
-     * @param step The step to display the tooltip for. May be null.
+     *
+     * @param step    The step to display the tooltip for. May be null.
      * @param graphic The graphic that is set to the tooltip. May be null
      */
     private synchronized void updateTooltip(final Step step, final Node graphic) {
-        if(step == null || step.getTooltip() == null) this.tourTooltip.setText(null);
-        else  this.tourTooltip.setText(step.getTooltip());
+        if (step == null || step.getTooltip() == null) this.tourTooltip.setText(null);
+        else this.tourTooltip.setText(step.getTooltip());
 
         this.tourTooltip.setGraphic(graphic);
 
@@ -243,12 +254,13 @@ public class Tour extends StackPane {
 
     /**
      * Create the node that contains the instructions to use the tour.
+     *
      * @return The Node containing all the instructions necessary to use the tour.
      */
     private Node getInstructionsNode() {
-        final ImageView escKey = new ImageView(ResourceHelper.getExternalForm("/com/twasyl/slideshowfx/images/esc_key.png"));
-        final ImageView leftKey = new ImageView(ResourceHelper.getExternalForm("/com/twasyl/slideshowfx/images/left_key.png"));
-        final ImageView rightKey = new ImageView(ResourceHelper.getExternalForm("/com/twasyl/slideshowfx/images/right_key.png"));
+        final ImageView escKey = new ImageView(Tour.class.getResource("/com/twasyl/slideshowfx/images/esc_key.png").toExternalForm());
+        final ImageView leftKey = new ImageView(Tour.class.getResource("/com/twasyl/slideshowfx/images/left_key.png").toExternalForm());
+        final ImageView rightKey = new ImageView(Tour.class.getResource("/com/twasyl/slideshowfx/images/right_key.png").toExternalForm());
 
         final Label escLabel = new Label("Exit the tour");
         escLabel.setLabelFor(escKey);
@@ -271,12 +283,13 @@ public class Tour extends StackPane {
 
     /**
      * Create the Node that displays the reload screen.
+     *
      * @return The Node for displaying the reload screen.
      */
     private Node getReloadNode() {
-        final FontAwesomeIconView reloadIcon = new FontAwesomeIconView(FontAwesomeIcon.REFRESH);
-        reloadIcon.setGlyphSize(48);
-        reloadIcon.setGlyphStyle("-fx-fill: white");
+        final FontAwesome reloadIcon = new FontAwesome(Icon.REFRESH);
+        reloadIcon.setSize("48");
+        reloadIcon.setColor("white");
 
         final Button reloadButton = new Button();
         reloadButton.setBackground(Background.EMPTY);

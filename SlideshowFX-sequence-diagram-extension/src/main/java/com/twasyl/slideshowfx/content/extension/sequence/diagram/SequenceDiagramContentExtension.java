@@ -4,7 +4,6 @@ import com.twasyl.slideshowfx.content.extension.AbstractContentExtension;
 import com.twasyl.slideshowfx.content.extension.ResourceType;
 import com.twasyl.slideshowfx.content.extension.sequence.diagram.controllers.SequenceDiagramContentExtensionController;
 import com.twasyl.slideshowfx.markup.IMarkup;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
@@ -12,13 +11,15 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static com.twasyl.slideshowfx.icons.Icon.SHARE_ALT_SQUARE;
+
 /**
  * The content extension that allows to insert sequence diagrams in a presentation. This extension only supports HTML for
  * inserting the content in the presentation, meaning that HTML code will always be returned when calling
  * {@link #buildDefaultContentString()} and {@link #buildContentString(com.twasyl.slideshowfx.markup.IMarkup)}.
  *
  * @author Thierry Wasylczenko
- * @version 1.0.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class SequenceDiagramContentExtension extends AbstractContentExtension {
@@ -29,7 +30,7 @@ public class SequenceDiagramContentExtension extends AbstractContentExtension {
     public SequenceDiagramContentExtension() {
         super("SEQUENCE_DIAGRAM",
                 SequenceDiagramContentExtension.class.getResource("/com/twasyl/slideshowfx/content/extension/sequence/diagram/resources/jumly.zip"),
-                FontAwesomeIcon.SHARE_ALT_SQUARE,
+                SHARE_ALT_SQUARE,
                 "Insert a sequence diagram",
                 "Insert a sequence diagram");
 

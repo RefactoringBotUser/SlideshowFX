@@ -4,7 +4,6 @@ import com.twasyl.slideshowfx.content.extension.AbstractContentExtension;
 import com.twasyl.slideshowfx.content.extension.ResourceType;
 import com.twasyl.slideshowfx.content.extension.snippet.controllers.SnippetContentExtensionController;
 import com.twasyl.slideshowfx.markup.IMarkup;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
@@ -14,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static com.twasyl.slideshowfx.global.configuration.GlobalConfiguration.getDefaultCharset;
+import static com.twasyl.slideshowfx.icons.Icon.TERMINAL;
 
 /**
  * The content extension that allows to insert code snippet in a presentation. This extension only supports HTML for
@@ -21,7 +21,7 @@ import static com.twasyl.slideshowfx.global.configuration.GlobalConfiguration.ge
  * {@link #buildDefaultContentString()} and {@link #buildContentString(com.twasyl.slideshowfx.markup.IMarkup)}.
  *
  * @author Thierry Wasylczenko
- * @version 1.0.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class SnippetContentExtension extends AbstractContentExtension {
@@ -32,7 +32,7 @@ public class SnippetContentExtension extends AbstractContentExtension {
     public SnippetContentExtension() {
         super("SNIPPET",
                 SnippetContentExtension.class.getResource("/com/twasyl/slideshowfx/content/extension/snippet/resources/snippet-executor.zip"),
-                FontAwesomeIcon.TERMINAL,
+                TERMINAL,
                 "Insert an executable code snippet",
                 "Insert an executable code snippet");
 
@@ -70,8 +70,8 @@ public class SnippetContentExtension extends AbstractContentExtension {
         final StringBuilder builder = new StringBuilder();
 
         long id = System.currentTimeMillis();
-        final String codeSnippetId= "code-snippet-" + id;
-        final String codeSnippetConsoleOuputId= "code-snippet-output-" + id;
+        final String codeSnippetId = "code-snippet-" + id;
+        final String codeSnippetConsoleOuputId = "code-snippet-output-" + id;
         final String codeSnippetConsoleId = "code-snippet-console-" + id;
         final String executeCodeSnippetId = "code-snippet-execute-" + id;
 

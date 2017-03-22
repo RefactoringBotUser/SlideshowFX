@@ -4,7 +4,6 @@ import com.twasyl.slideshowfx.content.extension.AbstractContentExtension;
 import com.twasyl.slideshowfx.content.extension.ResourceType;
 import com.twasyl.slideshowfx.content.extension.code.controllers.CodeContentExtensionController;
 import com.twasyl.slideshowfx.markup.IMarkup;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
@@ -15,6 +14,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.twasyl.slideshowfx.icons.Icon.CODE;
 import static java.util.regex.Pattern.MULTILINE;
 
 /**
@@ -24,7 +24,7 @@ import static java.util.regex.Pattern.MULTILINE;
  * This extension supports HTML and Textile markup languages.
  *
  * @author Thierry Wasylczenko
- * @version 1.1
+ * @version 1.2
  * @since SlideshowFX 1.0
  */
 public class CodeContentExtension extends AbstractContentExtension {
@@ -36,7 +36,7 @@ public class CodeContentExtension extends AbstractContentExtension {
     public CodeContentExtension() {
         super("CODE",
                 CodeContentExtension.class.getResource("/com/twasyl/slideshowfx/content/extension/code/resources/prism.zip"),
-                FontAwesomeIcon.CODE,
+                CODE,
                 "Insert code",
                 "Insert code");
 
@@ -67,11 +67,11 @@ public class CodeContentExtension extends AbstractContentExtension {
     public String buildContentString(IMarkup markup) {
         final StringBuilder builder = new StringBuilder();
 
-        if(markup == null || "HTML".equals(markup.getCode())) {
+        if (markup == null || "HTML".equals(markup.getCode())) {
             builder.append(this.buildDefaultContentString());
-        } else if("TEXTILE".equals(markup.getCode())) {
+        } else if ("TEXTILE".equals(markup.getCode())) {
             builder.append(this.buildTextileContentString());
-        } else if("MARKDOWN".equals(markup.getCode()) && !this.controller.isShowingLineNumbers()) {
+        } else if ("MARKDOWN".equals(markup.getCode()) && !this.controller.isShowingLineNumbers()) {
             builder.append(this.buildMarkdownContentString());
         } else {
             builder.append(this.buildDefaultContentString());
@@ -96,18 +96,18 @@ public class CodeContentExtension extends AbstractContentExtension {
         final String suffix = "\"";
         final StringJoiner cssClass = new StringJoiner(" ", prefix, suffix);
 
-        if(this.controller.getLanguage() != null) cssClass.add(this.controller.getLanguage().getCssClass());
+        if (this.controller.getLanguage() != null) cssClass.add(this.controller.getLanguage().getCssClass());
 
-        if(this.controller.isShowingLineNumbers()) cssClass.add(LINE_NUMBERS_CSS_CLASS);
+        if (this.controller.isShowingLineNumbers()) cssClass.add(LINE_NUMBERS_CSS_CLASS);
 
         return cssClass.length() == (prefix + suffix).length() ? "" : cssClass.toString();
     }
 
     protected String buildTextileContentString() {
         final StringBuilder builder = new StringBuilder("bc").append(this.buildTextileCssClass())
-               .append(codeContainsBlankLines(this.controller.getCode()) ? ".." : ".")
-               .append(" ")
-               .append(this.controller.getCode());
+                .append(codeContainsBlankLines(this.controller.getCode()) ? ".." : ".")
+                .append(" ")
+                .append(this.controller.getCode());
 
         return builder.toString();
     }
@@ -115,9 +115,9 @@ public class CodeContentExtension extends AbstractContentExtension {
     protected String buildTextileCssClass() {
         final StringJoiner cssClass = new StringJoiner(" ", "(", ")");
 
-        if(this.controller.getLanguage() != null) cssClass.add(this.controller.getLanguage().getCssClass());
+        if (this.controller.getLanguage() != null) cssClass.add(this.controller.getLanguage().getCssClass());
 
-        if(this.controller.isShowingLineNumbers()) cssClass.add(LINE_NUMBERS_CSS_CLASS);
+        if (this.controller.isShowingLineNumbers()) cssClass.add(LINE_NUMBERS_CSS_CLASS);
 
         return cssClass.length() == 2 ? "" : cssClass.toString();
     }
@@ -125,7 +125,7 @@ public class CodeContentExtension extends AbstractContentExtension {
     protected String buildMarkdownContentString() {
         final StringBuilder builder = new StringBuilder("```");
 
-        if(this.controller.getLanguage() != null) {
+        if (this.controller.getLanguage() != null) {
             builder.append(this.controller.getLanguage().getCssClass());
         }
 

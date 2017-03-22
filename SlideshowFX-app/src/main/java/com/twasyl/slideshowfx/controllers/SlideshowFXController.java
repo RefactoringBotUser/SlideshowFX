@@ -21,6 +21,8 @@ import com.twasyl.slideshowfx.global.configuration.GlobalConfiguration;
 import com.twasyl.slideshowfx.hosting.connector.IHostingConnector;
 import com.twasyl.slideshowfx.hosting.connector.exceptions.HostingConnectorException;
 import com.twasyl.slideshowfx.hosting.connector.io.RemoteFile;
+import com.twasyl.slideshowfx.icons.FontAwesome;
+import com.twasyl.slideshowfx.icons.Icon;
 import com.twasyl.slideshowfx.io.SlideshowFXExtensionFilter;
 import com.twasyl.slideshowfx.osgi.OSGiManager;
 import com.twasyl.slideshowfx.server.SlideshowFXServer;
@@ -29,7 +31,10 @@ import com.twasyl.slideshowfx.server.service.PresenterChatService;
 import com.twasyl.slideshowfx.server.service.QuizService;
 import com.twasyl.slideshowfx.server.service.TwitterService;
 import com.twasyl.slideshowfx.services.AutoSavingService;
-import com.twasyl.slideshowfx.utils.*;
+import com.twasyl.slideshowfx.utils.DialogHelper;
+import com.twasyl.slideshowfx.utils.NetworkUtils;
+import com.twasyl.slideshowfx.utils.PlatformHelper;
+import com.twasyl.slideshowfx.utils.ZipUtils;
 import com.twasyl.slideshowfx.utils.beans.Pair;
 import com.twasyl.slideshowfx.utils.beans.binding.WildcardBinding;
 import com.twasyl.slideshowfx.utils.concurrent.SlideshowFXTask;
@@ -37,8 +42,6 @@ import com.twasyl.slideshowfx.utils.concurrent.TaskAction;
 import com.twasyl.slideshowfx.utils.concurrent.actions.DisableAction;
 import com.twasyl.slideshowfx.utils.concurrent.actions.EnableAction;
 import com.twasyl.slideshowfx.utils.keys.KeyEventUtils;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.application.Platform;
 import javafx.beans.binding.StringExpression;
 import javafx.beans.property.SimpleStringProperty;
@@ -83,9 +86,9 @@ import java.util.logging.Logger;
 /**
  *  This class is the controller of the {@code Slideshow.fxml} file. It defines all actions possible inside the view
  *  represented by the FXML.
- *  
+ *
  *  @author Thierry Wasyczenko
- *  @version 1.3
+ *  @version 1.4
  *  @since SlideshowFX 1.0
  */
 public class SlideshowFXController implements Initializable {
@@ -439,7 +442,7 @@ public class SlideshowFXController implements Initializable {
      */
     @FXML private void displayInternalBrowser(ActionEvent event) {
         try {
-            final Parent root = FXMLLoader.load(ResourceHelper.getURL("/com/twasyl/slideshowfx/fxml/InternalBrowser.fxml"));
+            final Parent root = FXMLLoader.load(SlideshowFXController.class.getResource("/com/twasyl/slideshowfx/fxml/InternalBrowser.fxml"));
             final Tab tab = new Tab("Internal browser", root);
 
             this.openedPresentationsTabPane.getTabs().addAll(tab);
@@ -451,7 +454,7 @@ public class SlideshowFXController implements Initializable {
 
     @FXML private void displayWebApplication(final ActionEvent event) {
         try {
-            final Parent root = FXMLLoader.load(ResourceHelper.getURL("/com/twasyl/slideshowfx/fxml/SlideshowFXWebApplication.fxml"));
+            final Parent root = FXMLLoader.load(SlideshowFXController.class.getResource("/com/twasyl/slideshowfx/fxml/SlideshowFXWebApplication.fxml"));
             final Tab tab = new Tab("Web application", root);
 
             this.openedPresentationsTabPane.getTabs().addAll(tab);
@@ -482,7 +485,7 @@ public class SlideshowFXController implements Initializable {
      * @param event The source event.
      */
     @FXML private void displayPluginCenter(final ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(ResourceHelper.getURL("/com/twasyl/slideshowfx/fxml/PluginCenter.fxml"));
+        FXMLLoader loader = new FXMLLoader(SlideshowFXController.class.getResource("/com/twasyl/slideshowfx/fxml/PluginCenter.fxml"));
         try {
             final Parent root = loader.load();
             final PluginCenterController controller = loader.getController();
@@ -705,7 +708,7 @@ public class SlideshowFXController implements Initializable {
      * @param event
      */
     @FXML private void showOptionsDialog(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(ResourceHelper.getURL("/com/twasyl/slideshowfx/fxml/OptionsView.fxml"));
+        FXMLLoader loader = new FXMLLoader(SlideshowFXController.class.getResource("/com/twasyl/slideshowfx/fxml/OptionsView.fxml"));
         try {
             final Parent root = loader.load();
             final OptionsViewController controller = loader.getController();
@@ -756,7 +759,7 @@ public class SlideshowFXController implements Initializable {
                                 newState == Worker.State.SUCCEEDED) &&
                         loadingTask.getValue() != null) {
 
-                    final FXMLLoader loader = new FXMLLoader(ResourceHelper.getURL("/com/twasyl/slideshowfx/fxml/PresentationView.fxml"));
+                    final FXMLLoader loader = new FXMLLoader(SlideshowFXController.class.getResource("/com/twasyl/slideshowfx/fxml/PresentationView.fxml"));
                     try {
                         final Parent parent = loader.load();
                         final PresentationViewController controller = loader.getController();
@@ -963,15 +966,15 @@ public class SlideshowFXController implements Initializable {
      * If no text is entered for the IP address and the port number, the IP address of the computer is used and the port 80 is chosen.
      */
     private void startServer() {
-        FontAwesomeIconView icon;
+        FontAwesome icon;
         final Tooltip tooltip = new Tooltip();
 
         if (SlideshowFXServer.getSingleton() != null) {
             SlideshowFXServer.getSingleton().stop();
 
-            icon = new FontAwesomeIconView(FontAwesomeIcon.PLAY);
-            icon.setGlyphSize(20);
-            icon.setGlyphStyle("-fx-fill: green");
+            icon = new FontAwesome(Icon.PLAY);
+            icon.setSize("20");
+            icon.setColor("green");
 
             tooltip.setText("Start the server");
         } else {
@@ -999,9 +1002,9 @@ public class SlideshowFXController implements Initializable {
                     TwitterService.class
             );
 
-            icon = new FontAwesomeIconView(FontAwesomeIcon.POWER_OFF);
-            icon.setGlyphSize(20);
-            icon.setGlyphStyle("-fx-fill: app-color-orange");
+            icon = new FontAwesome(Icon.POWER_OFF);
+            icon.setSize("20");
+            icon.setColor("app-color-orange");
 
             tooltip.setText("Stop the server");
         }

@@ -2,6 +2,8 @@ package com.twasyl.slideshowfx.controls.slideshow;
 
 import com.twasyl.slideshowfx.controls.*;
 import com.twasyl.slideshowfx.global.configuration.GlobalConfiguration;
+import com.twasyl.slideshowfx.icons.FontAwesome;
+import com.twasyl.slideshowfx.icons.Icon;
 import com.twasyl.slideshowfx.osgi.OSGiManager;
 import com.twasyl.slideshowfx.server.SlideshowFXServer;
 import com.twasyl.slideshowfx.server.beans.chat.ChatMessage;
@@ -12,8 +14,6 @@ import com.twasyl.slideshowfx.snippet.executor.CodeSnippet;
 import com.twasyl.slideshowfx.snippet.executor.ISnippetExecutor;
 import com.twasyl.slideshowfx.utils.PlatformHelper;
 import com.twasyl.slideshowfx.utils.ResourceHelper;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import javafx.beans.property.ObjectProperty;
@@ -37,7 +37,7 @@ import static com.twasyl.slideshowfx.server.service.QuizService.SERVICE_QUIZ_ON_
  * A pane that displays a presentation.
  *
  * @author Thierry Wasylczenko
- * @version 1.1
+ * @version 1.2
  * @since SlideshowFX 1.0
  */
 public class SlideshowPane extends StackPane implements Actor {
@@ -55,7 +55,7 @@ public class SlideshowPane extends StackPane implements Actor {
      * given {@link Context#getStartAtSlideId()}.
      *
      * @param context The context to create the {@link SlideshowPane}.
-     * @see com.twasyl.slideshowfx.controls.slideshow.Context
+     * @see Context
      */
     public SlideshowPane(Context context) {
         super();
@@ -112,17 +112,17 @@ public class SlideshowPane extends StackPane implements Actor {
      * Initialize the pane that contains all buttons related when the server is running (chat, QR code, quiz).
      */
     private final void initializeCollapsibleToolPane() {
-        final FontAwesomeIconView qrCodeIcon = new FontAwesomeIconView(FontAwesomeIcon.QRCODE);
-        qrCodeIcon.setGlyphSize(32);
-        qrCodeIcon.setGlyphStyle("-fx-fill: app-color-orange");
+        final FontAwesome qrCodeIcon = new FontAwesome(Icon.QRCODE);
+        qrCodeIcon.setSize("32");
+        qrCodeIcon.setColor("app-color-orange");
 
-        final FontAwesomeIconView chatIcon = new FontAwesomeIconView(FontAwesomeIcon.COMMENTS_ALT);
-        chatIcon.setGlyphSize(32);
-        chatIcon.setGlyphStyle("-fx-fill: app-color-orange");
+        final FontAwesome chatIcon = new FontAwesome(Icon.COMMENTS_O);
+        chatIcon.setSize("32");
+        chatIcon.setColor("app-color-orange");
 
-        final FontAwesomeIconView quizIcon = new FontAwesomeIconView(FontAwesomeIcon.QUESTION);
-        quizIcon.setGlyphSize(32);
-        quizIcon.setGlyphStyle("-fx-fill: app-color-orange");
+        final FontAwesome quizIcon = new FontAwesome(Icon.QUESTION);
+        quizIcon.setSize("32");
+        quizIcon.setColor("app-color-orange");
 
         this.collapsibleToolPane.addContent(qrCodeIcon, new QRCodePanel())
                 .addContent(chatIcon, this.chatPanel)
@@ -133,7 +133,7 @@ public class SlideshowPane extends StackPane implements Actor {
 
     /**
      * This method is called by the presentation in order to execute a code snippet. The executor is identified by the
-     * {@code snippetExecutorCode} and retrieved in the OSGi context to get the {@link com.twasyl.slideshowfx.snippet.executor.ISnippetExecutor}
+     * {@code snippetExecutorCode} and retrieved in the OSGi context to get the {@link ISnippetExecutor}
      * instance that will execute the code.
      * The code to execute is passed to this method in Base64 using the {@code base64CodeSnippet} parameter. The execution
      * result will be pushed back to the presentation in the HTML element {@code consoleOutputId}.
@@ -197,7 +197,7 @@ public class SlideshowPane extends StackPane implements Actor {
     /**
      * This method publish the given <code>chatMessage</code> to the presenter.
      * @param chatMessage The message to publish.
-     * @throws java.lang.NullPointerException If the message is null
+     * @throws NullPointerException If the message is null
      */
     public void publishMessage(ChatMessage chatMessage) {
         if(chatMessage == null) throw new NullPointerException("The message to publish can not be null");
@@ -208,7 +208,7 @@ public class SlideshowPane extends StackPane implements Actor {
     /**
      * This method publish the given {@link QuizResult} to the scene.
      * @param result The result to publish.
-     * @throws java.lang.NullPointerException If the result is null
+     * @throws NullPointerException If the result is null
      */
     public void publishQuizResult(QuizResult result) {
         if(result == null) throw new NullPointerException("The QuizResult to publish can not be null");

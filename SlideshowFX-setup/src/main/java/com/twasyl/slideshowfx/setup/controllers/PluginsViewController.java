@@ -1,7 +1,7 @@
 package com.twasyl.slideshowfx.setup.controllers;
 
+import com.twasyl.slideshowfx.icons.FontAwesome;
 import com.twasyl.slideshowfx.ui.controls.PluginFileButton;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -19,13 +19,12 @@ import javafx.scene.layout.TilePane;
 import java.io.File;
 import java.net.URL;
 import java.util.*;
-import java.util.logging.Logger;
 
 /**
  * Controller for the {@code PluginsView.xml} file.
  *
  * @author Thierry Wasylczenko
- * @version 1.2
+ * @version 1.3
  * @since SlideshowFX 1.0
  */
 public class PluginsViewController implements Initializable {
@@ -39,7 +38,7 @@ public class PluginsViewController implements Initializable {
     @FXML
     private TitledPane markupPluginsContainer;
     @FXML
-    private FontAwesomeIconView markupErrorSign;
+    private FontAwesome markupErrorSign;
 
     @FXML
     private TilePane markupPlugins;

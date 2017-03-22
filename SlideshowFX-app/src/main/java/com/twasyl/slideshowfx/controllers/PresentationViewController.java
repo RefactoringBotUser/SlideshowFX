@@ -9,6 +9,7 @@ import com.twasyl.slideshowfx.engine.presentation.Presentations;
 import com.twasyl.slideshowfx.engine.presentation.configuration.Slide;
 import com.twasyl.slideshowfx.engine.presentation.configuration.SlideElement;
 import com.twasyl.slideshowfx.global.configuration.GlobalConfiguration;
+import com.twasyl.slideshowfx.icons.FontAwesome;
 import com.twasyl.slideshowfx.markup.IMarkup;
 import com.twasyl.slideshowfx.markup.MarkupManager;
 import com.twasyl.slideshowfx.osgi.OSGiManager;
@@ -18,8 +19,6 @@ import com.twasyl.slideshowfx.utils.DialogHelper;
 import com.twasyl.slideshowfx.utils.PlatformHelper;
 import com.twasyl.slideshowfx.utils.beans.Pair;
 import com.twasyl.slideshowfx.utils.beans.binding.FilenameBinding;
-import de.jensd.fx.glyphs.GlyphIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -57,7 +56,7 @@ import java.util.logging.Logger;
  * represented by the FXML.
  *
  * @author Thierry Wasyczenko
- * @version 1.2
+ * @version 1.3
  * @since SlideshowFX 1.0
  */
 public class PresentationViewController implements Initializable {
@@ -319,10 +318,8 @@ public class PresentationViewController implements Initializable {
         button.setTooltip(new Tooltip(contentExtension.getToolTip()));
         button.getStyleClass().add("image");
 
-        final GlyphIcon icon = new FontAwesomeIconView();
-        icon.setGlyphName(contentExtension.getIcon().name());
-        icon.setGlyphSize(20);
-        icon.setGlyphStyle("-fx-fill: app-color-orange;");
+        final FontAwesome icon = new FontAwesome(contentExtension.getIcon(), "20");
+        icon.setColor("app-color-orange;");
 
         button.setGraphic(icon);
 

@@ -1,8 +1,8 @@
 package com.twasyl.slideshowfx.ui.controls;
 
+import com.twasyl.slideshowfx.icons.FontAwesome;
+import com.twasyl.slideshowfx.icons.Icon;
 import com.twasyl.slideshowfx.utils.Jar;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ToggleButton;
@@ -14,7 +14,6 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 import java.io.*;
-import java.util.jar.Attributes;
 import java.util.jar.JarEntry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,7 +43,7 @@ public class PluginFileButton extends ToggleButton {
             throw new IllegalArgumentException("Invalid JAR file", e);
         }
 
-        final Node icon = this.buildIconNode(this.pluginFile.getManifestAttributes());
+        final Node icon = this.buildIconNode();
         this.label = this.pluginFile.getManifestAttributeValue("Setup-Wizard-Label", this.pluginFile.getFile().getName());
         this.version = this.pluginFile.getManifestAttributeValue("Bundle-Version", "");
         this.description = this.pluginFile.getManifestAttributeValue("Bundle-Description", "");
@@ -162,10 +161,9 @@ public class PluginFileButton extends ToggleButton {
     /**
      * Create the {@code Node} that will contain the icon of the plugin.
      *
-     * @param attributes The manifest attributes of the plugin JAR file.
      * @return The element containing the icon of the plugin.
      */
-    protected final Node buildIconNode(final Attributes attributes) {
+    protected final Node buildIconNode() {
         Node icon = null;
         final byte[] iconFromJar = this.getIconFromJar();
 
@@ -177,8 +175,7 @@ public class PluginFileButton extends ToggleButton {
             final String fontIconName = this.pluginFile.getManifestAttributeValue("Setup-Wizard-Icon-Name", "");
 
             if (!fontIconName.isEmpty()) {
-                icon = new FontAwesomeIconView(FontAwesomeIcon.valueOf(fontIconName));
-                ((FontAwesomeIconView) icon).setGlyphSize(50);
+                icon = new FontAwesome(Icon.valueOf(fontIconName), "50");
             }
         }
 

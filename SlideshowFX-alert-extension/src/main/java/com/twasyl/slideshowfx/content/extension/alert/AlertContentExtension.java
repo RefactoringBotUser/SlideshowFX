@@ -4,13 +4,14 @@ import com.twasyl.slideshowfx.content.extension.AbstractContentExtension;
 import com.twasyl.slideshowfx.content.extension.ResourceType;
 import com.twasyl.slideshowfx.content.extension.alert.controllers.AlertContentExtensionController;
 import com.twasyl.slideshowfx.markup.IMarkup;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static com.twasyl.slideshowfx.icons.Icon.EXCLAMATION_TRIANGLE;
 
 /**
  * The AlertContentExtension extends the AbstractContentExtension. It allows to build a content containing alert to insert
@@ -19,7 +20,7 @@ import java.util.logging.Logger;
  * This extension supports HTML markup language.
  *
  * @author Thierry Wasylczenko
- * @version 1.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class AlertContentExtension extends AbstractContentExtension {
@@ -30,7 +31,7 @@ public class AlertContentExtension extends AbstractContentExtension {
     public AlertContentExtension() {
         super("ALERT",
                 AlertContentExtension.class.getResource("/com/twasyl/slideshowfx/content/extension/alert/resources/sweetalert.zip"),
-                FontAwesomeIcon.EXCLAMATION_TRIANGLE,
+                EXCLAMATION_TRIANGLE,
                 "Insert an alert",
                 "Insert an alert");
 

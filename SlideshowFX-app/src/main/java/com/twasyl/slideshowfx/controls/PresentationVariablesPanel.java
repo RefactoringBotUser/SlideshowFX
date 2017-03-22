@@ -1,10 +1,10 @@
 package com.twasyl.slideshowfx.controls;
 
 import com.twasyl.slideshowfx.engine.presentation.configuration.PresentationConfiguration;
+import com.twasyl.slideshowfx.icons.FontAwesome;
+import com.twasyl.slideshowfx.icons.Icon;
+import com.twasyl.slideshowfx.icons.IconStack;
 import com.twasyl.slideshowfx.utils.beans.Pair;
-import de.jensd.fx.glyphs.GlyphsStack;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * This class represents a panel used to insert and define variables that can be used within a presentation.
  *
  * @author Thierry Wasylczenko
- * @version 1.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class PresentationVariablesPanel extends BorderPane {
@@ -37,16 +37,16 @@ public class PresentationVariablesPanel extends BorderPane {
 
         this.variablesScrollPane.setPrefSize(500, 500);
 
-        final FontAwesomeIconView backgroundIcon = new FontAwesomeIconView(FontAwesomeIcon.PLUS_SQUARE);
-        backgroundIcon.setGlyphSize(20);
-        backgroundIcon.setGlyphStyle("-fx-fill: white");
+        final FontAwesome backgroundIcon = new FontAwesome(Icon.PLUS_SQUARE);
+        backgroundIcon.setSize("20");
+        backgroundIcon.setColor("white");
 
-        final FontAwesomeIconView plusIcon = new FontAwesomeIconView(FontAwesomeIcon.PLUS);
-        plusIcon.setGlyphSize(15);
-        plusIcon.setGlyphStyle("-fx-fill: app-color-orange");
+        final FontAwesome plusIcon = new FontAwesome(Icon.PLUS);
+        plusIcon.setSize("15");
+        plusIcon.setColor("app-color-orange");
 
-        final GlyphsStack stack = new GlyphsStack();
-        stack.add(backgroundIcon).add(plusIcon);
+        final IconStack stack = new IconStack();
+        stack.getChildren().addAll(backgroundIcon, plusIcon);
 
         final Button addButton = new Button();
         addButton.getStyleClass().add("image");
@@ -68,8 +68,8 @@ public class PresentationVariablesPanel extends BorderPane {
      */
     private void addVariable(String name, String value) {
         final Pair<String, String> variable = new Pair<>();
-        if(name != null) variable.setKey(name);
-        if(value != null) variable.setValue(value);
+        if (name != null) variable.setKey(name);
+        if (value != null) variable.setValue(value);
 
         final RadioButton radioButton = new RadioButton();
         radioButton.setToggleGroup(this.variableGroup);
@@ -95,9 +95,9 @@ public class PresentationVariablesPanel extends BorderPane {
         variableValue.textProperty().bindBidirectional(variable.valueProperty());
         variableValue.setOnKeyPressed(addVariableByKeyboard);
 
-        final FontAwesomeIconView icon = new FontAwesomeIconView(FontAwesomeIcon.TIMES_CIRCLE);
-        icon.setGlyphSize(20);
-        icon.setGlyphStyle("-fx-fill: app-color-orange");
+        final FontAwesome icon = new FontAwesome(Icon.TIMES_CIRCLE);
+        icon.setSize("20");
+        icon.setColor("app-color-orange");
 
         final Button delete = new Button();
         delete.setGraphic(icon);
@@ -118,21 +118,21 @@ public class PresentationVariablesPanel extends BorderPane {
      * Get the property that has been selected in this panel. If no selection has been made, {@code null}
      * is returned.
      * Moreover, if the name of the property is null or empty, {@code null} will also be returned.
+     *
      * @return The selected property.
      */
     public Pair<String, String> getSelectedVariable() {
         final RadioButton selection = (RadioButton) this.variableGroup.getSelectedToggle();
 
-        if(selection != null) {
+        if (selection != null) {
             final Pair<String, String> variable = (Pair<String, String>) selection.getUserData();
 
-            if(variable.getKey() == null || variable.getKey().trim().isEmpty()) return null;
+            if (variable.getKey() == null || variable.getKey().trim().isEmpty()) return null;
             else {
                 this.normalizeVariable(variable);
                 return variable;
             }
-        }
-        else return null;
+        } else return null;
     }
 
     /**
@@ -157,10 +157,11 @@ public class PresentationVariablesPanel extends BorderPane {
 
     /**
      * Normalize a variable, meaning that if it's value is {@code null} set it to an empty {@link String}.
+     *
      * @param variable The variable to normalize.
      */
     private void normalizeVariable(final Pair<String, String> variable) {
-        if(variable.getValue() == null) {
+        if (variable.getValue() == null) {
             variable.setValue("");
         }
     }

@@ -1,12 +1,12 @@
 package com.twasyl.slideshowfx.controls.notification;
 
-import com.twasyl.slideshowfx.beans.properties.TaskStatusGlyphNameBinding;
-import com.twasyl.slideshowfx.beans.properties.TaskStatusGlyphStyleBinding;
+import com.twasyl.slideshowfx.beans.properties.TaskStatusIconBinding;
+import com.twasyl.slideshowfx.beans.properties.TaskStatusIconColorBinding;
+import com.twasyl.slideshowfx.icons.FontAwesome;
+import com.twasyl.slideshowfx.icons.Icon;
 import com.twasyl.slideshowfx.utils.DialogHelper;
 import com.twasyl.slideshowfx.utils.beans.binding.LocalTimeBinding;
 import com.twasyl.slideshowfx.utils.concurrent.SlideshowFXTask;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
@@ -36,7 +36,7 @@ import java.util.logging.Logger;
  * the notification in the notification center.
  *
  * @author Thierry Wasylczenko
- * @version 1.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class Notification extends MenuItem {
@@ -52,7 +52,7 @@ public class Notification extends MenuItem {
         final TextFlow statusFlow = new TextFlow(taskTitle, new Text("\n"), statusChangeTime);
         statusFlow.setMaxWidth(250);
 
-        final FontAwesomeIconView statusIcon = this.getStatusIcon();
+        final FontAwesome statusIcon = this.getStatusIcon();
 
         final Button deleteButton = this.getDeleteButton();
 
@@ -69,7 +69,7 @@ public class Notification extends MenuItem {
                         .append("\n");
 
                 try (final StringWriter stringWriter = new StringWriter();
-                    final PrintWriter writer = new PrintWriter(stringWriter)) {
+                     final PrintWriter writer = new PrintWriter(stringWriter)) {
 
                     this.task.get().getException().printStackTrace(writer);
                     writer.flush();
@@ -92,6 +92,7 @@ public class Notification extends MenuItem {
 
     /**
      * Initialize the {@link javafx.scene.Node} that displays the {@link Task#titleProperty() title} of the task.
+     *
      * @return The {@link javafx.scene.Node} that displays the title of the task.
      */
     private Text getTaskTitle() {
@@ -104,6 +105,7 @@ public class Notification extends MenuItem {
 
     /**
      * Initialize the {@link javafx.scene.Node} that displays the time when the status of the task has changed.
+     *
      * @return The {@link javafx.scene.Node} that displays the change time of the status of the task.
      */
     private Text getStatusChangeTimeText() {
@@ -117,38 +119,39 @@ public class Notification extends MenuItem {
     /**
      * Initialize the {@link javafx.scene.Node} that will contain the icon indicating the status (RUNNING, SUCCEEDED, FAILED, ...) of the
      * notification.
+     *
      * @return The {@link javafx.scene.Node} indicating the status of the notification.
      */
-    private FontAwesomeIconView getStatusIcon() {
-        final FontAwesomeIconView statusIcon = new FontAwesomeIconView();
+    private FontAwesome getStatusIcon() {
+        final FontAwesome statusIcon = new FontAwesome();
 
         final RotateTransition rotation = new RotateTransition(Duration.seconds(1), statusIcon);
         rotation.setByAngle(360);
         rotation.setCycleCount(Animation.INDEFINITE);
         rotation.setInterpolator(Interpolator.LINEAR);
 
-        statusIcon.glyphNameProperty().addListener((glyphValue, oldGlyph, newGlyph) -> {
-            if(FontAwesomeIcon.SPINNER.name().equals(newGlyph)) rotation.playFromStart();
+        statusIcon.iconProperty().addListener((glyphValue, oldGlyph, newGlyph) -> {
+            if (Icon.SPINNER.equals(newGlyph)) rotation.playFromStart();
             else {
                 rotation.stop();
                 statusIcon.setRotate(0);
             }
         });
-        statusIcon.glyphNameProperty().bind(new TaskStatusGlyphNameBinding(this.task.get()));
-        statusIcon.glyphStyleProperty().bind(new TaskStatusGlyphStyleBinding(this.task.get()));
-        statusIcon.setGlyphSize(20);
-
+        statusIcon.iconProperty().bind(new TaskStatusIconBinding(this.task.get()));
+        statusIcon.colorProperty().bind(new TaskStatusIconColorBinding(this.task.get()));
+        statusIcon.setSize("20");
 
         return statusIcon;
     }
 
     /**
      * Initialize the {@link Button} that will allow to remove the notification from the {@link NotificationCenter}.
+     *
      * @return The button for deleting the notification from the {@link NotificationCenter}.
      */
     private Button getDeleteButton() {
-        final FontAwesomeIconView deleteIcon = new FontAwesomeIconView(FontAwesomeIcon.TIMES);
-        deleteIcon.setGlyphSize(10);
+        final FontAwesome deleteIcon = new FontAwesome(Icon.TIMES);
+        deleteIcon.setSize("10");
 
         final Button deleteButton = new Button();
         deleteButton.getStyleClass().add("notification");
@@ -160,13 +163,19 @@ public class Notification extends MenuItem {
 
     /**
      * Get the task associated to this notification.
+     *
      * @return The property containing the task associated to this notification.
      */
-    public ReadOnlyObjectProperty<SlideshowFXTask> taskProperty() { return task; }
+    public ReadOnlyObjectProperty<SlideshowFXTask> taskProperty() {
+        return task;
+    }
 
     /**
      * Get the task associated to this notification.
+     *
      * @return The task associated to this notification.
      */
-    public Task getTask() { return task.get(); }
+    public Task getTask() {
+        return task.get();
+    }
 }

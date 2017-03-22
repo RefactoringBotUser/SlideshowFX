@@ -1,10 +1,11 @@
 import com.sun.javafx.PlatformUtil
 
-version = '1.4'
+version = '@@NEXT-VERSION@@'
 
 dependencies {
     compile project(':SlideshowFX-engines')
     compile project(':SlideshowFX-global-configuration')
+    compile project(':SlideshowFX-icons')
     compile project(':SlideshowFX-plugin')
     compile project(':SlideshowFX-osgi')
     compile project(":SlideshowFX-server")
@@ -17,7 +18,6 @@ dependencies {
 
     compile configurations.asciidoctorj
     compile configurations.felix
-    compile configurations.fontawesomefx
     compile configurations.freemarker
     compile configurations.jsoup
     compile configurations.twitter4j

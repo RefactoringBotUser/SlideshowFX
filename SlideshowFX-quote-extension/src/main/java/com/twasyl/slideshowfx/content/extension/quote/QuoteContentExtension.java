@@ -3,13 +3,14 @@ package com.twasyl.slideshowfx.content.extension.quote;
 import com.twasyl.slideshowfx.content.extension.AbstractContentExtension;
 import com.twasyl.slideshowfx.content.extension.quote.controllers.QuoteContentExtensionController;
 import com.twasyl.slideshowfx.markup.IMarkup;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static com.twasyl.slideshowfx.icons.Icon.QUOTE_LEFT;
 
 /**
  * The QuoteContentExtension extends the AbstractContentExtension. It allows to build a content containing quote to insert
@@ -18,7 +19,7 @@ import java.util.logging.Logger;
  * This extension supports HTML and Textile markup languages.
  *
  * @author Thierry Wasylczenko
- * @version 1.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class QuoteContentExtension extends AbstractContentExtension {
@@ -28,7 +29,7 @@ public class QuoteContentExtension extends AbstractContentExtension {
 
     public QuoteContentExtension() {
         super("QUOTE", null,
-                FontAwesomeIcon.QUOTE_LEFT,
+                QUOTE_LEFT,
                 "Insert a quote",
                 "Insert a quote");
     }
@@ -53,9 +54,9 @@ public class QuoteContentExtension extends AbstractContentExtension {
     public String buildContentString(IMarkup markup) {
         final StringBuilder builder = new StringBuilder();
 
-        if(markup == null || "HTML".equals(markup.getCode())) {
+        if (markup == null || "HTML".equals(markup.getCode())) {
             builder.append(this.buildDefaultContentString());
-        } else if("TEXTILE".equals(markup.getCode())) {
+        } else if ("TEXTILE".equals(markup.getCode())) {
             builder.append("bq.. ")
                     .append(this.controller.getQuote())
                     .append("\np{text-align: right; font-weight: bold; font-style: italic;}. ")

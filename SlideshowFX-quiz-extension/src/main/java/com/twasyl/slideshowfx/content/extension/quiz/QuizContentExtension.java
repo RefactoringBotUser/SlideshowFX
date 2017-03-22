@@ -5,7 +5,6 @@ import com.twasyl.slideshowfx.content.extension.ResourceType;
 import com.twasyl.slideshowfx.content.extension.quiz.controllers.QuizContentExtensionController;
 import com.twasyl.slideshowfx.markup.IMarkup;
 import com.twasyl.slideshowfx.server.beans.quiz.Quiz;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
@@ -15,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static com.twasyl.slideshowfx.global.configuration.GlobalConfiguration.getDefaultCharset;
+import static com.twasyl.slideshowfx.icons.Icon.QUESTION;
 
 /**
  * The {@link QuizContentExtension} extends the {@link AbstractContentExtension}. It allows to build a content containing
@@ -23,7 +23,7 @@ import static com.twasyl.slideshowfx.global.configuration.GlobalConfiguration.ge
  * This extension supports HTML markup language.
  *
  * @author Thierry Wasylczenko
- * @version 1.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class QuizContentExtension extends AbstractContentExtension {
@@ -33,7 +33,7 @@ public class QuizContentExtension extends AbstractContentExtension {
 
     public QuizContentExtension() {
         super("QUIZ", QuizContentExtension.class.getResource("/com/twasyl/slideshowfx/content/extension/quiz/resources/quiz.zip"),
-                FontAwesomeIcon.QUESTION,
+                QUESTION,
                 "Insert a quiz",
                 "Insert a quiz");
 

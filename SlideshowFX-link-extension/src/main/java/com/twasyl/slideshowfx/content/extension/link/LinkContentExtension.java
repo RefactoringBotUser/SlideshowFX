@@ -3,13 +3,14 @@ package com.twasyl.slideshowfx.content.extension.link;
 import com.twasyl.slideshowfx.content.extension.AbstractContentExtension;
 import com.twasyl.slideshowfx.content.extension.link.controllers.LinkContentExtensionController;
 import com.twasyl.slideshowfx.markup.IMarkup;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static com.twasyl.slideshowfx.icons.Icon.LINK;
 
 /**
  * The LinkContentExtension extends the AbstractContentExtension. It allows to build a content containing links to insert
@@ -18,7 +19,7 @@ import java.util.logging.Logger;
  * This extension supports HTML and Textile markup languages.
  *
  * @author Thierry Wasylczenko
- * @version 1.1n
+ * @version 1.2
  * @since SlideshowFX 1.0
  */
 public class LinkContentExtension extends AbstractContentExtension {
@@ -28,7 +29,7 @@ public class LinkContentExtension extends AbstractContentExtension {
 
     public LinkContentExtension() {
         super("LINK", null,
-                FontAwesomeIcon.LINK,
+                LINK,
                 "Insert a link",
                 "Insert a link");
     }
