@@ -49,8 +49,8 @@ allprojects {
         jsoup 'org.jsoup:jsoup:1.10.2'
         markdown 'com.github.rjeschke:txtmark:0.13'
         twitter4j 'org.twitter4j:twitter4j-core:4.0.6', 'org.twitter4j:twitter4j-stream:4.0.6'
-        vertx 'io.vertx:vertx-core:3.3.3', 'io.vertx:vertx-web:3.3.3'
-        wikitext fileTree(dir: "${rootDir.absolutePath}/lib/WikiText", include: '*.jar')
+        vertx 'io.vertx:vertx-core:3.4.1', 'io.vertx:vertx-web:3.4.1'
+        wikitext 'org.eclipse.mylyn.docs:wikitext.core:3.0.6', 'org.eclipse.mylyn.docs:org.eclipse.mylyn.wikitext.textile:3.0.6'
         zxing 'com.google.zxing:core:3.3.0', 'com.google.zxing:javase:3.3.0'
 
         junit 'junit:junit:4.12'
@@ -268,8 +268,7 @@ asciidoctor {
             'apache-felix-version': "${configurations.felix.dependencies[0].version}",
             'freemarker-version': "${configurations.freemarker.dependencies[0].version}",
             'jsoup-version': "${configurations.jsoup.dependencies[0].version}",
-            'wikitext-core-version': '2.11.0.N20161225-2213',
-            'wikitext-textile-core-version': '2.11.0.N20161028-1624',
+            'wikitext-textile-core-version': "${configurations.wikitext.dependencies[0].version}",
             'twitter4j-version': "${configurations.twitter4j.dependencies[0].version}",
             'txtmark-version': "${configurations.markdown.dependencies[0].version}",
             'vertx-version': "${configurations.vertx.dependencies[0].version}",

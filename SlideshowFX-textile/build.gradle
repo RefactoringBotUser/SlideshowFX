@@ -11,7 +11,7 @@ dependencies {
 
 jar {
     from(configurations.wikitext.resolve().collect()) {
-        include '**/*.jar'
+        include '*'
     }
 
     manifest {

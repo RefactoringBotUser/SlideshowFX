@@ -1,10 +1,10 @@
 package com.twasyl.slideshowfx.markup.textile;
 
 import com.twasyl.slideshowfx.markup.AbstractMarkup;
-import org.eclipse.mylyn.wikitext.core.parser.DocumentBuilder;
-import org.eclipse.mylyn.wikitext.core.parser.MarkupParser;
-import org.eclipse.mylyn.wikitext.core.parser.builder.HtmlDocumentBuilder;
-import org.eclipse.mylyn.wikitext.textile.core.TextileLanguage;
+import org.eclipse.mylyn.wikitext.parser.DocumentBuilder;
+import org.eclipse.mylyn.wikitext.parser.MarkupParser;
+import org.eclipse.mylyn.wikitext.parser.builder.HtmlDocumentBuilder;
+import org.eclipse.mylyn.wikitext.textile.TextileLanguage;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -16,8 +16,8 @@ import java.util.logging.Logger;
  * This markup language is identified byt the code {@code TEXTILE} which is returned by {@link com.twasyl.slideshowfx.markup.IMarkup#getCode()}.
  *
  * @author Thierry Wasylczenko
- * @since SlideshowFX 1.0
  * @version 1.0
+ * @since SlideshowFX 1.0
  */
 public class TextileMarkup extends AbstractMarkup {
     private static final Logger LOGGER = Logger.getLogger(TextileMarkup.class.getName());
@@ -36,11 +36,12 @@ public class TextileMarkup extends AbstractMarkup {
      */
     @Override
     public String convertAsHtml(String markupString) throws IllegalArgumentException {
-        if(markupString == null) throw new IllegalArgumentException("Can not convert " + getName() + " to HTML : the String is null");
+        if (markupString == null)
+            throw new IllegalArgumentException("Can not convert " + getName() + " to HTML : the String is null");
 
         String result = null;
 
-        try(final StringWriter writer  = new StringWriter()) {
+        try (final StringWriter writer = new StringWriter()) {
             final DocumentBuilder builder = new HtmlDocumentBuilder(writer);
             final MarkupParser parser = new MarkupParser(new TextileLanguage(), builder);
 
