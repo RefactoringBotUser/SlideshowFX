@@ -239,6 +239,7 @@ ext {
 
 apply plugin: 'org.asciidoctor.convert'
 apply plugin: 'distribution'
+apply plugin: 'project-report'
 
 version = '@@NEXT-VERSION@@'
 
