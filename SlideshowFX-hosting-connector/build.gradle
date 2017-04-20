@@ -4,7 +4,7 @@ dependencies {
     compile project(':SlideshowFX-engines')
     compile project(':SlideshowFX-global-configuration')
 
-    testCompile configurations.junit
+    testCompile "junit:junit:$junitVersion"
 }
 
 tasks.bintrayUpload.enabled = false

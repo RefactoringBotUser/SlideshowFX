@@ -3,10 +3,10 @@ version = '1.2'
 
 dependencies {
     compile project(':SlideshowFX-content-extension')
-    compile configurations.felix
+    compile "org.apache.felix:org.apache.felix.framework:$felixVersion"
 
-    testCompile configurations.junit
-    testCompile configurations.mockito
+    testCompile "junit:junit:$junitVersion"
+    testCompile "org.mockito:mockito-core:$mockitoVersion"
     testCompile project(':SlideshowFX-markup')
     testCompile project(':SlideshowFX-html')
     testCompile project(':SlideshowFX-markdown')

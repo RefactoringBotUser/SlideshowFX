@@ -49,8 +49,8 @@ public class OSGiManager {
      * Default constructor of the class.
      */
     protected OSGiManager() {
-        this.pluginsDirectory = GlobalConfiguration.PLUGINS_DIRECTORY;
-        this.osgiCache = new File(System.getProperty("user.home") + "/.SlideshowFX/felix-cache");
+        this.pluginsDirectory = GlobalConfiguration.getPluginsDirectory();
+        this.osgiCache = new File(GlobalConfiguration.getApplicationDirectory(),"felix-cache");
     }
 
     public static final synchronized OSGiManager getInstance() {

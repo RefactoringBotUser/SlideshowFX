@@ -1,13 +1,19 @@
 description = 'Extension allowing to define slide\'s content using the mardown syntax'
 version = '1.0'
 
+configurations {
+    markdown
+}
+
 dependencies {
+    markdown "com.github.rjeschke:txtmark:$markdownVersion"
+
     compile project(':SlideshowFX-markup')
 
-    compile configurations.felix
+    compile "org.apache.felix:org.apache.felix.framework:$felixVersion"
     compile configurations.markdown
 
-    testCompile configurations.junit
+    testCompile "junit:junit:$junitVersion"
 }
 
 jar {

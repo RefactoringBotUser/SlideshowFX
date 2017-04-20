@@ -93,21 +93,35 @@ SlideshowFX contains the following modules:
 SlideshowFX uses http://www.gradle.org/[gradle] as build system. The version used is {gradle-version}. +
 The following plugins are currently used in the Gradle script:
 
-- bintray
-- java
 - asciidoctor
+- bintray
+- distribution
+- java
 
 ==== Tasks
 
 In order to build SlideshowFX, some gradle tasks have been created:
 
-- `buildJavaFXBundle` which depends on the JAR task has been created in the `SlideshowFX-app` project. This task creates the JavaFX bundle ;
 - `installMarkupPlugins` (in the root project) which copies the markup supported to the directory of plugins ;
 - `installContentExtensionPlugins` (in the root project) which copies the content extensions to the directory of plugins ;
 - `installHostingConnectorPlugins` (in the root project) which copies the hosting connectors to the directory of plugins ;
 - `installSnippetExecutor` (in the root project) which copies the snippet executors to the directory of plugins ;
 - `installAllPlugins` (in the root project) which copies all plugins to the directory of plugins ;
-- `packageSlideshowFX` (in the root project) which packages the application, markups, extensions and documentation together.
+
+==== Plugins
+
+A JavaFX plugin has been created in the project in order to properly package the application. The plugin:
+
+- adds a `javafx` closure to projects using it ;
+- adds a `copyBundleResources` task task copy the resources used for creating the bundle ;
+- adds a `bundle` task creating the bundle itself.
+
+The `javafx` closure allows:
+
+- to define the bundle base name through the `bundleBaseName` property ;
+- to specify the ant build script to use through the `antBuild` property ;
+- to specify additional ant properties through the `antProperties` property ;
+- to specify the bundle's resources through the `bundleResources` property.
 
 === Set up your environment
 

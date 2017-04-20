@@ -27,13 +27,13 @@ import java.util.jar.Manifest;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.twasyl.slideshowfx.global.configuration.GlobalConfiguration.PLUGINS_DIRECTORY;
+import static com.twasyl.slideshowfx.global.configuration.GlobalConfiguration.getPluginsDirectory;
 
 /**
  * Controller of the {@code PluginCenter.fxml} view.
  *
  * @author Thierry Wasylczenko
- * @version 1.1
+ * @version 1.2
  * @since SlideshowFX 1.1
  */
 public class PluginCenterController implements Initializable {
@@ -201,13 +201,13 @@ public class PluginCenterController implements Initializable {
                     .forEach(child -> {
                         final PluginFileButton button = (PluginFileButton) child;
 
-                        if(button.isSelected() && !button.getFile().getParentFile().equals(PLUGINS_DIRECTORY)) {
+                        if(button.isSelected() && !button.getFile().getParentFile().equals(getPluginsDirectory())) {
                             try {
                                 OSGiManager.getInstance().deployBundle(button.getFile());
                             } catch (IOException e) {
                                 LOGGER.log(Level.SEVERE, "Can not install plugin: " + button.getFile().getName(), e);
                             }
-                        } else if(!button.isSelected() && button.getFile().getParentFile().equals(PLUGINS_DIRECTORY)) {
+                        } else if(!button.isSelected() && button.getFile().getParentFile().equals(getPluginsDirectory())) {
                             try {
                                 OSGiManager.getInstance().uninstallBundle(button.getFile());
                             } catch (IOException | BundleException e) {

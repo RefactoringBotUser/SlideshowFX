@@ -7,6 +7,7 @@ import com.twasyl.slideshowfx.global.configuration.GlobalConfiguration;
 import com.twasyl.slideshowfx.hosting.connector.IHostingConnector;
 import com.twasyl.slideshowfx.osgi.OSGiManager;
 import com.twasyl.slideshowfx.server.SlideshowFXServer;
+import com.twasyl.slideshowfx.utils.DialogHelper;
 import com.twasyl.slideshowfx.utils.io.DeleteFileVisitor;
 import com.twasyl.slideshowfx.utils.time.DateTimeUtils;
 import javafx.application.Application;
@@ -50,24 +51,29 @@ public class SlideshowFX extends Application {
         // Initialize the configuration
         GlobalConfiguration.createApplicationDirectory();
 
-        if(GlobalConfiguration.createConfigurationFile()) {
-           GlobalConfiguration.fillConfigurationWithDefaultValue();
+        if (GlobalConfiguration.createConfigurationFile()) {
+            GlobalConfiguration.fillConfigurationWithDefaultValue();
         } else {
             GlobalConfiguration.fillConfigurationWithDefaultValue();
+        }
+
+        if (GlobalConfiguration.createLoggingConfigurationFile()) {
+            GlobalConfiguration.fillLoggingConfigurationFileWithDefaultValue();
+        } else {
+            GlobalConfiguration.fillLoggingConfigurationFileWithDefaultValue();
         }
 
         // Start the MarkupManager
         LOGGER.info("Starting Felix");
         OSGiManager.getInstance().startAndDeploy();
-
         // Retrieve the files to open at startup
         final Map<String, String> params = getParameters().getNamed();
-        if(params != null && !params.isEmpty()) {
+        if (params != null && !params.isEmpty()) {
             this.filesToOpen = new HashSet<>();
 
             // Only files that exist and can be read and opened are added to the list of files to open
             params.forEach((paramName, paramValue) -> {
-                if(paramName != null && (paramName.startsWith(PRESENTATION_ARGUMENT_PREFIX) ||
+                if (paramName != null && (paramName.startsWith(PRESENTATION_ARGUMENT_PREFIX) ||
                         paramName.startsWith(TEMPLATE_ARGUMENT_PREFIX))) {
 
                     final File file = new File(paramValue);
@@ -81,11 +87,11 @@ public class SlideshowFX extends Application {
 
         // Try to load parameters that are passed dynamically with just a value
         final List<String> unnamedParams = getParameters().getUnnamed();
-        if(unnamedParams != null && !unnamedParams.isEmpty()) {
+        if (unnamedParams != null && !unnamedParams.isEmpty()) {
             unnamedParams.forEach(param -> {
                 final File file = new File(param);
 
-                if((file.getName().endsWith(TemplateEngine.DEFAULT_ARCHIVE_EXTENSION) ||
+                if ((file.getName().endsWith(TemplateEngine.DEFAULT_ARCHIVE_EXTENSION) ||
                         file.getName().endsWith(PresentationEngine.DEFAULT_ARCHIVE_EXTENSION))
                         && file.exists() && file.canRead() && file.canWrite() && !this.filesToOpen.contains(file)) {
                     this.filesToOpen.add(file);
@@ -98,33 +104,38 @@ public class SlideshowFX extends Application {
     public void start(Stage stage) throws Exception {
         ((SimpleObjectProperty<Stage>) SlideshowFX.stage).set(stage);
 
-        final FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/twasyl/slideshowfx/fxml/SlideshowFX.fxml"));
-        final Parent root = loader.load();
-        ((SimpleObjectProperty<SlideshowFXController>) this.mainController).set(loader.getController());
+        try {
+            final FXMLLoader loader = new FXMLLoader();
+            final Parent root = loader.load(SlideshowFX.class.getResourceAsStream("/com/twasyl/slideshowfx/fxml/SlideshowFX.fxml"));
+            ((SimpleObjectProperty<SlideshowFXController>) this.mainController).set(loader.getController());
 
-        final Scene scene = new Scene(root);
-        ((SimpleObjectProperty<Scene>) presentationBuilderScene).set(scene);
+            final Scene scene = new Scene(root);
+            ((SimpleObjectProperty<Scene>) presentationBuilderScene).set(scene);
 
-        stage.setTitle("SlideshowFX");
-        stage.setScene(scene);
-        stage.setMaximized(true);
-        stage.getIcons().addAll(
-                new Image(SlideshowFX.class.getResourceAsStream("/com/twasyl/slideshowfx/images/appicons/16.png")),
-                new Image(SlideshowFX.class.getResourceAsStream("/com/twasyl/slideshowfx/images/appicons/32.png")),
-                new Image(SlideshowFX.class.getResourceAsStream("/com/twasyl/slideshowfx/images/appicons/64.png")),
-                new Image(SlideshowFX.class.getResourceAsStream("/com/twasyl/slideshowfx/images/appicons/128.png")),
-                new Image(SlideshowFX.class.getResourceAsStream("/com/twasyl/slideshowfx/images/appicons/256.png")),
-                new Image(SlideshowFX.class.getResourceAsStream("/com/twasyl/slideshowfx/images/appicons/512.png")));
-        stage.show();
+            stage.setTitle("SlideshowFX");
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.getIcons().addAll(
+                    new Image(SlideshowFX.class.getResourceAsStream("/com/twasyl/slideshowfx/images/appicons/16.png")),
+                    new Image(SlideshowFX.class.getResourceAsStream("/com/twasyl/slideshowfx/images/appicons/32.png")),
+                    new Image(SlideshowFX.class.getResourceAsStream("/com/twasyl/slideshowfx/images/appicons/64.png")),
+                    new Image(SlideshowFX.class.getResourceAsStream("/com/twasyl/slideshowfx/images/appicons/128.png")),
+                    new Image(SlideshowFX.class.getResourceAsStream("/com/twasyl/slideshowfx/images/appicons/256.png")),
+                    new Image(SlideshowFX.class.getResourceAsStream("/com/twasyl/slideshowfx/images/appicons/512.png")));
+            stage.show();
 
-        if(this.filesToOpen != null && !this.filesToOpen.isEmpty()) {
-            this.filesToOpen.forEach(file -> {
-                try {
-                    this.mainController.get().openTemplateOrPresentation(file);
-                } catch (IllegalAccessException | FileNotFoundException e) {
-                    LOGGER.log(Level.SEVERE, "Can not open file at startup", e);
-                }
-            });
+            if (this.filesToOpen != null && !this.filesToOpen.isEmpty()) {
+                this.filesToOpen.forEach(file -> {
+                    try {
+                        this.mainController.get().openTemplateOrPresentation(file);
+                    } catch (IllegalAccessException | FileNotFoundException e) {
+                        LOGGER.log(Level.SEVERE, "Can not open file at startup", e);
+                    }
+                });
+            }
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Can not start the application", ex);
+            DialogHelper.showError("Error", "Can not start the application");
         }
     }
 
@@ -132,10 +143,13 @@ public class SlideshowFX extends Application {
     public void stop() throws Exception {
         super.stop();
 
-        this.mainController.get().closeAllPresentations(true);
+        if (this.mainController.get() != null) {
+            this.mainController.get().closeAllPresentations(true);
 
-        deleteTemporaryFiles();
-        stopInternalServer();
+            deleteTemporaryFiles();
+            stopInternalServer();
+        }
+
         stopOSGIManager();
     }
 
@@ -143,7 +157,7 @@ public class SlideshowFX extends Application {
      * Deletes temporary files older than the configuration parameter {@link GlobalConfiguration#TEMPORARY_FILES_MAX_AGE_PARAMETER}.
      */
     private void deleteTemporaryFiles() {
-        if(GlobalConfiguration.canDeleteTemporaryFiles()) {
+        if (GlobalConfiguration.canDeleteTemporaryFiles()) {
             LOGGER.info("Cleaning temporary files");
             final File tempDirectory = new File(System.getProperty("java.io.tmpdir"));
 
@@ -166,7 +180,7 @@ public class SlideshowFX extends Application {
      * Stop the internal server if it is running.
      */
     private void stopInternalServer() {
-        if(SlideshowFXServer.getSingleton() != null) {
+        if (SlideshowFXServer.getSingleton() != null) {
             LOGGER.info("Closing the internal server");
             SlideshowFXServer.getSingleton().stop();
         }
@@ -187,14 +201,19 @@ public class SlideshowFX extends Application {
     private void stopHostingConnectors() {
         final List<IHostingConnector> connectors = OSGiManager.getInstance().getInstalledServices(IHostingConnector.class);
 
-        if(!connectors.isEmpty()) {
+        if (!connectors.isEmpty()) {
             LOGGER.info("Disconnecting from all hosting connectors");
             connectors.forEach(hostingConnector -> hostingConnector.disconnect());
         }
     }
 
-    public static ReadOnlyObjectProperty<Stage> stageProperty() { return stage; }
-    public static Stage getStage() { return stageProperty().get(); }
+    public static ReadOnlyObjectProperty<Stage> stageProperty() {
+        return stage;
+    }
+
+    public static Stage getStage() {
+        return stageProperty().get();
+    }
 
     public static void main(String[] args) {
         SlideshowFX.launch(args);

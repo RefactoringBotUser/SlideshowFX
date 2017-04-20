@@ -4,9 +4,9 @@ dependencies {
     compile project(':SlideshowFX-engines')
     compile project(':SlideshowFX-global-configuration')
 
-    compile configurations.felix
+    compile "org.apache.felix:org.apache.felix.framework:$felixVersion"
 
-    testCompile configurations.junit
+    testCompile "junit:junit:$junitVersion"
     testCompile project(':SlideshowFX-utils')
 }
 

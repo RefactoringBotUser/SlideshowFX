@@ -12,11 +12,11 @@ import java.util.logging.Logger;
 
 /**
  * This class implements the asciidoctor syntax.
- * This markup language is identified byt the code <code>ASCIIDOCTOR</code> which is returned by {@link com.twasyl.slideshowfx.markup.IMarkup#getCode()}.
+ * This markup language is identified byt the code {@code ASCIIDOCTOR} which is returned by {@link com.twasyl.slideshowfx.markup.IMarkup#getCode()}.
  *
  * @author Thierry Wasylczenko
  * @since SlideshowFX 1.0
- * @version 1.0
+ * @version 1.1
  */
 public class AsciidoctorMarkup extends AbstractMarkup {
 
@@ -34,7 +34,7 @@ public class AsciidoctorMarkup extends AbstractMarkup {
         RubyInstanceConfig config = new RubyInstanceConfig();
         config.setLoader(AsciidoctorMarkup.class.getClassLoader());
 
-        JavaEmbedUtils.initialize(Arrays.asList("META-INF/jruby.home/lib/ruby/2.0", "gems/asciidoctor-1.5.4/lib"), config);
+        JavaEmbedUtils.initialize(Arrays.asList("META-INF/jruby.home/lib/ruby/2.0", "gems/asciidoctor-1.5.5/lib"), config);
 
         this.asciidoctor = Asciidoctor.Factory.create(AsciidoctorMarkup.class.getClassLoader());
     }

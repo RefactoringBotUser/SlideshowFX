@@ -1,5 +1,3 @@
-import com.sun.javafx.PlatformUtil
-
 buildscript {
 
     repositories {
@@ -14,6 +12,126 @@ buildscript {
     }
 }
 
+class CopyBundleResourcesTask extends DefaultTask {
+
+    @TaskAction
+    def copy() {
+        if (!project.javafx.packagingResourcesFolder.exists()) {
+            project.javafx.packagingResourcesFolder.mkdirs()
+        }
+
+        project.javafx.bundleResources.each { key, value ->
+            def root =  new File(project.javafx.packagingResourcesFolder, key)
+            if (!root.exists()) {
+                root.mkdirs()
+            }
+
+            value.each { f ->
+                project.copy {
+                    from f
+                    into root
+                }
+            }
+        }
+    }
+}
+
+class CreateBundleTask extends DefaultTask {
+
+    boolean isMac() {
+        def os = System.properties.'os.name';
+        os.startsWith("Mac")
+    }
+
+    boolean isWindows() {
+        def os = System.properties.'os.name';
+        os.startsWith("Windows")
+    }
+
+    boolean isLinux() {
+        def os = System.properties.'os.name';
+        os.startsWith("Linux")
+    }
+
+    String getJDK() {
+        System.env.'JAVA_HOME'
+    }
+
+    @OutputDirectory
+    public File getBundleFile() {
+        return project.file("${project.buildDir.absolutePath}/packaging/bundles/" + getBundleName())
+    }
+
+    public String getBundleName() {
+        return "${-> project.javafx.bundleBaseName}" + ((isMac() ? ".app" : ""))
+    }
+
+
+    @TaskAction
+    def bundle() {
+        // Create the JavaFX bundle
+        project.ant.importBuild "$project.javafx.antBuild"
+        project.ant.classpath = "${getJDK()}/lib/ant-javafx.jar"
+
+        project.ant.deployOutFile = project.javafx.bundleBaseName
+        project.ant.deployOutDir = project.javafx.packagingFolder.absolutePath
+        project.ant.deployResourcesDir = project.javafx.packagingResourcesFolder.absolutePath
+
+        if (!project.javafx.antProperties.isEmpty()) {
+            logger.debug("There are additional ANT properties")
+
+            project.javafx.antProperties.each { key, value ->
+                logger.debug("Addtional ANT property $key with value $value")
+                project.ant.properties.put(key, value)
+            }
+        }
+
+        if (isMac()) {
+            logger.info("Create ${project.name} package for the OSX platform")
+            project.deployOSX.execute()
+        } else if (isWindows()) {
+            logger.info("Create ${project.name} package for the Windows platform")
+            project.deployWindows.execute()
+        } else {
+            logger.info("Create ${project.name} package an unknown platform")
+            project.deployUnknown.execute()
+        }
+
+        logger.debug("Bundle located at $bundleFile.absolutePath")
+    }
+}
+
+class JavaFXPlugin implements Plugin<Project> {
+
+
+    void apply(Project project) {
+
+        project.extensions.create("javafx", JavaFXPluginExtension)
+
+        project.tasks.create("copyBundleResources", CopyBundleResourcesTask.class)
+        project.tasks.create('bundle', CreateBundleTask.class)
+
+        project.tasks.copyBundleResources.dependsOn project.tasks.jar
+        project.tasks.copyBundleResources.outputs.upToDateWhen { false }
+        project.tasks.copyBundleResources.with { project.javafx.bundleResources }
+
+        project.tasks.bundle.dependsOn project.tasks.copyBundleResources
+        project.tasks.bundle.dependsOn project.tasks.jar
+
+        project.javafx.packagingFolder = new File(project.buildDir, "packaging")
+        project.javafx.packagingResourcesFolder = new File(project.buildDir, "packagingResources")
+    }
+}
+
+class JavaFXPluginExtension {
+    File antBuild
+    String bundleBaseName
+    Map<String, FileCollection> bundleResources = new HashMap<>()
+    Map<String, Object> antProperties = new HashMap<>();
+    File packagingFolder
+    File packagingResourcesFolder
+}
+
 allprojects {
 
     repositories {
@@ -21,43 +139,15 @@ allprojects {
         mavenCentral()
     }
 
-    configurations {
-        asciidoctorj
-        box
-        drive
-        dropbox
-        felix
-        freemarker
-        jsoup
-        markdown
-        twitter4j
-        vertx
-        wikitext
-        zxing
-
-        junit
-        mockito
-    }
-
-    dependencies {
-        asciidoctorj 'org.asciidoctor:asciidoctorj:1.5.4.1'
-        box 'com.box:box-java-sdk:2.1.1'
-        drive 'com.google.apis:google-api-services-drive:v3-rev55-1.22.0'
-        dropbox 'com.dropbox.core:dropbox-core-sdk:2.1.2'
-        felix 'org.apache.felix:org.apache.felix.framework:5.6.1'
-        freemarker 'org.freemarker:freemarker:2.3.25-incubating'
-        jsoup 'org.jsoup:jsoup:1.10.2'
-        markdown 'com.github.rjeschke:txtmark:0.13'
-        twitter4j 'org.twitter4j:twitter4j-core:4.0.6', 'org.twitter4j:twitter4j-stream:4.0.6'
-        vertx 'io.vertx:vertx-core:3.4.1', 'io.vertx:vertx-web:3.4.1'
-        wikitext 'org.eclipse.mylyn.docs:wikitext.core:3.0.6', 'org.eclipse.mylyn.docs:org.eclipse.mylyn.wikitext.textile:3.0.6'
-        zxing 'com.google.zxing:core:3.3.0', 'com.google.zxing:javase:3.3.0'
-
-        junit 'junit:junit:4.12'
-        mockito 'org.mockito:mockito-core:2.6.8'
-    }
-
     apply plugin: 'com.jfrog.bintray'
+
+    ext {
+        os = System.properties.'os.name'
+        osArch = System.properties.'os.arch'
+        isMac = os.startsWith("Mac")
+        isWindows = os.startsWith("Windows")
+        isLinux = os.startsWith("Linux")
+    }
 
     bintray {
         user =  project.findProperty('bintray_user_name') ?: System.getenv('BINTRAY_USER_NAME')
@@ -82,6 +172,11 @@ allprojects {
 
 subprojects {
     apply plugin: 'java'
+    apply plugin: 'project-report'
+
+    if(project.path == ":SlideshowFX-app" || project.path == ":SlideshowFX-setup") {
+        apply plugin: JavaFXPlugin
+    }
 
     group = "com.twasyl.slideshowfx"
 
@@ -123,10 +218,22 @@ subprojects {
 }
 
 ext {
-    allLibs = new File(rootDir, '/lib')
+    // Dependencies versions
+    asciidoctorjVersion = '1.5.5'
+    felixVersion = '5.6.1'
+    freemarkerVersion = '2.3.25-incubating'
+    jsoupVersion = '1.10.2'
+    junitVersion = '4.12'
+    markdownVersion = '0.13'
+    mockitoVersion = '2.6.8'
+    twitterVersion = '4.0.6'
+    vertxVersion = '3.4.0'
+    wikitextVersion = '3.0.6'
+    zxingVersion = '3.3.0'
+
     jdk = System.env.'JAVA_HOME'
 
-    asciidoctorMarkupBintrayUploadEnabled = false
+    asciidoctorMarkupBintrayUploadEnabled = true
     htmlMarkupBintrayUploadEnabled = false
     markdownMarkupBintrayUploadEnabled = false
     textileMarkupBintrayUploadEnabled = false
@@ -215,40 +322,31 @@ ext {
                                                  ':SlideshowFX-kotlin-executor:bintrayUpload',
                                                  ':SlideshowFX-scala-executor:bintrayUpload' ]
 
-    artifactsBundleDependencies = [ ':SlideshowFX-setup:javafx' ]
-
-    sfxAppArtifactName = "SlideshowFX" + (PlatformUtil.isMac() ? ".app" : "")
-    sfxAppArtifactFile = "${project(':SlideshowFX-app').buildDir.absolutePath}/javafx/bundles/${sfxAppArtifactName}"
-
-    sfxSetupArtifactName = "SlideshowFXSetup" + (PlatformUtil.isMac() ? ".app" : "")
-    sfxSetupArtifactFile = "${project(':SlideshowFX-setup').buildDir.absolutePath}/javafx/bundles/${sfxSetupArtifactName}"
-
-    packagingSuffix = "-"
-    if(PlatformUtil.isMac()) {
+    packagingSuffix = ""
+    if(isMac) {
         packagingSuffix += "osx"
-    } else if(PlatformUtil.isWindows()) {
+    } else if(isWindows) {
         packagingSuffix += "windows"
-    } else if(PlatformUtil.isLinux()) {
+    } else if(isLinux) {
         packagingSuffix += "unix"
     } else {
         packagingSuffix += "generic"
     }
 
-    packagingSuffix += "-" + System.getProperty("os.arch");
+    packagingSuffix += "-$osArch"
 }
 
 apply plugin: 'org.asciidoctor.convert'
 apply plugin: 'distribution'
-apply plugin: 'project-report'
 
 version = '@@NEXT-VERSION@@'
 
 wrapper {
-    gradleVersion = '3.4.1'
+    gradleVersion = '3.5'
 }
 
 asciidoctorj {
-    version = '1.5.4'
+    version = '1.5.5'
 }
 
 asciidoctor {
@@ -262,80 +360,86 @@ asciidoctor {
             linkcss: false,
             'slideshowfx_version': project.version,
             'asciidoctor-source': new File(project(':SlideshowFX-app').projectDir, 'src/main/resources/com/twasyl/slideshowfx/documentation').absolutePath,
-            'javafx-version': '8 update 121',
-            'jdk-version': '8 update 121',
+            'javafx-version': '8 update 131',
+            'jdk-version': '8 update 131',
             'gradle-version': "${wrapper.gradleVersion}",
-            'asciidoctorj-version': "${configurations.asciidoctorj.dependencies[0].version}",
-            'apache-felix-version': "${configurations.felix.dependencies[0].version}",
-            'freemarker-version': "${configurations.freemarker.dependencies[0].version}",
-            'jsoup-version': "${configurations.jsoup.dependencies[0].version}",
-            'wikitext-textile-core-version': "${configurations.wikitext.dependencies[0].version}",
-            'twitter4j-version': "${configurations.twitter4j.dependencies[0].version}",
-            'txtmark-version': "${configurations.markdown.dependencies[0].version}",
-            'vertx-version': "${configurations.vertx.dependencies[0].version}",
-            'zxing-core-version': "${configurations.zxing.dependencies[0].version}",
-            'zxing-jse-version': "${configurations.zxing.dependencies[1].version}",
+            'asciidoctorj-version': "$asciidoctorjVersion",
+            'apache-felix-version': "$felixVersion",
+            'freemarker-version': "$freemarkerVersion",
+            'jsoup-version': "$jsoupVersion",
+            'wikitext-textile-core-version': "$wikitextVersion",
+            'twitter4j-version': "$twitterVersion",
+            'txtmark-version': "$markdownVersion",
+            'vertx-version': "$vertxVersion",
+            'zxing-core-version': "$zxingVersion",
+            'zxing-jse-version': "$zxingVersion",
             'ace-version': '1.2.6'
     ]
 }
 
-task installMarkupPlugins(dependsOn: markupJarDependencies) << {
+task installMarkupPlugins(dependsOn: markupJarDependencies) {
+    doLast {
+        copy {
+            from(markupJars)
 
-    copy {
-        from (markupJars)
-
-        into pluginsFolder
+            into pluginsFolder
+        }
     }
 }
 
-task installContentExtensionPlugins(dependsOn: contentExtensionJarDependencies) << {
+task installContentExtensionPlugins(dependsOn: contentExtensionJarDependencies) {
+    doLast {
+        copy {
+            from(contentExtensionJars)
 
-    copy {
-        from (contentExtensionJars)
-
-        into pluginsFolder
+            into pluginsFolder
+        }
     }
 }
 
-task installHostingConnectorPlugins(dependsOn : hostingConnectorJarDependencies) << {
-    copy {
-        from (hostingConnectorJars)
+task installHostingConnectorPlugins(dependsOn : hostingConnectorJarDependencies) {
+    doLast {
+        copy {
+            from(hostingConnectorJars)
 
-        into pluginsFolder
+            into pluginsFolder
+        }
     }
 }
 
-task installSnippetExecutorPlugins(dependsOn : snippetExecutorJarDependencies) << {
-    copy {
-        from (snippetExecutorJars)
+task installSnippetExecutorPlugins(dependsOn : snippetExecutorJarDependencies) {
+    doLast {
+        copy {
+            from(snippetExecutorJars)
 
-        into pluginsFolder
+            into pluginsFolder
+        }
     }
 }
 
 task installAllPlugins(dependsOn: [ ':installMarkupPlugins', ':installContentExtensionPlugins',
-                                    ':installHostingConnectorPlugins', ':installSnippetExecutorPlugins']) << {
+                                    ':installHostingConnectorPlugins', ':installSnippetExecutorPlugins']) {
 }
 
-task publishAllMarkup(dependsOn : markupBintrayUploadDependencies ) << {
+task publishAllMarkup(dependsOn : markupBintrayUploadDependencies ) {
 }
 
-task publishAllContentExtension(dependsOn: contentExtensionBintrayUploadDependencies) << {
+task publishAllContentExtension(dependsOn: contentExtensionBintrayUploadDependencies) {
 
 }
-task publishAllHostingConnector(dependsOn : hostingConnectorBintrayUploadDependencies) << {
+task publishAllHostingConnector(dependsOn : hostingConnectorBintrayUploadDependencies) {
 }
 
-task publishAllSnippetExecutor(dependsOn : snippetExecutorBintrayUploadDependencies) << {
+task publishAllSnippetExecutor(dependsOn : snippetExecutorBintrayUploadDependencies) {
 }
 
-task publishAllToBintray (dependsOn : ['publishAllMarkup', 'publishAllContentExtension', 'publishAllHostingConnector',
-                                       'publishAllSnippetExecutor']) << {
+task publishAllToBintray(dependsOn : ['publishAllMarkup', 'publishAllContentExtension', 'publishAllHostingConnector',
+                                       'publishAllSnippetExecutor']) {
 }
 
 distributions {
     main {
-        baseName = "SlideshowFX"
+        baseName = "SlideshowFX-${packagingSuffix}"
         contents {
             // Documentation
             into('documentations/html') {
@@ -349,14 +453,14 @@ distributions {
                 }
             }
 
-            into (sfxSetupArtifactName) {
-                from fileTree(dir: sfxSetupArtifactFile)
+            into({-> project(':SlideshowFX-setup').bundle.getBundleName() }) {
+                from project(':SlideshowFX-setup').bundle
             }
         }
     }
 }
 
-tasks.distZip.dependsOn = artifactsBundleDependencies
+tasks.distZip.dependsOn = [ 'asciidoctor', ':SlideshowFX-setup:bundle' ]
 tasks.distTar.enabled = false
 
 bintray {

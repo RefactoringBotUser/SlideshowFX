@@ -5,7 +5,7 @@ dependencies {
     compile project(':SlideshowFX-utils')
     compile project(':SlideshowFX-content-extension')
 
-    compile configurations.freemarker
+    compile "org.freemarker:freemarker:$freemarkerVersion"
 }
 
 tasks.bintrayUpload.enabled = false

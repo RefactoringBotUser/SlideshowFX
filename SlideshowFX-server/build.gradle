@@ -2,10 +2,10 @@ version = '1.0'
 
 dependencies {
     compile project(':SlideshowFX-engines')
-    compile configurations.twitter4j
-    compile configurations.vertx
+    compile "org.twitter4j:twitter4j-core:$twitterVersion", "org.twitter4j:twitter4j-stream:$twitterVersion"
+    compile "io.vertx:vertx-core:$vertxVersion", "io.vertx:vertx-web:$vertxVersion"
 
-    testCompile configurations.junit
+    testCompile "junit:junit:$junitVersion"
 }
 
 tasks.bintrayUpload.enabled = false

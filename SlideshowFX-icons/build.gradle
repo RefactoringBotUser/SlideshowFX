@@ -1,7 +1,7 @@
 version = '1.0'
 
 dependencies {
-    compile configurations.junit
+    compile "junit:junit:$junitVersion"
 }
 
 tasks.bintrayUpload.enabled = false

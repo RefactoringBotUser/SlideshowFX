@@ -3,7 +3,7 @@ version = '1.0'
 
 dependencies {
     compile project(':SlideshowFX-snippet-executor')
-    compile configurations.felix
+    compile "org.apache.felix:org.apache.felix.framework:$felixVersion"
 }
 
 jar {

@@ -19,7 +19,7 @@ import java.util.ResourceBundle;
  *
  * @author Thierry Wasylczenko
  * @since SlideshowFX 1.0
- * @version 1.0
+ * @version 1.1
  */
 public class InstallationLocationViewController implements Initializable {
 
@@ -70,7 +70,7 @@ public class InstallationLocationViewController implements Initializable {
         String defaultLocation;
 
         if(PlatformUtil.isWindows()) {
-            defaultLocation = System.getenv("ProgramFiles");
+            defaultLocation = System.getenv("APPDATALOCAL");
         } else if(PlatformUtil.isMac()) {
             defaultLocation = "/Applications";
         } else {

@@ -1,5 +1,3 @@
-import com.sun.javafx.PlatformUtil
-
 version = '@@NEXT-VERSION@@'
 
 dependencies {
@@ -16,16 +14,12 @@ dependencies {
     compile project(':SlideshowFX-markup')
     compile project(':SlideshowFX-snippet-executor')
 
-    compile configurations.asciidoctorj
-    compile configurations.felix
-    compile configurations.freemarker
-    compile configurations.jsoup
-    compile configurations.twitter4j
-    compile configurations.vertx
-    compile configurations.zxing
+    compile "org.asciidoctor:asciidoctorj:$asciidoctorjVersion"
+    compile "org.apache.felix:org.apache.felix.framework:$felixVersion"
+    compile "com.google.zxing:core:$zxingVersion", "com.google.zxing:javase:$zxingVersion"
 
-    testCompile configurations.junit
-    testCompile configurations.mockito
+    testCompile "junit:junit:$junitVersion"
+    testCompile "org.mockito:mockito-core:$mockitoVersion"
 }
 
 jar {
@@ -45,37 +39,11 @@ test {
     jvmArgs "-DtestResultsDir=${testResultsDir.absolutePath}"
 }
 
-task javafx(dependsOn: [ 'jar' ]) << {
-    def javafxFolder = new File(buildDir, 'javafx')
-    def resourcesFolder = new File(buildDir, "resources")
-
-    // Create the JavaFX bundle
-    ant.importBuild "${rootDir.absolutePath}/src/main/resources/javafx/${project.name}.xml"
-    ant.classpath = "${jdk}/lib/ant-javafx.jar"
-
-    ant.deployOutDir = javafxFolder.absolutePath
-    ant.deployResourcesDir = resourcesFolder.absolutePath
-
-    // Copy libs
-    copy {
-        from project.configurations.compile
-        from project.jar.archivePath
-
-        into(resourcesFolder)
-    }
-
-    if(PlatformUtil.isMac()) {
-        println "Create ${project.name} package for the OSX platform"
-        deployOSX.execute()
-    } else if(PlatformUtil.isWindows()) {
-        println "Create ${project.name} package for the Windows platform"
-        deployWindows.execute()
-    } else {
-        println "Create ${project.name} package an unknown platform"
-        deployUnknown.execute()
-    }
-
-    resourcesFolder.deleteDir()
+javafx {
+    bundleBaseName = "SlideshowFX"
+    antBuild = file("${rootDir.absolutePath}/src/main/resources/javafx/${project.name}.xml")
+    bundleResources.put('.', files(project.jar, project.configurations.compile))
+    antProperties.put('loggingConfigFile', '~/.SlideshowFX/logging.config')
 }
 
 tasks.bintrayUpload.enabled = false

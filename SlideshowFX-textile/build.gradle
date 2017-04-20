@@ -1,12 +1,19 @@
 description = 'Extension allowing to define slide\'s content using the textile syntax'
 version = '1.1'
 
+configurations {
+    wikitext
+}
+
 dependencies {
+    wikitext "org.eclipse.mylyn.docs:wikitext.core:$wikitextVersion", "org.eclipse.mylyn.docs:org.eclipse.mylyn.wikitext.textile:$wikitextVersion"
+
     compile project(':SlideshowFX-markup')
-    compile configurations.felix
+
+    compile "org.apache.felix:org.apache.felix.framework:$felixVersion"
     compile configurations.wikitext
 
-    testCompile configurations.junit
+    testCompile "junit:junit:$junitVersion"
 }
 
 jar {

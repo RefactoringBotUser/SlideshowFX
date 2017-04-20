@@ -2,11 +2,11 @@ version = '1.1'
 
 dependencies {
     compile project(':SlideshowFX-global-configuration')
-    compile configurations.freemarker
-    compile configurations.jsoup
-    compile configurations.vertx
+    compile "org.freemarker:freemarker:$freemarkerVersion"
+    compile "org.jsoup:jsoup:$jsoupVersion"
+    compile "io.vertx:vertx-core:$vertxVersion", "io.vertx:vertx-web:$vertxVersion"
 
-    testCompile configurations.junit
+    testCompile "junit:junit:$junitVersion"
 }
 
 test {

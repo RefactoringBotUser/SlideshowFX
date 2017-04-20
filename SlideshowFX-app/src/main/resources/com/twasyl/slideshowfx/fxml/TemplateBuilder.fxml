@@ -10,8 +10,8 @@
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.twasyl.slideshowfx.controllers.TemplateBuilderController"
             prefHeight="700" prefWidth="1024">
     <stylesheets>
-        <URL value="@../css/Default.css" />
-        <URL value="@../css/TemplateBuilder.css" />
+        <URL value="@/com/twasyl/slideshowfx/css/Default.css" />
+        <URL value="@/com/twasyl/slideshowfx/css/TemplateBuilder.css" />
     </stylesheets>
 
     <fx:define>

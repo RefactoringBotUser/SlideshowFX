@@ -1,5 +1,3 @@
-import com.sun.javafx.PlatformUtil
-
 version = '1.1'
 
 dependencies {
@@ -8,7 +6,7 @@ dependencies {
     compile project(':SlideshowFX-ui-controls')
     compile project(':SlideshowFX-utils')
 
-    testCompile configurations.junit
+    testCompile "junit:junit:$junitVersion"
 }
 
 jar {
@@ -22,82 +20,27 @@ jar {
     }
 }
 
-task javafx(dependsOn: [ 'jar', ':SlideshowFX-app:javafx',  ':asciidoctor' ] + markupJarDependencies + contentExtensionJarDependencies +
-                         hostingConnectorJarDependencies + snippetExecutorJarDependencies) << {
-    def javafxFolder = new File(buildDir, 'javafx')
-    def resourcesFolder = new File(buildDir, "resources")
+javafx {
+    bundleBaseName = "SlideshowFXSetup"
+    antBuild = file("${rootDir.absolutePath}/src/main/resources/javafx/${project.name}.xml")
 
-    // Create the JavaFX bundle
-    ant.importBuild "${rootDir.absolutePath}/src/main/resources/javafx/${project.name}.xml"
-    ant.classpath = "${jdk}/lib/ant-javafx.jar"
-    ant.applicationVersion = project(':SlideshowFX-app').version
+    antProperties.put('applicationVersion', project(':SlideshowFX-app').version)
 
-    ant.deployOutDir = javafxFolder.absolutePath
-    ant.deployResourcesDir = resourcesFolder.absolutePath
-
-    // Copy the application artifact
-    copy {
-        from fileTree(dir: sfxAppArtifactFile)
-        into "${resourcesFolder.absolutePath}/package/${sfxAppArtifactName}"
-    }
-
-    def pluginsFolder = "${resourcesFolder.absolutePath}/package/plugins"
-
-    // Copy the plugins
-    copy {
-        from (markupJars)
-        into "${pluginsFolder}/markups"
-    }
-    copy {
-        from (contentExtensionJars)
-        into "${pluginsFolder}/extensions"
-    }
-    copy {
-        from (snippetExecutorJars)
-        into "${pluginsFolder}/executors"
-    }
-    copy {
-        from (hostingConnectorJars)
-        into "${pluginsFolder}/hostingConnectors"
-    }
-
-    // Documentation
-    copy {
-        from("${rootProject.tasks.asciidoctor.outputDir}/html5") {
-            include '*'
-        }
-        into "${resourcesFolder.absolutePath}/package/documentations/html"
-    }
-    copy {
-        from("${rootProject.tasks.asciidoctor.outputDir}/pdf") {
-            include '*.pdf'
-        }
-        into "${resourcesFolder.absolutePath}/package/documentations/pdf"
-    }
-
-    // Copy libs
-    copy {
-        from project(':SlideshowFX-global-configuration').jar.archivePath
-        from project(':SlideshowFX-icons').jar.archivePath
-        from project(':SlideshowFX-ui-controls').jar.archivePath
-        from project(':SlideshowFX-utils').jar.archivePath
-        from project.jar.archivePath
-
-        into(resourcesFolder)
-    }
-
-    if(PlatformUtil.isMac()) {
-        println "Create ${project.name} package for the OSX platform"
-        deployOSX.execute()
-    } else if(PlatformUtil.isWindows()) {
-        println "Create ${project.name} package for the Windows platform"
-        deployWindows.execute()
-    } else {
-        println "Create ${project.name} package an unknown platform"
-        deployUnknown.execute()
-    }
-
-    resourcesFolder.deleteDir()
+    bundleResources.put('package/documentations/html', fileTree(dir: "${rootProject.tasks.asciidoctor.outputDir}/html5", include: '*'))
+    bundleResources.put('package/documentations/pdf', fileTree(dir: "${rootProject.tasks.asciidoctor.outputDir}/pdf", include: '*.pdf'))
+    bundleResources.put('package/' + project(':SlideshowFX-app').bundle.bundleFile.name, project(':SlideshowFX-app').bundle)
+    bundleResources.put('package/plugins/markups', markupJars)
+    bundleResources.put('package/plugins/extensions', contentExtensionJars)
+    bundleResources.put('package/plugins/executors', snippetExecutorJars)
+    bundleResources.put('package/plugins/hostingConnectors', hostingConnectorJars)
+    bundleResources.put('.', files(project(':SlideshowFX-global-configuration').jar, project(':SlideshowFX-icons').jar, project(':SlideshowFX-ui-controls').jar, project(':SlideshowFX-utils').jar, project.jar))
 }
+
+tasks.bundle.dependsOn project(':SlideshowFX-app').bundle
+tasks.copyBundleResources.dependsOn markupJarDependencies
+tasks.copyBundleResources.dependsOn contentExtensionJarDependencies
+tasks.copyBundleResources.dependsOn hostingConnectorJarDependencies
+tasks.copyBundleResources.dependsOn snippetExecutorJarDependencies
+tasks.copyBundleResources.dependsOn rootProject.tasks.asciidoctor
 
 tasks.bintrayUpload.enabled = false

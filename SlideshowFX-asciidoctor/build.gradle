@@ -1,16 +1,23 @@
 description = 'Snippet executor allowing to define slide\'s content using the asciidoctor syntax'
-version = '1.0'
+version = '1.1'
+
+configurations {
+    asciidoctor
+}
 
 dependencies {
-    compile project(':SlideshowFX-markup')
-    compile configurations.felix
-    compile configurations.asciidoctorj
+    asciidoctor "org.asciidoctor:asciidoctorj:$asciidoctorjVersion"
 
-    testCompile configurations.junit
+    compile project(':SlideshowFX-markup')
+
+    compile "org.apache.felix:org.apache.felix.framework:$felixVersion"
+    compile configurations.asciidoctor
+
+    testCompile "junit:junit:$junitVersion"
 }
 
 jar {
-    from(configurations.asciidoctorj.resolve().collect()) {
+    from(configurations.asciidoctor.resolve().collect()) {
         include '*'
     }
 
@@ -22,7 +29,7 @@ jar {
                 'Bundle-Description': 'Support asciidoctor for defining slide\'s content',
                 'Bundle-Version': "$project.version",
                 'Bundle-Activator': 'com.twasyl.slideshowfx.markup.asciidoctor.activator.AsciidoctorActivator',
-                'Bundle-ClassPath': configurations.asciidoctorj.resolve().collect { artifact -> artifact.name }.join(',').concat(',.'),
+                'Bundle-ClassPath': configurations.asciidoctor.resolve().collect { artifact -> artifact.name }.join(',').concat(',.'),
                 'Bundle-Vendor': 'Thierry Wasylczenko',
                 'Export-Package': 'com.twasyl.slideshowfx.markup.asciidoctor,com.twasyl.slideshowfx.markup.asciidoctor.activator',
                 'Import-Package': 'org.osgi.framework',

@@ -1,5 +1,6 @@
 package com.twasyl.slideshowfx.setup.step;
 
+import com.twasyl.slideshowfx.global.configuration.GlobalConfiguration;
 import com.twasyl.slideshowfx.setup.controllers.InstallationLocationViewController;
 import com.twasyl.slideshowfx.setup.exceptions.SetupStepException;
 import com.twasyl.slideshowfx.utils.ResourceHelper;

@@ -17,15 +17,17 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static com.twasyl.slideshowfx.global.configuration.GlobalConfiguration.getPluginsDirectory;
+
 /**
  * A step allowing to choose which plugins should be installed.
  * During the {@link #execute()} method, all plugins selected by the user are copied within the SlideshowFX
- * configuration directory identified by the {@link GlobalConfiguration#PLUGINS_DIRECTORY}.
+ * configuration directory identified by the {@link GlobalConfiguration#getPluginsDirectory()}.
  * During the {@link #rollback()} method, all installed plugins are removed.
  *
  * @author Thierry Wasylczenko
  * @since SlideshowFX 1.0
- * @version 1.0
+ * @version 1.1
  */
 public class PluginsStep extends AbstractSetupStep {
     private static final Logger LOGGER = Logger.getLogger(PluginsStep.class.getName());
@@ -68,7 +70,7 @@ public class PluginsStep extends AbstractSetupStep {
 
             pluginsToInstall.forEach(plugin -> {
                 try {
-                    final Path destination = new File(GlobalConfiguration.PLUGINS_DIRECTORY, plugin.getName()).toPath();
+                    final Path destination = new File(getPluginsDirectory(), plugin.getName()).toPath();
                     Files.copy(plugin.toPath(),destination, StandardCopyOption.REPLACE_EXISTING);
                 } catch (IOException e) {
                     LOGGER.log(Level.SEVERE, "Can not copy plugin to plugins directory", e);
@@ -88,7 +90,7 @@ public class PluginsStep extends AbstractSetupStep {
 
             if(this.pluginsDirectoryCreatedDuringSetup) {
                 try {
-                    IOUtils.deleteDirectory(GlobalConfiguration.PLUGINS_DIRECTORY);
+                    IOUtils.deleteDirectory(getPluginsDirectory());
                 } catch (IOException e) {
                     throw new SetupStepException("Can not delete plugins directory", e);
                 }
@@ -96,7 +98,7 @@ public class PluginsStep extends AbstractSetupStep {
 
             if(this.applicationDirectoryCreatedDuringSetup) {
                 try {
-                    IOUtils.deleteDirectory(GlobalConfiguration.APPLICATION_DIRECTORY);
+                    IOUtils.deleteDirectory(GlobalConfiguration.getApplicationDirectory());
                 } catch (IOException e) {
                     throw new SetupStepException("Can not delete application configuration directory", e);
                 }

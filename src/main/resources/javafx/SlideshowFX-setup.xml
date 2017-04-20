@@ -6,7 +6,7 @@
                  uri="javafx:com.sun.javafx.tools.ant"
                  classpath=".:${classpath}"/>
 
-        <fx:deploy nativeBundles="image" outdir="${deployOutDir}" outfile="SlideshowFXSetup">
+        <fx:deploy nativeBundles="image" outdir="${deployOutDir}" outfile="${deployOutFile}">
             <fx:application name="SlideshowFXSetup"
                             mainClass="com.twasyl.slideshowfx.setup.app.SlideshowFXSetup"
                             fallbackClass="com.javafx.main.NoJavaFXFallback">
@@ -38,7 +38,7 @@
                  uri="javafx:com.sun.javafx.tools.ant"
                  classpath=".:${classpath}"/>
 
-        <fx:deploy nativeBundles="all" outdir="${deployOutDir}" outfile="SlideshowFXSetup">
+        <fx:deploy nativeBundles="all" outdir="${deployOutDir}" outfile="${deployOutFile}">
             <fx:application name="SlideshowFXSetup"
                             mainClass="com.twasyl.slideshowfx.setup.app.SlideshowFXSetup"
                             fallbackClass="com.javafx.main.NoJavaFXFallback">
@@ -70,7 +70,7 @@
                  uri="javafx:com.sun.javafx.tools.ant"
                  classpath=".:${classpath}"/>
 
-        <fx:deploy nativeBundles="all" outdir="${deployOutDir}" outfile="SlideshowFXSetup">
+        <fx:deploy nativeBundles="all" outdir="${deployOutDir}" outfile="${deployOutFile}">
             <fx:application name="SlideshowFXSetup"
                             mainClass="com.twasyl.slideshowfx.setup.app.SlideshowFXSetup"
                             fallbackClass="com.javafx.main.NoJavaFXFallback">

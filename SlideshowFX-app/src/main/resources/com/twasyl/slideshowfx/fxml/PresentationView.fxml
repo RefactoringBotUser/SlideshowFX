@@ -11,7 +11,7 @@
 <?import java.net.URL?>
 <SplitPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.twasyl.slideshowfx.controllers.PresentationViewController">
     <stylesheets>
-        <URL value="@../css/Default.css" />
+        <URL value="@/com/twasyl/slideshowfx/css/Default.css" />
     </stylesheets>
 
     <fx:define>
@@ -27,7 +27,7 @@
                 </tooltip>
                 <graphic>
                     <ImageView fitHeight="$TOOLBAR_ICON_HEIGHT" fitWidth="$TOOLBAR_ICON_WIDTH">
-                        <Image url="@../images/function.png" />
+                        <Image url="@/com/twasyl/slideshowfx/images/function.png" />
                     </ImageView>
                 </graphic>
             </Button>

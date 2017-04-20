@@ -5,8 +5,6 @@ dependencies {
     compile project(':SlideshowFX-plugin')
     compile project(':SlideshowFX-ui-controls')
     compile project(':SlideshowFX-utils')
-
-    compile configurations.vertx
 }
 
 tasks.bintrayUpload.enabled = false
