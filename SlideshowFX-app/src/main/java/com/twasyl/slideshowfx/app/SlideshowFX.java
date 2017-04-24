@@ -50,6 +50,7 @@ public class SlideshowFX extends Application {
     public void init() throws Exception {
         // Initialize the configuration
         GlobalConfiguration.createApplicationDirectory();
+        GlobalConfiguration.createTemplateLibraryDirectory();
 
         if (GlobalConfiguration.createConfigurationFile()) {
             GlobalConfiguration.fillConfigurationWithDefaultValue();
@@ -58,8 +59,6 @@ public class SlideshowFX extends Application {
         }
 
         if (GlobalConfiguration.createLoggingConfigurationFile()) {
-            GlobalConfiguration.fillLoggingConfigurationFileWithDefaultValue();
-        } else {
             GlobalConfiguration.fillLoggingConfigurationFileWithDefaultValue();
         }
 

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.VBox?>
+<?import java.lang.Double?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.web.WebView?>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.twasyl.slideshowfx.controllers.TemplateChooserController"
+      spacing="20" alignment="CENTER">
+
+    <fx:define>
+        <Double fx:id="GRID_SPACING" fx:value="5" />
+        <Double fx:id="PADDING" fx:value="10" />
+        <Double fx:id="TILE_PANE_HEIGHT" fx:value="450" />
+        <Double fx:id="TILE_PANE_WIDTH" fx:value="450" />
+    </fx:define>
+
+    <padding>
+        <Insets top="$PADDING" right="$PADDING" bottom="$PADDING" left="$PADDING" />
+    </padding>
+
+    <Button fx:id="importNewTemplate" text="Import new template" onAction="#importNewTemplate"
+            onDragOver="#dragFilesOverImportButton"
+            onDragDropped="#dropFileOverImportButton" />
+
+    <SplitPane>
+        <ScrollPane minWidth="$TILE_PANE_WIDTH">
+            <TilePane fx:id="templates" hgap="${GRID_SPACING}" vgap="${GRID_SPACING}" prefColumns="5" />
+        </ScrollPane>
+
+        <WebView fx:id="overview" minWidth="100"/>
+    </SplitPane>
+</VBox>

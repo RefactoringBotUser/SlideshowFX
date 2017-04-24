@@ -70,7 +70,7 @@ public class InstallationLocationViewController implements Initializable {
         String defaultLocation;
 
         if(PlatformUtil.isWindows()) {
-            defaultLocation = System.getenv("APPDATALOCAL");
+            defaultLocation = System.getenv("LOCALAPPDATA");
         } else if(PlatformUtil.isMac()) {
             defaultLocation = "/Applications";
         } else {

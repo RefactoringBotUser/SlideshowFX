@@ -23,8 +23,7 @@
                 <fx:jvmarg value="-Xms512m" />
                 <fx:jvmarg value="-Xmx2048m" />
                 <fx:jvmarg value="-Dfile.encoding=UTF-8" />
-                <fx:jvmarg value="-Djavafx.preloader=com.twasyl.slideshowfx.app.SlideshowFXPreloader"/>
-                <fx:jvmarg value="-Djava.util.logging.config.file=${loggingConfigFile}" />
+                <fx:jvmarg value="-Djava.util.logging.config.file=@@LOGGING_CONFIGURATION_FILE@@" />
             </fx:platform>
 
             <fx:resources>
@@ -55,8 +54,7 @@
                 <fx:jvmarg value="-Xms512m" />
                 <fx:jvmarg value="-Xmx2048m" />
                 <fx:jvmarg value="-Dfile.encoding=UTF-8" />
-                <fx:jvmarg value="-Djavafx.preloader=com.twasyl.slideshowfx.app.SlideshowFXPreloader"/>
-                <fx:jvmarg value="-Djava.util.logging.config.file=${loggingConfigFile}" />
+                <fx:jvmarg value="-Djava.util.logging.config.file=@@LOGGING_CONFIGURATION_FILE@@" />
             </fx:platform>
 
             <fx:resources>
@@ -90,8 +88,7 @@
                 <fx:jvmarg value="-Xms512m" />
                 <fx:jvmarg value="-Xmx2048m" />
                 <fx:jvmarg value="-Dfile.encoding=UTF-8" />
-                <fx:jvmarg value="-Djavafx.preloader=com.twasyl.slideshowfx.app.SlideshowFXPreloader"/>
-                <fx:jvmarg value="-Djava.util.logging.config.file=$HOME/.SlideshowFX/logging.config" />
+                <fx:jvmarg value="-Djava.util.logging.config.file=@@LOGGING_CONFIGURATION_FILE@@" />
             </fx:platform>
 
             <fx:resources>

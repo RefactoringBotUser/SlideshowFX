@@ -172,19 +172,46 @@ public class SlideshowFXController implements Initializable {
      * @param event the event that triggered the call.
      */
     @FXML private void loadTemplate(ActionEvent event) {
-        FileChooser chooser = new FileChooser();
-        chooser.getExtensionFilters().add(SlideshowFXExtensionFilter.TEMPLATE_FILTER);
-        File templateFile = chooser.showOpenDialog(null);
+        final FXMLLoader loader = new FXMLLoader();
+        try {
+            final Parent parent = loader.load(SlideshowFXController.class.getResourceAsStream("/com/twasyl/slideshowfx/fxml/TemplateChooser.fxml"));
+            TemplateChooserController controller = loader.getController();
 
-        if (templateFile != null) {
-            try {
-                this.openTemplateOrPresentation(templateFile);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+            final ButtonType answer = DialogHelper.showCancellableDialog("New presentation", parent);
+            controller.dispose();
+
+            if (answer == ButtonType.OK) {
+                final File chosenTemplate = controller.getChosenTemplate();
+
+                if (chosenTemplate != null) {
+                    final File copy = new File(GlobalConfiguration.getTemplateLibraryDirectory(), chosenTemplate.getName());
+
+                    if (!copy.exists()) {
+                        Files.copy(chosenTemplate.toPath(), copy.toPath());
+                    }
+
+                    this.openTemplateOrPresentation(chosenTemplate);
+                }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
+
+//        FileChooser chooser = new FileChooser();
+//        chooser.getExtensionFilters().add(SlideshowFXExtensionFilter.TEMPLATE_FILTER);
+//        File templateFile = chooser.showOpenDialog(null);
+//
+//        if (templateFile != null) {
+//            try {
+//                this.openTemplateOrPresentation(templateFile);
+//            } catch (IllegalAccessException e) {
+//                e.printStackTrace();
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     /**

@@ -43,7 +43,6 @@ javafx {
     bundleBaseName = "SlideshowFX"
     antBuild = file("${rootDir.absolutePath}/src/main/resources/javafx/${project.name}.xml")
     bundleResources.put('.', files(project.jar, project.configurations.compile))
-    antProperties.put('loggingConfigFile', '~/.SlideshowFX/logging.config')
 }
 
 tasks.bintrayUpload.enabled = false

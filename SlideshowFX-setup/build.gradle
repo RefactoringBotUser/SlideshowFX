@@ -1,8 +1,9 @@
-version = '1.1'
+version = '1.2'
 
 dependencies {
     compile project(':SlideshowFX-global-configuration')
     compile project(':SlideshowFX-icons')
+    compile project(':SlideshowFX-logs')
     compile project(':SlideshowFX-ui-controls')
     compile project(':SlideshowFX-utils')
 
@@ -33,7 +34,7 @@ javafx {
     bundleResources.put('package/plugins/extensions', contentExtensionJars)
     bundleResources.put('package/plugins/executors', snippetExecutorJars)
     bundleResources.put('package/plugins/hostingConnectors', hostingConnectorJars)
-    bundleResources.put('.', files(project(':SlideshowFX-global-configuration').jar, project(':SlideshowFX-icons').jar, project(':SlideshowFX-ui-controls').jar, project(':SlideshowFX-utils').jar, project.jar))
+    bundleResources.put('.', files(project(':SlideshowFX-global-configuration').jar, project(':SlideshowFX-logs').jar, project(':SlideshowFX-icons').jar, project(':SlideshowFX-ui-controls').jar, project(':SlideshowFX-utils').jar, project.jar))
 }
 
 tasks.bundle.dependsOn project(':SlideshowFX-app').bundle

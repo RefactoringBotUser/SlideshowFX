@@ -8,9 +8,11 @@ import com.twasyl.slideshowfx.utils.io.CopyFileVisitor;
 import com.twasyl.slideshowfx.utils.io.DeleteFileVisitor;
 import javafx.fxml.FXMLLoader;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A step allowing to choose the installation location of the application.
@@ -18,8 +20,8 @@ import java.nio.file.Files;
  * During the {@link #rollback()} method, the application will be removed from the chosen location.
  *
  * @author Thierry Wasylczenko
+ * @version 1.1
  * @since SlideshowFX 1.0
- * @version 1.0
  */
 public class InstallationLocationStep extends AbstractSetupStep {
 
@@ -31,8 +33,9 @@ public class InstallationLocationStep extends AbstractSetupStep {
 
     /**
      * Create an instance of the step.
-     * @param appName The name of the application.
-     * @param appVersion The version of the application.
+     *
+     * @param appName             The name of the application.
+     * @param appVersion          The version of the application.
      * @param applicationArtifact The file or directory containing the application.
      */
     public InstallationLocationStep(final String appName, final String appVersion, final File applicationArtifact, final File documentationsFolder) {
@@ -59,31 +62,51 @@ public class InstallationLocationStep extends AbstractSetupStep {
         final String originalLocation = ((InstallationLocationViewController) this.controller).getLocation().replaceAll("\\\\", "/");
         installationLocation = new File(originalLocation);
 
-        if(!installationLocation.exists()) {
+        if (!installationLocation.exists()) {
             throw new SetupStepException("The location doesn't exist");
         }
 
-        if(!installationLocation.canWrite() || !installationLocation.canExecute()) {
+        if (!installationLocation.canWrite() || !installationLocation.canExecute()) {
             throw new SetupStepException("Can not create files in the location");
         }
 
+        final File applicationFolder = createApplicationFolder();
+        final File versionFolder = createVersionFolder();
+
+        copyApplication(versionFolder);
+        copyDocumentation(versionFolder);
+        createLoggingConfigurationFile(applicationFolder);
+        patchApplicationCfgFile(new File(versionFolder, this.applicationArtifact.getName()));
+    }
+
+    protected File createApplicationFolder() {
         final File applicationFolder = this.getApplicationFolderSetup();
-        if(!applicationFolder.exists()) {
+
+        if (!applicationFolder.exists()) {
             applicationFolder.mkdir();
         }
 
+        return applicationFolder;
+    }
+
+    protected File createVersionFolder() {
         final File versionFolder = this.getVersionFolderSetup();
-        if(!versionFolder.exists()) {
+        if (!versionFolder.exists()) {
             versionFolder.mkdir();
         }
+        return versionFolder;
+    }
 
+    protected void copyApplication(File versionFolder) throws SetupStepException {
         final CopyFileVisitor artifactCopier = new CopyFileVisitor(versionFolder.toPath(), this.applicationArtifact.toPath());
         try {
             Files.walkFileTree(this.applicationArtifact.toPath(), artifactCopier);
         } catch (IOException ex) {
             throw new SetupStepException("Error copying application artifact", ex);
         }
+    }
 
+    protected void copyDocumentation(File versionFolder) throws SetupStepException {
         final CopyFileVisitor documentationCopier = new CopyFileVisitor(versionFolder.toPath(), this.documentationsFolder.toPath());
         try {
             Files.walkFileTree(this.documentationsFolder.toPath(), documentationCopier);
@@ -92,10 +115,44 @@ public class InstallationLocationStep extends AbstractSetupStep {
         }
     }
 
+    protected void createLoggingConfigurationFile(final File applicationFolder) {
+        final File loggingConfig = new File(applicationFolder, "logging.config");
+
+        GlobalConfiguration.createLoggingConfigurationFile(loggingConfig);
+        GlobalConfiguration.fillLoggingConfigurationFileWithDefaultValue();
+    }
+
+    protected void patchApplicationCfgFile(final File copiedApplicationArtifact) throws SetupStepException {
+        final File cfgFile = new File(copiedApplicationArtifact, "app/SlideshowFX.cfg");
+
+        final List<String> lines = new ArrayList<>();
+
+        try(final BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(cfgFile)))) {
+            lines.addAll(reader.lines().collect(Collectors.toList()));
+
+        } catch (IOException e) {
+            throw new SetupStepException("Can not read configuration file to patch", e);
+        }
+
+        try (final PrintWriter writer = new PrintWriter(cfgFile)) {
+            for (String line : lines) {
+                if (line.contains("@@LOGGING_CONFIGURATION_FILE@@")) {
+                    line = line.replace("@@LOGGING_CONFIGURATION_FILE@@", GlobalConfiguration.getLoggingConfigFile().getAbsolutePath());
+                }
+
+                writer.println(line);
+            }
+
+            writer.flush();
+        } catch (IOException e) {
+            throw new SetupStepException("Can not path the configuration file", e);
+        }
+    }
+
     @Override
     public void rollback() throws SetupStepException {
         final File versionFolder = this.getVersionFolderSetup();
-        if(versionFolder.exists()) {
+        if (versionFolder.exists()) {
             try {
                 Files.walkFileTree(versionFolder.toPath(), new DeleteFileVisitor());
             } catch (IOException e) {
@@ -104,7 +161,7 @@ public class InstallationLocationStep extends AbstractSetupStep {
         }
 
         final File applicationFolder = this.getApplicationFolderSetup();
-        if(applicationFolder.list().length == 0) {
+        if (applicationFolder.list().length == 0) {
             applicationFolder.delete();
         }
     }

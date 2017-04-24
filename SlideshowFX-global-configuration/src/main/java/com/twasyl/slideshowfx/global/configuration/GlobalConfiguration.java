@@ -23,10 +23,16 @@ public class GlobalConfiguration {
     private static final Logger LOGGER = Logger.getLogger(GlobalConfiguration.class.getName());
 
     protected static final String APPLICATION_DIRECTORY_PROPERTY = "application.dir";
-    protected static final String PLUGINS_DIRECTOR_PROPERTY = "plugins.dir";
+    protected static final String PLUGINS_DIRECTORY_PROPERTY = "plugins.dir";
+    protected static final String TEMPLATE_LIBRARY_DIRECTORY_PROPERTY = "templateLib.dir";
+
+    protected static final String DEFAULT_APPLICATION_DIRECTORY_NAME = ".SlideshowFX";
+    protected static final String DEFAULT_PLUGINS_DIRECTORY_NAME = "plugins";
+    protected static final String DEFAULT_TEMPLATE_LIBRARY_DIRECTORY_NAME = "templateLibrary";
 
     private static File APPLICATION_DIRECTORY = null;
     private static File PLUGINS_DIRECTORY = null;
+    private static File TEMPLATE_LIBRARY_DIRECTORY = null;
     private static File CONFIG_FILE = null;
     private static File LOGGING_CONFIG_FILE = null;
 
@@ -96,8 +102,8 @@ public class GlobalConfiguration {
     /**
      * Get the application directory used to store the plugins and the configuration. The method will determine the
      * directory by checking if there is a system property named {@value #APPLICATION_DIRECTORY_PROPERTY} that defines
-     * the directory to use and if not, the directory will be the {@code .SlideshowFX} directory stored in the user's
-     * home.
+     * the directory to use and if not, the directory will be the {@value #DEFAULT_APPLICATION_DIRECTORY_NAME} directory
+     * stored in the user's home.
      *
      * @return The application directory.
      */
@@ -108,7 +114,7 @@ public class GlobalConfiguration {
             if (properties.containsKey(APPLICATION_DIRECTORY_PROPERTY)) {
                 APPLICATION_DIRECTORY = new File(properties.getProperty(APPLICATION_DIRECTORY_PROPERTY));
             } else {
-                APPLICATION_DIRECTORY = new File(System.getProperty("user.home"), ".SlideshowFX");
+                APPLICATION_DIRECTORY = new File(System.getProperty("user.home"), DEFAULT_APPLICATION_DIRECTORY_NAME);
             }
         }
 
@@ -117,9 +123,9 @@ public class GlobalConfiguration {
 
     /**
      * Get the plugins directory used to store the installed plugins. The method will determine the
-     * directory by checking if there is a system property named {@value #PLUGINS_DIRECTOR_PROPERTY} that defines
-     * the directory to use and if not, the directory will be the {@code plugins} directory stored in the application
-     * directory returned by {@link #getApplicationDirectory()}.
+     * directory by checking if there is a system property named {@value #PLUGINS_DIRECTORY_PROPERTY} that defines
+     * the directory to use and if not, the directory will be the {@value #DEFAULT_PLUGINS_DIRECTORY_NAME} directory
+     * stored in the application directory returned by {@link #getApplicationDirectory()}.
      *
      * @return The plugins directory.
      */
@@ -127,13 +133,34 @@ public class GlobalConfiguration {
         if (PLUGINS_DIRECTORY == null) {
             final Properties properties = System.getProperties();
 
-            if (properties.containsKey(PLUGINS_DIRECTOR_PROPERTY)) {
-                PLUGINS_DIRECTORY = new File(properties.getProperty(PLUGINS_DIRECTOR_PROPERTY));
+            if (properties.containsKey(PLUGINS_DIRECTORY_PROPERTY)) {
+                PLUGINS_DIRECTORY = new File(properties.getProperty(PLUGINS_DIRECTORY_PROPERTY));
             } else {
-                PLUGINS_DIRECTORY = new File(getApplicationDirectory(), "plugins");
+                PLUGINS_DIRECTORY = new File(getApplicationDirectory(), DEFAULT_PLUGINS_DIRECTORY_NAME);
             }
         }
         return PLUGINS_DIRECTORY;
+    }
+
+    /**
+     * Get the directory used to store the template's library. The method will determine the
+     * directory by checking if there is a system property named {@value #TEMPLATE_LIBRARY_DIRECTORY_PROPERTY} that
+     * defines the directory to use and if not, the directory will be the {@value #DEFAULT_TEMPLATE_LIBRARY_DIRECTORY_NAME}
+     * directory stored in the application directory returned by {@link #getApplicationDirectory()}.
+     *
+     * @return The template's library directory.
+     */
+    public synchronized static File getTemplateLibraryDirectory() {
+        if (TEMPLATE_LIBRARY_DIRECTORY == null) {
+            final Properties properties = System.getProperties();
+
+            if (properties.containsKey(TEMPLATE_LIBRARY_DIRECTORY_PROPERTY)) {
+                TEMPLATE_LIBRARY_DIRECTORY = new File(properties.getProperty(TEMPLATE_LIBRARY_DIRECTORY_PROPERTY));
+            } else {
+                TEMPLATE_LIBRARY_DIRECTORY = new File(getApplicationDirectory(), DEFAULT_TEMPLATE_LIBRARY_DIRECTORY_NAME);
+            }
+        }
+        return TEMPLATE_LIBRARY_DIRECTORY;
     }
 
     /**
@@ -205,6 +232,23 @@ public class GlobalConfiguration {
     }
 
     /**
+     * Creates the template library directory represented by the {@link #TEMPLATE_LIBRARY_DIRECTORY} variable if it doesn't
+     * already exist.
+     * If parents directories don't exist, this method will not create them and the directory will not be created.
+     *
+     * @return {@code true} if the template library directory has been created by this method, {@code false} otherwise.
+     */
+    public synchronized static boolean createTemplateLibraryDirectory() {
+        boolean created = false;
+
+        if (!getTemplateLibraryDirectory().exists()) {
+            created = getTemplateLibraryDirectory().mkdir();
+        }
+
+        return created;
+    }
+
+    /**
      * Creates the configuration file of the application, represented by the {@link #getConfigurationFile()}
      * variable if it doesn't already exist.
      *
@@ -240,6 +284,28 @@ public class GlobalConfiguration {
                 LOGGER.log(Level.SEVERE, "Can not create the logging configuration file", e);
             }
         }
+
+        return created;
+    }
+
+    /**
+     * Creates the logging configuration file of the application, represented by the given {@code loggingConfigFile}.
+     * Calling this method will cause the {@link #getLoggingConfigFile()} method to return the provided file.
+     *
+     * @return {@code true} if the logging configuration file has been created by this method, {@code false} otherwise.
+     */
+    public synchronized static boolean createLoggingConfigurationFile(final File loggingConfigFile) {
+        boolean created = false;
+
+        if (!loggingConfigFile.exists()) {
+            try {
+                created = loggingConfigFile.createNewFile();
+            } catch (IOException e) {
+                LOGGER.log(Level.SEVERE, "Can not create the logging configuration file", e);
+            }
+        }
+
+        LOGGING_CONFIG_FILE = loggingConfigFile;
 
         return created;
     }

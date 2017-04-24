@@ -9,6 +9,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.util.Objects;
 import java.util.logging.Logger;
 
 /**
@@ -33,6 +34,7 @@ public class SlideshowStage {
 
     /**
      * Creates a stage according the configuration stored within the {@code context}.
+     *
      * @param context The context defining the configuration of the stage.
      */
     public SlideshowStage(final Context context) {
@@ -65,21 +67,21 @@ public class SlideshowStage {
         final int numberOfScreens = Screen.getScreens().size();
         Screen screenToDisplayOn = null;
 
-        if(numberOfScreens == 1) {
+        if (numberOfScreens == 1) {
             screenToDisplayOn = Screen.getPrimary();
         } else {
             final Screen primary = Screen.getPrimary();
             int index = 0;
 
             do {
-                if(!Screen.getScreens().get(index).equals(primary))    {
+                if (!Screen.getScreens().get(index).equals(primary)) {
                     screenToDisplayOn = Screen.getScreens().get(index);
                 }
                 index++;
-            } while(screenToDisplayOn == null && index < numberOfScreens);
+            } while (screenToDisplayOn == null && index < numberOfScreens);
         }
 
-        if(screenToDisplayOn != null) {
+        if (screenToDisplayOn != null) {
             this.slideshowStage.setX(screenToDisplayOn.getBounds().getMinX());
             this.slideshowStage.setY(screenToDisplayOn.getBounds().getMinY());
             this.slideshowStage.setWidth(screenToDisplayOn.getBounds().getWidth());
@@ -101,7 +103,7 @@ public class SlideshowStage {
          */
         final int numberOfScreens = Screen.getScreens().size();
 
-        if(numberOfScreens > 1) {
+        if (numberOfScreens > 1) {
             final Screen screenToDisplayOn = Screen.getPrimary();
 
             this.informationPane = new InformationPane(this.context);
@@ -130,39 +132,50 @@ public class SlideshowStage {
     private final void initializeKeyEvents() {
         EventHandler<KeyEvent> handler = event -> {
             if (event.getCode().equals(KeyCode.ESCAPE)) {
-                if(this.onCloseAction != null) this.onCloseAction.run();
+                if (this.onCloseAction != null) this.onCloseAction.run();
 
                 this.slideshowStage.close();
                 if (this.informationStage != null) this.informationStage.close();
-            } else if(this.informationPane != null && !DO_NOT_CONSIDER_EVENT_TEXT.equals(event.getText())) {
+            } else if (this.informationPane != null && !DO_NOT_CONSIDER_EVENT_TEXT.equals(event.getText())) {
                 final KeyEvent copiedEvent = this.copyEventWithNewText(event, DO_NOT_CONSIDER_EVENT_TEXT);
 
                 final boolean sendToInformation = event.getSource() == this.slideshowPane.getBrowser().getInternalBrowser()
                         || event.getSource() == this.informationPane.getScene();
                 final boolean sendToPresentation = event.getSource() == this.informationPane.getScene();
 
-                if(sendToInformation) {
+                if (sendToInformation) {
                     this.informationPane.getCurrentSlideBrowser().setInteractionAllowed(true);
                     this.informationPane.getCurrentSlideBrowser().getInternalBrowser().fireEvent(copiedEvent);
                     this.informationPane.getCurrentSlideBrowser().setInteractionAllowed(false);
 
-                    this.informationPane.getNextSlideBrowser().setInteractionAllowed(true);
-                    this.informationPane.getNextSlideBrowser().getInternalBrowser().fireEvent(copiedEvent);
-                    this.informationPane.getNextSlideBrowser().setInteractionAllowed(false);
+                    final String currentSlideId = this.slideshowPane.getBrowser().getCurrentSlideId();
+                    final Slide firstSlide = this.context.getPresentation().getConfiguration().getFirstSlide();
+                    final Slide lastSlide = this.context.getPresentation().getConfiguration().getLastSlide();
+
+                    final boolean onFirstSlide = Objects.equals(currentSlideId, firstSlide.getId());
+                    final boolean onLastSlide = Objects.equals(currentSlideId, lastSlide.getId());
+
+                    if (!onFirstSlide && !onLastSlide) {
+                        this.informationPane.getNextSlideBrowser().setInteractionAllowed(true);
+                        this.informationPane.getNextSlideBrowser().getInternalBrowser().fireEvent(copiedEvent);
+                        this.informationPane.getNextSlideBrowser().setInteractionAllowed(false);
+                    }
                 }
 
-                if(sendToPresentation) this.slideshowPane.getBrowser().getInternalBrowser().fireEvent(copiedEvent);
+                if (sendToPresentation) this.slideshowPane.getBrowser().getInternalBrowser().fireEvent(copiedEvent);
             }
         };
 
         this.slideshowPane.getBrowser().getInternalBrowser().addEventHandler(KeyEvent.KEY_PRESSED, handler);
-        if(this.informationPane != null) this.informationPane.getScene().addEventHandler(KeyEvent.KEY_PRESSED, handler);
+        if (this.informationPane != null)
+            this.informationPane.getScene().addEventHandler(KeyEvent.KEY_PRESSED, handler);
     }
 
     /**
      * Copy a given {@code event} and set its text with a given {@code newText}. All other parameters of the original
      * event are kept.
-     * @param event The event to copy.
+     *
+     * @param event   The event to copy.
      * @param newText The new text of the event.
      * @return A copy of the original event with a new text.
      */
@@ -178,26 +191,28 @@ public class SlideshowStage {
      * Displays the slideshow and the information screen if it was previously created.
      */
     public void show() {
-        if(this.slideshowStage != null) {
+        if (this.slideshowStage != null) {
             this.slideshowPane.getBrowser().loadPresentationAndDo(this.context.getPresentation(), () -> {
                 this.slideshowPane.getBrowser().slide(this.context.getStartAtSlideId());
 
-                if(this.informationPane != null) {
+                if (this.informationPane != null) {
                     this.informationPane.getCurrentSlideBrowser().loadPresentationAndDo(this.context.getPresentation(), () -> {
                         this.informationPane.getCurrentSlideBrowser().slide(this.context.getStartAtSlideId());
 
                         this.informationPane.getNextSlideBrowser().loadPresentationAndDo(this.context.getPresentation(), () -> {
-                            final Slide startingSlide = this.context.getPresentation().getConfiguration().getSlideById(this.context.getStartAtSlideId());
-                            final int indexOfSlide = this.context.getPresentation().getConfiguration().getSlides().indexOf(startingSlide);
+                            final Slide nextSlide;
 
-                            Slide nextSlide = null;
-                            if(indexOfSlide != -1 && indexOfSlide < this.context.getPresentation().getConfiguration().getSlides().size() - 1) {
-                                nextSlide = this.context.getPresentation().getConfiguration().getSlides().get(indexOfSlide + 1);
+                            if (this.context.getStartAtSlideId() == null) {
+                                final Slide currentSlide = this.context.getPresentation().getConfiguration().getSlideById(this.slideshowPane.getBrowser().getCurrentSlideId());
+                                nextSlide = this.context.getPresentation().getConfiguration().getSlideAfter(currentSlide.getSlideNumber());
                             } else {
-                                // Go to last slide
-                                nextSlide = this.context.getPresentation().getConfiguration().getLastSlide();
+                                final Slide startingSlide = this.context.getPresentation().getConfiguration().getSlideById(this.context.getStartAtSlideId());
+                                nextSlide = this.context.getPresentation().getConfiguration().getSlideAfter(startingSlide.getSlideNumber());
                             }
-                            this.informationPane.getNextSlideBrowser().slide(nextSlide.getId());
+
+                            if (nextSlide != null) {
+                                this.informationPane.getNextSlideBrowser().slide(nextSlide.getId());
+                            }
                         });
                     });
                 }
@@ -205,13 +220,14 @@ public class SlideshowStage {
             this.slideshowStage.show();
         }
 
-        if(this.informationStage != null) this.informationStage.show();
+        if (this.informationStage != null) this.informationStage.show();
     }
 
     /**
      * Defines the process that is executed when the stage is closed. The action is given as a {@link Runnable} object
      * but a new thread will not be created for running it. The type is just for having an interface which can describe
      * a process. The {@link Runnable#run()} method is called directly.
+     *
      * @param action The action to perform when the stage is closed.
      */
     public void onClose(Runnable action) {
@@ -220,10 +236,11 @@ public class SlideshowStage {
 
     /**
      * Get the ID of the displayed slide.
+     *
      * @return The ID of the current slide or {@code null} if no slide is considered displayed.
      */
     public String getDisplayedSlideId() {
-        if(this.slideshowStage != null) {
+        if (this.slideshowStage != null) {
             return this.slideshowPane.getBrowser().getCurrentSlideId();
         }
         return null;
