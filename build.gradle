@@ -226,6 +226,7 @@ ext {
     junitVersion = '4.12'
     markdownVersion = '0.13'
     mockitoVersion = '2.6.8'
+    rxJavaVersion = '2.0.8'
     twitterVersion = '4.0.6'
     vertxVersion = '3.4.0'
     wikitextVersion = '3.0.6'

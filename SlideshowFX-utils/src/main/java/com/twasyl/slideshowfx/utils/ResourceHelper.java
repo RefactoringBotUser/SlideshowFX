@@ -14,9 +14,11 @@ import java.util.logging.Logger;
  * This class provides utility methods for reading resource's content.
  *
  * @author Thierry Wasylczenko
- * @version 1.0
+ * @version 1.1
  * @since SlideshowFX 1.0
+ * @deprecated
  */
+@Deprecated
 public class ResourceHelper {
     private static final Logger LOGGER = Logger.getLogger(ResourceHelper.class.getName());
 

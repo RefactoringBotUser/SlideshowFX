@@ -17,6 +17,7 @@ dependencies {
     compile "org.asciidoctor:asciidoctorj:$asciidoctorjVersion"
     compile "org.apache.felix:org.apache.felix.framework:$felixVersion"
     compile "com.google.zxing:core:$zxingVersion", "com.google.zxing:javase:$zxingVersion"
+    compile "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
 
     testCompile "junit:junit:$junitVersion"
     testCompile "org.mockito:mockito-core:$mockitoVersion"

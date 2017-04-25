@@ -136,10 +136,11 @@ If you are contributing to SlideshowFX and developing some features, you probabl
 === Templates
 
 Each presentation done with SlideshowFX is based on a _template_.  +
-A template is composed by three main parts:
+A template is composed by four main parts:
 
 - A _template configuration_ file which contains the configuration of the template. This file *must be* named *template-config.json* and is written using JSON ;
 - A _template file_ which is the HTML page that will host all slides of the presentation ;
+- A _sample file_ which is an HTML page providing a sample of the template ;
 - _Slide's template files_ which are the template for each kind of slide the user can add in his presentation.
 
 All of this content is archived in a file with the extension *.sfxt* (which stands for SlideshowFX template)
@@ -150,6 +151,7 @@ A typical template archive structure is the following:
 /
 |- [F] template-config.json
 |- [F] template.html
+|- [F] sample.html
 |- [D] resources
 |- [D] slides
 |------|- [D] template
@@ -342,6 +344,12 @@ The template of a slide will define what HTML element a slide is. In some framew
 [source,html]
 <h1 id="${slideNumber}-title"></h1>
 - Each element that is editable by the user must have the *ondblclick* attribute set to *$\{sfxCallback\}*
+- It is strongly recommended to listen to slide changed event in the template file. When such an event is fired, you can call notify the SlideshowFX browser with the new current slide ID:
+[source,html]
+----
+var slide = ...; // i.e.: document.getElementById(...)
+sfxBrowser.fireSlideChangedEvent(slide.id);
+----
 - If dynamic attributes are needed, they can be defined like the following. Note that for this example, template-expression are *slideDataX* and *slideDataY*
 [source,html]
 <section ${slideDataX} ${slideDataY}></section>

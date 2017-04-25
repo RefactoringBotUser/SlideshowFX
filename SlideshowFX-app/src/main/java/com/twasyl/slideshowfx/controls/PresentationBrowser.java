@@ -2,9 +2,13 @@ package com.twasyl.slideshowfx.controls;
 
 import com.twasyl.slideshowfx.engine.presentation.PresentationEngine;
 import com.twasyl.slideshowfx.engine.template.configuration.TemplateConfiguration;
+import com.twasyl.slideshowfx.events.SlideChangedEvent;
 import com.twasyl.slideshowfx.server.SlideshowFXServer;
 import com.twasyl.slideshowfx.utils.DialogHelper;
 import com.twasyl.slideshowfx.utils.PlatformHelper;
+import io.reactivex.functions.Consumer;
+import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.Subject;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
@@ -38,7 +42,7 @@ import static com.twasyl.slideshowfx.global.configuration.GlobalConfiguration.ge
  * browser under the name returned by {@link TemplateConfiguration#getJsObject()} variable stored in the {@link #presentationProperty()}.
  *
  * @author Thierry Wasylczenko
- * @version 1.1
+ * @version 1.2
  * @since SlideshowFX 1.0
  */
 public final class PresentationBrowser extends StackPane {
@@ -50,6 +54,8 @@ public final class PresentationBrowser extends StackPane {
 
     private final WebView internalBrowser = new WebView();
     private final ProgressIndicator progressIndicator = new ProgressIndicator();
+
+    private final Subject<SlideChangedEvent> eventBus = PublishSubject.create();
 
     public PresentationBrowser() {
         this.initializeProgressIndicator();
@@ -194,6 +200,12 @@ public final class PresentationBrowser extends StackPane {
             final Object member = window.getMember(this.getPresentation().getTemplateConfiguration().getJsObject());
             if ("undefined".equals(member)) {
                 window.setMember(PresentationBrowser.this.getPresentation().getTemplateConfiguration().getJsObject(), backend);
+            }
+
+            // Inject the browser only if it's not already present
+            final Object browser = window.getMember("sfxBrowser");
+            if ("undefined".equals(browser)) {
+                window.setMember("sfxBrowser", this);
             }
         }
     }
@@ -396,7 +408,7 @@ public final class PresentationBrowser extends StackPane {
      * @param slideId The ID of the slide to go to.
      */
     public void slide(final String slideId) {
-        if (slideId != null) {
+        if (slideId != null && this.getPresentation() != null) {
             this.internalBrowser.getEngine().executeScript(
                     String.format(
                             "%1$s('%2$s');",
@@ -405,5 +417,27 @@ public final class PresentationBrowser extends StackPane {
                     )
             );
         }
+    }
+
+    /**
+     * Fire a {@link SlideChangedEvent} on this browser with the new current slide.
+     *
+     * @param currentSlide The new current slide.
+     */
+    public void fireSlideChangedEvent(final String currentSlide) {
+        final SlideChangedEvent event = new SlideChangedEvent(currentSlide);
+        eventBus.onNext(event);
+    }
+
+    /**
+     * Subscribe the provided consumer to the events fired by this {@link PresentationBrowser}.
+     *
+     * @param consumer The consumer to subscribe.
+     * @throws NullPointerException If the given consumer is {@code null}.
+     */
+    public void subscribeToEvents(final Consumer<SlideChangedEvent> consumer) {
+        if (consumer == null) throw new NullPointerException("The consumer can not be null");
+
+        eventBus.subscribe(consumer);
     }
 }

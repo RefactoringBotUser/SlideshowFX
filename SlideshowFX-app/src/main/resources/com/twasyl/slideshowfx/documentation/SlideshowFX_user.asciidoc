@@ -45,7 +45,9 @@ In order to create a new presentation in SlideshowFX, you can:
 * click on the *New presentation* icon (icon:file[]) in the tool bar ;
 * press kbd:[Ctrl+N] on Windows or kbd:[Cmd+N] on OSX.
 
-Then you will have to choose a SlideshowFX template and confirm your choice.
+In the new window, you can either choose a template stored within your template's library or import a new template from your disk by clicking on the *Import new template* button. The imported template will be displayed in the template's library but will not be imported until a presentation is created with it.
+
+When choosing a template, if it provides a preview, it will be displayed on the right side of the window.
 
 === Creating slides
 

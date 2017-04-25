@@ -11,8 +11,11 @@ h4. New and noteworthy
 * Update the SlideshowFX-textile plugin ("#32":https://github.com/twasyl/SlideshowFX/issues/32)
 * Change the Windows default installation location
 * Take the log configuration in consideration
+* Creating a new presentation displays a template's library allowing to create presentations from previously used templates
 
 h4. Bug fixes
+
+* Information screen during slideshow react to events emitted by the slideshow, meaning it will react correctly to display current and next slide
 
 h3(#1_4). "Version 1.4":#1_4
 

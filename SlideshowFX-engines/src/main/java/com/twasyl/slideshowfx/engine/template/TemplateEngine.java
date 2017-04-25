@@ -26,7 +26,7 @@ import static com.twasyl.slideshowfx.global.configuration.GlobalConfiguration.ge
  * The extension of a template is {@code sfxt}.
  *
  * @author Thierry Wasylczenko
- * @version 1.1
+ * @version 1.2
  * @since SlideshowFX 1.0
  */
 public class TemplateEngine extends AbstractEngine<TemplateConfiguration> {
@@ -37,12 +37,17 @@ public class TemplateEngine extends AbstractEngine<TemplateConfiguration> {
      */
     public static final String DEFAULT_ARCHIVE_EXTENSION = "sfxt";
     /**
+     * The default file name of the configuration file.
+     */
+    public static final String DEFAULT_CONFIGURATION_FILE_NAME = "template-config.json";
+
+    /**
      * The default value, containing the dot, for presentation archives.
      */
     public static final String DEFAULT_DOTTED_ARCHIVE_EXTENSION = ".".concat(DEFAULT_ARCHIVE_EXTENSION);
 
     public TemplateEngine() {
-        super(DEFAULT_ARCHIVE_EXTENSION, "template-config.json");
+        super(DEFAULT_ARCHIVE_EXTENSION, DEFAULT_CONFIGURATION_FILE_NAME);
     }
 
     @Override
