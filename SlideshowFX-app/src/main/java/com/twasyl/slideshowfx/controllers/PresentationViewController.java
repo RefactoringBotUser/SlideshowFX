@@ -83,6 +83,8 @@ public class PresentationViewController implements Initializable {
     private SlideContentEditor contentEditor;
     @FXML
     private Button defineContent;
+    @FXML
+    private TextArea speakerNotes;
 
     /* All methods called by the FXML */
 
@@ -235,6 +237,8 @@ public class PresentationViewController implements Initializable {
             }
 
             this.contentEditor.requestFocus();
+
+            this.speakerNotes.setText(slide.getSpeakerNotes());
         } else {
             LOGGER.info(String.format("Prefill information for the field %1$s of slide #%2$s is impossible: the slide is not found", field, slideNumber));
         }
@@ -583,6 +587,16 @@ public class PresentationViewController implements Initializable {
                 } catch (Exception e) {
                     LOGGER.log(Level.SEVERE, "Can not define content", e);
                 }
+            }
+        });
+
+        this.speakerNotes.textProperty().addListener((text, oldText, newText) -> {
+            final Slide slide = this.presentationEngine.getConfiguration().getSlideByNumber(this.slideNumber.getText());
+
+            if (slide != null) {
+                slide.setSpeakerNotes(newText);
+
+                this.presentationEngine.setModifiedSinceLatestSave(true);
             }
         });
     }

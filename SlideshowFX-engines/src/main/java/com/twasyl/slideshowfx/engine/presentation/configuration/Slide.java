@@ -3,10 +3,13 @@ package com.twasyl.slideshowfx.engine.presentation.configuration;
 import com.twasyl.slideshowfx.engine.template.configuration.SlideTemplate;
 import javafx.scene.image.Image;
 
+import java.util.Base64;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Logger;
+
+import static com.twasyl.slideshowfx.global.configuration.GlobalConfiguration.getDefaultCharset;
 
 /**
  * Represents a slide of the presentation. The slide is composed of:
@@ -16,11 +19,12 @@ import java.util.logging.Logger;
  *     <li>a {@link #getSlideNumber() number} ;</li>
  *     <li>a {@link #getThumbnail() thumbnail} which is like a screenshot of the slide in order to display it in
  *     the SlideshowFX' UI ;</li>
- *     <li>a collection of {@link #getElements() elements} which correspond to all dynamic elements of the slide </li>
+ *     <li>a collection of {@link #getElements() elements} which correspond to all dynamic elements of the slide ;</li>
+ *     <li>speaker notes.</li>
  * </ul>
  *
  * @author Thierry Wasylczenko
- * @version 1.0.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class Slide {
@@ -31,6 +35,7 @@ public class Slide {
     private String slideNumber;
     private Image thumbnail;
     private final Set<SlideElement> elements = new HashSet<>();
+    private String speakerNotes;
 
     public Slide() {
     }
@@ -55,6 +60,49 @@ public class Slide {
 
     public Image getThumbnail() { return thumbnail; }
     public void setThumbnail(Image thumbnail) { this.thumbnail = thumbnail; }
+
+    public String getSpeakerNotes() { return speakerNotes; }
+
+    /**
+     * Get the speaker notes of this {@link Slide} encoded in Base64.
+     *
+     * @return The speaker notes encoded in Base64.
+     */
+    public String getSpeakerNotesAsBase64() {
+        final String base64 = Base64.getEncoder().encodeToString(getSpeakerNotes().getBytes(getDefaultCharset()));
+        return base64;
+    }
+
+    /**
+     * Sets the speaker notes for this {@link Slide}. The speaker notes are only set if they are not
+     * {@code null} and not empty.
+     *
+     * @param speakerNotes The speaker notes to set.
+     */
+    public void setSpeakerNotes(String speakerNotes) {
+        final String trimmedSpeakerNotes = speakerNotes != null ? speakerNotes.trim() : null;
+        this.speakerNotes = trimmedSpeakerNotes;
+    }
+
+    /**
+     * Set the speaker notes of this {@link Slide}. The speaker notes are decoded from Base64.
+     *
+     * @param speakerNotesAsBase64 The speaker notes encoded in Base64.
+     */
+    public void setSpeakerNotesAsBase64(final String speakerNotesAsBase64) {
+        final byte[] bytes = Base64.getDecoder().decode(speakerNotesAsBase64);
+        setSpeakerNotes(new String(bytes, getDefaultCharset()));
+    }
+
+    /**
+     * Indicates of the current {@link Slide} has speaker notes defined. The slide is considered having
+     * speaker notes if {@link #getSpeakerNotes()} returns a non {@code null} and non empty string.
+     *
+     * @return {@code true} if the {@link Slide} has speaker notes, {@code false} otherwise.
+     */
+    public boolean hasSpeakerNotes() {
+        return this.getSpeakerNotes() != null && !this.getSpeakerNotes().isEmpty();
+    }
 
     /**
      * The elements contained in the slide.

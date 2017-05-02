@@ -30,6 +30,7 @@ public class PresentationConfiguration implements IConfiguration {
     public static final String SLIDE_ID = "id";
     public static final String SLIDE_NUMBER = "number";
     public static final String SLIDE_TEMPLATE_ID = "template-id";
+    public static final String SLIDE_SPEAKER_NOTES = "speaker-notes";
     public static final String SLIDE_ELEMENTS = "elements";
     public static final String SLIDE_ELEMENT_TEMPLATE_ID = "template-id";
     public static final String SLIDE_ELEMENT_ELEMENT_ID = "element-id";

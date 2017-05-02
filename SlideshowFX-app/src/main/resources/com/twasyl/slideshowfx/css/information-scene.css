@@ -2,7 +2,22 @@
     -fx-background-color: app-color-background;
 }
 
+.current-time {
+    -fx-fill: app-color-text-fill;
+    -fx-font-size: 30px;
+}
+
 .time-elapsed {
     -fx-fill: app-color-text-fill;
     -fx-font-size: 100px;
+}
+
+.speaker-notes-pane {
+	-fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.speaker-notes {
+	-fx-fill: white;
+	-fx-font-size: 30px;
 }

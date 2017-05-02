@@ -87,7 +87,7 @@ public class SlideshowStage {
             this.slideshowStage.setHeight(screenToDisplayOn.getBounds().getHeight());
         }
 
-//        this.slideshowStage.setAlwaysOnTop(true);
+        this.slideshowStage.setAlwaysOnTop(true);
     }
 
     /**
@@ -115,7 +115,7 @@ public class SlideshowStage {
             this.informationStage.setWidth(screenToDisplayOn.getBounds().getWidth());
             this.informationStage.setHeight(screenToDisplayOn.getBounds().getHeight());
             this.informationStage.setScene(scene);
-//            this.informationStage.setAlwaysOnTop(true);
+            this.informationStage.setAlwaysOnTop(true);
 
             this.informationStage.setOnCloseRequest(event -> this.informationPane.stop());
             this.informationStage.setOnShowing(event -> this.informationPane.start());
@@ -150,13 +150,16 @@ public class SlideshowStage {
                 if (event.getCurrentSlide() != null && !"undefined".equals(event.getCurrentSlide())) {
                     final Slide currentSlide = this.context.getPresentation().getConfiguration().getSlideById(event.getCurrentSlide());
 
-                    Slide nextSlide = this.context.getPresentation().getConfiguration().getSlideAfter(currentSlide.getSlideNumber());
-                    if (nextSlide == null) {
-                        nextSlide = currentSlide;
-                    }
+                    if(currentSlide != null) {
+                        Slide nextSlide = this.context.getPresentation().getConfiguration().getSlideAfter(currentSlide.getSlideNumber());
+                        if (nextSlide == null) {
+                            nextSlide = currentSlide;
+                        }
 
-                    this.informationPane.getCurrentSlideBrowser().slide(currentSlide.getId());
-                    this.informationPane.getNextSlideBrowser().slide(nextSlide.getId());
+                        this.informationPane.getCurrentSlideBrowser().slide(currentSlide.getId());
+                        this.informationPane.getNextSlideBrowser().slide(nextSlide.getId());
+                        this.informationPane.setSpeakerNotes(currentSlide.getSpeakerNotes());
+                    }
                 }
             });
         }
@@ -187,19 +190,21 @@ public class SlideshowStage {
                 this.slideshowPane.getBrowser().slide(this.context.getStartAtSlideId());
 
                 if (this.informationPane != null) {
+                    final Slide currentSlide;
+
+                    if (this.context.getStartAtSlideId() == null) {
+                        currentSlide = this.context.getPresentation().getConfiguration().getSlideById(this.getDisplayedSlideId());
+                    } else {
+                        currentSlide = this.context.getPresentation().getConfiguration().getSlideById(this.context.getStartAtSlideId());
+                    }
+
+                    this.informationPane.setSpeakerNotes(currentSlide.getSpeakerNotes());
+
                     this.informationPane.getCurrentSlideBrowser().loadPresentationAndDo(this.context.getPresentation(), () -> {
                         this.informationPane.getCurrentSlideBrowser().slide(this.context.getStartAtSlideId());
 
                         this.informationPane.getNextSlideBrowser().loadPresentationAndDo(this.context.getPresentation(), () -> {
-                            final Slide nextSlide;
-
-                            if (this.context.getStartAtSlideId() == null) {
-                                final Slide currentSlide = this.context.getPresentation().getConfiguration().getSlideById(this.getDisplayedSlideId());
-                                nextSlide = this.context.getPresentation().getConfiguration().getSlideAfter(currentSlide.getSlideNumber());
-                            } else {
-                                final Slide startingSlide = this.context.getPresentation().getConfiguration().getSlideById(this.context.getStartAtSlideId());
-                                nextSlide = this.context.getPresentation().getConfiguration().getSlideAfter(startingSlide.getSlideNumber());
-                            }
+                            final Slide nextSlide = this.context.getPresentation().getConfiguration().getSlideAfter(currentSlide.getSlideNumber());
 
                             if (nextSlide != null) {
                                 this.informationPane.getNextSlideBrowser().slide(nextSlide.getId());

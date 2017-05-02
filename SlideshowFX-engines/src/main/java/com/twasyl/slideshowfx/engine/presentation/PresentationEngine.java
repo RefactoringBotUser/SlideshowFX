@@ -125,6 +125,11 @@ public class PresentationEngine extends AbstractEngine<PresentationConfiguration
                     slide.setTemplate(this.templateEngine.getConfiguration().getSlideTemplate(((JsonObject) slideJson).getInteger(
                             PresentationConfiguration.SLIDE_TEMPLATE_ID)));
 
+                    final String speakerNotes = ((JsonObject) slideJson).getString(PresentationConfiguration.SLIDE_SPEAKER_NOTES);
+                    if (speakerNotes != null) {
+                        slide.setSpeakerNotesAsBase64(speakerNotes);
+                    }
+
                     try {
                         final File thumbnailFile = this.getThumbnailFile(slide);
                         if (thumbnailFile.exists()) {
@@ -219,6 +224,10 @@ public class PresentationEngine extends AbstractEngine<PresentationConfiguration
                         slideJson.put(PresentationConfiguration.SLIDE_TEMPLATE_ID, slide.getTemplate().getId())
                                 .put(PresentationConfiguration.SLIDE_ID, slide.getId())
                                 .put(PresentationConfiguration.SLIDE_NUMBER, slide.getSlideNumber());
+
+                        if (slide.hasSpeakerNotes()) {
+                            slideJson.put(PresentationConfiguration.SLIDE_SPEAKER_NOTES, slide.getSpeakerNotesAsBase64());
+                        }
 
                         slide.getElements()
                                 .stream()

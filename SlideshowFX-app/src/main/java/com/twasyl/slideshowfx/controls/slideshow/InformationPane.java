@@ -9,9 +9,14 @@ import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Pos;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 import java.time.Duration;
 import java.time.LocalTime;
@@ -28,9 +33,12 @@ public class InformationPane extends StackPane {
     private final Context context;
 
     private final Timeline timeline = new Timeline();
+    private final Text currentTime = new Text();
     private final Text timeElapsed = new Text();
     private final PresentationBrowser currentSlideBrowser = new PresentationBrowser();
     private final PresentationBrowser nextSlideBrowser = new PresentationBrowser();
+    private final ScrollPane speakerNotesScrollPane = new ScrollPane();
+    private final Text speakerNotes = new Text();
 
     private LocalTime beginningTime;
 
@@ -46,7 +54,9 @@ public class InformationPane extends StackPane {
 
         this.context = context;
 
+        this.initializeCurrentTime();
         this.initializeTimeElapsed();
+        this.initializeSpeakerNotes();
         this.initializeCurrentSlide();
         this.initializeNextSlide();
     }
@@ -54,8 +64,34 @@ public class InformationPane extends StackPane {
     /**
      * Initialize the node that displays the time elapsed since the presentation has started.
      */
+    private final void initializeCurrentTime() {
+        final DoubleBinding width = this.widthProperty().divide(3.5);
+
+        this.currentTime.getStyleClass().add("current-time");
+        this.currentTime.wrappingWidthProperty().bind(width);
+        this.currentTime.setTextAlignment(TextAlignment.RIGHT);
+
+        final DoubleProperty fontSize = new SimpleDoubleProperty(0);
+        this.currentTime.fontProperty().addListener((fontValue, oldFont, newFont) -> {
+            if (newFont != null) {
+                fontSize.set(newFont.getSize());
+            }
+        });
+
+        this.currentTime.translateXProperty().bind(this.widthProperty().subtract(this.currentTime.wrappingWidthProperty()).subtract(50));
+        this.currentTime.translateYProperty().bind(this.timeElapsed.translateYProperty().subtract(fontSize).subtract(30));
+        this.getChildren().add(this.currentTime);
+    }
+
+    /**
+     * Initialize the node that displays the time elapsed since the presentation has started.
+     */
     private final void initializeTimeElapsed() {
+        final DoubleBinding width = this.widthProperty().divide(3.5);
+
         this.timeElapsed.getStyleClass().add("time-elapsed");
+        this.timeElapsed.wrappingWidthProperty().bind(width);
+        this.timeElapsed.setTextAlignment(TextAlignment.RIGHT);
 
         final DoubleProperty fontSize = new SimpleDoubleProperty(0);
         this.timeElapsed.fontProperty().addListener((fontValue, oldFont, newFont) -> {
@@ -64,9 +100,39 @@ public class InformationPane extends StackPane {
             }
         });
 
-        this.timeElapsed.setTranslateX(50);
+        this.timeElapsed.translateXProperty().bind(this.widthProperty().subtract(this.timeElapsed.wrappingWidthProperty()).subtract(50));
         this.timeElapsed.translateYProperty().bind(this.heightProperty().subtract(fontSize).subtract(50));
         this.getChildren().add(this.timeElapsed);
+    }
+
+    /**
+     * Initialize the display of the speaker notes.
+     */
+    private void initializeSpeakerNotes() {
+        final DoubleBinding width = this.widthProperty().divide(1.8);
+        final DoubleBinding scrollPaneWidth = width.add(10);
+        final DoubleBinding height = this.heightProperty().divide(3);
+
+        this.speakerNotes.getStyleClass().add("speaker-notes");
+        this.speakerNotes.wrappingWidthProperty().bind(width);
+        this.speakerNotes.setTextAlignment(TextAlignment.JUSTIFY);
+
+        this.speakerNotesScrollPane.getStyleClass().add("speaker-notes-pane");
+        this.speakerNotesScrollPane.setContent(this.speakerNotes);
+        this.speakerNotesScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+        this.speakerNotesScrollPane.prefWidthProperty().bind(scrollPaneWidth);
+        this.speakerNotesScrollPane.minWidthProperty().bind(scrollPaneWidth);
+        this.speakerNotesScrollPane.maxWidthProperty().bind(scrollPaneWidth);
+
+        this.speakerNotesScrollPane.prefHeightProperty().bind(height);
+        this.speakerNotesScrollPane.minHeightProperty().bind(height);
+        this.speakerNotesScrollPane.maxHeightProperty().bind(height);
+
+        this.speakerNotesScrollPane.setTranslateX(50);
+        this.speakerNotesScrollPane.translateYProperty().bind(this.heightProperty().subtract(height).subtract(50));
+
+        this.getChildren().add(this.speakerNotesScrollPane);
     }
 
     /**
@@ -124,7 +190,9 @@ public class InformationPane extends StackPane {
         this.beginningTime = LocalTime.now();
 
         this.timeline.getKeyFrames().add(new KeyFrame(javafx.util.Duration.seconds(1), event -> {
-            final Duration duration = Duration.between(this.beginningTime, LocalTime.now());
+            final LocalTime now = LocalTime.now();
+
+            final Duration duration = Duration.between(this.beginningTime, now);
             final long numberOfHours = duration.getSeconds() / 3600;
             final long numberOfMinutes = (duration.getSeconds() % 3600) / 60;
             final long numberOfSeconds = (duration.getSeconds() % 3600) % 60;
@@ -132,6 +200,8 @@ public class InformationPane extends StackPane {
             this.timeElapsed.setText(
                     String.format("%1$02d:%02$02d:%3$02d", numberOfHours, numberOfMinutes, numberOfSeconds)
             );
+
+            this.currentTime.setText(String.format("%1$tH:%1$tM:%1$tS", now));
         }));
 
         this.timeline.setCycleCount(Animation.INDEFINITE);
@@ -148,6 +218,15 @@ public class InformationPane extends StackPane {
     public void sendKey(KeyEvent event) {
         this.currentSlideBrowser.fireEvent(event);
         this.nextSlideBrowser.fireEvent(event);
+    }
+
+    /**
+     * Defines the speaker notes to display.
+     *
+     * @param speakerNotes The speaker notes to be displayed.
+     */
+    public void setSpeakerNotes(final String speakerNotes) {
+        this.speakerNotes.setText(speakerNotes);
     }
 
     /**

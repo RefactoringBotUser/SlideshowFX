@@ -62,6 +62,10 @@
         <SlideContentEditor fx:id="contentEditor" />
 
         <Button fx:id="defineContent" text="Define" onAction="#updateSlideWithText" />
-    </VBox>
-</SplitPane>
 
+        <TitledPane text="Notes" collapsible="true" expanded="false">
+            <TextArea fx:id="speakerNotes" minHeight="150" />
+        </TitledPane>
+    </VBox>
+
+</SplitPane>
