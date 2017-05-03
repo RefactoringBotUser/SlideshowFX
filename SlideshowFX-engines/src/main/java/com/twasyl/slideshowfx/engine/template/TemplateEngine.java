@@ -36,6 +36,7 @@ public class TemplateEngine extends AbstractEngine<TemplateConfiguration> {
      * The default extension for template archives. Value is {@value #DEFAULT_ARCHIVE_EXTENSION}.
      */
     public static final String DEFAULT_ARCHIVE_EXTENSION = "sfxt";
+
     /**
      * The default file name of the configuration file.
      */

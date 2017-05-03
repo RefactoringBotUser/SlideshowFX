@@ -49,10 +49,16 @@ public class PresentationEngine extends AbstractEngine<PresentationConfiguration
      * The default extension for presentation archives. Value is {@value #DEFAULT_ARCHIVE_EXTENSION}.
      */
     public static final String DEFAULT_ARCHIVE_EXTENSION = "sfx";
+
     /**
      * The default value, containing the dot, for presentation archives.
      */
     public static final String DEFAULT_DOTTED_ARCHIVE_EXTENSION = ".".concat(DEFAULT_ARCHIVE_EXTENSION);
+
+    /**
+     * The default file name of the configuration file.
+     */
+    public static final String DEFAULT_CONFIGURATION_FILE_NAME = "presentation-config.json";
 
     private static final String TEMPLATE_SLIDE_NUMBER_TOKEN = "slideNumber";
     private static final String TEMPLATE_SFX_JAVASCRIPT_RESOURCES_TOKEN = "sfxJavascriptResources";
@@ -71,7 +77,7 @@ public class PresentationEngine extends AbstractEngine<PresentationConfiguration
     private boolean modifiedSinceLatestSave;
 
     public PresentationEngine() {
-        super(DEFAULT_ARCHIVE_EXTENSION, "presentation-config.json");
+        super(DEFAULT_ARCHIVE_EXTENSION, DEFAULT_CONFIGURATION_FILE_NAME);
         this.templateEngine = new TemplateEngine();
 
         Presentations.register(this);

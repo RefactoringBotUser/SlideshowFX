@@ -55,7 +55,7 @@ public final class PresentationBrowser extends StackPane {
     private final WebView internalBrowser = new WebView();
     private final ProgressIndicator progressIndicator = new ProgressIndicator();
 
-    private final Subject<SlideChangedEvent> eventBus = PublishSubject.create();
+    private Subject<SlideChangedEvent> eventBus = null;
 
     public PresentationBrowser() {
         this.initializeProgressIndicator();
@@ -420,13 +420,41 @@ public final class PresentationBrowser extends StackPane {
     }
 
     /**
-     * Fire a {@link SlideChangedEvent} on this browser with the new current slide.
+     * Fire a {@link SlideChangedEvent} on this browser with the new current slide. If the browser isn't listening
+     * to events, nothing is performed.
      *
      * @param currentSlide The new current slide.
      */
     public void fireSlideChangedEvent(final String currentSlide) {
-        final SlideChangedEvent event = new SlideChangedEvent(currentSlide);
-        eventBus.onNext(event);
+        if (this.eventBus != null) {
+            final SlideChangedEvent event = new SlideChangedEvent(currentSlide);
+            eventBus.onNext(event);
+        }
+    }
+
+    /**
+     * Make this {@link PresentationBrowser} listening to {@link SlideChangedEvent slide changed events}. If the browser
+     * is already listening to events, nothing is performed.
+     *
+     * @see #stopListeningToSlideChangedEvents()
+     */
+    public synchronized void startListeningToSlideChangedEvents() {
+        if (this.eventBus == null) {
+            this.eventBus = PublishSubject.create();
+        }
+    }
+
+    /**
+     * Stop this {@link PresentationBrowser} listening to {@link SlideChangedEvent slide changed events}. If the browser
+     * doesn't listen to events, nothing is performed.
+     *
+     * @see #startListeningToSlideChangedEvents()
+     */
+    public synchronized void stopListeningToSlideChangedEvents() {
+        if (this.eventBus != null) {
+            this.eventBus.onComplete();
+            this.eventBus = null;
+        }
     }
 
     /**
@@ -437,6 +465,8 @@ public final class PresentationBrowser extends StackPane {
      */
     public void subscribeToEvents(final Consumer<SlideChangedEvent> consumer) {
         if (consumer == null) throw new NullPointerException("The consumer can not be null");
+        if (this.eventBus == null)
+            throw new IllegalStateException("The browser is not configured to listen to slide changed events");
 
         eventBus.subscribe(consumer);
     }

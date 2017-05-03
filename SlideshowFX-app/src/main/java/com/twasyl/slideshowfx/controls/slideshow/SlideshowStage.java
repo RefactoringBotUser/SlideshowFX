@@ -8,6 +8,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
 import java.util.logging.Logger;
 
@@ -133,8 +134,14 @@ public class SlideshowStage {
             if (event.getCode().equals(KeyCode.ESCAPE)) {
                 if (this.onCloseAction != null) this.onCloseAction.run();
 
-                this.slideshowStage.close();
-                if (this.informationStage != null) this.informationStage.close();
+                final WindowEvent slideshowCloseRequest = new WindowEvent(this.informationStage, WindowEvent.WINDOW_CLOSE_REQUEST);
+                this.slideshowStage.fireEvent(slideshowCloseRequest);
+                this.slideshowPane.getBrowser().stopListeningToSlideChangedEvents();
+
+                if (this.informationStage != null) {
+                    final WindowEvent informationCloseRequest = new WindowEvent(this.informationStage, WindowEvent.WINDOW_CLOSE_REQUEST);
+                    this.informationStage.fireEvent(informationCloseRequest);
+                }
             } else if (this.informationPane != null && !DO_NOT_CONSIDER_EVENT_TEXT.equals(event.getText())) {
                 final KeyEvent copiedEvent = this.copyEventWithNewText(event, DO_NOT_CONSIDER_EVENT_TEXT);
                 final boolean sendToPresentation = event.getSource() == this.informationPane.getScene();
@@ -146,6 +153,8 @@ public class SlideshowStage {
         this.slideshowPane.getBrowser().getInternalBrowser().addEventHandler(KeyEvent.KEY_PRESSED, handler);
         if (this.informationPane != null) {
             this.informationPane.getScene().addEventHandler(KeyEvent.KEY_PRESSED, handler);
+
+            this.slideshowPane.getBrowser().startListeningToSlideChangedEvents();
             this.slideshowPane.getBrowser().subscribeToEvents(event -> {
                 if (event.getCurrentSlide() != null && !"undefined".equals(event.getCurrentSlide())) {
                     final Slide currentSlide = this.context.getPresentation().getConfiguration().getSlideById(event.getCurrentSlide());
