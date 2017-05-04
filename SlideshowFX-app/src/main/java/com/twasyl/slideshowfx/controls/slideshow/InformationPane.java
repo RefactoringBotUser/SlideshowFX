@@ -15,6 +15,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
@@ -68,7 +69,7 @@ public class InformationPane extends StackPane {
         final DoubleBinding width = this.widthProperty().divide(3.5);
 
         this.currentTime.getStyleClass().add("current-time");
-        this.currentTime.wrappingWidthProperty().bind(width);
+        this.currentTime.setFont(Font.font("Monospaced"));
         this.currentTime.setTextAlignment(TextAlignment.RIGHT);
 
         final DoubleProperty fontSize = new SimpleDoubleProperty(0);
@@ -78,7 +79,10 @@ public class InformationPane extends StackPane {
             }
         });
 
-        this.currentTime.translateXProperty().bind(this.widthProperty().subtract(this.currentTime.wrappingWidthProperty()).subtract(50));
+        this.currentTime.boundsInLocalProperty().addListener((bounds, oldBounds, newBounds) -> {
+            this.currentTime.setTranslateX(this.getWidth() - newBounds.getWidth() - 50);
+        });
+
         this.currentTime.translateYProperty().bind(this.timeElapsed.translateYProperty().subtract(fontSize).subtract(30));
         this.getChildren().add(this.currentTime);
     }
@@ -90,8 +94,8 @@ public class InformationPane extends StackPane {
         final DoubleBinding width = this.widthProperty().divide(3.5);
 
         this.timeElapsed.getStyleClass().add("time-elapsed");
-        this.timeElapsed.wrappingWidthProperty().bind(width);
         this.timeElapsed.setTextAlignment(TextAlignment.RIGHT);
+        this.timeElapsed.setFont(Font.font("Monospaced"));
 
         final DoubleProperty fontSize = new SimpleDoubleProperty(0);
         this.timeElapsed.fontProperty().addListener((fontValue, oldFont, newFont) -> {
@@ -100,7 +104,10 @@ public class InformationPane extends StackPane {
             }
         });
 
-        this.timeElapsed.translateXProperty().bind(this.widthProperty().subtract(this.timeElapsed.wrappingWidthProperty()).subtract(50));
+        this.timeElapsed.boundsInLocalProperty().addListener((bounds, oldBounds, newBounds) -> {
+            this.timeElapsed.setTranslateX(this.getWidth() - newBounds.getWidth() - 50);
+        });
+
         this.timeElapsed.translateYProperty().bind(this.heightProperty().subtract(fontSize).subtract(50));
         this.getChildren().add(this.timeElapsed);
     }

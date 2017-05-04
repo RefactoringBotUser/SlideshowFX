@@ -64,7 +64,7 @@
         <Button fx:id="defineContent" text="Define" onAction="#updateSlideWithText" />
 
         <TitledPane text="Notes" collapsible="true" expanded="false">
-            <TextArea fx:id="speakerNotes" minHeight="150" />
+            <TextArea fx:id="speakerNotes" minHeight="150" wrapText="true" />
         </TitledPane>
     </VBox>
 
