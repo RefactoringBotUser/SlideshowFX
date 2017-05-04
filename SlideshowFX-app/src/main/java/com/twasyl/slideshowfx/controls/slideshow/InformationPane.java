@@ -1,21 +1,14 @@
 package com.twasyl.slideshowfx.controls.slideshow;
 
 import com.twasyl.slideshowfx.controls.PresentationBrowser;
-import com.twasyl.slideshowfx.utils.ResourceHelper;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.binding.DoubleBinding;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
@@ -27,7 +20,7 @@ import java.time.LocalTime;
  * the current slide of the presentation, the next one and the time elapsed since the beginning of the presentation.
  *
  * @author Thierry Wasylczenko
- * @version 1.0.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class InformationPane extends StackPane {
@@ -48,8 +41,8 @@ public class InformationPane extends StackPane {
 
         this.setAlignment(Pos.TOP_LEFT);
         this.getStylesheets().addAll(
-                ResourceHelper.getExternalForm("/com/twasyl/slideshowfx/css/Default.css"),
-                ResourceHelper.getExternalForm("/com/twasyl/slideshowfx/css/information-scene.css"));
+                InformationPane.class.getResource("/com/twasyl/slideshowfx/css/Default.css").toExternalForm(),
+                InformationPane.class.getResource("/com/twasyl/slideshowfx/css/information-scene.css").toExternalForm());
 
         this.getStyleClass().add("information-scene");
 
@@ -66,24 +59,14 @@ public class InformationPane extends StackPane {
      * Initialize the node that displays the time elapsed since the presentation has started.
      */
     private final void initializeCurrentTime() {
-        final DoubleBinding width = this.widthProperty().divide(3.5);
-
         this.currentTime.getStyleClass().add("current-time");
-        this.currentTime.setFont(Font.font("Monospaced"));
         this.currentTime.setTextAlignment(TextAlignment.RIGHT);
-
-        final DoubleProperty fontSize = new SimpleDoubleProperty(0);
-        this.currentTime.fontProperty().addListener((fontValue, oldFont, newFont) -> {
-            if (newFont != null) {
-                fontSize.set(newFont.getSize());
-            }
-        });
 
         this.currentTime.boundsInLocalProperty().addListener((bounds, oldBounds, newBounds) -> {
             this.currentTime.setTranslateX(this.getWidth() - newBounds.getWidth() - 50);
+            this.currentTime.setTranslateY(this.timeElapsed.getTranslateY() - newBounds.getHeight() - 30);
         });
 
-        this.currentTime.translateYProperty().bind(this.timeElapsed.translateYProperty().subtract(fontSize).subtract(30));
         this.getChildren().add(this.currentTime);
     }
 
@@ -91,24 +74,15 @@ public class InformationPane extends StackPane {
      * Initialize the node that displays the time elapsed since the presentation has started.
      */
     private final void initializeTimeElapsed() {
-        final DoubleBinding width = this.widthProperty().divide(3.5);
-
         this.timeElapsed.getStyleClass().add("time-elapsed");
         this.timeElapsed.setTextAlignment(TextAlignment.RIGHT);
-        this.timeElapsed.setFont(Font.font("Monospaced"));
-
-        final DoubleProperty fontSize = new SimpleDoubleProperty(0);
-        this.timeElapsed.fontProperty().addListener((fontValue, oldFont, newFont) -> {
-            if (newFont != null) {
-                fontSize.set(newFont.getSize());
-            }
-        });
 
         this.timeElapsed.boundsInLocalProperty().addListener((bounds, oldBounds, newBounds) -> {
-            this.timeElapsed.setTranslateX(this.getWidth() - newBounds.getWidth() - 50);
+            final int margin = 50;
+            this.timeElapsed.setTranslateX(this.getWidth() - newBounds.getWidth() - margin);
+            this.timeElapsed.setTranslateY(this.getHeight() - newBounds.getHeight() - margin);
         });
 
-        this.timeElapsed.translateYProperty().bind(this.heightProperty().subtract(fontSize).subtract(50));
         this.getChildren().add(this.timeElapsed);
     }
 

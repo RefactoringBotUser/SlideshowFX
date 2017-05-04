@@ -17,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -48,6 +49,8 @@ public class SlideshowFX extends Application {
 
     @Override
     public void init() throws Exception {
+        Font.loadFont(SlideshowFX.class.getResource("/com/twasyl/slideshowfx/fonts/Inconsolata-Regular.ttf").toExternalForm(), 12);
+
         // Initialize the configuration
         GlobalConfiguration.createApplicationDirectory();
         GlobalConfiguration.createTemplateLibraryDirectory();

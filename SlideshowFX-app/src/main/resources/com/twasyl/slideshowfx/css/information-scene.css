@@ -3,11 +3,13 @@
 }
 
 .current-time {
+	-fx-font-family: 'Inconsolata';
     -fx-fill: app-color-text-fill;
     -fx-font-size: 30px;
 }
 
 .time-elapsed {
+	-fx-font-family: 'Inconsolata';
     -fx-fill: app-color-text-fill;
     -fx-font-size: 100px;
 }
