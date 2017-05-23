@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  * {@code plugin-file-button}.
  *
  * @author Thierry Wasylczenko
- * @version 1.1
+ * @version 1.2
  * @since SlideshowFX 1.1
  */
 public class PluginFileButton extends ToggleButton {
@@ -176,7 +176,12 @@ public class PluginFileButton extends ToggleButton {
 
             if (!fontIconName.isEmpty()) {
                 icon = new FontAwesome(Icon.valueOf(fontIconName), "50");
+                ((FontAwesome) icon).setColor("black");
             }
+        }
+
+        if (icon != null) {
+            icon.getStyleClass().add("icon");
         }
 
         return icon;

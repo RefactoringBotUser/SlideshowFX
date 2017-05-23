@@ -14,6 +14,8 @@ h4. New and noteworthy
 * Creating a new presentation displays a template's library allowing to create presentations from previously used templates
 * Display the current time in the information pane during a slideshow
 * Adding support for speaker notes
+* Ask for confirmation when deleting a presentation's variable
+* Introduction version for templates
 
 h4. Bug fixes
 

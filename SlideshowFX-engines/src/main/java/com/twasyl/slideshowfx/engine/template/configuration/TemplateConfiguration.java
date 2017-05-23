@@ -12,12 +12,13 @@ import java.util.logging.Logger;
  * Represents the template found in the template configuration file.
  *
  * @author Thierry Wasylczenko
- * @version 1.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class TemplateConfiguration implements IConfiguration {
     public static final String TEMPLATE = "template";
     public static final String TEMPLATE_NAME = "name";
+    public static final String TEMPLATE_VERSION = "version";
     public static final String TEMPLATE_FILE = "file";
     public static final String JS_OBJECT = "js-object";
     public static final String TEMPLATE_RESOURCES_DIRECTORY = "resources-directory";
@@ -48,6 +49,7 @@ public class TemplateConfiguration implements IConfiguration {
     private static final Logger LOGGER = Logger.getLogger(TemplateConfiguration.class.getName());
 
     private String name;
+    private String version;
     private File file;
     private Set<Pair<String, String>> defaultVariables;
     private List<SlideTemplate> slideTemplates;
@@ -69,6 +71,9 @@ public class TemplateConfiguration implements IConfiguration {
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
+
+    public String getVersion() { return version; }
+    public void setVersion(String version) { this.version = version;}
 
     public File getFile() { return file;  }
     public void setFile(File file) { this.file = file; }

@@ -44,6 +44,7 @@ public class TemplateConfigurationFilePane extends VBox {
 
     // General template configuration
     private ExtendedTextField templateName = new ExtendedTextField("Name", true);
+    private ExtendedTextField templateVersion = new ExtendedTextField("Version", true);
     private ExtendedTextField templateFile = new ExtendedTextField("File", true);
     private ExtendedTextField jsObject = new ExtendedTextField("JS Object", true);
     private ExtendedTextField templateResourcesDirectory = new ExtendedTextField("Resources' directory", true);
@@ -89,6 +90,7 @@ public class TemplateConfigurationFilePane extends VBox {
      */
     private void initializeMandatoryFields() {
         this.templateName.setValidator(isNotEmpty());
+        this.templateVersion.setValidator(isNotEmpty());
         this.templateFile.setValidator(isNotEmpty());
         this.templateResourcesDirectory.setValidator(isNotEmpty());
         this.jsObject.setValidator(isNotEmpty());
@@ -106,7 +108,7 @@ public class TemplateConfigurationFilePane extends VBox {
      * @return The properly initialized {@link TitledPane} containing the global configuration elements.
      */
     private TitledPane getTemplateGlobalConfigurationPane() {
-        final FlowPane internalContainer = new FlowPane(5, 5, templateName, templateFile, templateResourcesDirectory, jsObject);
+        final FlowPane internalContainer = new FlowPane(5, 5, templateName, templateVersion, templateFile, templateResourcesDirectory, jsObject);
         final TitledPane templateGlobalConfigurationPane = new TitledPane("Template global configuration", internalContainer);
         templateGlobalConfigurationPane.setCollapsible(false);
 
@@ -237,6 +239,7 @@ public class TemplateConfigurationFilePane extends VBox {
     public String getAsString() {
         final TemplateConfiguration configuration = new TemplateConfiguration();
         configuration.setName(this.templateName.getText());
+        configuration.setVersion(this.templateVersion.getText());
         configuration.setFile(new File(this.workingPath.toFile(), this.templateFile.getText()));
         configuration.setJsObject(this.jsObject.getText());
         configuration.setResourcesDirectory(new File(this.workingPath.toFile(), this.templateResourcesDirectory.getText()));
@@ -308,6 +311,7 @@ public class TemplateConfigurationFilePane extends VBox {
             final TemplateConfiguration configuration = engine.readConfiguration(file);
 
             this.templateName.setText(configuration.getName());
+            this.templateVersion.setText(configuration.getVersion());
             this.templateFile.setText(this.getPathRelativeToWorkingPath(configuration.getFile()));
             this.jsObject.setText(configuration.getJsObject());
             this.templateResourcesDirectory.setText(this.getPathRelativeToWorkingPath(configuration.getResourcesDirectory()));

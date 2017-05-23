@@ -21,6 +21,7 @@ import java.util.zip.ZipFile;
 import static com.twasyl.slideshowfx.engine.template.TemplateEngine.DEFAULT_CONFIGURATION_FILE_NAME;
 import static com.twasyl.slideshowfx.engine.template.configuration.TemplateConfiguration.TEMPLATE;
 import static com.twasyl.slideshowfx.engine.template.configuration.TemplateConfiguration.TEMPLATE_NAME;
+import static com.twasyl.slideshowfx.engine.template.configuration.TemplateConfiguration.TEMPLATE_VERSION;
 import static java.util.zip.ZipFile.OPEN_READ;
 
 /**
@@ -37,6 +38,7 @@ public class TemplateFileButton extends ToggleButton {
     private static final double BUTTON_SIZE = 80;
 
     private String templateName;
+    private String templateVersion;
     private File extractionLocation = null;
     private boolean presentInLibrary;
 
@@ -50,8 +52,14 @@ public class TemplateFileButton extends ToggleButton {
         this.getStyleClass().add("template-file-button");
 
         this.templateName = determineTemplateName();
+        this.templateVersion = determineTemplateVersion();
 
-        this.setText(this.templateName);
+        final StringBuilder templateIdentification = new StringBuilder(this.templateName);
+        if (!this.templateVersion.isEmpty()) {
+            templateIdentification.append(" (v").append(this.templateVersion).append(")");
+        }
+
+        this.setText(templateIdentification.toString());
         this.setTooltip(new Tooltip(this.templateName));
     }
 
@@ -153,6 +161,52 @@ public class TemplateFileButton extends ToggleButton {
      */
     protected final String determineTemplateName() {
         String name = getTemplateFile().getName();
+        final JsonObject jsonConfig = getJsonConfig();
+
+        if (jsonConfig != null) {
+            name = jsonConfig.getJsonObject(TEMPLATE).getString(TEMPLATE_NAME);
+
+            if (name.trim().isEmpty()) {
+                name = getTemplateFile().getName();
+            }
+        }
+
+        return name;
+    }
+
+    /**
+     * Determine the version of this template. This method will look for a file named
+     * {@linkplain TemplateEngine#DEFAULT_CONFIGURATION_FILE_NAME}. If it is found, then the version of the template is
+     * taken from this configuration.
+     * If the name can not be determined by the configuration, then an empty string will be returned.
+     *
+     * @return The version of the template.
+     */
+    protected final String determineTemplateVersion() {
+        String version = "";
+        final JsonObject jsonConfig = getJsonConfig();
+
+        if (jsonConfig != null) {
+            version = jsonConfig.getJsonObject(TEMPLATE).getString(TEMPLATE_VERSION, null);
+
+            if (version == null || version.trim().isEmpty()) {
+                version = "";
+            } else {
+                version = version.trim();
+            }
+        }
+
+        return version;
+    }
+
+    /**
+     * Get the JSON configuration object stored within the template. This method looks for a file named
+     * {@linkplain TemplateEngine#DEFAULT_CONFIGURATION_FILE_NAME}. If it is found, then the configuration is
+     * retrieved from this file.
+     *
+     * @return The JSON configuration stored in the template, {@code null} if it is not found.
+     */
+    protected JsonObject getJsonConfig() {
         JsonObject jsonConfig = null;
 
         try (final ZipFile zip = new ZipFile(getTemplateFile(), OPEN_READ)) {
@@ -172,15 +226,6 @@ public class TemplateFileButton extends ToggleButton {
         } catch (IOException e) {
             LOGGER.log(Level.WARNING, "Can not determine template's name", e);
         }
-
-        if (jsonConfig != null) {
-            name = jsonConfig.getJsonObject(TEMPLATE).getString(TEMPLATE_NAME);
-
-            if (name.trim().isEmpty()) {
-                name = getTemplateFile().getName();
-            }
-        }
-
-        return name;
+        return jsonConfig;
     }
 }

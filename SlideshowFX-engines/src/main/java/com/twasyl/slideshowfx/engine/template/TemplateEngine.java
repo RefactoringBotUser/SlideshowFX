@@ -68,6 +68,9 @@ public class TemplateEngine extends AbstractEngine<TemplateConfiguration> {
         templateConfiguration.setName(templateJson.getString(TEMPLATE_NAME));
         LOGGER.fine("[Template configuration] name = " + templateConfiguration.getName());
 
+        templateConfiguration.setVersion(templateJson.getString(TEMPLATE_VERSION, null));
+        LOGGER.fine("[Template configuration] version = " + templateConfiguration.getVersion());
+
         templateConfiguration.setFile(new File(getWorkingDirectory(), templateJson.getString(TEMPLATE_FILE)));
         LOGGER.fine("[Template configuration] file = " + templateConfiguration.getFile().getAbsolutePath());
 

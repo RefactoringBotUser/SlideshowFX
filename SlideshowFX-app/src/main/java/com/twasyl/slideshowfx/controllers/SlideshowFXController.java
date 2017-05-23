@@ -65,6 +65,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
@@ -198,20 +199,6 @@ public class SlideshowFXController implements Initializable {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-
-//        FileChooser chooser = new FileChooser();
-//        chooser.getExtensionFilters().add(SlideshowFXExtensionFilter.TEMPLATE_FILTER);
-//        File templateFile = chooser.showOpenDialog(null);
-//
-//        if (templateFile != null) {
-//            try {
-//                this.openTemplateOrPresentation(templateFile);
-//            } catch (IllegalAccessException e) {
-//                e.printStackTrace();
-//            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//            }
-//        }
     }
 
     /**

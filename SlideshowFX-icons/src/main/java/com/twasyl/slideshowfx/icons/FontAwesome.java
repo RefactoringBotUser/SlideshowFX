@@ -20,23 +20,23 @@ import java.util.logging.Logger;
 public class FontAwesome extends Text {
     private static final Logger LOGGER = Logger.getLogger(FontAwesome.class.getName());
     private final static String FONT_PATH = "/com/twasyl/slideshowfx/icons/fonts/fontawesome-webfont-4.7.0.ttf";
+    public static final Font FONT;
     public static final String FONT_AWESOME_FAMILY = "FontAwesome";
 
     static {
         try {
-            Font.loadFont(FontAwesome.class.getResource(FONT_PATH).openStream(), 10.0d);
+            FONT = Font.loadFont(FontAwesome.class.getResource(FONT_PATH).openStream(), 10.0d);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
     }
-
-    public static String FOLDER_OPEN = "\uf07c";
 
     private final ObjectProperty<Icon> icon = new SimpleObjectProperty<>(Icon.FOLDER_OPEN);
     private final StringProperty size = new SimpleStringProperty("1em");
     private final StringProperty color = new SimpleStringProperty("white");
 
     public FontAwesome() {
+        this.setFont(FONT);
         this.definePropertyListeners();
         setText(getIcon().getUnicode());
         recomputeStyle();

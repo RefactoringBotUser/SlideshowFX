@@ -4,6 +4,7 @@ import com.twasyl.slideshowfx.engine.presentation.configuration.PresentationConf
 import com.twasyl.slideshowfx.icons.FontAwesome;
 import com.twasyl.slideshowfx.icons.Icon;
 import com.twasyl.slideshowfx.icons.IconStack;
+import com.twasyl.slideshowfx.utils.DialogHelper;
 import com.twasyl.slideshowfx.utils.beans.Pair;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
@@ -107,8 +108,12 @@ public class PresentationVariablesPanel extends BorderPane {
         box.getChildren().addAll(radioButton, variableName, variableValue, delete);
 
         delete.setOnAction(event -> {
-            this.variablesBox.getChildren().remove(box);
-            this.variableGroup.getToggles().remove(radioButton);
+            final ButtonType answer = DialogHelper.showConfirmationAlert("Delete variable", "Are you sure you want to delete the \"" + variableName.getText() + "\" variable ?");
+
+            if (answer == ButtonType.YES) {
+                this.variablesBox.getChildren().remove(box);
+                this.variableGroup.getToggles().remove(radioButton);
+            }
         });
 
         this.variablesBox.getChildren().add(box);
