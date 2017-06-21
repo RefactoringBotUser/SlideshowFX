@@ -1,18 +1,21 @@
 package com.twasyl.slideshowfx.concurrent;
 
 import com.twasyl.slideshowfx.engine.presentation.PresentationEngine;
+import com.twasyl.slideshowfx.global.configuration.GlobalConfiguration;
+import com.twasyl.slideshowfx.global.configuration.RecentPresentation;
 import com.twasyl.slideshowfx.utils.concurrent.SlideshowFXTask;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * This tasks loads a SlideshowFX presentation. It takes a {@link com.twasyl.slideshowfx.engine.presentation.PresentationEngine}
+ * This tasks loads a SlideshowFX presentation. It takes a {@link PresentationEngine}
  * that will host the loaded template.
- * In order to load a presentation, the {@link java.io.File} corresponding to the presentation to load must be passed
+ * In order to load a presentation, the {@link File} corresponding to the presentation to load must be passed
  * to each instance of this task.
  *
  * @author Thierry Wasylczenko
@@ -30,12 +33,15 @@ public class LoadPresentationTask extends SlideshowFXTask<PresentationEngine> {
 
     @Override
     protected PresentationEngine call() throws Exception {
-        if(this.dataFile == null) throw new NullPointerException("The data file is null");
-        if(!this.dataFile.exists()) throw new FileNotFoundException("The data file doesn't exist");
+        if (this.dataFile == null) throw new NullPointerException("The data file is null");
+        if (!this.dataFile.exists()) throw new FileNotFoundException("The data file doesn't exist");
 
-        final PresentationEngine engine = new PresentationEngine();;
+        final PresentationEngine engine = new PresentationEngine();
         engine.loadArchive(this.dataFile);
         engine.setModifiedSinceLatestSave(false);
+
+        final RecentPresentation presentation = new RecentPresentation(this.dataFile.getAbsolutePath(), LocalDateTime.now());
+        GlobalConfiguration.saveRecentPresentation(presentation);
 
         return engine;
     }

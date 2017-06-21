@@ -44,7 +44,7 @@ public class SlideshowFX extends Application {
     private static final ReadOnlyObjectProperty<Stage> stage = new SimpleObjectProperty<>();
     private static final ReadOnlyObjectProperty<Scene> presentationBuilderScene = new SimpleObjectProperty<>();
 
-    private final ReadOnlyObjectProperty<SlideshowFXController> mainController = new SimpleObjectProperty<>();
+    private static final ReadOnlyObjectProperty<SlideshowFXController> mainController = new SimpleObjectProperty<>();
     private Set<File> filesToOpen;
 
     @Override
@@ -109,7 +109,7 @@ public class SlideshowFX extends Application {
         try {
             final FXMLLoader loader = new FXMLLoader();
             final Parent root = loader.load(SlideshowFX.class.getResourceAsStream("/com/twasyl/slideshowfx/fxml/SlideshowFX.fxml"));
-            ((SimpleObjectProperty<SlideshowFXController>) this.mainController).set(loader.getController());
+            ((SimpleObjectProperty<SlideshowFXController>) mainController).set(loader.getController());
 
             final Scene scene = new Scene(root);
             ((SimpleObjectProperty<Scene>) presentationBuilderScene).set(scene);
@@ -129,7 +129,7 @@ public class SlideshowFX extends Application {
             if (this.filesToOpen != null && !this.filesToOpen.isEmpty()) {
                 this.filesToOpen.forEach(file -> {
                     try {
-                        this.mainController.get().openTemplateOrPresentation(file);
+                        mainController.get().openTemplateOrPresentation(file);
                     } catch (IllegalAccessException | FileNotFoundException e) {
                         LOGGER.log(Level.SEVERE, "Can not open file at startup", e);
                     }
@@ -145,8 +145,8 @@ public class SlideshowFX extends Application {
     public void stop() throws Exception {
         super.stop();
 
-        if (this.mainController.get() != null) {
-            this.mainController.get().closeAllPresentations(true);
+        if (mainController.get() != null) {
+            mainController.get().closeAllPresentations(true);
 
             deleteTemporaryFiles();
             stopInternalServer();
@@ -215,6 +215,10 @@ public class SlideshowFX extends Application {
 
     public static Stage getStage() {
         return stageProperty().get();
+    }
+
+    public static SlideshowFXController getMainController() {
+        return mainController.get();
     }
 
     public static void main(String[] args) {

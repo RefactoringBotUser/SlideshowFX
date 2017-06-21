@@ -4,6 +4,7 @@ dependencies {
     compile project(":SlideshowFX-logs")
 
     testCompile "junit:junit:$junitVersion"
+    testCompile "org.mockito:mockito-core:$mockitoVersion"
 }
 
 tasks.bintrayUpload.enabled = false

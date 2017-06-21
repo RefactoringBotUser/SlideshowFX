@@ -225,6 +225,7 @@
                 <Menu text="File" fx:id="fileMenu">
                     <fx:reference source="newMenuItem"/>
                     <fx:reference source="openMenuItem"/>
+                    <Menu fx:id="openRecentMenu" text="Open recent" />
                     <fx:reference source="closePresentationMenuItem"/>
                     <SeparatorMenuItem/>
                     <fx:reference source="saveMenuItem"/>

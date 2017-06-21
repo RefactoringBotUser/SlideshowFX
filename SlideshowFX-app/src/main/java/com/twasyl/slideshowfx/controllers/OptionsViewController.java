@@ -1,5 +1,6 @@
 package com.twasyl.slideshowfx.controllers;
 
+import com.twasyl.slideshowfx.app.SlideshowFX;
 import com.twasyl.slideshowfx.global.configuration.GlobalConfiguration;
 import com.twasyl.slideshowfx.hosting.connector.IHostingConnector;
 import com.twasyl.slideshowfx.osgi.OSGiManager;
@@ -22,18 +23,26 @@ import java.util.logging.Logger;
  * This class is the controller for the view {@code OptionsView.fxml}.
  *
  * @author Thierry Wasylczenko
- * @version 1.1
+ * @version 1.2
  * @since SlideshowFX 1.0
  */
 public class OptionsViewController implements Initializable {
     private static final Logger LOGGER = Logger.getLogger(OptionsViewController.class.getName());
 
-    @FXML private VBox snippetExecutorContainer;
-    @FXML private VBox hostingConnectorContainer;
-    @FXML private CheckBox enableAutoSaving;
-    @FXML private TextField autoSavingInterval;
-    @FXML private CheckBox enableTemporaryFilesDeletion;
-    @FXML private TextField temporaryFilesMaxAge;
+    @FXML
+    private VBox snippetExecutorContainer;
+    @FXML
+    private VBox hostingConnectorContainer;
+    @FXML
+    private CheckBox enableAutoSaving;
+    @FXML
+    private TextField autoSavingInterval;
+    @FXML
+    private CheckBox enableTemporaryFilesDeletion;
+    @FXML
+    private TextField temporaryFilesMaxAge;
+    @FXML
+    private TextField maxRecentPresentations;
 
     /**
      * This methods saves the options displayed in the view and make them persistent.
@@ -47,6 +56,7 @@ public class OptionsViewController implements Initializable {
 
         this.saveAutoSavingOptions();
         this.saveTemporaryFilesDeletion();
+        this.saveMaxRecentPresentations();
     }
 
     /**
@@ -55,7 +65,7 @@ public class OptionsViewController implements Initializable {
     private void saveAutoSavingOptions() {
         GlobalConfiguration.enableAutoSaving(this.enableAutoSaving.isSelected());
 
-        if(!this.enableAutoSaving.isSelected()) {
+        if (!this.enableAutoSaving.isSelected()) {
             AutoSavingService.cancelAll();
         } else {
             AutoSavingService.resumeAll();
@@ -63,13 +73,13 @@ public class OptionsViewController implements Initializable {
 
         final String autoSavingInterval = this.autoSavingInterval.getText();
 
-        if(autoSavingInterval != null) {
+        if (autoSavingInterval != null) {
             try {
                 final Long newAutoSavingInterval = Long.valueOf(autoSavingInterval);
                 GlobalConfiguration.setAutoSavingInterval(newAutoSavingInterval);
 
                 AutoSavingService.setDelayForAllServices(newAutoSavingInterval);
-            } catch(NumberFormatException ex) {
+            } catch (NumberFormatException ex) {
                 LOGGER.log(Level.WARNING, "Invalid auto saving interval", ex);
                 GlobalConfiguration.removeAutoSavingInterval();
             }
@@ -86,16 +96,36 @@ public class OptionsViewController implements Initializable {
 
         final String temporaryFilesMaxAge = this.temporaryFilesMaxAge.getText();
 
-        if(temporaryFilesMaxAge != null) {
+        if (temporaryFilesMaxAge != null) {
             try {
                 GlobalConfiguration.setTemporaryFilesMaxAge(Long.parseLong(temporaryFilesMaxAge));
-            } catch(NumberFormatException ex) {
+            } catch (NumberFormatException ex) {
                 LOGGER.log(Level.WARNING, "Invalid temporary files max age", ex);
                 GlobalConfiguration.removeTemporaryFilesMaxAge();
             }
         } else {
             GlobalConfiguration.removeTemporaryFilesMaxAge();
         }
+    }
+
+    /**
+     * Saves the option for the maximum recent presentations to display.
+     */
+    private void saveMaxRecentPresentations() {
+        final String maxRecentPresentations = this.maxRecentPresentations.getText();
+
+        if (maxRecentPresentations != null) {
+            try {
+                GlobalConfiguration.setMaxRecentPresentations(Long.parseLong(maxRecentPresentations));
+            } catch (NumberFormatException ex) {
+                LOGGER.log(Level.WARNING, "Invalid max recent presentations", ex);
+                GlobalConfiguration.setMaxRecentPresentations(GlobalConfiguration.getDefaultMaxRecentPresentations());
+            }
+        } else {
+            GlobalConfiguration.setMaxRecentPresentations(GlobalConfiguration.getDefaultMaxRecentPresentations());
+        }
+
+        SlideshowFX.getMainController().refreshRecentlyOpenedPresentations();
     }
 
     /**
@@ -106,7 +136,7 @@ public class OptionsViewController implements Initializable {
                 .forEach(snippet -> {
                     final Node configurationUI = snippet.getConfigurationUI();
 
-                    if(configurationUI != null) this.snippetExecutorContainer.getChildren().add(configurationUI);
+                    if (configurationUI != null) this.snippetExecutorContainer.getChildren().add(configurationUI);
                 });
     }
 
@@ -118,7 +148,7 @@ public class OptionsViewController implements Initializable {
                 .forEach(hostingConnector -> {
                     final Node configurationUI = hostingConnector.getConfigurationUI();
 
-                    if(configurationUI != null) {
+                    if (configurationUI != null) {
                         final TitledPane pane = new TitledPane(hostingConnector.getName(), configurationUI);
                         pane.setCollapsible(true);
                         pane.setExpanded(false);
@@ -150,13 +180,20 @@ public class OptionsViewController implements Initializable {
         this.enableAutoSaving.setSelected(GlobalConfiguration.isAutoSavingEnabled());
     }
 
+    /**
+     * Initialize the UI for elements addressing the max recent presentations.
+     */
+    private void initializeMaxRecentPresentations() {
+        final Long maxRecentPresentations = GlobalConfiguration.getMaxRecentPresentations();
+        this.maxRecentPresentations.setText(String.valueOf(maxRecentPresentations));
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         this.initializeAutoSaveUI();
         this.initializeTemporaryFilesDeletionUI();
         this.initializeSnippetExecutorUI();
         this.initializeHostingConnectorUI();
-
+        this.initializeMaxRecentPresentations();
     }
 }

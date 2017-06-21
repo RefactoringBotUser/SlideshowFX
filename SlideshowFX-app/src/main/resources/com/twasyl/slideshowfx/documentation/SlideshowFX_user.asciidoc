@@ -108,7 +108,8 @@ You are able to:
 * Enable or disable an automatic save of your work at a given interval ;
 * Define the interval (in minutes) of saving automatically your work ;
 * Enable or disable the temporary files SlideshowFX creates ;
-* Define the max age (in days) of temporary files to be deleted. Files older of than this age will be removed when SlideshowFX closes if the parameter is enabled.
+* Define the max age (in days) of temporary files to be deleted. Files older of than this age will be removed when SlideshowFX closes if the parameter is enabled ;
+* Define how many presentations are suggested for the *Open recent* menu.
 
 === Embeded server
 

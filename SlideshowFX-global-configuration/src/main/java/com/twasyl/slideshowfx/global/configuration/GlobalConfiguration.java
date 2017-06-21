@@ -1,11 +1,14 @@
 package com.twasyl.slideshowfx.global.configuration;
 
 import com.twasyl.slideshowfx.logs.SlideshowFXHandler;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Properties;
+import java.util.Set;
 import java.util.StringJoiner;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.*;
@@ -29,12 +32,16 @@ public class GlobalConfiguration {
     protected static final String DEFAULT_APPLICATION_DIRECTORY_NAME = ".SlideshowFX";
     protected static final String DEFAULT_PLUGINS_DIRECTORY_NAME = "plugins";
     protected static final String DEFAULT_TEMPLATE_LIBRARY_DIRECTORY_NAME = "templateLibrary";
+    protected static final String SLIDESHOWFX_CONFIGURATION_FILE = ".slideshowfx.configuration.properties";
+    protected static final String SLIDESHOWFX_CONTEXT_FILE_NAME = ".slideshowfx.context.xml";
+    protected static final Long DEFAULT_MAX_RECENT_PRESENTATIONS = 10L;
 
     private static File APPLICATION_DIRECTORY = null;
     private static File PLUGINS_DIRECTORY = null;
     private static File TEMPLATE_LIBRARY_DIRECTORY = null;
     private static File CONFIG_FILE = null;
     private static File LOGGING_CONFIG_FILE = null;
+    private static Set<RecentPresentation> RECENT_PRESENTATIONS = null;
 
     /**
      * Name of the parameter used to specify if auto saving files is enabled. The value of the parameter is a boolean.
@@ -58,6 +65,12 @@ public class GlobalConfiguration {
      * application. The value of this parameter must be given in seconds.
      */
     protected static final String TEMPORARY_FILES_MAX_AGE_PARAMETER = "application.temporaryFiles.maxAge";
+
+    /**
+     * Name of the parameter used to specify how many open presentations are stored and displayed in the "Open recent"
+     * menu of the application.
+     */
+    protected static final String MAX_RECENT_PRESENTATIONS = "application.max.recentpresentations";
 
     /**
      * The default {@link Charset} used by the application when writing files, readings files and converting strings.
@@ -171,7 +184,7 @@ public class GlobalConfiguration {
      */
     public synchronized static File getConfigurationFile() {
         if (CONFIG_FILE == null) {
-            CONFIG_FILE = new File(getApplicationDirectory(), ".slideshowfx.configuration.properties");
+            CONFIG_FILE = new File(getApplicationDirectory(), SLIDESHOWFX_CONFIGURATION_FILE);
         }
 
         return CONFIG_FILE;
@@ -739,11 +752,130 @@ public class GlobalConfiguration {
     }
 
     /**
+     * Get the default max recent presentations that must be stored and displayed in the "Open recent" menu.
+     *
+     * @return The default max recent presentations.
+     */
+    public static Long getDefaultMaxRecentPresentations() {
+        return DEFAULT_MAX_RECENT_PRESENTATIONS;
+    }
+
+    /**
+     * Get the maximum number of recent presentations that must be stored and displayed in the "Open recent" menu.
+     *
+     * @return The maximum number of recent presentations.
+     */
+    public static Long getMaxRecentPresentations() {
+        final Long maxRecentPresentations = getLongProperty(MAX_RECENT_PRESENTATIONS);
+        return maxRecentPresentations == null ? getDefaultMaxRecentPresentations() : maxRecentPresentations;
+    }
+
+    /**
+     * Set the maximum number of recent presentations that must be stored and displayed in the "Open recent" menu.
+     *
+     * @param maxRecentPresentations The maximum number of recent presentations.
+     */
+    public static void setMaxRecentPresentations(final long maxRecentPresentations) {
+        setProperty(MAX_RECENT_PRESENTATIONS, String.valueOf(maxRecentPresentations));
+    }
+
+    /**
+     * Remove the maximum number of recent presentations that must be stored and displayed in the "Open recent" menu.
+     */
+    public static void removeMaxRecentPresentations() {
+        removeProperty(MAX_RECENT_PRESENTATIONS);
+    }
+
+    /**
      * Get the default {@link Charset} used by the application.
      *
      * @return The default charset used by the application.
      */
     public static Charset getDefaultCharset() {
         return DEFAULT_CHARSET;
+    }
+
+    /**
+     * Get a collection of presentations opened recently.
+     *
+     * @return The collection of presentations opened recently.
+     */
+    public synchronized static Set<RecentPresentation> getRecentPresentations() {
+        if (RECENT_PRESENTATIONS == null) {
+            try {
+                RECENT_PRESENTATIONS = ContextFileWorker.readRecentPresentationFromFile(new File(getApplicationDirectory(), SLIDESHOWFX_CONTEXT_FILE_NAME));
+            } catch (ContextFileException e) {
+                LOGGER.log(Level.WARNING, "Can not read the recent opened presentations", e);
+            }
+        }
+        final Long maxRecentPresentations = getMaxRecentPresentations();
+
+        synchronized (RECENT_PRESENTATIONS) {
+            if (RECENT_PRESENTATIONS.size() > maxRecentPresentations) {
+                final File contextFile = new File(getApplicationDirectory(), SLIDESHOWFX_CONTEXT_FILE_NAME);
+                try {
+                    RECENT_PRESENTATIONS = ContextFileWorker.purgeRecentPresentations(contextFile, maxRecentPresentations);
+                } catch (ContextFileException e) {
+                    LOGGER.log(Level.WARNING, "Can not purge recent presentations", e);
+                }
+            }
+        }
+
+        return RECENT_PRESENTATIONS;
+    }
+
+    /**
+     * Save a {@link RecentPresentation} as a recently opened presentation. This save is persisted on disk.
+     *
+     * @param recentPresentation The presentation to save as recently opened.
+     */
+    public synchronized static void saveRecentPresentation(final RecentPresentation recentPresentation) {
+        if (recentPresentation != null) {
+            final File contextFile = new File(getApplicationDirectory(), SLIDESHOWFX_CONTEXT_FILE_NAME);
+            boolean presentationAlreadyPresent = false;
+
+            try {
+                presentationAlreadyPresent = ContextFileWorker.recentPresentationAlreadyPresent(contextFile, recentPresentation);
+            } catch (ContextFileException e) {
+                LOGGER.log(Level.WARNING, "Context file seems to not exist", e);
+            }
+
+            synchronized (RECENT_PRESENTATIONS) {
+                if (RECENT_PRESENTATIONS.contains(recentPresentation)) {
+                    RECENT_PRESENTATIONS.remove(recentPresentation);
+                }
+            }
+
+            if (presentationAlreadyPresent) {
+                try {
+                    synchronized (RECENT_PRESENTATIONS) {
+                        ContextFileWorker.updateRecentPresentationInFile(contextFile, recentPresentation);
+                        RECENT_PRESENTATIONS.add(recentPresentation);
+                    }
+                } catch (ContextFileException e) {
+                    LOGGER.log(Level.WARNING, "Can not update recently opened presentation", e);
+                }
+            } else {
+                try {
+                    synchronized (RECENT_PRESENTATIONS) {
+                        ContextFileWorker.saveRecentPresentationToFile(contextFile, recentPresentation);
+                        RECENT_PRESENTATIONS.add(recentPresentation);
+                    }
+                } catch (ContextFileException e) {
+                    LOGGER.log(Level.WARNING, "The recent presentation couldn't be saved", e);
+                }
+            }
+
+            synchronized (RECENT_PRESENTATIONS) {
+                final Long maxRecentPresentations = getMaxRecentPresentations();
+                if (RECENT_PRESENTATIONS.size() > maxRecentPresentations) {
+                    try {
+                        RECENT_PRESENTATIONS = ContextFileWorker.purgeRecentPresentations(contextFile, maxRecentPresentations);
+                    } catch (ContextFileException e) {
+                        LOGGER.log(Level.WARNING, "Can not purge recent presentations", e);
+                    }
+                }
+            }
+        }
     }
 }

@@ -225,7 +225,7 @@ ext {
     jsoupVersion = '1.10.2'
     junitVersion = '4.12'
     markdownVersion = '0.13'
-    mockitoVersion = '2.6.8'
+    mockitoVersion = '2.8.47'
     rxJavaVersion = '2.0.8'
     twitterVersion = '4.0.6'
     vertxVersion = '3.4.0'
@@ -343,7 +343,7 @@ apply plugin: 'distribution'
 version = '@@NEXT-VERSION@@'
 
 wrapper {
-    gradleVersion = '3.5'
+    gradleVersion = '4.0'
 }
 
 asciidoctorj {

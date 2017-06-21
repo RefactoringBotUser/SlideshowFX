@@ -15,7 +15,8 @@ h4. New and noteworthy
 * Display the current time in the information pane during a slideshow
 * Adding support for speaker notes
 * Ask for confirmation when deleting a presentation's variable
-* Introduction version for templates
+* Introduction of version for templates
+* Allow to re-open recent presentations
 
 h4. Bug fixes
 
