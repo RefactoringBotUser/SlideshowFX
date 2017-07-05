@@ -22,6 +22,7 @@ h4. Bug fixes
 
 * Information screen during slideshow react to events emitted by the slideshow, meaning it will react correctly to display current and next slide
 * Free information pane's resources correctly when exiting the slideshow mode
+* Box hosting connector overwrite an existing file correctly when asked to
 
 h3(#1_4). "Version 1.4":#1_4
 

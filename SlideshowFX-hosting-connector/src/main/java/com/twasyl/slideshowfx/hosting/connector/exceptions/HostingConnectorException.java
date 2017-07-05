@@ -7,7 +7,7 @@ import com.twasyl.slideshowfx.utils.beans.Pair;
  * error codes to identify the error.
  *
  * @author Thierry Wasylczenko
- * @version 1.0.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class HostingConnectorException extends Exception {
@@ -15,6 +15,7 @@ public class HostingConnectorException extends Exception {
     public static final short NOT_AUTHENTICATED = 2;
     public static final short AUTHENTICATION_FAILURE = 3;
     public static final short MISSING_CONFIGURATION = 4;
+    public static final short DESTINATION_NOT_FOUND = 5;
 
     private final short errorCode;
 
@@ -52,6 +53,9 @@ public class HostingConnectorException extends Exception {
             case MISSING_CONFIGURATION:
                 pair.setKey("Missing configuration");
                 pair.setValue("A configuration is missing in order to interact with the service");
+            case DESTINATION_NOT_FOUND:
+                pair.setKey("Destination not found");
+                pair.setValue("The remote destination is not found");
             case UNKNOWN_ERROR:
             default:
                 pair.setKey("Unknown error");

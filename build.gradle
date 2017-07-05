@@ -220,15 +220,15 @@ subprojects {
 ext {
     // Dependencies versions
     asciidoctorjVersion = '1.5.5'
-    felixVersion = '5.6.1'
-    freemarkerVersion = '2.3.25-incubating'
-    jsoupVersion = '1.10.2'
+    felixVersion = '5.6.4'
+    freemarkerVersion = '2.3.26-incubating'
+    jsoupVersion = '1.10.3'
     junitVersion = '4.12'
     markdownVersion = '0.13'
     mockitoVersion = '2.8.47'
-    rxJavaVersion = '2.0.8'
+    rxJavaVersion = '2.1.1'
     twitterVersion = '4.0.6'
-    vertxVersion = '3.4.0'
+    vertxVersion = '3.4.2'
     wikitextVersion = '3.0.6'
     zxingVersion = '3.3.0'
 
@@ -237,11 +237,11 @@ ext {
     asciidoctorMarkupBintrayUploadEnabled = true
     htmlMarkupBintrayUploadEnabled = false
     markdownMarkupBintrayUploadEnabled = false
-    textileMarkupBintrayUploadEnabled = false
+    textileMarkupBintrayUploadEnabled = true
 
-    boxHostingConnectorBintrayUploadEnabled = false
-    driveHostingConnectorBintrayUploadEnabled = false
-    dropboxHostingConnectorBintrayUploadEnabled = false
+    boxHostingConnectorBintrayUploadEnabled = true
+    driveHostingConnectorBintrayUploadEnabled = true
+    dropboxHostingConnectorBintrayUploadEnabled = true
 
     alertContentExtensionBintrayUploadEnabled = true
     codeContentExtensionBintrayUploadEnabled = true

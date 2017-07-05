@@ -26,7 +26,7 @@ import java.util.logging.Logger;
  * This class allow to use Twitter in the chat.
  *
  * @author Thierry Wasylczenko
- * @version 1.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class TwitterService extends AbstractSlideshowFXService {
@@ -52,8 +52,8 @@ public class TwitterService extends AbstractSlideshowFXService {
             this.launchTwitter();
         });
 
-        if(hashtag != null && !hashtag.isEmpty()) {
-            if(this.accessToken.get() == null) this.connect();
+        if (hashtag != null && !hashtag.isEmpty()) {
+            if (this.accessToken.get() == null) this.connect();
             else this.launchTwitter();
         }
     }
@@ -66,12 +66,12 @@ public class TwitterService extends AbstractSlideshowFXService {
             LOGGER.log(Level.SEVERE, "Can not stop the TwitterService properly", e);
         }
 
-        if(this.twitterStream != null) {
+        if (this.twitterStream != null) {
             try {
                 new Thread(() -> {
                     this.twitterStream.shutdown();
                 }).start();
-            } catch(Exception e) {
+            } catch (Exception e) {
                 LOGGER.log(Level.SEVERE, "Can not stop the Twitter stream", e);
             }
         }
@@ -87,7 +87,7 @@ public class TwitterService extends AbstractSlideshowFXService {
         try {
             this.twitter.setOAuthConsumer(this.twitterConfiguration.getOAuthConsumerKey(),
                     this.twitterConfiguration.getOAuthConsumerSecret());
-        } catch(IllegalStateException e) {
+        } catch (IllegalStateException e) {
             LOGGER.fine("Consumer keys already set up");
         }
 
@@ -137,7 +137,7 @@ public class TwitterService extends AbstractSlideshowFXService {
      * Start the {@link TwitterStream}.
      */
     private void launchTwitter() {
-        if(this.accessToken.get() != null) {
+        if (this.accessToken.get() != null) {
             final FilterQuery query = new FilterQuery();
             query.track(new String[]{SlideshowFXServer.getSingleton().getTwitterHashtag()});
 
@@ -158,7 +158,6 @@ public class TwitterService extends AbstractSlideshowFXService {
 
             final JsonObject jsonTweet = chatMessage.toJSON();
 
-            System.out.println(jsonTweet.toString());
             TwitterService.this.vertx.eventBus().publish(SERVICE_CHAT_ATTENDEE_MESSAGE_ADD, jsonTweet);
             TwitterService.this.vertx.eventBus().publish(SERVICE_CHAT_PRESENTER_MESSAGE_ADD, jsonTweet);
         };

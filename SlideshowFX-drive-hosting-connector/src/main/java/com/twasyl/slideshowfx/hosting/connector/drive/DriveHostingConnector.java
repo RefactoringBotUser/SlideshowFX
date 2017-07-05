@@ -40,7 +40,7 @@ import java.util.logging.Logger;
  * This connector allows to interact with Google Drive.
  *
  * @author Thierry Wasylczenko
- * @version 1.1
+ * @version 1.2
  * @since SlideshowFX 1.0
  */
 public class DriveHostingConnector extends AbstractHostingConnector<BasicHostingConnectorOptions> {
@@ -360,15 +360,32 @@ public class DriveHostingConnector extends AbstractHostingConnector<BasicHosting
         if (!(destination instanceof GoogleFile))
             throw new IllegalArgumentException("The given destination must be a GoogleFile");
 
-        boolean exists;
+        boolean exists = this.getRemoteFile(engine, destination) != null;
+
+        return exists;
+    }
+
+    @Override
+    public RemoteFile getRemoteFile(PresentationEngine engine, RemoteFile destination) throws HostingConnectorException {
+        if (engine == null) throw new NullPointerException("The engine can not be null");
+        if (engine.getArchive() == null) throw new NullPointerException("The archive file can not be null");
+        if (destination == null) throw new NullPointerException("The destination can not be null");
+        if (!(destination instanceof GoogleFile))
+            throw new IllegalArgumentException("The given destination must be a GoogleFile");
+
+        RemoteFile remoteFile = null;
 
         if (this.isAuthenticated()) {
-            exists = getFile(engine, destination) != null;
+            final com.google.api.services.drive.model.File file = getFile(engine, destination);
+
+            if (file != null) {
+                remoteFile = new GoogleFile((GoogleFile) destination, file.getName(), file.getId());
+            }
         } else {
             throw new HostingConnectorException(HostingConnectorException.NOT_AUTHENTICATED);
         }
 
-        return exists;
+        return remoteFile;
     }
 
     /**
