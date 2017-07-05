@@ -15,6 +15,10 @@ matrix:
     - os: linux
       dist: trusty
       jdk: oraclejdk8
+      addons:
+        apt:
+          packages:
+            - fakeroot
     - os: osx
       osx_image: xcode8.3
 
