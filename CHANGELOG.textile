@@ -17,6 +17,7 @@ h4. New and noteworthy
 * Ask for confirmation when deleting a presentation's variable
 * Introduction of version for templates
 * Allow to re-open recent presentations
+* Uses ACE 1.2.8 in the slide content editor
 
 h4. Bug fixes
 

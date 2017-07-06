@@ -1,7 +1,7 @@
 package com.twasyl.slideshowfx.snippet.executor.kotlin;
 
 import com.twasyl.slideshowfx.snippet.executor.CodeSnippet;
-import com.twasyl.slideshowfx.utils.ResourceHelper;
+import com.twasyl.slideshowfx.utils.io.IOUtils;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -121,7 +121,7 @@ public class KotlinSnippetExecutorTest {
         final CodeSnippet snippet = new CodeSnippet();
         snippet.setCode("fun main(args: Array<String>) {\n\tprintln(\"Hello\")\n}");
 
-        final String expected = ResourceHelper.readResource("/com/twasyl/slideshowfx/snippet/executor/kotlin/buildSourceCodeWithoutImportsAndWithoutWrapInMainAndWithoutPackage_expected.txt");
+        final String expected = IOUtils.read(KotlinSnippetExecutorTest.class.getResourceAsStream("/com/twasyl/slideshowfx/snippet/executor/kotlin/buildSourceCodeWithoutImportsAndWithoutWrapInMainAndWithoutPackage_expected.txt"));
         assertEquals(expected, snippetExecutor.buildSourceCode(snippet));
     }
 
@@ -132,7 +132,7 @@ public class KotlinSnippetExecutorTest {
 
         snippet.setCode("fun main(args: Array<String>) {\n\tprintln(\"Hello\")\n}");
 
-        final String expected = ResourceHelper.readResource("/com/twasyl/slideshowfx/snippet/executor/kotlin/buildSourceCodeWithoutImportsAndWithoutWrapInMain_expected.txt");
+        final String expected = IOUtils.read(KotlinSnippetExecutorTest.class.getResourceAsStream("/com/twasyl/slideshowfx/snippet/executor/kotlin/buildSourceCodeWithoutImportsAndWithoutWrapInMain_expected.txt"));
         assertEquals(expected, snippetExecutor.buildSourceCode(snippet));
     }
 
@@ -144,7 +144,7 @@ public class KotlinSnippetExecutorTest {
 
         snippet.setCode("fun main(args: Array<String>) {\n\tprintln(\"Hello\")\n}");
 
-        final String expected = ResourceHelper.readResource("/com/twasyl/slideshowfx/snippet/executor/kotlin/buildSourceCodeWithoutWrapInMain_expected.txt");
+        final String expected = IOUtils.read(KotlinSnippetExecutorTest.class.getResourceAsStream("/com/twasyl/slideshowfx/snippet/executor/kotlin/buildSourceCodeWithoutWrapInMain_expected.txt"));
         assertEquals(expected, snippetExecutor.buildSourceCode(snippet));
     }
 
@@ -157,7 +157,7 @@ public class KotlinSnippetExecutorTest {
 
         snippet.setCode("println(\"Hello\")");
 
-        final String expected = ResourceHelper.readResource("/com/twasyl/slideshowfx/snippet/executor/kotlin/buildSourceCode_expected.txt");
+        final String expected = IOUtils.read(KotlinSnippetExecutorTest.class.getResourceAsStream("/com/twasyl/slideshowfx/snippet/executor/kotlin/buildSourceCode_expected.txt"));
         assertEquals(expected, snippetExecutor.buildSourceCode(snippet));
     }
 }

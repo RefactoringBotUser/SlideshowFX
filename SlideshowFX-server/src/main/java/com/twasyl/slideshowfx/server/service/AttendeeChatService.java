@@ -4,7 +4,6 @@ import com.twasyl.slideshowfx.server.SlideshowFXServer;
 import com.twasyl.slideshowfx.server.beans.chat.ChatMessage;
 import com.twasyl.slideshowfx.server.beans.chat.ChatMessageAction;
 import com.twasyl.slideshowfx.server.beans.chat.ChatMessageStatus;
-import com.twasyl.slideshowfx.utils.ResourceHelper;
 import com.twasyl.slideshowfx.utils.TemplateProcessor;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -26,11 +25,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static com.twasyl.slideshowfx.server.service.IServicesCode.*;
+
 /**
  * This class represents the attendee part of the internal SlideshowFX chat.
  *
  * @author Thierry Wasylczenko
- * @version 1.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class AttendeeChatService extends AbstractSlideshowFXService {
@@ -43,8 +43,8 @@ public class AttendeeChatService extends AbstractSlideshowFXService {
         this.updateRouteMatcher();
 
         this.register(SERVICE_CHAT_ATTENDEE_MESSAGE_ADD, buildAddMessageHandler())
-            .register(SERVICE_CHAT_ATTENDEE_MESSAGE_UPDATE, buildUpdateMessageHandler())
-            .register(SERVICE_CHAT_ATTENDEE_HISTORY, buildHistoryMessageHandler());
+                .register(SERVICE_CHAT_ATTENDEE_MESSAGE_UPDATE, buildUpdateMessageHandler())
+                .register(SERVICE_CHAT_ATTENDEE_HISTORY, buildHistoryMessageHandler());
     }
 
     @Override
@@ -62,7 +62,7 @@ public class AttendeeChatService extends AbstractSlideshowFXService {
         router.get(FONT_AWESOME_PREFIX.concat("*")).handler(routingContext -> {
             final String file = routingContext.request().path().substring(FONT_AWESOME_PREFIX.length());
 
-            try (final InputStream in = ResourceHelper.getInputStream("/com/twasyl/slideshowfx/webapp/font-awesome/4.6.3/".concat(file))) {
+            try (final InputStream in = AttendeeChatService.class.getResourceAsStream("/com/twasyl/slideshowfx/webapp/font-awesome/4.6.3/".concat(file))) {
 
                 byte[] imageBuffer = new byte[1028];
                 int numberOfBytesRead;
@@ -116,9 +116,9 @@ public class AttendeeChatService extends AbstractSlideshowFXService {
             if (chatMessage != null) {
                 JsonArray fields = message.body().getJsonArray(JSON_KEY_FIELDS);
                 fields.forEach(value -> {
-                    if(JSON_KEY_FIELD_STATUS.equals(value)) {
+                    if (JSON_KEY_FIELD_STATUS.equals(value)) {
                         chatMessage.setStatus(ChatMessageStatus.fromString(message.body().getJsonObject(JSON_KEY_MESSAGE).getString(JSON_KEY_MESSAGE_STATUS)));
-                    } else if(JSON_KEY_FIELD_ACTION.equals(value)) {
+                    } else if (JSON_KEY_FIELD_ACTION.equals(value)) {
                         final String action = message.body().getJsonObject(JSON_KEY_MESSAGE).getString(JSON_KEY_MESSAGE_ACTION);
                         chatMessage.setAction("null".equals(action) ? null : ChatMessageAction.fromString(action));
                     }
@@ -164,7 +164,7 @@ public class AttendeeChatService extends AbstractSlideshowFXService {
         final Handler<Message<JsonObject>> handler = message -> {
             final JsonArray array = new JsonArray();
 
-            for(ChatMessage chatMessage : this.chatHistory.values()) {
+            for (ChatMessage chatMessage : this.chatHistory.values()) {
                 array.add(chatMessage.toJSON());
             }
 

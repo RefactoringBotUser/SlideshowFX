@@ -14,6 +14,7 @@ import com.twasyl.slideshowfx.engine.template.configuration.TemplateConfiguratio
 import com.twasyl.slideshowfx.global.configuration.GlobalConfiguration;
 import com.twasyl.slideshowfx.utils.*;
 import com.twasyl.slideshowfx.utils.beans.Pair;
+import com.twasyl.slideshowfx.utils.io.IOUtils;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -38,7 +39,7 @@ import java.util.stream.Collectors;
  * The extension of a presentation is {@code sfx}.
  *
  * @author Thierry Wasylczenko
- * @version 1.2
+ * @version 1.3
  * @since SlideshowFX 1.0
  */
 public class PresentationEngine extends AbstractEngine<PresentationConfiguration> {
@@ -674,10 +675,10 @@ public class PresentationEngine extends AbstractEngine<PresentationConfiguration
     private String buildJavaScriptResourcesToInclude() {
         final StringBuilder builder = new StringBuilder();
 
-        builder.append(ResourceHelper.readResource(TEMPLATE_SFX_CONTENT_DEFINER_SCRIPT)).append("\n\n")
-                .append(ResourceHelper.readResource(TEMPLATE_SFX_SNIPPET_EXECUTOR_SCRIPT)).append("\n\n")
-                .append(ResourceHelper.readResource(TEMPLATE_SFX_CALLBACK_SCRIPT)).append("\n\n")
-                .append(ResourceHelper.readResource(TEMPLATE_SFX_QUIZ_CALLER_SCRIPT)).append("\n\n");
+        builder.append(IOUtils.read(PresentationEngine.class.getResourceAsStream(TEMPLATE_SFX_CONTENT_DEFINER_SCRIPT))).append("\n\n")
+                .append(IOUtils.read(PresentationEngine.class.getResourceAsStream(TEMPLATE_SFX_SNIPPET_EXECUTOR_SCRIPT))).append("\n\n")
+                .append(IOUtils.read(PresentationEngine.class.getResourceAsStream(TEMPLATE_SFX_CALLBACK_SCRIPT))).append("\n\n")
+                .append(IOUtils.read(PresentationEngine.class.getResourceAsStream(TEMPLATE_SFX_QUIZ_CALLER_SCRIPT))).append("\n\n");
 
         return builder.toString();
     }

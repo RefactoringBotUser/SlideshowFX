@@ -199,7 +199,7 @@ subprojects {
     }
 
     task integrationTest(type: Test) {
-        testClassesDir = sourceSets.integrationTest.output.classesDir
+        testClassesDirs = sourceSets.integrationTest.output.classesDirs
         classpath = sourceSets.integrationTest.runtimeClasspath
         outputs.upToDateWhen { false }
     }
@@ -229,7 +229,7 @@ ext {
     rxJavaVersion = '2.1.1'
     twitterVersion = '4.0.6'
     vertxVersion = '3.4.2'
-    wikitextVersion = '3.0.6'
+    wikitextVersion = '3.0.9'
     zxingVersion = '3.3.0'
 
     jdk = System.env.'JAVA_HOME'
@@ -374,7 +374,7 @@ asciidoctor {
             'vertx-version': "$vertxVersion",
             'zxing-core-version': "$zxingVersion",
             'zxing-jse-version': "$zxingVersion",
-            'ace-version': '1.2.6'
+            'ace-version': '1.2.8'
     ]
 }
 

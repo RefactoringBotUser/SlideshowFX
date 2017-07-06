@@ -1,7 +1,6 @@
 package com.twasyl.slideshowfx.controls;
 
 import com.twasyl.slideshowfx.icons.FontAwesome;
-import com.twasyl.slideshowfx.utils.ResourceHelper;
 import javafx.animation.TranslateTransition;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;

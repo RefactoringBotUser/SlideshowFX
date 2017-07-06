@@ -1,7 +1,7 @@
 package com.twasyl.slideshowfx.snippet.executor.go;
 
 import com.twasyl.slideshowfx.snippet.executor.CodeSnippet;
-import com.twasyl.slideshowfx.utils.ResourceHelper;
+import com.twasyl.slideshowfx.utils.io.IOUtils;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -111,7 +111,7 @@ public class GoSnippetExecutorTest {
         final CodeSnippet snippet = new CodeSnippet();
         snippet.setCode("func main() {\n\tfmt.Printf(\"Hello, world.\\n\")\n}");
 
-        final String expected = ResourceHelper.readResource("/com/twasyl/slideshowfx/snippet/executor/go/buildSourceCodeWithoutImportsAndWithoutWrapInMainAndWithoutPackageName_expected.txt");
+        final String expected = IOUtils.read(GoSnippetExecutorTest.class.getResourceAsStream("/com/twasyl/slideshowfx/snippet/executor/go/buildSourceCodeWithoutImportsAndWithoutWrapInMainAndWithoutPackageName_expected.txt"));
         assertEquals(expected, snippetExecutor.buildSourceCode(snippet));
     }
 
@@ -122,7 +122,7 @@ public class GoSnippetExecutorTest {
 
         snippet.setCode("func main() {\n\tfmt.Printf(\"Hello, world.\\n\")\n}");
 
-        final String expected = ResourceHelper.readResource("/com/twasyl/slideshowfx/snippet/executor/go/buildSourceCodeWithoutImportsAndWithoutWrapInMain_expected.txt");
+        final String expected = IOUtils.read(GoSnippetExecutorTest.class.getResourceAsStream("/com/twasyl/slideshowfx/snippet/executor/go/buildSourceCodeWithoutImportsAndWithoutWrapInMain_expected.txt"));
         assertEquals(expected, snippetExecutor.buildSourceCode(snippet));
     }
 
@@ -134,7 +134,7 @@ public class GoSnippetExecutorTest {
 
         snippet.setCode("func main() {\n\tfmt.Printf(\"Hello, world.\\n\")\n}");
 
-        final String expected = ResourceHelper.readResource("/com/twasyl/slideshowfx/snippet/executor/go/buildSourceCodeWithoutWrapInMain_expected.txt");
+        final String expected = IOUtils.read(GoSnippetExecutor.class.getResourceAsStream("/com/twasyl/slideshowfx/snippet/executor/go/buildSourceCodeWithoutWrapInMain_expected.txt"));
         assertEquals(expected, snippetExecutor.buildSourceCode(snippet));
     }
 
@@ -147,7 +147,7 @@ public class GoSnippetExecutorTest {
 
         snippet.setCode("fmt.Printf(\"Hello, world.\\n\")");
 
-        final String expected = ResourceHelper.readResource("/com/twasyl/slideshowfx/snippet/executor/go/buildSourceCode_expected.txt");
+        final String expected = IOUtils.read(GoSnippetExecutor.class.getResourceAsStream("/com/twasyl/slideshowfx/snippet/executor/go/buildSourceCode_expected.txt"));
         assertEquals(expected, snippetExecutor.buildSourceCode(snippet));
     }
 }

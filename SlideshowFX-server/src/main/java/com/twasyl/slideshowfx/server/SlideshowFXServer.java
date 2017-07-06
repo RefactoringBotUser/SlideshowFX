@@ -2,7 +2,6 @@ package com.twasyl.slideshowfx.server;
 
 import com.twasyl.slideshowfx.server.service.AbstractSlideshowFXService;
 import com.twasyl.slideshowfx.server.service.ISlideshowFXServices;
-import com.twasyl.slideshowfx.utils.ResourceHelper;
 import com.twasyl.slideshowfx.utils.TemplateProcessor;
 import com.twasyl.slideshowfx.utils.beans.Wrapper;
 import freemarker.template.Configuration;
@@ -36,7 +35,7 @@ import static com.twasyl.slideshowfx.server.service.AbstractSlideshowFXService.J
  * This class represents an embedded server which is provided in SlideshowFX.
  *
  * @author Thierry Wasylczenko
- * @version 1.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class SlideshowFXServer {
@@ -101,33 +100,48 @@ public class SlideshowFXServer {
 
     /**
      * Get the host of the server.
+     *
      * @return The host of the server.
      */
-    public String getHost() { return host; }
+    public String getHost() {
+        return host;
+    }
 
     /**
      * Get the port of the server
+     *
      * @return The port of the server.
      */
-    public int getPort() { return port; }
+    public int getPort() {
+        return port;
+    }
 
     /**
      * Get the Twitter hashtag to look on Twitter.
+     *
      * @return The Twitter hashtag to look on Twitter.
      */
-    public String getTwitterHashtag() { return this.twitterHashtag; }
+    public String getTwitterHashtag() {
+        return this.twitterHashtag;
+    }
 
     /**
      * Get the HTTP server that has been created with this server.
+     *
      * @return The HTTP server created by this server.
      */
-    public HttpServer getHttpServer() { return httpServer; }
+    public HttpServer getHttpServer() {
+        return httpServer;
+    }
 
     /**
      * Get the {@link Router} that has been created with this server.
+     *
      * @return The Router created by this server.
      */
-    public Router getRouter() { return this.router; }
+    public Router getRouter() {
+        return this.router;
+    }
 
     public Set<ServerWebSocket> getWebSockets() {
         return this.websockets;
@@ -135,10 +149,11 @@ public class SlideshowFXServer {
 
     /**
      * Starts the embedded server.
+     *
      * @param services List of classes extending {@link ISlideshowFXServices} that have to be started with the
      *                 server
      */
-    public void start(Class<? extends ISlideshowFXServices> ... services) {
+    public void start(Class<? extends ISlideshowFXServices>... services) {
 
         if (this.vertx == null) {
             this.vertx = Vertx.vertx();
@@ -158,7 +173,7 @@ public class SlideshowFXServer {
             this.buildRouter();
             this.httpServer.requestHandler(this.router::accept);
 
-            if(services != null && services.length > 0) {
+            if (services != null && services.length > 0) {
                 Arrays.stream(services).forEach(service -> this.vertx.deployVerticle(service.getName()));
             }
 
@@ -172,7 +187,7 @@ public class SlideshowFXServer {
      * Stops the embedded server.
      */
     public void stop() {
-        if(this.vertx != null) {
+        if (this.vertx != null) {
             this.vertx.close();
         }
         this.vertx = null;
@@ -189,12 +204,13 @@ public class SlideshowFXServer {
      * consume.</p>
      * <p>The response's format will be a JSON object with:</p>
      * <ul>
-     *     <li>the <b>service</b> key which indicates the name of the service which is called, as a string ;</li>
-     *     <li>the <b>status</b> key which represents the HTML return code of the service. 200 if everything went well,
-     *     ..., as an integer ;</li>
-     *     <li>the <b>content</b> key which is the response's content returned by the service, as a JSON structured
-     *     (an object, an array, etc) depending on the service</li>
+     * <li>the <b>service</b> key which indicates the name of the service which is called, as a string ;</li>
+     * <li>the <b>status</b> key which represents the HTML return code of the service. 200 if everything went well,
+     * ..., as an integer ;</li>
+     * <li>the <b>content</b> key which is the response's content returned by the service, as a JSON structured
+     * (an object, an array, etc) depending on the service</li>
      * </ul>
+     *
      * @param request The JSON object corresponding to the service to call.
      * @return The response corresponding to the request.
      * @throws java.lang.IllegalArgumentException If the request is invalid.
@@ -208,10 +224,11 @@ public class SlideshowFXServer {
             final String service = jsonRequest.getString(JSON_KEY_SERVICE);
             final JsonObject data = jsonRequest.getJsonObject(JSON_KEY_DATA);
 
-            if(service == null) throw new IllegalArgumentException("The service in the request must be present");
-            if(service.trim().isEmpty()) throw new IllegalArgumentException("The service in the request can not be empty");
+            if (service == null) throw new IllegalArgumentException("The service in the request must be present");
+            if (service.trim().isEmpty())
+                throw new IllegalArgumentException("The service in the request can not be empty");
 
-            if(data == null) throw new IllegalArgumentException("The data in the request must be present");
+            if (data == null) throw new IllegalArgumentException("The data in the request must be present");
 
             final Thread thread = new Thread(new Runnable() {
                 private Boolean continueProcess = false;
@@ -223,7 +240,7 @@ public class SlideshowFXServer {
                         continueProcess = true;
                     });
 
-                    while(!continueProcess) {
+                    while (!continueProcess) {
                         try {
                             Thread.sleep(100);
                         } catch (InterruptedException e) {
@@ -235,9 +252,9 @@ public class SlideshowFXServer {
 
             thread.start();
             thread.join();
-        } catch(DecodeException e) {
+        } catch (DecodeException e) {
             throw new IllegalArgumentException("The request is invalid", e);
-        } catch(ClassCastException e) {
+        } catch (ClassCastException e) {
             LOGGER.log(Level.SEVERE, "An error occurred", e);
         } catch (InterruptedException e) {
             LOGGER.log(Level.SEVERE, "An error occurred", e);
@@ -281,7 +298,7 @@ public class SlideshowFXServer {
             }
         });
         router.get(CONTEXT_PATH.concat("/images/logo.svg")).handler(routingContext -> {
-            try (final InputStream in = ResourceHelper.getInputStream("/com/twasyl/slideshowfx/images/logo.svg")) {
+            try (final InputStream in = SlideshowFXServer.class.getResourceAsStream("/com/twasyl/slideshowfx/images/logo.svg")) {
 
                 byte[] imageBuffer = new byte[1028];
                 int numberOfBytesRead;
@@ -301,6 +318,7 @@ public class SlideshowFXServer {
 
     /**
      * Build the WebSocket handler for handling shared WebSocket calls.
+     *
      * @return
      */
     private Handler<ServerWebSocket> buildWebSocketHandler() {
@@ -349,20 +367,22 @@ public class SlideshowFXServer {
      *
      * @return The latest created server or null if no server was created.
      */
-    public static SlideshowFXServer getSingleton() { return singleton; }
+    public static SlideshowFXServer getSingleton() {
+        return singleton;
+    }
 
     /**
      * <p>Creates an instance of the {@link SlideshowFXServer}. The created instance will act as singleton and if a previous
      * instance exists, it is stopped by the method.</p>
      * <p>This method doesn't start the server. If you want to start it, please use {@link #start(Class[])})}.</p>
      *
-     * @param host The hostname the server will listen on.
-     * @param port The port the server will listen on.
+     * @param host           The hostname the server will listen on.
+     * @param port           The port the server will listen on.
      * @param twitterHashtag A Twitter hashtag if needed.
      * @return The instance of the {@link SlideshowFXServer} that has been created.
      */
     public static SlideshowFXServer create(final String host, final int port, final String twitterHashtag) {
-        if(singleton != null && singleton.vertx != null) {
+        if (singleton != null && singleton.vertx != null) {
             singleton.stop();
         }
 

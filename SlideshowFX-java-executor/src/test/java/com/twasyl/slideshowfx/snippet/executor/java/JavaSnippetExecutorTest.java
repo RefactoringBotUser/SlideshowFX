@@ -1,7 +1,7 @@
 package com.twasyl.slideshowfx.snippet.executor.java;
 
 import com.twasyl.slideshowfx.snippet.executor.CodeSnippet;
-import com.twasyl.slideshowfx.utils.ResourceHelper;
+import com.twasyl.slideshowfx.utils.io.IOUtils;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -116,7 +116,7 @@ public class JavaSnippetExecutorTest {
         final CodeSnippet snippet = new CodeSnippet();
         snippet.setCode("public static void main(String ... args) {\n\tSystem.out.println(\"Hello\");\n}");
 
-        final String expected = ResourceHelper.readResource("/com/twasyl/slideshowfx/snippet/executor/java/buildSourceCodeWithoutImportsAndWithoutWrapInMainAndWithoutClassName_expected.txt");
+        final String expected = IOUtils.read(JavaSnippetExecutorTest.class.getResourceAsStream("/com/twasyl/slideshowfx/snippet/executor/java/buildSourceCodeWithoutImportsAndWithoutWrapInMainAndWithoutClassName_expected.txt"));
         assertEquals(expected, snippetExecutor.buildSourceCode(snippet));
     }
 
@@ -127,7 +127,7 @@ public class JavaSnippetExecutorTest {
 
         snippet.setCode("public static void main(String ... args) {\n\tSystem.out.println(\"Hello\");\n}");
 
-        final String expected = ResourceHelper.readResource("/com/twasyl/slideshowfx/snippet/executor/java/buildSourceCodeWithoutImportsAndWithoutWrapInMain_expected.txt");
+        final String expected = IOUtils.read(JavaSnippetExecutorTest.class.getResourceAsStream("/com/twasyl/slideshowfx/snippet/executor/java/buildSourceCodeWithoutImportsAndWithoutWrapInMain_expected.txt"));
         assertEquals(expected, snippetExecutor.buildSourceCode(snippet));
     }
 
@@ -139,7 +139,7 @@ public class JavaSnippetExecutorTest {
 
         snippet.setCode("public static void main(String ... args) {\n\tSystem.out.println(\"Hello\");\n}");
 
-        final String expected = ResourceHelper.readResource("/com/twasyl/slideshowfx/snippet/executor/java/buildSourceCodeWithoutWrapInMain_expected.txt");
+        final String expected = IOUtils.read(JavaSnippetExecutorTest.class.getResourceAsStream("/com/twasyl/slideshowfx/snippet/executor/java/buildSourceCodeWithoutWrapInMain_expected.txt"));
         assertEquals(expected, snippetExecutor.buildSourceCode(snippet));
     }
 
@@ -152,7 +152,7 @@ public class JavaSnippetExecutorTest {
 
         snippet.setCode("System.out.println(\"Hello\");");
 
-        final String expected = ResourceHelper.readResource("/com/twasyl/slideshowfx/snippet/executor/java/buildSourceCode_expected.txt");
+        final String expected = IOUtils.read(JavaSnippetExecutorTest.class.getResourceAsStream("/com/twasyl/slideshowfx/snippet/executor/java/buildSourceCode_expected.txt"));
         assertEquals(expected, snippetExecutor.buildSourceCode(snippet));
     }
 }

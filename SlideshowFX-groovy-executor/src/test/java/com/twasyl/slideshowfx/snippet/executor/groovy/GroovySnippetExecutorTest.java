@@ -1,7 +1,7 @@
 package com.twasyl.slideshowfx.snippet.executor.groovy;
 
 import com.twasyl.slideshowfx.snippet.executor.CodeSnippet;
-import com.twasyl.slideshowfx.utils.ResourceHelper;
+import com.twasyl.slideshowfx.utils.io.IOUtils;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -139,7 +139,7 @@ public class GroovySnippetExecutorTest {
         final CodeSnippet snippet = new CodeSnippet();
         snippet.setCode("def static main(String ... args) {\n\tprintln(\"Hello\")\n}");
 
-        final String expected = ResourceHelper.readResource("/com/twasyl/slideshowfx/snippet/executor/groovy/buildSourceCodeWithoutImportsAndWithoutWrapInMethodRunnerAndWithoutClassName_expected.txt");
+        final String expected = IOUtils.read(GroovySnippetExecutorTest.class.getResourceAsStream("/com/twasyl/slideshowfx/snippet/executor/groovy/buildSourceCodeWithoutImportsAndWithoutWrapInMethodRunnerAndWithoutClassName_expected.txt"));
         assertEquals(expected, snippetExecutor.buildSourceCode(snippet));
     }
 
@@ -150,7 +150,7 @@ public class GroovySnippetExecutorTest {
 
         snippet.setCode("def static main(String ... args) {\n\tprintln(\"Hello\")\n}");
 
-        final String expected = ResourceHelper.readResource("/com/twasyl/slideshowfx/snippet/executor/groovy/buildSourceCodeWithoutImportsAndWithoutWrapInMethodRunner_expected.txt");
+        final String expected = IOUtils.read(GroovySnippetExecutorTest.class.getResourceAsStream("/com/twasyl/slideshowfx/snippet/executor/groovy/buildSourceCodeWithoutImportsAndWithoutWrapInMethodRunner_expected.txt"));
         assertEquals(expected, snippetExecutor.buildSourceCode(snippet));
     }
 
@@ -162,7 +162,7 @@ public class GroovySnippetExecutorTest {
 
         snippet.setCode("def static main(String ... args) {\n\tprintln(\"Hello\")\n}");
 
-        final String expected = ResourceHelper.readResource("/com/twasyl/slideshowfx/snippet/executor/groovy/buildSourceCodeWithoutWrapInMethodRunner_expected.txt");
+        final String expected = IOUtils.read(GroovySnippetExecutorTest.class.getResourceAsStream("/com/twasyl/slideshowfx/snippet/executor/groovy/buildSourceCodeWithoutWrapInMethodRunner_expected.txt"));
         assertEquals(expected, snippetExecutor.buildSourceCode(snippet));
     }
 
@@ -175,7 +175,7 @@ public class GroovySnippetExecutorTest {
 
         snippet.setCode("def run() {\n\tprintln(\"Hello\")\n}");
 
-        final String expected = ResourceHelper.readResource("/com/twasyl/slideshowfx/snippet/executor/groovy/buildSourceCodeWithoutWrapInMethodRunnerButMakeScript_expected.txt");
+        final String expected = IOUtils.read(GroovySnippetExecutorTest.class.getResourceAsStream("/com/twasyl/slideshowfx/snippet/executor/groovy/buildSourceCodeWithoutWrapInMethodRunnerButMakeScript_expected.txt"));
         assertEquals(expected, snippetExecutor.buildSourceCode(snippet));
     }
 
@@ -188,7 +188,7 @@ public class GroovySnippetExecutorTest {
 
         snippet.setCode("println(\"Hello\")");
 
-        final String expected = ResourceHelper.readResource("/com/twasyl/slideshowfx/snippet/executor/groovy/buildSourceCode_expected.txt");
+        final String expected = IOUtils.read(GroovySnippetExecutorTest.class.getResourceAsStream("/com/twasyl/slideshowfx/snippet/executor/groovy/buildSourceCode_expected.txt"));
         assertEquals(expected, snippetExecutor.buildSourceCode(snippet));
     }
 
@@ -202,7 +202,7 @@ public class GroovySnippetExecutorTest {
 
         snippet.setCode("println(\"Hello\")");
 
-        final String expected = ResourceHelper.readResource("/com/twasyl/slideshowfx/snippet/executor/groovy/buildSourceCodeAsScript_expected.txt");
+        final String expected = IOUtils.read(GroovySnippetExecutorTest.class.getResourceAsStream("/com/twasyl/slideshowfx/snippet/executor/groovy/buildSourceCodeAsScript_expected.txt"));
         assertEquals(expected, snippetExecutor.buildSourceCode(snippet));
     }
 }

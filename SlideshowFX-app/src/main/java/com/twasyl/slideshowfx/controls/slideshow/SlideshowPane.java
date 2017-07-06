@@ -13,7 +13,6 @@ import com.twasyl.slideshowfx.server.bus.EventBus;
 import com.twasyl.slideshowfx.snippet.executor.CodeSnippet;
 import com.twasyl.slideshowfx.snippet.executor.ISnippetExecutor;
 import com.twasyl.slideshowfx.utils.PlatformHelper;
-import com.twasyl.slideshowfx.utils.ResourceHelper;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import javafx.beans.property.ObjectProperty;
@@ -64,11 +63,11 @@ public class SlideshowPane extends StackPane implements Actor {
                 .subscribe(SERVICE_CHAT_PRESENTER_ON_MESSAGE, this);
 
         this.setAlignment(Pos.TOP_LEFT);
-        this.getStylesheets().add(ResourceHelper.getExternalForm("/com/twasyl/slideshowfx/css/Default.css"));
+        this.getStylesheets().add(SlideshowPane.class.getResource("/com/twasyl/slideshowfx/css/Default.css").toExternalForm());
 
         this.initializeBrowser()
         ;
-        if(SlideshowFXServer.getSingleton() != null) {
+        if (SlideshowFXServer.getSingleton() != null) {
             this.initializeChatPanel();
             this.initializeCollapsibleToolPane();
         }
@@ -83,16 +82,16 @@ public class SlideshowPane extends StackPane implements Actor {
 
     @Override
     public void onMessage(Object message) {
-        if(message instanceof QuizResult) {
+        if (message instanceof QuizResult) {
             this.publishQuizResult((QuizResult) message);
-        } else if(message instanceof JsonObject) {
+        } else if (message instanceof JsonObject) {
 
             final JsonObject jsonMessage = (JsonObject) message;
 
-            if("chat-message".equals(jsonMessage.getString(JSON_KEY_BROADCAST_MESSAGE_TYPE))) {
+            if ("chat-message".equals(jsonMessage.getString(JSON_KEY_BROADCAST_MESSAGE_TYPE))) {
                 final JsonObject content = jsonMessage.getJsonObject(JSON_KEY_MESSAGE);
 
-                if(content != null) {
+                if (content != null) {
                     this.publishMessage(ChatMessage.build(content.encode(), null));
                 }
             }
@@ -139,18 +138,18 @@ public class SlideshowPane extends StackPane implements Actor {
      * result will be pushed back to the presentation in the HTML element {@code consoleOutputId}.
      *
      * @param snippetExecutorCode The unique identifier of the executor that will execute the code.
-     * @param base64CodeSnippet The code snippet to execute, given in Base64.
-     * @param consoleOutputId The HTML element that will be updated with the execution result.
+     * @param base64CodeSnippet   The code snippet to execute, given in Base64.
+     * @param consoleOutputId     The HTML element that will be updated with the execution result.
      */
     public void executeCodeSnippet(final String snippetExecutorCode, final String base64CodeSnippet, final String consoleOutputId) {
 
-        if(snippetExecutorCode != null) {
+        if (snippetExecutorCode != null) {
             final Optional<ISnippetExecutor> snippetExecutor = OSGiManager.getInstance().getInstalledServices(ISnippetExecutor.class)
                     .stream()
                     .filter(executor -> snippetExecutorCode.equals(executor.getCode()))
                     .findFirst();
 
-            if(snippetExecutor.isPresent()) {
+            if (snippetExecutor.isPresent()) {
                 final String decodedSnippet = new String(Base64.getDecoder().decode(base64CodeSnippet), GlobalConfiguration.getDefaultCharset());
                 final CodeSnippet codeSnippetDecoded = CodeSnippet.toObject(decodedSnippet);
                 final ObservableList<String> consoleOutput = snippetExecutor.get().execute(codeSnippetDecoded);
@@ -183,35 +182,45 @@ public class SlideshowPane extends StackPane implements Actor {
         final JsonArray history = SlideshowFXServer.getSingleton().callService(request.encode())
                 .getJsonArray(JSON_KEY_CONTENT);
 
-        if(history != null) {
-            for(Object message : history) {
+        if (history != null) {
+            for (Object message : history) {
                 this.publishMessage(ChatMessage.build(((JsonObject) message).encode(), null));
             }
         }
     }
 
-    public ObjectProperty<PresentationBrowser> browserProperty() { return browser; }
-    public PresentationBrowser getBrowser() { return this.browserProperty().get(); }
-    public void setBrowser(PresentationBrowser browser) { this.browser.set(browser); }
+    public ObjectProperty<PresentationBrowser> browserProperty() {
+        return browser;
+    }
+
+    public PresentationBrowser getBrowser() {
+        return this.browserProperty().get();
+    }
+
+    public void setBrowser(PresentationBrowser browser) {
+        this.browser.set(browser);
+    }
 
     /**
      * This method publish the given <code>chatMessage</code> to the presenter.
+     *
      * @param chatMessage The message to publish.
      * @throws NullPointerException If the message is null
      */
     public void publishMessage(ChatMessage chatMessage) {
-        if(chatMessage == null) throw new NullPointerException("The message to publish can not be null");
+        if (chatMessage == null) throw new NullPointerException("The message to publish can not be null");
 
         PlatformHelper.run(() -> this.chatPanel.addMessage(chatMessage));
     }
 
     /**
      * This method publish the given {@link QuizResult} to the scene.
+     *
      * @param result The result to publish.
      * @throws NullPointerException If the result is null
      */
     public void publishQuizResult(QuizResult result) {
-        if(result == null) throw new NullPointerException("The QuizResult to publish can not be null");
+        if (result == null) throw new NullPointerException("The QuizResult to publish can not be null");
 
         this.quizPanel.setQuizResult(result);
     }

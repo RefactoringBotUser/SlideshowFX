@@ -1,6 +1,5 @@
 package com.twasyl.slideshowfx.controllers;
 
-import com.twasyl.slideshowfx.utils.ResourceHelper;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
@@ -20,37 +19,47 @@ import java.util.ResourceBundle;
 
 /**
  * The controller class for the internal browser view.
+ *
  * @author Thierry Wasylczenko
- * @version 1.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class InternalBrowserController implements Initializable {
 
-    @FXML private TextField addressBar;
-    @FXML private WebView browser;
-    @FXML private HBox addressPanel;
-    @FXML private Button previousPage;
-    @FXML private Button nextPage;
+    @FXML
+    private TextField addressBar;
+    @FXML
+    private WebView browser;
+    @FXML
+    private HBox addressPanel;
+    @FXML
+    private Button previousPage;
+    @FXML
+    private Button nextPage;
 
     private final ContextMenu browsingHistoryContextMenu = new ContextMenu();
 
     /**
      * This method is called when a key is pressed within the address bar.
+     *
      * @param event The event source.
      */
-    @FXML private void manageKeyPressed(KeyEvent event) {
+    @FXML
+    private void manageKeyPressed(KeyEvent event) {
 
-        if(event.getCode() == KeyCode.ENTER) {
+        if (event.getCode() == KeyCode.ENTER) {
             this.browsingHistoryContextMenu.hide();
             this.loadPage(this.addressBar.getText());
         }
     }
 
-    @FXML private void navigateToPreviousPage(ActionEvent event) {
+    @FXML
+    private void navigateToPreviousPage(ActionEvent event) {
         this.goToPage(-1);
     }
 
-    @FXML private void navigateToNextPage(ActionEvent event) {
+    @FXML
+    private void navigateToNextPage(ActionEvent event) {
         this.goToPage(1);
     }
 
@@ -58,13 +67,14 @@ public class InternalBrowserController implements Initializable {
      * Loads the given {@code address} in the browser. If the address to load doesn't start with {@code http://} or
      * {@code https://}, {@code http://} will be appended at the beginning of the address to load.
      * If the address is {@code null} or empty, nothing will be thrown and an error will not be raised.
+     *
      * @param address The address to load.
      */
     private void loadPage(final String address) {
-        if(address != null && !address.isEmpty()) {
+        if (address != null && !address.isEmpty()) {
             final StringBuilder builder = new StringBuilder();
 
-            if(!address.startsWith("http://") && !address.startsWith("https://") && !address.startsWith("file://")) {
+            if (!address.startsWith("http://") && !address.startsWith("https://") && !address.startsWith("file://")) {
                 builder.append("http://");
             }
 
@@ -78,6 +88,7 @@ public class InternalBrowserController implements Initializable {
     /**
      * Navigate to the browsing history. This method calls {@link WebHistory#go(int)} with the {@code offset} passed in
      * parameter.
+     *
      * @param offset The offset to navigate to the page.
      */
     private void goToPage(int offset) {
@@ -85,6 +96,7 @@ public class InternalBrowserController implements Initializable {
         this.addressBar.setText(this.browser.getEngine().getLocation());
         this.browsingHistoryContextMenu.hide();
     }
+
     /**
      * Displays the context menu for the address bar which contains the URL starting with {@code partialAddress} in the
      * browsing history.
@@ -95,15 +107,15 @@ public class InternalBrowserController implements Initializable {
     private void displayBrowsingHistorySuggestion(final String partialAddress) {
         this.browsingHistoryContextMenu.getItems().clear();
 
-        if(partialAddress != null && !partialAddress.isEmpty()) {
+        if (partialAddress != null && !partialAddress.isEmpty()) {
             this.browser.getEngine().getHistory().getEntries().forEach(entry -> {
                 try {
                     final URL url = new URL(entry.getUrl());
                     final String lowerCasePartialAddress = partialAddress.toLowerCase();
 
-                    if(entry.getUrl().toLowerCase().startsWith(lowerCasePartialAddress) ||
+                    if (entry.getUrl().toLowerCase().startsWith(lowerCasePartialAddress) ||
                             (url.getAuthority() != null && (url.getAuthority().startsWith(lowerCasePartialAddress) ||
-                            (url.getAuthority().startsWith("www.") && url.getAuthority().substring(4).startsWith(lowerCasePartialAddress)))) ||
+                                    (url.getAuthority().startsWith("www.") && url.getAuthority().substring(4).startsWith(lowerCasePartialAddress)))) ||
                             (entry.getTitle() != null && entry.getTitle().toLowerCase().startsWith(lowerCasePartialAddress))) {
                         final MenuItem menuItem = new Menu(entry.getUrl());
                         menuItem.setOnAction(event -> {
@@ -120,7 +132,7 @@ public class InternalBrowserController implements Initializable {
 
             });
 
-            if(!this.browsingHistoryContextMenu.getItems().isEmpty()) {
+            if (!this.browsingHistoryContextMenu.getItems().isEmpty()) {
                 this.browsingHistoryContextMenu.show(this.addressBar, Side.BOTTOM, 0, 0);
             }
         } else {
@@ -137,7 +149,7 @@ public class InternalBrowserController implements Initializable {
             this.displayBrowsingHistorySuggestion(newText);
         });
 
-        this.browser.getEngine().load(ResourceHelper.getExternalForm("/com/twasyl/slideshowfx/html/empty-webview.html"));
+        this.browser.getEngine().load(InternalBrowserController.class.getResource("/com/twasyl/slideshowfx/html/empty-webview.html").toExternalForm());
 
         final WebHistory webHistory = this.browser.getEngine().getHistory();
         BooleanBinding isHistoryEmpty = Bindings.isEmpty(webHistory.getEntries());

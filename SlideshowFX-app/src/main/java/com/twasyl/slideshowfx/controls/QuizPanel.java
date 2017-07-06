@@ -2,7 +2,6 @@ package com.twasyl.slideshowfx.controls;
 
 import com.twasyl.slideshowfx.server.beans.quiz.QuizResult;
 import com.twasyl.slideshowfx.utils.PlatformHelper;
-import com.twasyl.slideshowfx.utils.ResourceHelper;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -14,7 +13,7 @@ import javafx.scene.layout.Region;
  * This panel should be used in a {@link com.twasyl.slideshowfx.controls.slideshow.SlideshowPane}.
  *
  * @author Thierry Wasylczenko
- * @version 1.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class QuizPanel extends Region {
@@ -26,7 +25,7 @@ public class QuizPanel extends Region {
      * Creates the {@link QuizPanel} and initialize the chart that is displayed into it.
      */
     public QuizPanel() {
-        this.getStylesheets().add(ResourceHelper.getExternalForm("/com/twasyl/slideshowfx/css/quiz-panel.css"));
+        this.getStylesheets().add(QuizPanel.class.getResource("/com/twasyl/slideshowfx/css/quiz-panel.css").toExternalForm());
 
         this.chart.set(new PieChart());
 
@@ -37,7 +36,7 @@ public class QuizPanel extends Region {
         this.quizResult.addListener((value, oldQuizResult, newQuizResult) -> {
             this.chart.get().getData().clear();
 
-            if(newQuizResult != null) {
+            if (newQuizResult != null) {
 
                 PlatformHelper.run(() -> {
                     PieChart.Data correctAnswers = new PieChart.Data("Correct answers", 0);
@@ -57,6 +56,7 @@ public class QuizPanel extends Region {
 
     /**
      * Creates the {@link QuizPanel} and initialize the chart that is displayed into it with the provided result.
+     *
      * @param result The result that is associated to this panel
      */
     public QuizPanel(QuizResult result) {
@@ -66,19 +66,28 @@ public class QuizPanel extends Region {
 
     /**
      * The result that is attached to this panel.
+     *
      * @return The {@link QuizPanel} associated to this panel.
      */
-    public ObjectProperty<QuizResult> quizResultProperty() { return quizResult; }
+    public ObjectProperty<QuizResult> quizResultProperty() {
+        return quizResult;
+    }
 
     /**
      * The result that is attached to this panel.
+     *
      * @return The {@link QuizResult} associated to this panel.
      */
-    public QuizResult getQuizResult() { return quizResult.get(); }
+    public QuizResult getQuizResult() {
+        return quizResult.get();
+    }
 
     /**
      * Set the {@link QuizPanel} associated to this panel.
+     *
      * @param quizResult The new result associated to this panel
      */
-    public void setQuizResult(QuizResult quizResult) { this.quizResult.set(quizResult); }
+    public void setQuizResult(QuizResult quizResult) {
+        this.quizResult.set(quizResult);
+    }
 }

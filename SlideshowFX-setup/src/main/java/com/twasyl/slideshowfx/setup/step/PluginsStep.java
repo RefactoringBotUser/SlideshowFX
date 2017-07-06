@@ -3,7 +3,6 @@ package com.twasyl.slideshowfx.setup.step;
 import com.twasyl.slideshowfx.global.configuration.GlobalConfiguration;
 import com.twasyl.slideshowfx.setup.controllers.PluginsViewController;
 import com.twasyl.slideshowfx.setup.exceptions.SetupStepException;
-import com.twasyl.slideshowfx.utils.ResourceHelper;
 import com.twasyl.slideshowfx.utils.io.IOUtils;
 import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXMLLoader;
@@ -42,7 +41,7 @@ public class PluginsStep extends AbstractSetupStep {
     public PluginsStep(final File pluginsDirectory) {
         this.title("Plugins");
 
-        final FXMLLoader loader = new FXMLLoader(ResourceHelper.getURL("/com/twasyl/slideshowfx/setup/fxml/PluginsView.fxml"));
+        final FXMLLoader loader = new FXMLLoader(PluginsStep.class.getResource("/com/twasyl/slideshowfx/setup/fxml/PluginsView.fxml"));
 
         try {
             this.view = loader.load();

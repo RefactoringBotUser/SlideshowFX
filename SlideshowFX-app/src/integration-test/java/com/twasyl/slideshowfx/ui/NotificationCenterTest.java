@@ -2,7 +2,6 @@ package com.twasyl.slideshowfx.ui;
 
 import com.twasyl.slideshowfx.controls.notification.NotificationCenter;
 import com.twasyl.slideshowfx.utils.PlatformHelper;
-import com.twasyl.slideshowfx.utils.ResourceHelper;
 import com.twasyl.slideshowfx.utils.concurrent.SlideshowFXTask;
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
@@ -63,8 +62,8 @@ public class NotificationCenterTest extends Application {
 
         final Scene scene = new Scene(center, 500, 300);
         scene.getStylesheets().addAll(
-                ResourceHelper.getExternalForm("/com/twasyl/slideshowfx/css/Default.css"),
-                ResourceHelper.getExternalForm("/com/twasyl/slideshowfx/css/SlideshowFX.css")
+                NotificationCenter.class.getResource("/com/twasyl/slideshowfx/css/Default.css").toExternalForm(),
+                NotificationCenter.class.getResource("/com/twasyl/slideshowfx/css/SlideshowFX.css").toExternalForm()
         );
         primaryStage.setScene(scene);
         primaryStage.show();

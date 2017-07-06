@@ -6,7 +6,6 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.twasyl.slideshowfx.server.SlideshowFXServer;
-import com.twasyl.slideshowfx.utils.ResourceHelper;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,7 +22,7 @@ import java.util.logging.Logger;
  * This panel is used to display the QR code that redirect the "flasher" to the web app of SlideshowFX.
  *
  * @author Thierry Wasylczenko
- * @version 1.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class QRCodePanel extends VBox {
@@ -33,7 +32,7 @@ public class QRCodePanel extends VBox {
     public QRCodePanel() {
         super(20);
 
-        this.getStylesheets().add(ResourceHelper.getExternalForm("/com/twasyl/slideshowfx/css/qrcode-panel.css"));
+        this.getStylesheets().add(QRCodePanel.class.getResource("/com/twasyl/slideshowfx/css/qrcode-panel.css").toExternalForm());
         this.getStyleClass().add("qrcode-panel");
 
         this.setPrefWidth(300);
@@ -68,14 +67,14 @@ public class QRCodePanel extends VBox {
     public byte[] generateQRCode(int size) {
         byte[] qrCode = null;
 
-        if(SlideshowFXServer.getSingleton() != null) {
+        if (SlideshowFXServer.getSingleton() != null) {
 
             final String qrCodeData = String.format("http://%1$s:%2$s%3$s",
                     SlideshowFXServer.getSingleton().getHost(),
                     SlideshowFXServer.getSingleton().getPort(),
                     "/slideshowfx");
 
-            try(final ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            try (final ByteArrayOutputStream out = new ByteArrayOutputStream()) {
 
                 final QRCodeWriter qrWriter = new QRCodeWriter();
                 final BitMatrix matrix = qrWriter.encode(qrCodeData, BarcodeFormat.QR_CODE, size, size);

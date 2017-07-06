@@ -1,7 +1,6 @@
 package com.twasyl.slideshowfx.app;
 
 import com.twasyl.slideshowfx.utils.Jar;
-import com.twasyl.slideshowfx.utils.ResourceHelper;
 import javafx.animation.FadeTransition;
 import javafx.application.Preloader;
 import javafx.geometry.Pos;
@@ -25,7 +24,7 @@ import java.util.logging.Logger;
  * before the application starts.
  *
  * @author Thierry Wasylczenko
- * @version 1.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class SlideshowFXPreloader extends Preloader {
@@ -72,7 +71,7 @@ public class SlideshowFXPreloader extends Preloader {
     }
 
     protected ImageView getSplashImage() {
-        final Image splashImage = new Image(ResourceHelper.getInputStream("/com/twasyl/slideshowfx/images/splash.png"));
+        final Image splashImage = new Image(SlideshowFXPreloader.class.getResourceAsStream("/com/twasyl/slideshowfx/images/splash.png"));
         return new ImageView(splashImage);
     }
 

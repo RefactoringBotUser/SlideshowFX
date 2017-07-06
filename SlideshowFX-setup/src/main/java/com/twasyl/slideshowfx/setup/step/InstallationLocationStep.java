@@ -3,7 +3,7 @@ package com.twasyl.slideshowfx.setup.step;
 import com.twasyl.slideshowfx.global.configuration.GlobalConfiguration;
 import com.twasyl.slideshowfx.setup.controllers.InstallationLocationViewController;
 import com.twasyl.slideshowfx.setup.exceptions.SetupStepException;
-import com.twasyl.slideshowfx.utils.ResourceHelper;
+import com.twasyl.slideshowfx.utils.OSUtils;
 import com.twasyl.slideshowfx.utils.io.CopyFileVisitor;
 import com.twasyl.slideshowfx.utils.io.DeleteFileVisitor;
 import javafx.fxml.FXMLLoader;
@@ -45,7 +45,7 @@ public class InstallationLocationStep extends AbstractSetupStep {
         this.applicationArtifact = applicationArtifact;
         this.documentationsFolder = documentationsFolder;
 
-        final FXMLLoader loader = new FXMLLoader(ResourceHelper.getURL("/com/twasyl/slideshowfx/setup/fxml/InstallationLocationView.fxml"));
+        final FXMLLoader loader = new FXMLLoader(InstallationLocationStep.class.getResource("/com/twasyl/slideshowfx/setup/fxml/InstallationLocationView.fxml"));
 
         try {
             this.view = loader.load();
@@ -123,11 +123,19 @@ public class InstallationLocationStep extends AbstractSetupStep {
     }
 
     protected void patchApplicationCfgFile(final File copiedApplicationArtifact) throws SetupStepException {
-        final File cfgFile = new File(copiedApplicationArtifact, "app/SlideshowFX.cfg");
+        final String cfgFileLocation;
+
+        if (OSUtils.isMac()) {
+            cfgFileLocation = "Contents/Java";
+        } else {
+            cfgFileLocation = "app";
+        }
+
+        final File cfgFile = new File(copiedApplicationArtifact, cfgFileLocation + "/SlideshowFX.cfg");
 
         final List<String> lines = new ArrayList<>();
 
-        try(final BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(cfgFile)))) {
+        try (final BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(cfgFile)))) {
             lines.addAll(reader.lines().collect(Collectors.toList()));
 
         } catch (IOException e) {

@@ -1,7 +1,6 @@
 package com.twasyl.slideshowfx.controls;
 
 import com.twasyl.slideshowfx.server.beans.chat.ChatMessage;
-import com.twasyl.slideshowfx.utils.ResourceHelper;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 
@@ -10,7 +9,7 @@ import javafx.scene.layout.VBox;
  * it's width is the same as the bubbles contained into it. It also provides convenient methods to add chat messages.
  *
  * @author Thierry Wasylczenko
- * @version 1.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class ChatPanel extends ScrollPane {
@@ -19,7 +18,7 @@ public class ChatPanel extends ScrollPane {
     private final VBox messages = new VBox(5);
 
     public ChatPanel() {
-        this.getStylesheets().add(ResourceHelper.getExternalForm("/com/twasyl/slideshowfx/css/chat-panel.css"));
+        this.getStylesheets().add(ChatPanel.class.getResource("/com/twasyl/slideshowfx/css/chat-panel.css").toExternalForm());
         this.getStyleClass().add("chat-panel");
 
         this.setContent(this.messages);
@@ -33,7 +32,7 @@ public class ChatPanel extends ScrollPane {
          * Ensure the height of this panel is always the height of the screen
          */
         this.sceneProperty().addListener((sceneValue, oldScene, newScene) -> {
-            if(newScene != null) {
+            if (newScene != null) {
 
                 ChatPanel.this.messages.prefHeightProperty().bind(newScene.heightProperty().subtract(10));
                 ChatPanel.this.prefHeightProperty().bind(newScene.heightProperty());
@@ -44,6 +43,7 @@ public class ChatPanel extends ScrollPane {
     /**
      * Add a message to this panel. The message is converted to a ChatBubble and added to the list of
      * children of this panel.
+     *
      * @param message The message to add to this panel.
      * @throws java.lang.NullPointerException If the given message is null.
      */

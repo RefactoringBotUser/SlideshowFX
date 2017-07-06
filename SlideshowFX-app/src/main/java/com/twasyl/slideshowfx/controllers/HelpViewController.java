@@ -1,6 +1,6 @@
 package com.twasyl.slideshowfx.controllers;
 
-import com.twasyl.slideshowfx.utils.ResourceHelper;
+import com.twasyl.slideshowfx.utils.io.IOUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.web.WebView;
@@ -13,7 +13,7 @@ import java.util.ResourceBundle;
  * Controller class of the {@code HelpView.fxml} view.
  *
  * @author Thierry Wasylczenko
- * @version 1.1
+ * @version 1.2
  * @since SlideshowFX 1.0
  */
 public class HelpViewController implements Initializable {
@@ -46,7 +46,7 @@ public class HelpViewController implements Initializable {
     }
 
     protected String getDocumentation(final String documentationFile) {
-        final String documentationOriginalContent = ResourceHelper.readResource(documentationFile);
+        final String documentationOriginalContent = IOUtils.read(HelpViewController.class.getResourceAsStream(documentationFile));
         final String documentation = this.getAsciidoctorConverter().convert(documentationOriginalContent, this.getAsciidoctorOptions());
         return documentation;
     }
@@ -72,7 +72,7 @@ public class HelpViewController implements Initializable {
                 .experimental(true)
                 .tableOfContents(Placement.LEFT)
                 .styleSheetName("slideshowfx.css")
-                .stylesDir(ResourceHelper.getExternalForm("/com/twasyl/slideshowfx/documentation/css"))
+                .stylesDir(HelpViewController.class.getResource("/com/twasyl/slideshowfx/documentation/css").toExternalForm())
                 .noFooter(true)
                 .get();
 
