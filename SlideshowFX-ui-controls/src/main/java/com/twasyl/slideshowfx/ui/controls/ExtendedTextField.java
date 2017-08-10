@@ -29,7 +29,7 @@ import java.util.Set;
  * {@code error} pseudo class state is set on the text field.
  *
  * @author Thierry Wasylczenko
- * @version 1.0
+ * @version 1.1
  * @since SlideshowFX 1.3
  */
 public class ExtendedTextField extends VBox {
@@ -42,6 +42,8 @@ public class ExtendedTextField extends VBox {
 
     private StringProperty label = new SimpleStringProperty();
     private BooleanProperty mandatory = new SimpleBooleanProperty(false);
+    private ReadOnlyBooleanProperty valid = new SimpleBooleanProperty();
+
     private IValidator<String> validator;
 
     public ExtendedTextField() {
@@ -80,6 +82,12 @@ public class ExtendedTextField extends VBox {
         this.textField.promptTextProperty().bind(this.label);
 
         this.textField.textProperty().addListener((textValue, oldText, newText) -> {
+            Boolean validValue = null;
+            if (this.validator != null) {
+                validValue = this.isValid();
+            }
+            ((SimpleBooleanProperty) this.valid).setValue(validValue);
+
             if (newText != null && !newText.isEmpty()) {
                 this.uiLabel.setOpacity(1);
             }
@@ -242,5 +250,9 @@ public class ExtendedTextField extends VBox {
         }
 
         return valid;
+    }
+
+    public ReadOnlyBooleanProperty validProperty() {
+        return this.valid;
     }
 }

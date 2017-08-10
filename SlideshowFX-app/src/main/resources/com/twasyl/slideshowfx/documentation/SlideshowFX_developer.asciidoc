@@ -74,6 +74,7 @@ SlideshowFX contains the following modules:
 - *SlideshowFX-quiz-extension* which defines the implementation of SlideshowFX-content-extension to insert quiz in slides ;
 - *SlideshowFX-quote-extension* which defines the implementation of SlideshowFX-content-extension to insert quotes in slides ;
 - *SlideshowFX-sequence-diagram-extension* which defines the implementation of SlideshowFX-content-extension to insert sequence diagrams in slides ;
+- *SlideshowFX-shape-extension* which defines the implementation of SlideshowFX-content-extension to insert shapes in slides ;
 - *SlideshowFX-snippet-extension* which defines the implementation of SlideshowFX-content-extension to insert executable code snippet in slides ;
 - *SlideshowFX-hosting-connector* which defines the base classes for creating an OSGi module for connecting to a file hosting service ;
 - *SlideshowFX-box-hosting-connector* which defines the implementation of SlideshowFX-hosting-connector to connect to Box ;
@@ -169,18 +170,19 @@ The template configuration must be at the root of the archive and will contain a
 ----
 {
   "template" : {
-    "icon": "My first template",
+    "name": "My first template",
+    "version" : "0.2",
     "file" : "template.html",
     "js-object" : "sfx",
     "resources-directory" : "resources",
 
     "default-variables" : [
         {
-            "icon" : "author",
+            "name" : "author",
             "value" : "<content encoded in Base64>"
         },
         {
-            "icon" : "twitter",
+            "name" : "twitter",
             "value" : "<content encoded in Base64>"
         }
     ],
@@ -196,7 +198,7 @@ The template configuration must be at the root of the archive and will contain a
       "slides-definition" : [
         {
           "id" : 1,
-          "icon" : "Title",
+          "name" : "Title",
           "file" : "title.html",
           "elements" : [
             {
@@ -220,7 +222,7 @@ The template configuration must be at the root of the archive and will contain a
         },
         {
           "id" : 2,
-          "icon" : "Title and content",
+          "name" : "Title and content",
           "file" : "title_content.html",
           "elements" : [
             {
@@ -236,7 +238,7 @@ The template configuration must be at the root of the archive and will contain a
         },
         {
           "id" : 3,
-          "icon" : "Empty",
+          "name" : "Empty",
           "file" : "empty.html",
           "elements" : [
             {
@@ -266,13 +268,14 @@ The template configuration must be at the root of the archive and will contain a
 
 The complete configuration is wrapped into a *template* JSON object. This object is described as below:
 
-* *icon* : the icon of the template ;
+* *name* : the name of the template ;
+* *version* : the version of the template ;
 * *file* : the HTML file that is the template, which will host the slides ;
-* *js-object* : is the icon JavaScript object that will be used to callback to SlideshowFX ;
+* *js-object* : is the name JavaScript object that will be used to callback to SlideshowFX ;
 * *slides-container* : is the ID of the HTML markup that will contain the slides ;
 * *resources-directory* : the folder that will contain the resources of the presentation, typically images file, sounds, etc ;
 * *default-variables* : define custom variables that can be used inside the presentation. It is not mandatory ;
-** *icon* : the icon of the variable ;
+** *name* : the name of the variable ;
 ** *value* : the value of the variable encoded in Base64 ;
 * *slides* : define the configuration of slides inside the presentation, as well as their template ;
 ** *configuration* : JSON object that will contain the configuration of the slides ;
@@ -282,15 +285,15 @@ The complete configuration is wrapped into a *template* JSON object. This object
 *** *thumbnail-directory* : the directory that will contain the thumbnail of each slide created by the user ;
 ** *slides-definition* : a JSON array that will contain the definition of each slide template as a JSON object with the following structure:
 *** *id* : the ID of the slide ;
-*** *icon* : the icon of the slide that will be displayed in SlideshowFX in the lst of available slide’s type ;
+*** *name* : the name of the slide that will be displayed in SlideshowFX in the lst of available slide’s type ;
 *** *file* : the template file of the slide ;
 *** *elements* : a JSON array composed of JSON documents that describe all elements that can be dynamic modified (by the user or by SlideshowFX):
 **** *id* : the ID for the element ;
 **** *html-id* : the HTML ID of the element within the presentation. It can contain variable ;
 **** *default-content* : the default content for the element ;
 *** *dynamic-attributes* : a JSON array composed of JSON object describing the attributes that can be dynamically created when creating a slide by prompting its value to the user. Each object is structured as follow:
-**** *attribute* : the icon of the attribute ;
-**** *template-expression* : the icon of the template token. It is the Velocity token without the dollar sign ;
+**** *attribute* : the name of the attribute ;
+**** *template-expression* : the name of the template token. It is the Velocity token without the dollar sign ;
 **** *prompt-message* : the message displayed to the user asking the value of the attribute.
 
 ==== Template file
@@ -391,11 +394,11 @@ The configuration of the presentation is wrapped into an JSON configuration file
     ],
     "variables": [
         {
-            "icon": "author",
+            "name": "author",
             "value": "<content encoded in Base64>"
         },
         {
-            "icon": "twitter",
+            "name": "twitter",
             "value": "<content encoded in Base64>"
         }
     ],
@@ -467,7 +470,7 @@ The *presentation* JSON object is described below:
 ** *type* : the type of the resource. Possible values are *JAVASCRIPT_FILE*, *CSS_FILE*, *SCRIPT* and *CSS* ;
 ** *content* : the content of the resource encoded in Base64 ;
 * *variables* : define custom variables that can be used inside the presentation. It is not mandatory ;
-** *icon* : the icon of the variable ;
+** *name* : the name of the variable ;
 ** *value* : the value of the variable encoded in Base64 ;
 * *slides* : the JSON array that will contain a JSON object for each slide of the presentation ;
 ** *template-id* : the ID of the Slide that serves as template ;

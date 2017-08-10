@@ -4,6 +4,7 @@ import com.twasyl.slideshowfx.content.extension.AbstractContentExtension;
 import com.twasyl.slideshowfx.content.extension.ResourceType;
 import com.twasyl.slideshowfx.content.extension.code.controllers.CodeContentExtensionController;
 import com.twasyl.slideshowfx.markup.IMarkup;
+import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
@@ -139,5 +140,10 @@ public class CodeContentExtension extends AbstractContentExtension {
         final Matcher matcher = pattern.matcher(code);
 
         return matcher.find();
+    }
+
+    @Override
+    public ReadOnlyBooleanProperty areInputsValid() {
+        return this.controller.areInputsValid();
     }
 }

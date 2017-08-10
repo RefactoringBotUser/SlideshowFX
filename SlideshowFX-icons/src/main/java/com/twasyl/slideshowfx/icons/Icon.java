@@ -35,6 +35,7 @@ public enum Icon {
     QUOTE_LEFT("\uf10d"),
     SHARE_ALT_SQUARE("\uf1e1"),
     SPINNER("\uf110"),
+    STAR_HALF_ALT("\uf123"),
     TERMINAL("\uf120"),
     TIMES("\uf00d"),
     TIMES_CIRCLE("\uf057"),

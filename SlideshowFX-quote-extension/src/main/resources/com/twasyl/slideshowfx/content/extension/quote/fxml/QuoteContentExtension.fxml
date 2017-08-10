@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.twasyl.slideshowfx.ui.controls.ZoomTextArea?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -12,6 +12,6 @@
         <TextField fx:id="author" prefColumnCount="20" />
     </HBox>
 
-    <TextArea fx:id="quote" prefColumnCount="50" prefRowCount="10" />
+    <ZoomTextArea fx:id="quote" prefColumnCount="50" prefRowCount="10" />
 </VBox>
 

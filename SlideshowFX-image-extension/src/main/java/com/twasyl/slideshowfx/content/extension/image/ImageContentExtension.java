@@ -3,6 +3,7 @@ package com.twasyl.slideshowfx.content.extension.image;
 import com.twasyl.slideshowfx.content.extension.AbstractContentExtension;
 import com.twasyl.slideshowfx.content.extension.image.controllers.ImageContentExtensionController;
 import com.twasyl.slideshowfx.markup.IMarkup;
+import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
@@ -77,5 +78,10 @@ public class ImageContentExtension extends AbstractContentExtension {
                 .append("\" />");
 
         return builder.toString();
+    }
+
+    @Override
+    public ReadOnlyBooleanProperty areInputsValid() {
+        return this.controller.areInputsValid();
     }
 }

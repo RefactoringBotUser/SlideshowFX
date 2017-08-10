@@ -245,6 +245,7 @@ ext {
 
     alertContentExtensionBintrayUploadEnabled = true
     codeContentExtensionBintrayUploadEnabled = true
+    shapeContentExtensionBintrayUploadEnabled = true
     imageContentExtensionBintrayUploadEnabled = true
     linkContentExtensionBintrayUploadEnabled = true
     quizContentExtensionBintrayUploadEnabled = true
@@ -273,19 +274,20 @@ ext {
                                         ':SlideshowFX-markdown:bintrayUpload', ':SlideshowFX-textile:bintrayUpload' ]
 
     contentExtensionJars = [ project(':SlideshowFX-alert-extension').jar, project(':SlideshowFX-code-extension').jar,
-                             project(':SlideshowFX-image-extension').jar, project(':SlideshowFX-link-extension').jar,
-                             project(':SlideshowFX-quiz-extension').jar, project(':SlideshowFX-quote-extension').jar,
-                             project(':SlideshowFX-sequence-diagram-extension').jar,
+                             project(':SlideshowFX-shape-extension').jar, project(':SlideshowFX-image-extension').jar,
+                             project(':SlideshowFX-link-extension').jar, project(':SlideshowFX-quiz-extension').jar,
+                             project(':SlideshowFX-quote-extension').jar, project(':SlideshowFX-sequence-diagram-extension').jar,
                              project(':SlideshowFX-snippet-extension').jar ]
 
     contentExtensionJarDependencies = [ ':SlideshowFX-alert-extension:jar', ':SlideshowFX-code-extension:jar',
-                                        ':SlideshowFX-image-extension:jar', ':SlideshowFX-link-extension:jar',
-                                        ':SlideshowFX-quiz-extension:jar', ':SlideshowFX-quote-extension:jar',
-                                        ':SlideshowFX-sequence-diagram-extension:jar',
+                                        ':SlideshowFX-shape-extension:jar', ':SlideshowFX-image-extension:jar',
+                                        ':SlideshowFX-link-extension:jar', ':SlideshowFX-quiz-extension:jar',
+                                        ':SlideshowFX-quote-extension:jar', ':SlideshowFX-sequence-diagram-extension:jar',
                                         ':SlideshowFX-snippet-extension:jar' ]
 
     contentExtensionBintrayUploadDependencies = [ ':SlideshowFX-alert-extension:bintrayUpload',
                                                   ':SlideshowFX-code-extension:bintrayUpload',
+                                                  ':SlideshowFX-shape-extension:bintrayUpload',
                                                   ':SlideshowFX-image-extension:bintrayUpload',
                                                   ':SlideshowFX-link-extension:bintrayUpload',
                                                   ':SlideshowFX-quiz-extension:bintrayUpload',
@@ -343,7 +345,7 @@ apply plugin: 'distribution'
 version = '@@NEXT-VERSION@@'
 
 wrapper {
-    gradleVersion = '4.0'
+    gradleVersion = '4.0.2'
 }
 
 asciidoctorj {

@@ -1,22 +1,26 @@
 package com.twasyl.slideshowfx.content.extension.link.controllers;
 
+import com.twasyl.slideshowfx.content.extension.AbstractContentExtensionController;
 import com.twasyl.slideshowfx.ui.controls.ExtendedTextField;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.input.Clipboard;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import static com.twasyl.slideshowfx.ui.controls.validators.Validators.isNotEmpty;
 
 /**
  * This class is the controller used by the {@code QuoteContentExtension.fxml} file. The field containing the address
  * in the UI will be initialized by the content of the {@link Clipboard} if it contains a text having an URL form.
  *
  * @author Thierry Wasylczenko
- * @version 1.1
+ * @version 1.2
  * @since SlideshowFX 1.0
  */
-public class LinkContentExtensionController implements Initializable {
+public class LinkContentExtensionController extends AbstractContentExtensionController {
 
     @FXML
     private ExtendedTextField address;
@@ -94,7 +98,16 @@ public class LinkContentExtensionController implements Initializable {
     }
 
     @Override
+    public ReadOnlyBooleanProperty areInputsValid() {
+        final ReadOnlyBooleanWrapper property = new ReadOnlyBooleanWrapper();
+        property.bind(this.address.validProperty());
+
+        return property;
+    }
+
+    @Override
     public void initialize(URL location, ResourceBundle resources) {
+        this.address.setValidator(isNotEmpty());
         final String url = getClipboardURL();
 
         if (url != null) this.address.setText(url);

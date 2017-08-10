@@ -329,7 +329,7 @@ public class PresentationViewController implements Initializable {
 
         button.setOnAction(event -> {
 
-            final ButtonType response = DialogHelper.showCancellableDialog(contentExtension.getTitle(), contentExtension.getUI());
+            final ButtonType response = DialogHelper.showCancellableDialog(contentExtension.getTitle(), contentExtension.getUI(), contentExtension.areInputsValid());
 
             if (response != null && response == ButtonType.OK) {
                 final String content = contentExtension.buildContentString(this.markupContentType.getSelectedToggle() != null ?

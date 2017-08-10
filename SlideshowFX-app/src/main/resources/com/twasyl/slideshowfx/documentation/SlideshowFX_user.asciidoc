@@ -185,7 +185,8 @@ Content extension plugins allow to facilitate the insertion of specific elements
 * JavaScript sweet alerts ;
 * quotes ;
 * quizs ;
-* sequence diagrams.
+* sequence diagram ;
+* shapes.
 
 When you click on the button of one of these plugins in the tool bar next to the editing area and then validate it's dialog, the plugin will insert the proper content inside the editing area, according the markup syntax you have chosen. If the plugin doesn't support the chosen syntax, HTML will be generated instead.
 

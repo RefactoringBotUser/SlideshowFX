@@ -1,9 +1,11 @@
 package com.twasyl.slideshowfx.content.extension.image.controllers;
 
+import com.twasyl.slideshowfx.content.extension.AbstractContentExtensionController;
 import com.twasyl.slideshowfx.osgi.OSGiManager;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -28,7 +30,7 @@ import java.util.logging.Logger;
  * @version 1.2
  * @since SlideshowFX 1.0
  */
-public class ImageContentExtensionController implements Initializable {
+public class ImageContentExtensionController extends AbstractContentExtensionController {
     private static final Logger LOGGER = Logger.getLogger(ImageContentExtensionController.class.getName());
     public static final FileChooser.ExtensionFilter IMAGES_FILES = new FileChooser.ExtensionFilter("Image files", "*.png", "*.bmp", "*.jpg", "*.jpeg", "*.gif", "*.svg");
     public static final FileFilter IMAGE_FILTER = new FileFilter() {
@@ -197,7 +199,7 @@ public class ImageContentExtensionController implements Initializable {
     }
 
     /**
-     * Buils an {@link Alert} to be used in order to display information.
+     * Builds an {@link Alert} to be used in order to display information.
      *
      * @param type    The type of the alert to build.
      * @param title   The title of the alert.
@@ -245,6 +247,14 @@ public class ImageContentExtensionController implements Initializable {
         }
 
         return url;
+    }
+
+    @Override
+    public ReadOnlyBooleanProperty areInputsValid() {
+        final ReadOnlyBooleanWrapper property = new ReadOnlyBooleanWrapper();
+        property.bind(this.imagesGroup.selectedToggleProperty().isNotNull());
+
+        return property;
     }
 
     @Override

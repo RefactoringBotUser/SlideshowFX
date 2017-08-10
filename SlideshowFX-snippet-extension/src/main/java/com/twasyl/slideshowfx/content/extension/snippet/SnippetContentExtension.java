@@ -4,6 +4,7 @@ import com.twasyl.slideshowfx.content.extension.AbstractContentExtension;
 import com.twasyl.slideshowfx.content.extension.ResourceType;
 import com.twasyl.slideshowfx.content.extension.snippet.controllers.SnippetContentExtensionController;
 import com.twasyl.slideshowfx.markup.IMarkup;
+import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
@@ -18,7 +19,7 @@ import static com.twasyl.slideshowfx.icons.Icon.TERMINAL;
 /**
  * The content extension that allows to insert code snippet in a presentation. This extension only supports HTML for
  * inserting the content in the presentation, meaning that HTML code will always be returned when calling
- * {@link #buildDefaultContentString()} and {@link #buildContentString(com.twasyl.slideshowfx.markup.IMarkup)}.
+ * {@link #buildDefaultContentString()} and {@link #buildContentString(IMarkup)}.
  *
  * @author Thierry Wasylczenko
  * @version 1.1
@@ -91,5 +92,10 @@ public class SnippetContentExtension extends AbstractContentExtension {
                 .append("<pre id=\"").append(codeSnippetConsoleOuputId).append("\" class=\"language-bash\" style=\"display: none; margin-top: 0;\">")
                 .append("<code class=\"language-bash\"></code></pre>");
         return builder.toString();
+    }
+
+    @Override
+    public ReadOnlyBooleanProperty areInputsValid() {
+        return this.controller.areInputsValid();
     }
 }

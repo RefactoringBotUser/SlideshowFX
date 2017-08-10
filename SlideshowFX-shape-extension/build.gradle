@@ -1,0 +1,44 @@
+description = 'Extension allowing to insert shapes inside a SlideshowFX presentation'
+version = '1.0'
+
+dependencies {
+    compile project(':SlideshowFX-content-extension')
+    compile "org.apache.felix:org.apache.felix.framework:$felixVersion"
+
+    testCompile "junit:junit:$junitVersion"
+    testCompile "org.mockito:mockito-core:$mockitoVersion"
+    testCompile project(':SlideshowFX-html')
+}
+
+jar {
+    manifest {
+        attributes('Manifest-Version': '1.0',
+                'Bundle-ManifestVersion': '2',
+                'Bundle-Name': 'SlideshowFX shape extension',
+                'Bundle-SymbolicName': 'com.twasyl.slideshowfx.content.extension.shape',
+                'Bundle-Description': 'Support for inserting shapes in slides',
+                'Bundle-Version': "$project.version",
+                'Bundle-Activator': 'com.twasyl.slideshowfx.content.extension.shape.activator.ShapeContentExtensionActivator',
+                'Bundle-Vendor': 'Thierry Wasylczenko',
+                'Export-Package': 'com.twasyl.slideshowfx.content.extension.shape,com.twasyl.slideshowfx.content.extension.shape.controllers,com.twasyl.slideshowfx.content.extension.shape.activator',
+                'Import-Package': 'org.osgi.framework',
+                'Setup-Wizard-Label': 'Shape',
+                'Setup-Wizard-Icon-Name': 'STAR_HALF_ALT')
+    }
+}
+
+bintray {
+
+    configurations = ['archives']
+
+    pkg {
+        version {
+            name = project.version
+            desc = project.description
+            released = new Date()
+            vcsTag = "v${project.version}"
+        }
+    }
+}
+
+tasks.bintrayUpload.enabled = shapeContentExtensionBintrayUploadEnabled

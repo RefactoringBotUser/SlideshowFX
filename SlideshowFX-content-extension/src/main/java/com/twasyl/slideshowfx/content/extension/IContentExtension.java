@@ -3,6 +3,7 @@ package com.twasyl.slideshowfx.content.extension;
 import com.twasyl.slideshowfx.icons.Icon;
 import com.twasyl.slideshowfx.markup.IMarkup;
 import com.twasyl.slideshowfx.plugin.IPlugin;
+import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.scene.layout.Pane;
 
 import java.io.File;
@@ -72,7 +73,7 @@ public interface IContentExtension extends IPlugin {
      * Resources to extract are the ones contained within the archive located by the {@link #getResourcesArchive()}.
      *
      * @param directory The directory where the resources will be extracted.
-     * @throws java.lang.NullPointerException If the given directory is null.
+     * @throws NullPointerException If the given directory is null.
      */
     void extractResources(File directory);
 
@@ -99,4 +100,12 @@ public interface IContentExtension extends IPlugin {
      * @return The content converted in the default markup language.
      */
     String buildDefaultContentString();
+
+    /**
+     * Indicates if the inputs present in the UI of the content extension are valid. This can be used in order to
+     * disable buttons in a particular UI when the inputs are not valid.
+     *
+     * @return a {@link ReadOnlyBooleanProperty} instance indicating whether or not the input fields are valid in the UI.
+     */
+    ReadOnlyBooleanProperty areInputsValid();
 }

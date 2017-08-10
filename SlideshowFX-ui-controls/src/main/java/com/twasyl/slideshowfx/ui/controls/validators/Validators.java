@@ -34,4 +34,20 @@ public final class Validators {
             }
         };
     }
+
+    /**
+     * Creates a validator checking a given string is a double.
+     *
+     * @return A validator checking double strings.
+     */
+    public static IValidator<String> isDouble() {
+        return (value) -> {
+            try {
+                Double.parseDouble(value);
+                return true;
+            } catch(NumberFormatException ex) {
+                return false;
+            }
+        };
+    }
 }

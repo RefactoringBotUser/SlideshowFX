@@ -4,6 +4,7 @@ import com.twasyl.slideshowfx.content.extension.AbstractContentExtension;
 import com.twasyl.slideshowfx.content.extension.ResourceType;
 import com.twasyl.slideshowfx.content.extension.sequence.diagram.controllers.SequenceDiagramContentExtensionController;
 import com.twasyl.slideshowfx.markup.IMarkup;
+import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
@@ -16,7 +17,7 @@ import static com.twasyl.slideshowfx.icons.Icon.SHARE_ALT_SQUARE;
 /**
  * The content extension that allows to insert sequence diagrams in a presentation. This extension only supports HTML for
  * inserting the content in the presentation, meaning that HTML code will always be returned when calling
- * {@link #buildDefaultContentString()} and {@link #buildContentString(com.twasyl.slideshowfx.markup.IMarkup)}.
+ * {@link #buildDefaultContentString()} and {@link #buildContentString(IMarkup)}.
  *
  * @author Thierry Wasylczenko
  * @version 1.1
@@ -71,5 +72,10 @@ public class SequenceDiagramContentExtension extends AbstractContentExtension {
                 .append("\n</script>");
 
         return builder.toString();
+    }
+
+    @Override
+    public ReadOnlyBooleanProperty areInputsValid() {
+        return this.controller.areInputsValid();
     }
 }

@@ -5,6 +5,7 @@ import com.twasyl.slideshowfx.content.extension.ResourceType;
 import com.twasyl.slideshowfx.content.extension.quiz.controllers.QuizContentExtensionController;
 import com.twasyl.slideshowfx.markup.IMarkup;
 import com.twasyl.slideshowfx.server.beans.quiz.Quiz;
+import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
@@ -83,5 +84,10 @@ public class QuizContentExtension extends AbstractContentExtension {
         builder.append("\n\t</ul>\n</div>");
 
         return builder.toString();
+    }
+
+    @Override
+    public ReadOnlyBooleanProperty areInputsValid() {
+        return this.controller.areInputsValid();
     }
 }

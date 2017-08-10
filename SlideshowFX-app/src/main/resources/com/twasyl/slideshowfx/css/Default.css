@@ -488,3 +488,9 @@
 .extended-text-field .label .text { -fx-fill: app-color-light-gray; -fx-font-size: 11px; }
 .extended-text-field .label:focused .text { -fx-fill: app-color-orange; }
 .extended-text-field .text-field:error { -fx-background-color: app-color-error, app-color-input-background; }
+
+.titled-pane:valid-drag-over {
+                 -fx-border-style: dashed inside;
+                 -fx-border-width: 3px;
+                 -fx-border-color: app-color-text-fill;
+             }

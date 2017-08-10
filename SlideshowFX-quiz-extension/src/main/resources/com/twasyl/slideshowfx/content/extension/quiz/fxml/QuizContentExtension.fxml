@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.twasyl.slideshowfx.icons.FontAwesome?>
+<?import com.twasyl.slideshowfx.ui.controls.ZoomTextArea?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -27,11 +30,11 @@
         <HBox spacing="5">
             <FontAwesome icon="QUESTION" size="25" color="app-color-orange"/>
 
-            <TextArea fx:id="question" promptText="Question ?" wrapText="true" prefColumnCount="25" prefRowCount="2">
+            <ZoomTextArea fx:id="question" promptText="Question ?" wrapText="true" prefColumnCount="25" prefRowCount="2">
                 <tooltip>
                     <Tooltip text="Enter the text of the question"/>
                 </tooltip>
-            </TextArea>
+            </ZoomTextArea>
         </HBox>
     </top>
 
