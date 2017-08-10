@@ -345,7 +345,7 @@ apply plugin: 'distribution'
 version = '@@NEXT-VERSION@@'
 
 wrapper {
-    gradleVersion = '4.0.2'
+    gradleVersion = '4.1'
 }
 
 asciidoctorj {
