@@ -225,16 +225,16 @@ subprojects {
 ext {
     // Dependencies versions
     asciidoctorjVersion = '1.5.6'
-    felixVersion = '5.6.4'
+    felixVersion = '5.6.8'
     freemarkerVersion = '2.3.26-incubating'
     jsoupVersion = '1.10.3'
     junitVersion = '5.0.0'
     markdownVersion = '0.13'
-    mockitoVersion = '2.8.47'
-    rxJavaVersion = '2.1.1'
+    mockitoVersion = '2.9.2'
+    rxJavaVersion = '2.1.3'
     twitterVersion = '4.0.6'
     vertxVersion = '3.4.2'
-    wikitextVersion = '3.0.9'
+    wikitextVersion = '3.0.18'
     zxingVersion = '3.3.0'
 
     jdk = System.env.'JAVA_HOME'
@@ -368,8 +368,8 @@ asciidoctor {
             linkcss: false,
             'slideshowfx_version': project.version,
             'asciidoctor-source': new File(project(':SlideshowFX-app').projectDir, 'src/main/resources/com/twasyl/slideshowfx/documentation').absolutePath,
-            'javafx-version': '8 update 131',
-            'jdk-version': '8 update 131',
+            'javafx-version': '8 update 144',
+            'jdk-version': '8 update 144',
             'gradle-version': "${wrapper.gradleVersion}",
             'asciidoctorj-version': "$asciidoctorjVersion",
             'apache-felix-version': "$felixVersion",
