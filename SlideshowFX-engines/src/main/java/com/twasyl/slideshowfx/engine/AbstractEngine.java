@@ -6,7 +6,10 @@ import com.twasyl.slideshowfx.utils.io.DefaultCharsetWriter;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.Reader;
 
 /**
  * This class implements {@link IEngine} in order to define base treatments used by all engine defined in SlideshowFX.

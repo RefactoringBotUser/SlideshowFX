@@ -1,8 +1,8 @@
 package com.twasyl.slideshowfx.utils.time;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Thierry Wasylczenko
@@ -30,7 +30,7 @@ public class DateTimeUtilsTest {
     private static final File file_10_daysMoreRecent = new File(TEMP_DIRECTORY, TEMP_FILE_PREFIX + "03");
     private static final File file_15_daysMoreRecent = new File(TEMP_DIRECTORY, TEMP_FILE_PREFIX + "04");
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws IOException {
         final TimeUnit daysUnit = TimeUnit.DAYS;
         final Instant now = Instant.now();
@@ -48,7 +48,7 @@ public class DateTimeUtilsTest {
         Files.setLastModifiedTime(file_15_daysMoreRecent.toPath(), FileTime.from(now.plusSeconds(daysUnit.toSeconds(15))));
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDown() {
         file_10_daysOld.delete();
         file_15_daysOld.delete();

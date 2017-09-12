@@ -1,15 +1,15 @@
 package com.twasyl.slideshowfx.content.extension.code;
 
 import com.twasyl.slideshowfx.markup.markdown.MarkdownMarkup;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.twasyl.slideshowfx.content.extension.code.enums.SupportedLanguage.JAVA;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * This class tests the {@link CodeContentExtension} class using a markdown markup.
@@ -18,7 +18,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class MarkdownCodeContentExtensionTest extends BaseCodeContentExtensionTest {
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() {
         extension = new CodeContentExtension();
         markup = new MarkdownMarkup();

@@ -3,7 +3,8 @@ version = '1.1'
 dependencies {
     compile project(":SlideshowFX-logs")
 
-    testCompile "junit:junit:$junitVersion"
+    testCompile "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    testRuntime "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
     testCompile "org.mockito:mockito-core:$mockitoVersion"
 }
 

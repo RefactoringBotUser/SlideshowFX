@@ -1,8 +1,8 @@
 package com.twasyl.slideshowfx.utils.io;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link ListFilesFileVisitor}
@@ -24,7 +24,7 @@ public class ListFilesFileVisitorTest {
     private static File baseLocation;
     private ListFilesFileVisitor visitor;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws URISyntaxException {
         // Hack to get the resources folder
         final File file = new File(ListFilesFileVisitorTest.class.getResource("/com/twasyl/slideshowfx/utils/io/file.txt").toURI());
@@ -35,7 +35,7 @@ public class ListFilesFileVisitorTest {
         new File(baseLocation, "dir/dir2").mkdirs();
     }
 
-    @Before
+    @BeforeEach
     public void beforeTest() {
         this.visitor = new ListFilesFileVisitor();
     }
@@ -49,10 +49,10 @@ public class ListFilesFileVisitorTest {
         assertEquals(file.toPath(), visitor.getPaths().get(0));
     }
 
-    @Test(expected = NoSuchFileException.class)
+    @Test
     public void testWalkOnInvalidFile() throws IOException {
         final File file = new File(baseLocation, "this_file_dont_exist.txt");
-        Files.walkFileTree(file.toPath(), visitor);
+        assertThrows(NoSuchFileException.class, () -> Files.walkFileTree(file.toPath(), visitor));
     }
 
     @Test

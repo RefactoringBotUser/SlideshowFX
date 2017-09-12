@@ -1,11 +1,11 @@
 package com.twasyl.slideshowfx.utils;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * This class provides tests for the class {@link com.twasyl.slideshowfx.utils.NetworkUtils}.

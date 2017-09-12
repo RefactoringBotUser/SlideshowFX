@@ -19,9 +19,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import static com.twasyl.slideshowfx.engine.template.TemplateEngine.DEFAULT_CONFIGURATION_FILE_NAME;
-import static com.twasyl.slideshowfx.engine.template.configuration.TemplateConfiguration.TEMPLATE;
-import static com.twasyl.slideshowfx.engine.template.configuration.TemplateConfiguration.TEMPLATE_NAME;
-import static com.twasyl.slideshowfx.engine.template.configuration.TemplateConfiguration.TEMPLATE_VERSION;
+import static com.twasyl.slideshowfx.engine.template.configuration.TemplateConfiguration.*;
 import static java.util.zip.ZipFile.OPEN_READ;
 
 /**

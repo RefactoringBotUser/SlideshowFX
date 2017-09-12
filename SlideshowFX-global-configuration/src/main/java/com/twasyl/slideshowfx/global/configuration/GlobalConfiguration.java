@@ -1,9 +1,7 @@
 package com.twasyl.slideshowfx.global.configuration;
 
 import com.twasyl.slideshowfx.logs.SlideshowFXHandler;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.Arrays;

@@ -2,9 +2,10 @@ package com.twasyl.slideshowfx.utils.beans.binding;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * This class tests the {@link WildcardBinding} class.
@@ -15,9 +16,9 @@ public class WildcardBindingTest {
     /**
      * Test that creating a binding with a null property throws a {@link NullPointerException}.
      */
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testWithNullProperty() {
-        final WildcardBinding binding = new WildcardBinding(null);
+        assertThrows(NullPointerException.class, () -> new WildcardBinding(null));
     }
 
     /**

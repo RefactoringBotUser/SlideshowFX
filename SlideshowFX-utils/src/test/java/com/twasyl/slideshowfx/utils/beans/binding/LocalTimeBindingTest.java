@@ -2,13 +2,14 @@ package com.twasyl.slideshowfx.utils.beans.binding;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * This class tests the {@link LocalTimeBinding} class.
@@ -22,9 +23,9 @@ public class LocalTimeBindingTest {
     /**
      * Test that creating a binding with a null property throws a {@link NullPointerException}.
      */
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testWithNullProperty() {
-        final LocalTimeBinding binding = new LocalTimeBinding(null);
+        assertThrows(NullPointerException.class, () -> new LocalTimeBinding(null));
     }
 
     /**

@@ -1,13 +1,13 @@
 package com.twasyl.slideshowfx.global.configuration;
 
-import org.junit.After;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
 import static com.twasyl.slideshowfx.global.configuration.GlobalConfiguration.APPLICATION_DIRECTORY_PROPERTY;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Thierry Wasylczenko
@@ -17,7 +17,7 @@ public class GlobalConfigurationFilesAndFoldersCreationTest {
 
     private static File tmpFolder;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() {
         final File buildFolder = new File("build");
         if (!buildFolder.exists()) {
@@ -29,7 +29,7 @@ public class GlobalConfigurationFilesAndFoldersCreationTest {
         System.setProperty(APPLICATION_DIRECTORY_PROPERTY, tmpFolder.getAbsolutePath());
     }
 
-    @After
+    @AfterEach
     public void after() {
         if (GlobalConfiguration.getConfigurationFile().exists()) {
             GlobalConfiguration.getConfigurationFile().delete();

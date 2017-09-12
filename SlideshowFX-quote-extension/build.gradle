@@ -4,6 +4,7 @@ version = '1.1'
 dependencies {
     compile project(':SlideshowFX-content-extension')
     compile "org.apache.felix:org.apache.felix.framework:$felixVersion"
+    testRuntime "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
 }
 
 jar {

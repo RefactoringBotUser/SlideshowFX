@@ -1,11 +1,11 @@
 package com.twasyl.slideshowfx.ui.controls.validators;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static com.twasyl.slideshowfx.ui.controls.validators.Validators.isInteger;
 import static com.twasyl.slideshowfx.ui.controls.validators.Validators.isNotEmpty;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Class testing the {@link Validators} class.

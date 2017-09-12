@@ -1,19 +1,19 @@
 package com.twasyl.slideshowfx.utils;
 
 import com.twasyl.slideshowfx.utils.io.DeleteFileVisitor;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ZipUtilsTest {
 
@@ -22,7 +22,7 @@ public class ZipUtilsTest {
     private static File testResultsDir;
     private static File resourcesDir;
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() {
 
         testResultsDir = new File(System.getProperty("testResultsDir", "build"));
@@ -50,19 +50,19 @@ public class ZipUtilsTest {
 
                 switch(entry.getName()) {
                     case "dir/otherDir/otherDirTest.html":
-                        assertFalse("otherDirTest.html is a directory", entry.isDirectory());
+                        assertFalse(entry.isDirectory(), "otherDirTest.html is a directory");
                         break;
                     case "dir/dirTest.txt":
-                        assertFalse("dirTest.txt is a directory", entry.isDirectory());
+                        assertFalse(entry.isDirectory(), "dirTest.txt is a directory");
                         break;
                     case "archive.zip":
-                        assertFalse("archive.zip is a directory", entry.isDirectory());
+                        assertFalse(entry.isDirectory(), "archive.zip is a directory");
                         break;
                     case "test.html":
-                        assertFalse("test.html is a directory", entry.isDirectory());
+                        assertFalse(entry.isDirectory(), "test.html is a directory");
                         break;
                     case "test.txt":
-                        assertFalse("test.txt is a directory", entry.isDirectory());
+                        assertFalse(entry.isDirectory(), "test.txt is a directory");
                         break;
                     default:
                         fail("Unknown entry name: [" + entry.getName() + "]");

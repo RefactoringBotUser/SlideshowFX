@@ -1,9 +1,9 @@
 package com.twasyl.slideshowfx.global.configuration;
 
 import com.twasyl.slideshowfx.logs.SlideshowFXHandler;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,8 +12,8 @@ import java.util.Properties;
 import java.util.logging.FileHandler;
 
 import static com.twasyl.slideshowfx.global.configuration.GlobalConfiguration.*;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author Thierry Wasylczenko
@@ -25,7 +25,7 @@ public class GlobalConfigurationDefaultValuesTest {
     private static Properties loggingConfigProperties;
     private static Properties applicationProperties;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() {
         tmpFolder = new File("build", "testsTmp");
         if (!tmpFolder.exists()) {
@@ -56,7 +56,7 @@ public class GlobalConfigurationDefaultValuesTest {
         }
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDown() {
         GlobalConfiguration.getConfigurationFile().delete();
         GlobalConfiguration.getLoggingConfigFile().delete();

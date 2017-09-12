@@ -34,7 +34,7 @@ public class AsciidoctorMarkup extends AbstractMarkup {
         RubyInstanceConfig config = new RubyInstanceConfig();
         config.setLoader(AsciidoctorMarkup.class.getClassLoader());
 
-        JavaEmbedUtils.initialize(Arrays.asList("META-INF/jruby.home/lib/ruby/2.0", "gems/asciidoctor-1.5.5/lib"), config);
+        JavaEmbedUtils.initialize(Arrays.asList("gems/asciidoctor-1.5.6.1/lib"), config);
 
         this.asciidoctor = Asciidoctor.Factory.create(AsciidoctorMarkup.class.getClassLoader());
     }

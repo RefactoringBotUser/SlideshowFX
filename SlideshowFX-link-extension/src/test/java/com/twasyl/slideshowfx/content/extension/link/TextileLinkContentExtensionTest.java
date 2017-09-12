@@ -2,12 +2,11 @@ package com.twasyl.slideshowfx.content.extension.link;
 
 import com.twasyl.slideshowfx.content.extension.link.controllers.LinkContentExtensionController;
 import com.twasyl.slideshowfx.markup.IMarkup;
-import com.twasyl.slideshowfx.markup.html.HtmlMarkup;
 import com.twasyl.slideshowfx.markup.textile.TextileMarkup;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -21,7 +20,7 @@ public class TextileLinkContentExtensionTest {
     private static IMarkup markup;
     private static LinkContentExtension linkContentExtension;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() {
         markup = new TextileMarkup();
         linkContentExtension = new LinkContentExtension();

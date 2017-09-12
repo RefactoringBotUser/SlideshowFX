@@ -1,11 +1,11 @@
 package com.twasyl.slideshowfx.utils.keys;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static javafx.scene.input.KeyCombination.ModifierValue;
 import static javafx.scene.input.KeyCombination.ModifierValue.DOWN;
 import static javafx.scene.input.KeyCombination.ModifierValue.UP;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Thierry Wasylczenko

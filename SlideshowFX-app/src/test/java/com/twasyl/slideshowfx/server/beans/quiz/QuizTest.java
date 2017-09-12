@@ -1,8 +1,10 @@
 package com.twasyl.slideshowfx.server.beans.quiz;
 
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Perform tests on a quiz.
@@ -15,7 +17,7 @@ public class QuizTest {
 
     private static Quiz quiz;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() {
 
         quiz = new Quiz();
@@ -50,26 +52,26 @@ public class QuizTest {
 
     @Test
     public void testWithoutAnswers() {
-        Assert.assertFalse(quiz.checkAnswers());
+        assertFalse(quiz.checkAnswers());
     }
 
     @Test
     public void testWithFalseAnswer() {
-        Assert.assertFalse(quiz.checkAnswers(1L));
+        assertFalse(quiz.checkAnswers(1L));
     }
 
     @Test
     public void testWithoutAllCorrectAnswers() {
-        Assert.assertFalse(quiz.checkAnswers(2L));
+        assertFalse(quiz.checkAnswers(2L));
     }
 
     @Test
     public void testWithAllCorrectAnswersAndAWrongAnswer() {
-        Assert.assertFalse(quiz.checkAnswers(1L, 2L, 3L));
+        assertFalse(quiz.checkAnswers(1L, 2L, 3L));
     }
 
     @Test
     public void testWithCorrectAnswers() {
-        Assert.assertTrue(quiz.checkAnswers(2L, 3L));
+        assertTrue(quiz.checkAnswers(2L, 3L));
     }
 }

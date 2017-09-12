@@ -1,27 +1,30 @@
 package com.twasyl.slideshowfx.markup.asciidoctor;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Performs tests for the Asciidoctor markup syntax.
  *
  * @author Thierry Wasylczenko
  */
+@Disabled
 public class AsciidoctorMarkupTest {
 
     private static AsciidoctorMarkup markup;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() {
         markup = new AsciidoctorMarkup();
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void generateWithNull() {
-        markup.convertAsHtml(null);
+        assertThrows(IllegalArgumentException.class, () -> markup.convertAsHtml(null));
     }
 
     @Test public void generateH1() {

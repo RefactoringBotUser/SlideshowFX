@@ -1,6 +1,6 @@
 package com.twasyl.slideshowfx.global.configuration;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -27,7 +27,7 @@ import static com.twasyl.slideshowfx.global.configuration.ContextFileWorker.*;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static javax.xml.xpath.XPathConstants.NODE;
 import static javax.xml.xpath.XPathConstants.STRING;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

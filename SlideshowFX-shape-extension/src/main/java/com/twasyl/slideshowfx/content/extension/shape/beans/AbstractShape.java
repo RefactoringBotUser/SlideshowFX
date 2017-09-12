@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 
-import static com.twasyl.slideshowfx.ui.controls.validators.Validators.isDouble;
-import static com.twasyl.slideshowfx.ui.controls.validators.Validators.isInteger;
-import static com.twasyl.slideshowfx.ui.controls.validators.Validators.isNotEmpty;
+import static com.twasyl.slideshowfx.ui.controls.validators.Validators.*;
 
 /**
  * @author Thierry Wasylczenko

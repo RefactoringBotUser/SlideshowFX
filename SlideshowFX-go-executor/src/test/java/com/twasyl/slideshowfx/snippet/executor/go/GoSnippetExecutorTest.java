@@ -2,12 +2,12 @@ package com.twasyl.slideshowfx.snippet.executor.go;
 
 import com.twasyl.slideshowfx.snippet.executor.CodeSnippet;
 import com.twasyl.slideshowfx.utils.io.IOUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
 import static com.twasyl.slideshowfx.snippet.executor.go.GoSnippetExecutor.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link GoSnippetExecutor}.

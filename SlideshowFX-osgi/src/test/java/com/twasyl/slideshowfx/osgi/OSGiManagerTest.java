@@ -2,7 +2,7 @@ package com.twasyl.slideshowfx.osgi;
 
 import com.twasyl.slideshowfx.utils.io.CopyFileVisitor;
 import com.twasyl.slideshowfx.utils.io.IOUtils;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleException;
 
@@ -13,7 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.osgi.framework.Constants.SYSTEM_BUNDLE_LOCATION;
 
 /**
@@ -34,18 +34,18 @@ public class OSGiManagerTest {
     private static final File PLUGIN_1_2 = new File(PLUGINS_DIR, "plugin-1.2.jar");
     private static final File PLUGIN2_3_0 = new File(PLUGINS_DIR, "plugin2-3.0.jar");
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() {
         osgiManager = new OSGiManager();
         osgiManager.pluginsDirectory = PLUGINS_DIR;
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDown() throws IOException {
         IOUtils.deleteDirectory(OSGI_CACHE_DIR);
     }
 
-    @Before
+    @BeforeEach
     public void before() throws URISyntaxException, IOException {
         final Path source = new File("src/test/resources/com/twasyl/slideshowfx/osgi/testPlugins").toPath().toAbsolutePath();
         Files.walkFileTree(source, new CopyFileVisitor(ROOT_OSGI.toPath().toAbsolutePath(), source));
@@ -54,7 +54,7 @@ public class OSGiManagerTest {
         osgiManager.start();
     }
 
-    @After
+    @AfterEach
     public void after() {
         osgiManager.stop();
     }

@@ -1,15 +1,14 @@
 package com.twasyl.slideshowfx.controllers;
 
 import com.twasyl.slideshowfx.plugin.InstalledPlugin;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Class testing the {@link PluginCenterController} class.
@@ -30,7 +29,7 @@ public class PluginCenterControllerTest {
 
     private static final PluginCenterController controller = new PluginCenterController();
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws URISyntaxException {
         FILE_LOCATION = new File(PluginCenterControllerTest.class.getResource("/com/twasyl/slideshowfx/files/plugincenter").toURI());
         MISSING_FILE = new File(FILE_LOCATION, "missing.txt");
@@ -41,14 +40,14 @@ public class PluginCenterControllerTest {
         CORRECT_FILE = new File(FILE_LOCATION, "correct.jar");
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void fileSeemsInvalidWhenNullFile() throws FileNotFoundException {
-        assertFalse(controller.fileSeemsValid(null));
+        assertThrows(NullPointerException.class, () -> controller.fileSeemsValid(null));
     }
 
-    @Test(expected = FileNotFoundException.class)
+    @Test
     public void fileSeemsInvalidWhenFileNotExists() throws FileNotFoundException {
-        assertFalse(controller.fileSeemsValid(MISSING_FILE));
+        assertThrows(FileNotFoundException.class, () -> controller.fileSeemsValid(MISSING_FILE));
     }
 
     @Test

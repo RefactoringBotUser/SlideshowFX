@@ -7,8 +7,9 @@ buildscript {
 
     dependencies {
         classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
-        classpath 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.11'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.1'
+        classpath 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.16'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0'
     }
 }
 
@@ -173,6 +174,7 @@ allprojects {
 subprojects {
     apply plugin: 'java'
     apply plugin: 'project-report'
+    apply plugin: 'org.junit.platform.gradle.plugin'
 
     if(project.path == ":SlideshowFX-app" || project.path == ":SlideshowFX-setup") {
         apply plugin: JavaFXPlugin
@@ -210,20 +212,23 @@ subprojects {
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 
+    junitPlatform {
+        enableStandardTestTask true
+    }
+
     test {
         useJUnit()
         reports.html.enabled = true
-        reports.html.destination = file("${project.reporting.baseDir}/${name}")
     }
 }
 
 ext {
     // Dependencies versions
-    asciidoctorjVersion = '1.5.5'
+    asciidoctorjVersion = '1.5.6'
     felixVersion = '5.6.4'
     freemarkerVersion = '2.3.26-incubating'
     jsoupVersion = '1.10.3'
-    junitVersion = '4.12'
+    junitVersion = '5.0.0'
     markdownVersion = '0.13'
     mockitoVersion = '2.8.47'
     rxJavaVersion = '2.1.1'
@@ -349,7 +354,7 @@ wrapper {
 }
 
 asciidoctorj {
-    version = '1.5.5'
+    version = '1.5.6'
 }
 
 asciidoctor {

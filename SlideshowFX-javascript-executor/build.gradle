@@ -4,6 +4,8 @@ version = '1.0'
 dependencies {
     compile project(':SlideshowFX-snippet-executor')
     compile "org.apache.felix:org.apache.felix.framework:$felixVersion"
+
+    testRuntime "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
 }
 
 jar {

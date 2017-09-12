@@ -2,11 +2,12 @@ package com.twasyl.slideshowfx.utils.beans.binding;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * This class tests the {@link com.twasyl.slideshowfx.utils.beans.binding.FilenameBinding} class.
@@ -19,9 +20,9 @@ public class FilenameBindingTest {
     /**
      * Test that creating a binding with a null property throws a NullPointerException.
      */
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testWithNullProperty() {
-        final FilenameBinding binding = new FilenameBinding(null);
+        assertThrows(NullPointerException.class, () -> new FilenameBinding(null));
     }
 
     /**

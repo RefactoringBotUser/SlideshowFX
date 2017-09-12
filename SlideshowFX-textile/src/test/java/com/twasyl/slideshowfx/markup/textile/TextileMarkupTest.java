@@ -1,9 +1,10 @@
 package com.twasyl.slideshowfx.markup.textile;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Thierry Wasylczenko
@@ -12,14 +13,14 @@ public class TextileMarkupTest {
 
     private static TextileMarkup markup;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() {
         markup = new TextileMarkup();
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void generateWithNull() {
-        markup.convertAsHtml(null);
+        assertThrows(IllegalArgumentException.class, () -> markup.convertAsHtml(null));
     }
 
     @Test public void generateH1() {
