@@ -27,7 +27,7 @@ import static com.twasyl.slideshowfx.icons.Icon.EXCLAMATION_TRIANGLE;
 public class AlertContentExtension extends AbstractContentExtension {
     private static final Logger LOGGER = Logger.getLogger(AlertContentExtension.class.getName());
 
-    private AlertContentExtensionController controller;
+    protected AlertContentExtensionController controller;
 
     public AlertContentExtension() {
         super("ALERT",
@@ -36,10 +36,9 @@ public class AlertContentExtension extends AbstractContentExtension {
                 "Insert an alert",
                 "Insert an alert");
 
-        final String baseURL = "sweetalert/1.1.3/";
+        final String baseURL = "sweetalert/2.0.3/";
 
         // Add URL
-        this.putResource(ResourceType.CSS_FILE, baseURL.concat("sweetalert.css"));
         this.putResource(ResourceType.JAVASCRIPT_FILE, baseURL.concat("sweetalert.min.js"));
     }
 
@@ -68,7 +67,7 @@ public class AlertContentExtension extends AbstractContentExtension {
     public String buildDefaultContentString() {
         final StringBuilder builder = new StringBuilder();
 
-        final String id = "swal-btn-" + System.currentTimeMillis();
+        final String id = generateID();
 
         builder.append("<button id=\"").append(id).append("\">").append(this.controller.getButtonText()).append("</button>\n");
 
@@ -81,9 +80,14 @@ public class AlertContentExtension extends AbstractContentExtension {
             builder.append(",\n\t\t\ttext: \"").append(this.controller.getText()).append("\"");
         }
 
-        builder.append(",\n\t\t\ttype: \"").append(this.controller.getType()).append("\",\n");
-        builder.append("\t\t\tshowCancelButton: ").append(this.controller.isCancelButtonVisible()).append(",\n");
-        builder.append("\t\t\tallowOutsideClick: ").append(this.controller.isClickOutsideAllowed()).append("\n");
+        builder.append(",\n\t\t\ticon: \"").append(this.controller.getType()).append("\",\n");
+
+        builder.append("\t\t\tbuttons: {\n");
+        builder.append("\t\t\t\tconfirm: true,\n");
+        builder.append("\t\t\t\tcancel: ").append(this.controller.isCancelButtonVisible());
+        builder.append("\n\t\t\t},\n");
+        builder.append("\t\t\tcloseOnClickOutside: ").append(this.controller.isClickOutsideAllowed()).append(",\n");
+        builder.append("\t\t\tcloseOnEsc: ").append(this.controller.isClickOutsideAllowed()).append(",\n");
         builder.append("\t\t});\n");
         builder.append("\t};\n");
         builder.append("</script>");
@@ -95,5 +99,9 @@ public class AlertContentExtension extends AbstractContentExtension {
     @Override
     public ReadOnlyBooleanProperty areInputsValid() {
         return this.controller.areInputsValid();
+    }
+
+    protected String generateID() {
+        return "swal-btn-" + System.currentTimeMillis();
     }
 }

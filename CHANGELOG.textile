@@ -18,6 +18,7 @@ h4. New and noteworthy
 * Introduction of version for templates
 * Allow to re-open recent presentations
 * Uses ACE 1.2.8 in the slide content editor
+* Alert content extension plugin uses new version of SweetAlert
 
 h4. Bug fixes
 
