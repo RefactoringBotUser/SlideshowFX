@@ -7,7 +7,10 @@ buildscript {
 
     dependencies {
         classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
-        classpath 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.16'
+        classpath ('org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.16') {
+            exclude module: 'jruby-complete'
+        }
+        classpath 'org.jruby:jruby-complete:9.1.8.0'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
         classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0'
     }
@@ -350,7 +353,7 @@ apply plugin: 'distribution'
 version = '@@NEXT-VERSION@@'
 
 wrapper {
-    gradleVersion = '4.1'
+    gradleVersion = '4.2'
 }
 
 asciidoctorj {
