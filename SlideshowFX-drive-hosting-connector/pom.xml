@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.twasyl</groupId>
+        <artifactId>slideshowfx</artifactId>
+        <version>@@NEXT-VERSION@@</version>
+    </parent>
+
+    <name>SlideshowFX Drive hosting connector</name>
+    <description>Hosting connector allowing to open and save presentations from and to Google Drive</description>
+
+    <artifactId>slideshowfx-drive-hosting-connector</artifactId>
+    <version>1.3</version>
+</project>

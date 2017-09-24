@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.twasyl</groupId>
+        <artifactId>slideshowfx</artifactId>
+        <version>@@NEXT-VERSION@@</version>
+    </parent>
+
+    <name>SlideshowFX Golo executor</name>
+    <description>Snippet executor allowing to execute some Golo inside a SlideshowFX presentation</description>
+
+    <artifactId>slideshowfx-golo-executor</artifactId>
+    <version>1.0</version>
+</project>

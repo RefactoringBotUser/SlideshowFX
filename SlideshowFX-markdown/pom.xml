@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.twasyl</groupId>
+        <artifactId>slideshowfx</artifactId>
+        <version>@@NEXT-VERSION@@</version>
+    </parent>
+
+    <name>SlideshowFX markdown markup</name>
+    <description>Extension allowing to define slide's content using the markdown syntax</description>
+
+    <artifactId>slideshowfx-markdown</artifactId>
+    <version>1.0</version>
+</project>

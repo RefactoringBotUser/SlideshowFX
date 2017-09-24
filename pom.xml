@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+
+    <name>SlideshowFX</name>
+    <groupId>com.twasyl</groupId>
+    <artifactId>slideshowfx</artifactId>
+    <version>@@NEXT-VERSION@@</version>
+    <type>pom</type>
+
+    <modules>
+        <!-- Main application modules -->
+        <module>SlideshowFX-app</module>
+        <module>SlideshowFX-content-extension</module>
+        <module>SlideshowFX-engines</module>
+        <module>SlideshowFX-global-configuration</module>
+        <module>SlideshowFX-hosting-connector</module>
+        <module>SlideshowFX-icons</module>
+        <module>SlideshowFX-logs</module>
+        <module>SlideshowFX-markup</module>
+        <module>SlideshowFX-osgi</module>
+        <module>SlideshowFX-plugin</module>
+        <module>SlideshowFX-server</module>
+        <module>SlideshowFX-setup</module>
+        <module>SlideshowFX-snippet-executor</module>
+        <module>SlideshowFX-ui-controls</module>
+        <module>SlideshowFX-utils</module>
+
+        <!-- Plugins -->
+        <!-- Content extension plugins -->
+        <module>SlideshowFX-alert-extension</module>
+        <module>SlideshowFX-code-extension</module>
+        <module>SlideshowFX-image-extension</module>
+        <module>SlideshowFX-link-extension</module>
+        <module>SlideshowFX-quiz-extension</module>
+        <module>SlideshowFX-quote-extension</module>
+        <module>SlideshowFX-sequence-diagram-extension</module>
+        <module>SlideshowFX-shape-extension</module>
+        <module>SlideshowFX-snippet-extension</module>
+
+        <!-- Markup plugins -->
+        <module>SlideshowFX-asciidoctor</module>
+        <module>SlideshowFX-html</module>
+        <module>SlideshowFX-markdown</module>
+        <module>SlideshowFX-textile</module>
+
+        <!-- Hosting connectors plugins -->
+        <module>SlideshowFX-box-hosting-connector</module>
+        <module>SlideshowFX-drive-hosting-connector</module>
+        <module>SlideshowFX-dropbox-hosting-connector</module>
+
+        <!-- Snippet executor plugins -->
+        <module>SlideshowFX-go-executor</module>
+        <module>SlideshowFX-golo-executor</module>
+        <module>SlideshowFX-groovy-executor</module>
+        <module>SlideshowFX-java-executor</module>
+        <module>SlideshowFX-javascript-executor</module>
+        <module>SlideshowFX-kotlin-executor</module>
+        <module>SlideshowFX-scala-executor</module>
+    </modules>
+</project>

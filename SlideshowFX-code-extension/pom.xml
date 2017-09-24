@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.twasyl</groupId>
+        <artifactId>slideshowfx</artifactId>
+        <version>@@NEXT-VERSION@@</version>
+    </parent>
+
+    <name>SlideshowFX code extension</name>
+    <description>Extension allowing to insert code snippets inside a SlideshowFX presentation</description>
+
+    <artifactId>slideshowfx-code-extension</artifactId>
+    <version>1.2</version>
+</project>
