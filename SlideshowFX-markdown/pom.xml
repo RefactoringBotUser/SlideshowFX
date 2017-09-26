@@ -12,5 +12,65 @@
     <description>Extension allowing to define slide's content using the markdown syntax</description>
 
     <artifactId>slideshowfx-markdown</artifactId>
-    <version>1.0</version>
+    <version>${project.slideshowfx.markdown.version}</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-markup</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-plugin</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.framework</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.rjeschke</groupId>
+            <artifactId>txtmark</artifactId>
+            <version>${dependency.markdown.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>SlideshowFX-markdown-${project.version}</finalName>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+                            <Bundle-Name>SlideshowFX markdown support</Bundle-Name>
+                            <Bundle-SymbolicName>com.twasyl.slideshowfx.markup.markdown</Bundle-SymbolicName>
+                            <Bundle-Description>Support markdown for defining slide's content</Bundle-Description>
+                            <Bundle-Version>${project.version}</Bundle-Version>
+                            <Bundle-Activator>
+                                com.twasyl.slideshowfx.markup.markdown.activator.MarkdownActivator
+                            </Bundle-Activator>
+                            <Bundle-Classpath><!-- TODO --></Bundle-Classpath>
+                            <Bundle-Vendor>Thierry Wasylczenko</Bundle-Vendor>
+                            <Export-Package>
+                                com.twasyl.slideshowfx.markup.markdown,com.twasyl.slideshowfx.markup.markdown.activator
+                            </Export-Package>
+                            <Import-Package>org.osgi.framework</Import-Package>
+                            <Setup-Wizard-Label>Markdown</Setup-Wizard-Label>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

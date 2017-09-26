@@ -12,5 +12,12 @@
     <description>Module allowing to insert icons in the UI</description>
 
     <artifactId>slideshowfx-icons</artifactId>
-    <version>1.0</version>
+    <version>${project.slideshowfx.icons.version}</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+        </dependency>
+    </dependencies>
 </project>

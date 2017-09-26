@@ -13,4 +13,62 @@
 
     <artifactId>slideshowfx-box-hosting-connector</artifactId>
     <version>1.2</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-global-configuration</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-hosting-connector</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.box</groupId>
+            <artifactId>box-java-sdk</artifactId>
+            <version>2.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.framework</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>SlideshowFX-box-hosting-connector-${project.version}</finalName>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+                            <Bundle-Name>SlideshowFX Box hosting connector</Bundle-Name>
+                            <Bundle-SymbolicName>com.twasyl.slideshowfx.hosting.connector.box</Bundle-SymbolicName>
+                            <Bundle-Description>Support for connecting to Box</Bundle-Description>
+                            <Bundle-Version>${project.version}</Bundle-Version>
+                            <Bundle-Activator>
+                                com.twasyl.slideshowfx.hosting.connector.box.activator.BoxHostingConnectorActivator
+                            </Bundle-Activator>
+                            <Bundle-Classpath><!-- TODO --></Bundle-Classpath>
+                            <Bundle-Vendor>Thierry Wasylczenko</Bundle-Vendor>
+                            <Export-Package>
+                                com.twasyl.slideshowfx.hosting.connector.box,com.twasyl.slideshowfx.hosting.connector.box.activator
+                            </Export-Package>
+                            <Import-Package>org.osgi.framework</Import-Package>
+                            <Setup-Wizard-Label>Box</Setup-Wizard-Label>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

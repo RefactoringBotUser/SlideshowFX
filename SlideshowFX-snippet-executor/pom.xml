@@ -8,16 +8,16 @@
         <version>@@NEXT-VERSION@@</version>
     </parent>
 
-    <name>SlideshowFX hosting connector</name>
-    <description>Module defining a hosting connector allowing to connect to remote cloud service</description>
+    <name>SlideshowFX snippet executor</name>
+    <description>Module defining a snippet executor</description>
 
-    <artifactId>slideshowfx-hosting-connector</artifactId>
-    <version>${project.slideshowfx.hosting.connector.version}</version>
+    <artifactId>slideshowfx-snippet-executor</artifactId>
+    <version>${project.slideshowfx.snippet.executor.version}</version>
 
     <dependencies>
         <dependency>
             <groupId>com.twasyl</groupId>
-            <artifactId>slideshowfx-engines</artifactId>
+            <artifactId>slideshowfx-global-configuration</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -27,13 +27,13 @@
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
-            <artifactId>slideshowfx-utils</artifactId>
+            <artifactId>slideshowfx-ui-controls</artifactId>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-utils</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

@@ -13,4 +13,59 @@
 
     <artifactId>slideshowfx-dropbox-hosting-connector</artifactId>
     <version>1.2</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-global-configuration</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-hosting-connector</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.dropbox.core</groupId>
+            <artifactId>dropbox-core-sdk</artifactId>
+            <version>3.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.framework</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>SlideshowFX-dropbox-hosting-connector-${project.version}</finalName>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+                            <Bundle-Name>SlideshowFX Dropbox hosting connector</Bundle-Name>
+                            <Bundle-SymbolicName>com.twasyl.slideshowfx.hosting.connector.dropbox</Bundle-SymbolicName>
+                            <Bundle-Description>Support for connecting to Dropbox</Bundle-Description>
+                            <Bundle-Version>${project.version}</Bundle-Version>
+                            <Bundle-Activator>
+                                com.twasyl.slideshowfx.hosting.connector.dropbox.activator.DropboxHostingConnectorActivator
+                            </Bundle-Activator>
+                            <Bundle-Classpath><!-- TODO --></Bundle-Classpath>
+                            <Bundle-Vendor>Thierry Wasylczenko</Bundle-Vendor>
+                            <Export-Package>
+                                com.twasyl.slideshowfx.hosting.connector.dropbox,com.twasyl.slideshowfx.hosting.connector.dropbox.activator
+                            </Export-Package>
+                            <Import-Package>org.osgi.framework</Import-Package>
+                            <Setup-Wizard-Label>Dropbox</Setup-Wizard-Label>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

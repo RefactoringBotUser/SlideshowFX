@@ -8,21 +8,16 @@
         <version>@@NEXT-VERSION@@</version>
     </parent>
 
-    <name>SlideshowFX HTML markup</name>
-    <description>Extension allowing to define slide's content using the HTML syntax</description>
+    <name>SlideshowFX quote extension</name>
+    <description>Extension allowing to insert quotes inside a SlideshowFX presentation</description>
 
-    <artifactId>slideshowfx-html</artifactId>
-    <version>${project.slideshowfx.html.version}</version>
+    <artifactId>slideshowfx-quote-extension</artifactId>
+    <version>1.1</version>
 
     <dependencies>
         <dependency>
             <groupId>com.twasyl</groupId>
-            <artifactId>slideshowfx-markup</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.twasyl</groupId>
-            <artifactId>slideshowfx-plugin</artifactId>
+            <artifactId>slideshowfx-content-extension</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -30,15 +25,10 @@
             <groupId>org.apache.felix</groupId>
             <artifactId>org.apache.felix.framework</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
-        <finalName>SlideshowFX-html-${project.version}</finalName>
+        <finalName>SlideshowFX-quote-extension-${project.version}</finalName>
 
         <plugins>
             <plugin>
@@ -48,24 +38,25 @@
                     <archive>
                         <manifestEntries>
                             <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
-                            <Bundle-Name>SlideshowFX HTML support</Bundle-Name>
-                            <Bundle-SymbolicName>com.twasyl.slideshowfx.markup.html</Bundle-SymbolicName>
-                            <Bundle-Description>Support HTML for defining slide's content</Bundle-Description>
+                            <Bundle-Name>SlideshowFX quote extension</Bundle-Name>
+                            <Bundle-SymbolicName>com.twasyl.slideshowfx.content.extension.quote</Bundle-SymbolicName>
+                            <Bundle-Description>Support for inserting quote in slides</Bundle-Description>
                             <Bundle-Version>${project.version}</Bundle-Version>
                             <Bundle-Activator>
-                                com.twasyl.slideshowfx.markup.asciidoctor.activator.AsciidoctorActivator
+                                com.twasyl.slideshowfx.content.extension.quote.activator.QuoteContentExtensionActivator
                             </Bundle-Activator>
-                            <Bundle-Classpath><!-- TODO --></Bundle-Classpath>
                             <Bundle-Vendor>Thierry Wasylczenko</Bundle-Vendor>
                             <Export-Package>
-                                com.twasyl.slideshowfx.markup.html.activator.HtmlActivator
+                                com.twasyl.slideshowfx.content.extension.quote.controllers,com.twasyl.slideshowfx.content.extension.quote,com.twasyl.slideshowfx.content.extension.quote.activator
                             </Export-Package>
                             <Import-Package>org.osgi.framework</Import-Package>
-                            <Setup-Wizard-Label>HTML</Setup-Wizard-Label>
+                            <Setup-Wizard-Label>Quote</Setup-Wizard-Label>
+                            <Setup-Wizard-Icon-Name>QUOTE_LEFT</Setup-Wizard-Icon-Name>
                         </manifestEntries>
                     </archive>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
 </project>

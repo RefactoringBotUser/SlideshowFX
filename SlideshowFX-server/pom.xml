@@ -8,13 +8,18 @@
         <version>@@NEXT-VERSION@@</version>
     </parent>
 
-    <name>SlideshowFX hosting connector</name>
-    <description>Module defining a hosting connector allowing to connect to remote cloud service</description>
+    <name>SlideshowFX server</name>
+    <description>Module representing the server used within SlideshowFX</description>
 
-    <artifactId>slideshowfx-hosting-connector</artifactId>
-    <version>${project.slideshowfx.hosting.connector.version}</version>
+    <artifactId>slideshowfx-server</artifactId>
+    <version>${project.slideshowfx.server.version}</version>
 
     <dependencies>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-global-configuration</artifactId>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-engines</artifactId>
@@ -22,13 +27,22 @@
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
-            <artifactId>slideshowfx-plugin</artifactId>
+            <artifactId>slideshowfx-utils</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.twasyl</groupId>
-            <artifactId>slideshowfx-utils</artifactId>
-            <scope>provided</scope>
+            <groupId>org.twitter4j</groupId>
+            <artifactId>twitter4j-stream</artifactId>
+            <version>${dependency.twitter.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-web</artifactId>
+            <version>${dependency.vertx.version}</version>
         </dependency>
 
         <dependency>

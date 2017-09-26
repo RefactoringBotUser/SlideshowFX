@@ -13,4 +13,59 @@
 
     <artifactId>slideshowfx-drive-hosting-connector</artifactId>
     <version>1.3</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-global-configuration</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-hosting-connector</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.apis</groupId>
+            <artifactId>google-api-services-drive</artifactId>
+            <version>v3-rev76-1.22.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.framework</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>SlideshowFX-drive-hosting-connector-${project.version}</finalName>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+                            <Bundle-Name>SlideshowFX Google Drive hosting connector</Bundle-Name>
+                            <Bundle-SymbolicName>com.twasyl.slideshowfx.hosting.connector.drive</Bundle-SymbolicName>
+                            <Bundle-Description>Support for connecting to Google Drive</Bundle-Description>
+                            <Bundle-Version>${project.version}</Bundle-Version>
+                            <Bundle-Activator>
+                                com.twasyl.slideshowfx.hosting.connector.drive.activator.DriveHostingConnectorActivator
+                            </Bundle-Activator>
+                            <Bundle-Classpath><!-- TODO --></Bundle-Classpath>
+                            <Bundle-Vendor>Thierry Wasylczenko</Bundle-Vendor>
+                            <Export-Package>
+                                com.twasyl.slideshowfx.hosting.connector.drive,com.twasyl.slideshowfx.hosting.connector.drive.activator
+                            </Export-Package>
+                            <Import-Package>org.osgi.framework</Import-Package>
+                            <Setup-Wizard-Label>Google Drive</Setup-Wizard-Label>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

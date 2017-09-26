@@ -8,11 +8,11 @@
         <version>@@NEXT-VERSION@@</version>
     </parent>
 
-    <name>SlideshowFX hosting connector</name>
-    <description>Module defining a hosting connector allowing to connect to remote cloud service</description>
+    <name>SlideshowFX OSGi</name>
+    <description>Module allowing to add OSGi support in the application</description>
 
-    <artifactId>slideshowfx-hosting-connector</artifactId>
-    <version>${project.slideshowfx.hosting.connector.version}</version>
+    <artifactId>slideshowfx-osgi</artifactId>
+    <version>${project.slideshowfx.osgi.version}</version>
 
     <dependencies>
         <dependency>
@@ -22,18 +22,28 @@
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
-            <artifactId>slideshowfx-plugin</artifactId>
+            <artifactId>slideshowfx-global-configuration</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
-            <artifactId>slideshowfx-utils</artifactId>
+            <artifactId>slideshowfx-plugin</artifactId>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.framework</artifactId>
         </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-utils</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

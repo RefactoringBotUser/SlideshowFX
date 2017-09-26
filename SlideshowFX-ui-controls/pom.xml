@@ -8,21 +8,16 @@
         <version>@@NEXT-VERSION@@</version>
     </parent>
 
-    <name>SlideshowFX hosting connector</name>
-    <description>Module defining a hosting connector allowing to connect to remote cloud service</description>
+    <name>SlideshowFX UI controls</name>
+    <description>Module defining controls to be used within the SlideshowFX app</description>
 
-    <artifactId>slideshowfx-hosting-connector</artifactId>
-    <version>${project.slideshowfx.hosting.connector.version}</version>
+    <artifactId>slideshowfx-ui-controls</artifactId>
+    <version>${project.slideshowfx.ui.controls.version}</version>
 
     <dependencies>
         <dependency>
             <groupId>com.twasyl</groupId>
-            <artifactId>slideshowfx-engines</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.twasyl</groupId>
-            <artifactId>slideshowfx-plugin</artifactId>
+            <artifactId>slideshowfx-icons</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>

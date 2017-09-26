@@ -8,21 +8,21 @@
         <version>@@NEXT-VERSION@@</version>
     </parent>
 
-    <name>SlideshowFX HTML markup</name>
-    <description>Extension allowing to define slide's content using the HTML syntax</description>
+    <name>SlideshowFX sequence diagram extension</name>
+    <description>Extension allowing to insert sequence diagrams inside a SlideshowFX presentation</description>
 
-    <artifactId>slideshowfx-html</artifactId>
-    <version>${project.slideshowfx.html.version}</version>
+    <artifactId>slideshowfx-sequence-diagram-extension</artifactId>
+    <version>1.1</version>
 
     <dependencies>
         <dependency>
             <groupId>com.twasyl</groupId>
-            <artifactId>slideshowfx-markup</artifactId>
+            <artifactId>slideshowfx-content-extension</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
-            <artifactId>slideshowfx-plugin</artifactId>
+            <artifactId>slideshowfx-osgi</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -30,15 +30,10 @@
             <groupId>org.apache.felix</groupId>
             <artifactId>org.apache.felix.framework</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
-        <finalName>SlideshowFX-html-${project.version}</finalName>
+        <finalName>SlideshowFX-sequence-diagram-extension-${project.version}</finalName>
 
         <plugins>
             <plugin>
@@ -48,20 +43,20 @@
                     <archive>
                         <manifestEntries>
                             <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
-                            <Bundle-Name>SlideshowFX HTML support</Bundle-Name>
-                            <Bundle-SymbolicName>com.twasyl.slideshowfx.markup.html</Bundle-SymbolicName>
-                            <Bundle-Description>Support HTML for defining slide's content</Bundle-Description>
+                            <Bundle-Name>SlideshowFX sequence diagram extension</Bundle-Name>
+                            <Bundle-SymbolicName>com.twasyl.slideshowfx.content.extension.sequence.diagram</Bundle-SymbolicName>
+                            <Bundle-Description>Support for inserting sequence diagrams in presentations</Bundle-Description>
                             <Bundle-Version>${project.version}</Bundle-Version>
                             <Bundle-Activator>
-                                com.twasyl.slideshowfx.markup.asciidoctor.activator.AsciidoctorActivator
+                                com.twasyl.slideshowfx.content.extension.sequence.diagram.activator.SequenceDiagramContentExtensionActivator
                             </Bundle-Activator>
-                            <Bundle-Classpath><!-- TODO --></Bundle-Classpath>
                             <Bundle-Vendor>Thierry Wasylczenko</Bundle-Vendor>
                             <Export-Package>
-                                com.twasyl.slideshowfx.markup.html.activator.HtmlActivator
+                                com.twasyl.slideshowfx.content.extension.sequence.diagram,com.twasyl.slideshowfx.content.extension.sequence.diagram.activator,com.twasyl.slideshowfx.content.extension.sequence.diagram.controllers
                             </Export-Package>
                             <Import-Package>org.osgi.framework</Import-Package>
-                            <Setup-Wizard-Label>HTML</Setup-Wizard-Label>
+                            <Setup-Wizard-Label>Sequence diagram</Setup-Wizard-Label>
+                            <Setup-Wizard-Icon-Name>SHARE_ALT_SQUARE</Setup-Wizard-Icon-Name>
                         </manifestEntries>
                     </archive>
                 </configuration>

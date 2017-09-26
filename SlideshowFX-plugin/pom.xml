@@ -8,9 +8,9 @@
         <version>@@NEXT-VERSION@@</version>
     </parent>
 
-    <name>SlideshowFX logs</name>
-    <description>Module allowing to define the log mechanism for the application</description>
+    <name>SlideshowFX plugin</name>
+    <description>Module defining a plugin</description>
 
-    <artifactId>slideshowfx-logs</artifactId>
-    <version>${project.slideshowfx.logs.version}</version>
+    <artifactId>slideshowfx-plugin</artifactId>
+    <version>${project.slideshowfx.plugin.version}</version>
 </project>

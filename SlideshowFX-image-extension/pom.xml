@@ -13,4 +13,54 @@
 
     <artifactId>slideshowfx-image-extension</artifactId>
     <version>1.3</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-app</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-content-extension</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.framework</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>SlideshowFX-image-extension</finalName>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+                            <Bundle-Name>SlideshowFX image extension</Bundle-Name>
+                            <Bundle-SymbolicName>com.twasyl.slideshowfx.content.extension.image</Bundle-SymbolicName>
+                            <Bundle-Description>Support for inserting image in slides</Bundle-Description>
+                            <Bundle-Version>${project.version}</Bundle-Version>
+                            <Bundle-Activator>
+                                com.twasyl.slideshowfx.content.extension.image.activator.ImageContentExtensionActivator
+                            </Bundle-Activator>
+                            <Bundle-Vendor>Thierry Wasylczenko</Bundle-Vendor>
+                            <Export-Package>
+                                com.twasyl.slideshowfx.content.extension.image.controllers,com.twasyl.slideshowfx.content.extension.image,com.twasyl.slideshowfx.content.extension.image.activator
+                            </Export-Package>
+                            <Import-Package>org.osgi.framework</Import-Package>
+                            <Setup-Wizard-Label>Image</Setup-Wizard-Label>
+                            <Setup-Wizard-Icon-Name>PICTURE_ALT</Setup-Wizard-Icon-Name>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
