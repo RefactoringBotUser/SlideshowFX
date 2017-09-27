@@ -15,5 +15,9 @@ gradle.properties
 build
 **/build/
 
+# maven files
+target
+**/target/
+
 # Error files generated when JavaFX crashes
 hs_err_*

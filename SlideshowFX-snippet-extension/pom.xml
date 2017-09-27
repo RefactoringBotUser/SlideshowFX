@@ -22,12 +22,37 @@
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-global-configuration</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-icons</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-markup</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-osgi</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-plugin</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-snippet-executor</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-ui-controls</artifactId>
             <scope>provided</scope>
         </dependency>
 

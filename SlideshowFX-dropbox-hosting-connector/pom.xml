@@ -17,12 +17,22 @@
     <dependencies>
         <dependency>
             <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-engines</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-global-configuration</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-hosting-connector</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-plugin</artifactId>
             <scope>provided</scope>
         </dependency>
 

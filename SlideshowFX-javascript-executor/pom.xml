@@ -17,6 +17,11 @@
     <dependencies>
         <dependency>
             <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-plugin</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-snippet-executor</artifactId>
             <scope>provided</scope>
         </dependency>
