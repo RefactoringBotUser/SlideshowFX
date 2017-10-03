@@ -14,38 +14,42 @@
     <artifactId>slideshowfx-go-executor</artifactId>
     <version>1.0</version>
 
+    <properties>
+        <slideshowfx.isNotPlugin>false</slideshowfx.isNotPlugin>
+    </properties>
+
     <dependencies>
-    <dependency>
-        <groupId>com.twasyl</groupId>
-        <artifactId>slideshowfx-global-configuration</artifactId>
-        <scope>provided</scope>
-    </dependency>
-    <dependency>
-        <groupId>com.twasyl</groupId>
-        <artifactId>slideshowfx-plugin</artifactId>
-        <scope>provided</scope>
-    </dependency>
-    <dependency>
-        <groupId>com.twasyl</groupId>
-        <artifactId>slideshowfx-snippet-executor</artifactId>
-        <scope>provided</scope>
-    </dependency>
-    <dependency>
-        <groupId>com.twasyl</groupId>
-        <artifactId>slideshowfx-utils</artifactId>
-        <scope>provided</scope>
-    </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-global-configuration</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-plugin</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-snippet-executor</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-utils</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
-    <dependency>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>org.apache.felix.framework</artifactId>
-    </dependency>
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.framework</artifactId>
+        </dependency>
 
-    <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-api</artifactId>
-    </dependency>
-</dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+        </dependency>
+    </dependencies>
 
     <build>
         <finalName>SlideshowFX-go-executor-${project.version}</finalName>
@@ -74,6 +78,10 @@
                         </manifestEntries>
                     </archive>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

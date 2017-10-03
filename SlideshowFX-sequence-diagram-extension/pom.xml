@@ -14,6 +14,10 @@
     <artifactId>slideshowfx-sequence-diagram-extension</artifactId>
     <version>1.1</version>
 
+    <properties>
+        <slideshowfx.isNotPlugin>false</slideshowfx.isNotPlugin>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.twasyl</groupId>
@@ -80,6 +84,10 @@
                         </manifestEntries>
                     </archive>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

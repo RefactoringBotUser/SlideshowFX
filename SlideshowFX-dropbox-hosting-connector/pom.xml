@@ -14,6 +14,10 @@
     <artifactId>slideshowfx-dropbox-hosting-connector</artifactId>
     <version>1.2</version>
 
+    <properties>
+        <slideshowfx.isNotPlugin>false</slideshowfx.isNotPlugin>
+    </properties>
+    
     <dependencies>
         <dependency>
             <groupId>com.twasyl</groupId>
@@ -53,6 +57,10 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <archive>
@@ -65,7 +73,7 @@
                             <Bundle-Activator>
                                 com.twasyl.slideshowfx.hosting.connector.dropbox.activator.DropboxHostingConnectorActivator
                             </Bundle-Activator>
-                            <Bundle-Classpath><!-- TODO --></Bundle-Classpath>
+                            <Bundle-Classpath>${osgi.bundle.classpath},.</Bundle-Classpath>
                             <Bundle-Vendor>Thierry Wasylczenko</Bundle-Vendor>
                             <Export-Package>
                                 com.twasyl.slideshowfx.hosting.connector.dropbox,com.twasyl.slideshowfx.hosting.connector.dropbox.activator
@@ -75,6 +83,10 @@
                         </manifestEntries>
                     </archive>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

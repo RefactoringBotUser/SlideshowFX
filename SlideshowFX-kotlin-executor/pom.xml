@@ -65,7 +65,6 @@
                             <Bundle-Activator>
                                 com.twasyl.slideshowfx.snippet.executor.kotlin.activator.KotlinSnippetExecutorActivator
                             </Bundle-Activator>
-                            <Bundle-Classpath><!-- TODO --></Bundle-Classpath>
                             <Bundle-Vendor>Thierry Wasylczenko</Bundle-Vendor>
                             <Export-Package>
                                 com.twasyl.slideshowfx.snippet.executor.kotlin,com.twasyl.slideshowfx.snippet.executor.kotlin.activator
@@ -75,6 +74,10 @@
                         </manifestEntries>
                     </archive>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

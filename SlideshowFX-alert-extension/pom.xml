@@ -13,7 +13,10 @@
 
     <artifactId>slideshowfx-alert-extension</artifactId>
     <version>1.2</version>
-    <packaging>jar</packaging>
+
+    <properties>
+        <slideshowfx.isNotPlugin>false</slideshowfx.isNotPlugin>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -72,7 +75,6 @@
                             <Bundle-Activator>
                                 com.twasyl.slideshowfx.content.extension.alert.activator.AlertContentExtensionActivator
                             </Bundle-Activator>
-                            <Bundle-Classpath><!-- TODO --></Bundle-Classpath>
                             <Bundle-Vendor>Thierry Wasylczenko</Bundle-Vendor>
                             <Export-Package>
                                 com.twasyl.slideshowfx.content.extension.alert.controllers,com.twasyl.slideshowfx.content.extension.alert,com.twasyl.slideshowfx.content.extension.alert.activator
@@ -83,6 +85,10 @@
                         </manifestEntries>
                     </archive>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

@@ -14,6 +14,10 @@
     <artifactId>slideshowfx-markdown</artifactId>
     <version>${project.slideshowfx.markdown.version}</version>
 
+    <properties>
+        <slideshowfx.isNotPlugin>false</slideshowfx.isNotPlugin>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.twasyl</groupId>
@@ -48,6 +52,10 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <archive>
@@ -60,7 +68,7 @@
                             <Bundle-Activator>
                                 com.twasyl.slideshowfx.markup.markdown.activator.MarkdownActivator
                             </Bundle-Activator>
-                            <Bundle-Classpath><!-- TODO --></Bundle-Classpath>
+                            <Bundle-Classpath>${osgi.bundle.classpath},.</Bundle-Classpath>
                             <Bundle-Vendor>Thierry Wasylczenko</Bundle-Vendor>
                             <Export-Package>
                                 com.twasyl.slideshowfx.markup.markdown,com.twasyl.slideshowfx.markup.markdown.activator
@@ -70,6 +78,10 @@
                         </manifestEntries>
                     </archive>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

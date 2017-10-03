@@ -89,15 +89,9 @@ SlideshowFX contains the following modules:
 - *SlideshowFX-kotlin-executor* which defines the base classes for creating an OSGi module for executing Kotlin code snippet in a presentation ;
 - *SlideshowFX-scala-executor* which defines the base classes for creating an OSGi module for executing Scala code snippet in a presentation ;
 
-=== Gradle
+=== Maven
 
-SlideshowFX uses http://www.gradle.org/[gradle] as build system. The version used is {gradle-version}. +
-The following plugins are currently used in the Gradle script:
-
-- asciidoctor
-- bintray
-- distribution
-- java
+SlideshowFX uses http://maven.apache.org/[maven] as build system. The version used is {maven-version}.
 
 ==== Tasks
 

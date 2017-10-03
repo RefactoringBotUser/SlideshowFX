@@ -83,6 +83,7 @@
         <dependency>
             <groupId>org.apache.felix</groupId>
             <artifactId>org.apache.felix.framework</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.google.zxing</groupId>
@@ -130,6 +131,9 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                        </manifest>
                         <manifestEntries>
                             <Implementation-Title>SlideshowFX</Implementation-Title>
                             <Implementation-Version>${project.version}</Implementation-Version>
@@ -138,7 +142,6 @@
                             </JavaFX-Preloader-Class>
                             <Main-Class>com.twasyl.slideshowfx.app.SlideshowFX</Main-Class>
                             <JavaFX-Version>8.0+</JavaFX-Version>
-                            <Class-Path><!-- TODO --></Class-Path>
                         </manifestEntries>
                     </archive>
                 </configuration>
@@ -154,12 +157,14 @@
                         <phase>package</phase>
                         <configuration>
                             <target name="Bundling ${project.artifactId} package">
-                                <property name="deployOutDir" value="${project.build.directory}/distributions" />
-                                <property name="deployOutFile" value="SlideshowFX" />
-                                <property name="deployResourcesDir" value="${project.build.directory}/dependency" />
-                                <property name="classpath" value="${JAVA_HOME}/lib/ant-javafx.jar" />
-                                <copy file="${project.build.directory}/${project.build.finalName}.${project.packaging}" todir="${deployResourcesDir}" />
-                                <ant antfile="${project.basedir}/src/assembly/javafx/SlideshowFX-app.xml" target="deployOSX"/>
+                                <property name="deployOutDir" value="${project.build.directory}/distributions"/>
+                                <property name="deployOutFile" value="SlideshowFX"/>
+                                <property name="deployResourcesDir" value="${project.build.directory}/dependency"/>
+                                <property name="classpath" value="${JAVA_HOME}/lib/ant-javafx.jar"/>
+                                <copy file="${project.build.directory}/${project.build.finalName}.${project.packaging}"
+                                      todir="${deployResourcesDir}"/>
+                                <ant antfile="${project.basedir}/src/assembly/javafx/SlideshowFX-app.xml"
+                                     target="deployOSX"/>
                             </target>
                         </configuration>
                     </execution>

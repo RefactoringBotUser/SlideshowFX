@@ -104,7 +104,7 @@
         <plugin.antrun.version>1.8</plugin.antrun.version>
         <plugin.assembly.version>3.1.0</plugin.assembly.version>
         <plugin.compiler.version>3.7.0</plugin.compiler.version>
-        <plugin.dependency.version>3.0.2</plugin.dependency.version>
+        <plugin.dependency.version>3.0.1</plugin.dependency.version>
         <plugin.jar.version>3.0.2</plugin.jar.version>
         <plugin.resources.version>3.0.2</plugin.resources.version>
 
@@ -123,6 +123,12 @@
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+
+        <slideshowfx.configuration.localization.dir>${user.home}</slideshowfx.configuration.localization.dir>
+        <slideshowfx.configuration.dir>${slideshowfx.configuration.localization.dir}/.SlideshowFX</slideshowfx.configuration.dir>
+        <slideshowfx.configuration.plugins.dir>${slideshowfx.configuration.dir}/plugins</slideshowfx.configuration.plugins.dir>
+        <slideshowfx.configuration.template.library.dir>${slideshowfx.configuration.dir}/templateLibrary</slideshowfx.configuration.template.library.dir>
+        <slideshowfx.isNotPlugin>true</slideshowfx.isNotPlugin>
     </properties>
 
     <dependencyManagement>
@@ -286,6 +292,26 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-antrun-plugin</artifactId>
                     <version>${plugin.antrun.version}</version>
+                    <executions>
+                        <execution>
+                            <id>install-${project.artifactId}-plugin-in-conf-dir</id>
+                            <goals>
+                                <goal>run</goal>
+                            </goals>
+                            <phase>install</phase>
+                            <configuration>
+                                <skip>${slideshowfx.isNotPlugin}</skip>
+                                <target>
+                                    <copy file="${project.build.directory}/${project.build.finalName}.${project.packaging}" toDir="${slideshowfx.configuration.plugins.dir}" />
+                                </target>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.asciidoctor</groupId>
+                    <artifactId>asciidoctor-maven-plugin</artifactId>
+                    <version>1.5.6</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -304,11 +330,45 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
                     <version>${plugin.dependency.version}</version>
+                    <executions>
+                        <execution>
+                            <id>copy-dependencies-for-packaging</id>
+                            <goals>
+                                <goal>copy-dependencies</goal>
+                            </goals>
+                            <configuration>
+                                <skip>${slideshowfx.isNotPlugin}</skip>
+                                <outputDirectory>${project.build.outputDirectory}${file.separator}lib</outputDirectory>
+                                <excludeScope>test</excludeScope>
+                                <includeScope>runtime</includeScope>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>create-osgi-bundle-classpath</id>
+                            <goals>
+                                <goal>build-classpath</goal>
+                            </goals>
+                            <configuration>
+                                <skip>${slideshowfx.isNotPlugin}</skip>
+                                <excludeScope>test</excludeScope>
+                                <includeScope>runtime</includeScope>
+                                <prefix>lib</prefix>
+                                <fileSeparator>${file.separator}</fileSeparator>
+                                <pathSeparator>,</pathSeparator>
+                                <outputProperty>osgi.bundle.classpath</outputProperty>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>${plugin.jar.version}</version>
+                    <configuration>
+                        <archive>
+                            <addMavenDescriptor>false</addMavenDescriptor>
+                        </archive>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -320,5 +380,87 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.asciidoctor</groupId>
+                <artifactId>asciidoctor-maven-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.asciidoctor</groupId>
+                        <artifactId>asciidoctorj-pdf</artifactId>
+                        <version>1.5.0-alpha.16</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.jruby</groupId>
+                        <artifactId>jruby-complete</artifactId>
+                        <version>9.1.8.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.asciidoctor</groupId>
+                        <artifactId>asciidoctorj</artifactId>
+                        <version>${dependency.asciidoctorj.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <sourceDirectory>${basedir}${file.separator}src${file.separator}docs${file.separator}asciidoc</sourceDirectory>
+                    <attributes>
+                        <source-highlighter>coderay</source-highlighter>
+                        <toc>left</toc>
+                        <icons>font</icons>
+                        <setanchors></setanchors>
+                        <sectlinks></sectlinks>
+                        <linkcss>false</linkcss>
+                        <slideshowfx_version>${project.version}</slideshowfx_version>
+                        <asciidoctor-source>${basedir}/SlideshowFX-app/src/main/resources/com/twasyl/slideshowfx/documentation</asciidoctor-source>
+                        <javafx-version>8 update 144</javafx-version>
+                        <jdk-version>8 update 144</jdk-version>
+                        <maven-version>3.5.0</maven-version>
+                        <asciidoctorj-version>${dependency.asciidoctorj.version}</asciidoctorj-version>
+                        <apache-felix-version>${dependency.felix.version}</apache-felix-version>
+                        <freemarker-version>${dependency.freemarker.version}</freemarker-version>
+                        <jsoup-version>${dependency.jsoup.version}</jsoup-version>
+                        <wikitext-textile-core-version>${dependency.wikitext.version}</wikitext-textile-core-version>
+                        <twitter4j-version>${dependency.twitter.version}</twitter4j-version>
+                        <txtmark-version>${dependency.markdown.version}</txtmark-version>
+                        <vertx-version>${dependency.vertx.version}</vertx-version>
+                        <zxing-core-version>${dependency.zxing.version}</zxing-core-version>
+                        <zxing-jse-version>${dependency.zxing.version}</zxing-jse-version>
+                        <ace-version>1.2.8</ace-version>
+                    </attributes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>generate-html-documentations</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                        <configuration>
+                            <backend>html5</backend>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-pdf-documentations</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                        <configuration>
+                            <backend>pdf</backend>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/assembly/slishowfx-package.xml</descriptor>
+                    </descriptors>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 </project>

@@ -14,6 +14,10 @@
     <artifactId>slideshowfx-textile</artifactId>
     <version>${project.slideshowfx.textile.version}</version>
 
+    <properties>
+        <slideshowfx.isNotPlugin>false</slideshowfx.isNotPlugin>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.twasyl</groupId>
@@ -30,11 +34,6 @@
             <groupId>org.apache.felix</groupId>
             <artifactId>org.apache.felix.framework</artifactId>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.eclipse.mylyn.docs</groupId>-->
-            <!--<artifactId>wikitext.core</artifactId>-->
-            <!--<version>${dependency.wikitext.version}</version>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>org.eclipse.mylyn.docs</groupId>
             <artifactId>org.eclipse.mylyn.wikitext.textile</artifactId>
@@ -53,6 +52,10 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <archive>
@@ -65,7 +68,7 @@
                             <Bundle-Activator>
                                 com.twasyl.slideshowfx.markup.textile.activator.TextileActivator
                             </Bundle-Activator>
-                            <Bundle-Classpath><!-- TODO --></Bundle-Classpath>
+                            <Bundle-Classpath>${osgi.bundle.classpath},.</Bundle-Classpath>
                             <Bundle-Vendor>Thierry Wasylczenko</Bundle-Vendor>
                             <Export-Package>
                                 com.twasyl.slideshowfx.markup.textile,com.twasyl.slideshowfx.markup.textile.activator
@@ -75,6 +78,10 @@
                         </manifestEntries>
                     </archive>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
