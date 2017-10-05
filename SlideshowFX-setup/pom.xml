@@ -14,7 +14,25 @@
     <artifactId>slideshowfx-setup</artifactId>
     <version>1.2</version>
 
+    <properties>
+        <setup.package.dir>${project.build.directory}${file.separator}dependency${file.separator}package</setup.package.dir>
+        <setup.package.documentations.dir>${setup.package.dir}${file.separator}documentations</setup.package.documentations.dir>
+        <setup.package.documentations.html.dir>${setup.package.documentations.dir}${file.separator}html</setup.package.documentations.html.dir>
+        <setup.package.documentations.pdf.dir>${setup.package.documentations.dir}${file.separator}pdf</setup.package.documentations.pdf.dir>
+        <setup.package.plugins.dir>${setup.package.dir}${file.separator}plugins</setup.package.plugins.dir>
+        <setup.package.markups.dir>${setup.package.plugins.dir}${file.separator}markups</setup.package.markups.dir>
+        <setup.package.extensions.dir>${setup.package.plugins.dir}${file.separator}extensions</setup.package.extensions.dir>
+        <setup.package.executors.dir>${setup.package.plugins.dir}${file.separator}executors</setup.package.executors.dir>
+        <setup.package.hostingConnectors.dir>${setup.package.plugins.dir}${file.separator}hostingConnectors</setup.package.hostingConnectors.dir>
+    </properties>
+
     <dependencies>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-app</artifactId>
+            <type>zip</type>
+            <classifier>bundle</classifier>
+        </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-global-configuration</artifactId>
@@ -36,6 +54,13 @@
             <artifactId>slideshowfx-utils</artifactId>
         </dependency>
 
+        <!-- Plugins -->
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-html</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -48,6 +73,47 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-setup-dependencies</id>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <excludeTypes>zip</excludeTypes>
+                            <excludeScope>test</excludeScope>
+                            <includeScope>compile</includeScope>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-content-extension-plugins</id>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <includeScope>system</includeScope>
+                            <outputDirectory>${setup.package.markups.dir}</outputDirectory>
+                            <excludeTransitive>true</excludeTransitive>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>unpack-app-bundle</id>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <includeArtifactIds>slideshowfx-app</includeArtifactIds>
+                            <outputDirectory>${setup.package.dir}</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <archive>
@@ -57,10 +123,39 @@
                             <Implementation-Vendor>Thierry Wasylczenko</Implementation-Vendor>
                             <Main-Class>com.twasyl.slideshowfx.setup.app.SlideshowFXSetup</Main-Class>
                             <JavaFX-Version>8.0+</JavaFX-Version>
-                            <Class-Path><!-- TODO --></Class-Path>
                         </manifestEntries>
                     </archive>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <target name="Bundling ${project.artifactId} package">
+                                <property name="deployOutDir" value="${project.build.directory}/distributions"/>
+                                <property name="deployOutFile" value="SlideshowFXSetup"/>
+                                <property name="deployResourcesDir" value="${project.build.directory}/dependency"/>
+                                <property name="classpath" value="${JAVA_HOME}/lib/ant-javafx.jar"/>
+                                <property name="applicationVersion" value="${project.slideshowfx.app.version}" />
+                                <copy file="${project.build.directory}/${project.build.finalName}.${project.packaging}"
+                                      todir="${deployResourcesDir}"/>
+                                <ant antfile="${project.basedir}/src/assembly/javafx/SlideshowFX-setup.xml"
+                                     target="deployOSX"/>
+                                <delete>
+                                    <fileset dir="${deployOutDir}" excludes="bundles/**" />
+                                </delete>
+                                <zip basedir="${deployOutDir}${file.separator}bundles" destfile="${project.build.directory}${file.separator}${deployOutFile}.zip" />
+                                <attachartifact file="${project.build.directory}${file.separator}${deployOutFile}.zip" classifier="bundle" type="zip"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

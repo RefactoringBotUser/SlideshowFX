@@ -57,11 +57,11 @@
                             <Bundle-Description>Support HTML for defining slide's content</Bundle-Description>
                             <Bundle-Version>${project.version}</Bundle-Version>
                             <Bundle-Activator>
-                                com.twasyl.slideshowfx.markup.asciidoctor.activator.AsciidoctorActivator
+                                com.twasyl.slideshowfx.markup.html.activator.HtmlActivator
                             </Bundle-Activator>
                             <Bundle-Vendor>Thierry Wasylczenko</Bundle-Vendor>
                             <Export-Package>
-                                com.twasyl.slideshowfx.markup.html.activator.HtmlActivator
+                                com.twasyl.slideshowfx.markup.html,com.twasyl.slideshowfx.markup.html.activator
                             </Export-Package>
                             <Import-Package>org.osgi.framework</Import-Package>
                             <Setup-Wizard-Label>HTML</Setup-Wizard-Label>

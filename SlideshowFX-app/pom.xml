@@ -157,14 +157,19 @@
                         <phase>package</phase>
                         <configuration>
                             <target name="Bundling ${project.artifactId} package">
-                                <property name="deployOutDir" value="${project.build.directory}/distributions"/>
+                                <property name="deployOutDir" value="${project.build.directory}${file.separator}distributions"/>
                                 <property name="deployOutFile" value="SlideshowFX"/>
-                                <property name="deployResourcesDir" value="${project.build.directory}/dependency"/>
+                                <property name="deployResourcesDir" value="${project.build.directory}${file.separator}dependency"/>
                                 <property name="classpath" value="${JAVA_HOME}/lib/ant-javafx.jar"/>
                                 <copy file="${project.build.directory}/${project.build.finalName}.${project.packaging}"
                                       todir="${deployResourcesDir}"/>
-                                <ant antfile="${project.basedir}/src/assembly/javafx/SlideshowFX-app.xml"
+                                <ant antfile="${project.basedir}${file.separator}src${file.separator}assembly${file.separator}javafx${file.separator}SlideshowFX-app.xml"
                                      target="deployOSX"/>
+                                <delete>
+                                    <fileset dir="${deployOutDir}" excludes="bundles/**" />
+                                </delete>
+                                <zip basedir="${deployOutDir}${file.separator}bundles" destfile="${project.build.directory}${file.separator}${deployOutFile}.zip" />
+                                <attachartifact file="${project.build.directory}${file.separator}${deployOutFile}.zip" classifier="bundle" type="zip"/>
                             </target>
                         </configuration>
                     </execution>

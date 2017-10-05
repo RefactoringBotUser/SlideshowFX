@@ -141,6 +141,13 @@
             </dependency>
             <dependency>
                 <groupId>com.twasyl</groupId>
+                <artifactId>slideshowfx-app</artifactId>
+                <version>${project.slideshowfx.app.version}</version>
+                <classifier>bundle</classifier>
+                <type>zip</type>
+            </dependency>
+            <dependency>
+                <groupId>com.twasyl</groupId>
                 <artifactId>slideshowfx-content-extension</artifactId>
                 <version>${project.slideshowfx.content.extension.version}</version>
             </dependency>
@@ -353,7 +360,7 @@
                                 <excludeScope>test</excludeScope>
                                 <includeScope>runtime</includeScope>
                                 <prefix>lib</prefix>
-                                <fileSeparator>${file.separator}</fileSeparator>
+                                <fileSeparator>/</fileSeparator>
                                 <pathSeparator>,</pathSeparator>
                                 <outputProperty>osgi.bundle.classpath</outputProperty>
                             </configuration>
@@ -452,15 +459,15 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <descriptors>
-                        <descriptor>src/assembly/slishowfx-package.xml</descriptor>
-                    </descriptors>
-                </configuration>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-assembly-plugin</artifactId>-->
+                <!--<configuration>-->
+                    <!--<descriptors>-->
+                        <!--<descriptor>src/assembly/slishowfx-package.xml</descriptor>-->
+                    <!--</descriptors>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
         </plugins>
     </build>
 </project>
