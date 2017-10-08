@@ -54,10 +54,140 @@
             <artifactId>slideshowfx-utils</artifactId>
         </dependency>
 
-        <!-- Plugins -->
+        <!-- Markup plugins -->
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-asciidoctor</artifactId>
+            <scope>runtime</scope>
+        </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-html</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-markdown</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-textile</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- Hosting connector plugins -->
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-box-hosting-connector</artifactId>
+            <version>1.2</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-drive-hosting-connector</artifactId>
+            <version>1.3</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-dropbox-hosting-connector</artifactId>
+            <version>1.2</version>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- Content extension plugins -->
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-alert-extension</artifactId>
+            <version>1.2</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-code-extension</artifactId>
+            <version>1.2</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-image-extension</artifactId>
+            <version>1.3</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-link-extension</artifactId>
+            <version>1.2</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-quiz-extension</artifactId>
+            <version>1.1</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-quote-extension</artifactId>
+            <version>1.1</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-sequence-diagram-extension</artifactId>
+            <version>1.1</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-shape-extension</artifactId>
+            <version>1.0</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-snippet-extension</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <!-- Snippet executor plugins -->
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-go-executor</artifactId>
+            <version>1.0</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-golo-executor</artifactId>
+            <version>1.0</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-groovy-executor</artifactId>
+            <version>1.0</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-java-executor</artifactId>
+            <version>1.0</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-javascript-executor</artifactId>
+            <version>1.0</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-kotlin-executor</artifactId>
+            <version>1.0</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-scala-executor</artifactId>
+            <version>1.0</version>
             <scope>runtime</scope>
         </dependency>
 
@@ -88,14 +218,50 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>copy-markup-plugins</id>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <includeArtifactIds>slideshowfx-asciidoctor,slideshowfx-html,slideshowfx-markdown,slideshowfx-textile</includeArtifactIds>
+                            <outputDirectory>${setup.package.markups.dir}</outputDirectory>
+                            <excludeTransitive>true</excludeTransitive>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-hosting-connector-plugins</id>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <includeArtifactIds>slideshowfx-box-hosting-connector,slideshowfx-drive-hosting-connector,slideshowfx-dropbox-hosting-connector</includeArtifactIds>
+                            <outputDirectory>${setup.package.hostingConnectors.dir}</outputDirectory>
+                            <excludeTransitive>true</excludeTransitive>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>copy-content-extension-plugins</id>
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
                         <phase>prepare-package</phase>
                         <configuration>
-                            <includeScope>system</includeScope>
-                            <outputDirectory>${setup.package.markups.dir}</outputDirectory>
+                            <includeArtifactIds>slideshowfx-alert-extension,slideshowfx-code-extension,slideshowfx-image-extension,slideshowfx-link-extension,slideshowfx-quiz-extension,slideshowfx-quote-extension,slideshowfx-sequence-diagram-extension,slideshowfx-shape-extension,slideshowfx-snippet-extension</includeArtifactIds>
+                            <outputDirectory>${setup.package.extensions.dir}</outputDirectory>
+                            <excludeTransitive>true</excludeTransitive>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-snippet-executor-plugins</id>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <includeArtifactIds>slideshowfx-go-executor,slideshowfx-golo-executor,slideshowfx-groovy-executor,slideshowfx-java-executor,slideshowfx-javascript-executor,slideshowfx-kotlin-executor,slideshowfx-scala-executor</includeArtifactIds>
+                            <outputDirectory>${setup.package.executors.dir}</outputDirectory>
                             <excludeTransitive>true</excludeTransitive>
                         </configuration>
                     </execution>

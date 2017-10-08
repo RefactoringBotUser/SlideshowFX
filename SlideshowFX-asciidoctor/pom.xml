@@ -12,7 +12,7 @@
     <description>Snippet executor allowing to define slide's content using the asciidoctor syntax</description>
 
     <artifactId>slideshowfx-asciidoctor</artifactId>
-    <version>1.1</version>
+    <version>1${project.slideshowfx.asciidoctor.version}</version>
 
     <properties>
         <slideshowfx.isNotPlugin>false</slideshowfx.isNotPlugin>
