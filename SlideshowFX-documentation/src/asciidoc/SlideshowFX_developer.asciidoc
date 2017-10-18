@@ -94,42 +94,28 @@ SlideshowFX contains the following modules:
 
 SlideshowFX uses http://maven.apache.org/[maven] as build system. The version used is {maven-version}.
 
-==== Tasks
+==== Particularities
 
-In order to build SlideshowFX, some gradle tasks have been created:
+The documentation provided within the SlideshowFX application is the same as the one provided by the setup. In order to avoid duplicate files, the `slideshowfx-app` module unpacks the `slideshowfx-documentation` HTML documentation in its own sources. In order to update the documentation within the application and display it the following maven command should be used:
 
-- `installMarkupPlugins` (in the root project) which copies the markup supported to the directory of plugins ;
-- `installContentExtensionPlugins` (in the root project) which copies the content extensions to the directory of plugins ;
-- `installHostingConnectorPlugins` (in the root project) which copies the hosting connectors to the directory of plugins ;
-- `installSnippetExecutor` (in the root project) which copies the snippet executors to the directory of plugins ;
-- `installAllPlugins` (in the root project) which copies all plugins to the directory of plugins ;
-
-==== Plugins
-
-A JavaFX plugin has been created in the project in order to properly package the application. The plugin:
-
-- adds a `javafx` closure to projects using it ;
-- adds a `copyBundleResources` task task copy the resources used for creating the bundle ;
-- adds a `bundle` task creating the bundle itself.
-
-The `javafx` closure allows:
-
-- to define the bundle base name through the `bundleBaseName` property ;
-- to specify the ant build script to use through the `antBuild` property ;
-- to specify additional ant properties through the `antProperties` property ;
-- to specify the bundle's resources through the `bundleResources` property.
+[source]
+----
+mvn generate-resources -pl com.twasyl:slideshowfx-app
+----
 
 === Set up your environment
 
 ==== Environment variable
 
-In order to build SlideshowFX, you will need to set *JAVA_HOME* to point to your JDK {jdk-version} installation and *GRADLE_HOME* to your gradle installation. Ensure both variables are present in the *PATH* environment variable.
+In order to build SlideshowFX, you will need to set *JAVA_HOME* to point to your JDK {jdk-version} installation. Ensure the variable the present in the *PATH* environment variable.
 
 ==== Running SlideshowFX in your IDE
 
 If you are contributing to SlideshowFX and developing some features, you probably use an IDE (http://www.jetbrains.com/idea/[IntelliJ IDEA], https://netbeans.org/[NetBeans], http://www.eclipse.org/[eclipse], ...). +
 
-=== Templates
+In order to start the application from your IDE, you can start the `com.twasyl.slideshowfx.app.SlideshowFX` class.
+
+=== Creating templates
 
 Each presentation done with SlideshowFX is based on a _template_.  +
 A template is composed by four main parts:
@@ -290,6 +276,8 @@ The complete configuration is wrapped into a *template* JSON object. This object
 **** *attribute* : the name of the attribute ;
 **** *template-expression* : the name of the template token. It is the Velocity token without the dollar sign ;
 **** *prompt-message* : the message displayed to the user asking the value of the attribute.
+
+NOTE: The best way for creating the template configuration file is to use the editor available in SlideshowFX.
 
 ==== Template file
 
@@ -477,3 +465,5 @@ The *presentation* JSON object is described below:
 *** *original-content-code* : the code of the markup syntax used ;
 *** *original-content* : the original content of the element encoded in Base64. This syntax of the content must correspond to the content code ;
 *** *html-content* : the original content converted in HTML encoded in Base64.
+
+NOTE: This file shouldn't be modified manually as it is generated and overwritten by the application.

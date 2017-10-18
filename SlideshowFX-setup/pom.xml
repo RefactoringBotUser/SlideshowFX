@@ -54,6 +54,21 @@
             <artifactId>slideshowfx-utils</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-documentation</artifactId>
+            <type>zip</type>
+            <classifier>html</classifier>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-documentation</artifactId>
+            <type>zip</type>
+            <classifier>pdf</classifier>
+            <scope>runtime</scope>
+        </dependency>
+
         <!-- Markup plugins -->
         <dependency>
             <groupId>com.twasyl</groupId>
@@ -218,6 +233,18 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>copy-documentation</id>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <includeArtifactIds>slideshowfx-documentation</includeArtifactIds>
+                            <outputDirectory>${setup.package.documentations.dir}</outputDirectory>
+                            <excludeTransitive>true</excludeTransitive>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>copy-markup-plugins</id>
                         <goals>
                             <goal>copy-dependencies</goal>
@@ -283,11 +310,15 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                        </manifest>
                         <manifestEntries>
                             <Implementation-Title>SlideshowFX-setup</Implementation-Title>
                             <Implementation-Version>${project.version}</Implementation-Version>
                             <Implementation-Vendor>Thierry Wasylczenko</Implementation-Vendor>
                             <Main-Class>com.twasyl.slideshowfx.setup.app.SlideshowFXSetup</Main-Class>
+                            <JavaFX-Application-Class>com.twasyl.slideshowfx.setup.app.SlideshowFXSetup</JavaFX-Application-Class>
                             <JavaFX-Version>8.0+</JavaFX-Version>
                         </manifestEntries>
                     </archive>
@@ -304,6 +335,15 @@
                         <phase>package</phase>
                         <configuration>
                             <target name="Bundling ${project.artifactId} package">
+                                <condition property="buildTarget" value="deployOSX">
+                                    <os family="mac" />
+                                </condition>
+                                <condition property="buildTarget" value="deployWindows">
+                                    <os family="windows" />
+                                </condition>
+                                <condition property="buildTarget" value="deployUnknown">
+                                    <os family="unix" />
+                                </condition>
                                 <property name="deployOutDir" value="${project.build.directory}/distributions"/>
                                 <property name="deployOutFile" value="SlideshowFXSetup"/>
                                 <property name="deployResourcesDir" value="${project.build.directory}/dependency"/>
@@ -312,11 +352,13 @@
                                 <copy file="${project.build.directory}/${project.build.finalName}.${project.packaging}"
                                       todir="${deployResourcesDir}"/>
                                 <ant antfile="${project.basedir}/src/assembly/javafx/SlideshowFX-setup.xml"
-                                     target="deployOSX"/>
+                                     target="${buildTarget}"/>
                                 <delete>
                                     <fileset dir="${deployOutDir}" excludes="bundles/**" />
                                 </delete>
-                                <zip basedir="${deployOutDir}${file.separator}bundles" destfile="${project.build.directory}${file.separator}${deployOutFile}.zip" />
+                                <zip  destfile="${project.build.directory}${file.separator}${deployOutFile}.zip">
+                                    <fileset dir="${deployOutDir}${file.separator}bundles" includes="${deployOutFile}*/**" excludes="*.html,*.jnlp"/>
+                                </zip>
                                 <attachartifact file="${project.build.directory}${file.separator}${deployOutFile}.zip" classifier="bundle" type="zip"/>
                             </target>
                         </configuration>

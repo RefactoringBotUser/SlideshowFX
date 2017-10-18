@@ -21,6 +21,13 @@
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-documentation</artifactId>
+            <type>zip</type>
+            <classifier>html</classifier>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-engines</artifactId>
         </dependency>
         <dependency>
@@ -77,10 +84,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.asciidoctor</groupId>
-            <artifactId>asciidoctorj</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.apache.felix</groupId>
             <artifactId>org.apache.felix.framework</artifactId>
             <scope>compile</scope>
@@ -115,6 +118,23 @@
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>copy-documentation</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeArtifactIds>slideshowfx-documentation</includeArtifactIds>
+                            <outputDirectory>${project.build.outputDirectory}/com/twasyl/slideshowfx/documentation</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
@@ -141,6 +161,7 @@
                             <JavaFX-Preloader-Class>com.twasyl.slideshowfx.app.SlideshowFXPreloader
                             </JavaFX-Preloader-Class>
                             <Main-Class>com.twasyl.slideshowfx.app.SlideshowFX</Main-Class>
+                            <JavaFX-Application-Class>com.twasyl.slideshowfx.app.SlideshowFX</JavaFX-Application-Class>
                             <JavaFX-Version>8.0+</JavaFX-Version>
                         </manifestEntries>
                     </archive>
@@ -157,19 +178,23 @@
                         <phase>package</phase>
                         <configuration>
                             <target name="Bundling ${project.artifactId} package">
-                                <property name="deployOutDir" value="${project.build.directory}${file.separator}distributions"/>
+                                <property name="deployOutDir"
+                                          value="${project.build.directory}${file.separator}distributions"/>
                                 <property name="deployOutFile" value="SlideshowFX"/>
-                                <property name="deployResourcesDir" value="${project.build.directory}${file.separator}dependency"/>
+                                <property name="deployResourcesDir"
+                                          value="${project.build.directory}${file.separator}dependency"/>
                                 <property name="classpath" value="${JAVA_HOME}/lib/ant-javafx.jar"/>
                                 <copy file="${project.build.directory}/${project.build.finalName}.${project.packaging}"
                                       todir="${deployResourcesDir}"/>
                                 <ant antfile="${project.basedir}${file.separator}src${file.separator}assembly${file.separator}javafx${file.separator}SlideshowFX-app.xml"
                                      target="deployOSX"/>
                                 <delete>
-                                    <fileset dir="${deployOutDir}" excludes="bundles/**" />
+                                    <fileset dir="${deployOutDir}" excludes="bundles/**"/>
                                 </delete>
-                                <zip basedir="${deployOutDir}${file.separator}bundles" destfile="${project.build.directory}${file.separator}${deployOutFile}.zip" />
-                                <attachartifact file="${project.build.directory}${file.separator}${deployOutFile}.zip" classifier="bundle" type="zip"/>
+                                <zip basedir="${deployOutDir}${file.separator}bundles"
+                                     destfile="${project.build.directory}${file.separator}${deployOutFile}.zip"/>
+                                <attachartifact file="${project.build.directory}${file.separator}${deployOutFile}.zip"
+                                                classifier="bundle" type="zip"/>
                             </target>
                         </configuration>
                     </execution>

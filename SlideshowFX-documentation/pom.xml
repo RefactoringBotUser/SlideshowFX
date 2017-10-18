@@ -16,6 +16,11 @@
     <name>SlideshowFX documentation</name>
     <description>SlideshowFX documentation to be included within the application and the setup package</description>
 
+    <properties>
+        <generated.documentation.dir>
+            ${project.build.directory}${file.separator}${project.artifactId}
+        </generated.documentation.dir>
+    </properties>
     <build>
         <plugins>
             <plugin>
@@ -48,7 +53,8 @@
                         <sectlinks></sectlinks>
                         <linkcss>false</linkcss>
                         <slideshowfx_version>${project.version}</slideshowfx_version>
-                        <asciidoctor-source>${project.basedir}${file.separator}src${file.separator}asciidoc</asciidoctor-source>
+                        <asciidoctor-source>${project.basedir}${file.separator}src${file.separator}asciidoc
+                        </asciidoctor-source>
                         <javafx-version>8 update 144</javafx-version>
                         <jdk-version>8 update 144</jdk-version>
                         <maven-version>3.5.0</maven-version>
@@ -73,6 +79,7 @@
                             <goal>process-asciidoc</goal>
                         </goals>
                         <configuration>
+                            <outputDirectory>${generated.documentation.dir}${file.separator}html</outputDirectory>
                             <backend>html5</backend>
                         </configuration>
                     </execution>
@@ -83,6 +90,7 @@
                             <goal>process-asciidoc</goal>
                         </goals>
                         <configuration>
+                            <outputDirectory>${generated.documentation.dir}${file.separator}pdf</outputDirectory>
                             <backend>pdf</backend>
                         </configuration>
                     </execution>
@@ -101,8 +109,18 @@
                         <phase>package</phase>
                         <configuration>
                             <target>
-                                <zip basedir="${project.build.directory}${file.separator}generated-docs" destfile="${project.build.directory}${file.separator}${project.artifactId}.zip" />
-                                <attachartifact file="${project.build.directory}${file.separator}${project.artifactId}.zip" classifier="bundle" type="zip"/>
+                                <zip destfile="${project.build.directory}${file.separator}${project.artifactId}-html.zip">
+                                    <fileset dir="${generated.documentation.dir}" excludes="pdf/**" />
+                                </zip>
+                                <zip destfile="${project.build.directory}${file.separator}${project.artifactId}-pdf.zip">
+                                    <fileset dir="${generated.documentation.dir}" excludes="html/**,pdf/css/**" />
+                                </zip>
+                                <attachartifact
+                                        file="${project.build.directory}${file.separator}${project.artifactId}-html.zip"
+                                        classifier="html" type="zip"/>
+                                <attachartifact
+                                        file="${project.build.directory}${file.separator}${project.artifactId}-pdf.zip"
+                                        classifier="pdf" type="zip"/>
                             </target>
                         </configuration>
                     </execution>
