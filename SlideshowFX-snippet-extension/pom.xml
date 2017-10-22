@@ -67,8 +67,6 @@
     </dependencies>
 
     <build>
-        <finalName>SlideshowFX-snippet-extension-${project.version}</finalName>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

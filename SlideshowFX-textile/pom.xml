@@ -47,8 +47,6 @@
     </dependencies>
 
     <build>
-        <finalName>SlideshowFX-textile-${project.version}</finalName>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

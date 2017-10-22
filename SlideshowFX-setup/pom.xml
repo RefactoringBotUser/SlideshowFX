@@ -213,8 +213,6 @@
     </dependencies>
 
     <build>
-        <finalName>SlideshowFX-setup-${project.version}</finalName>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

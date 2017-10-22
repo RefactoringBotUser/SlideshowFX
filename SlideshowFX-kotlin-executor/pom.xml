@@ -52,8 +52,6 @@
     </dependencies>
 
     <build>
-        <finalName>SlideshowFX-kotlin-executor-${project.version}</finalName>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -37,8 +37,6 @@
     </dependencies>
 
     <build>
-        <finalName>SlideshowFX-image-extension</finalName>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

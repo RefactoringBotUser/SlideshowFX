@@ -80,8 +80,6 @@
     </dependencies>
 
     <build>
-        <finalName>SlideshowFX-link-extension-${project.version}</finalName>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

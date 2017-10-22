@@ -57,8 +57,6 @@
     </dependencies>
 
     <build>
-        <finalName>SlideshowFX-sequence-diagram-extension-${project.version}</finalName>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

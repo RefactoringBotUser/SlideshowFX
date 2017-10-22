@@ -57,8 +57,6 @@
     </dependencies>
 
     <build>
-        <finalName>SlideshowFX-box-hosting-connector-${project.version}</finalName>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
