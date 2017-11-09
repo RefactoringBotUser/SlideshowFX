@@ -69,11 +69,12 @@ public class ListFilesFileVisitorTest {
         final File emptyDir = baseLocation;
         Files.walkFileTree(emptyDir.toPath(), visitor);
 
-        assertEquals(5, visitor.getPaths().size());
+        assertEquals(6, visitor.getPaths().size(), visitor.getPaths().toString());
         assertTrue(visitor.getPaths().contains(new File(baseLocation, "dir/dir2").toPath()));
         assertTrue(visitor.getPaths().contains(new File(baseLocation, "dir/dir3/file2.txt").toPath()));
         assertTrue(visitor.getPaths().contains(new File(baseLocation, "dir/file1.txt").toPath()));
         assertTrue(visitor.getPaths().contains(new File(baseLocation, "emptyDir").toPath()));
         assertTrue(visitor.getPaths().contains(new File(baseLocation, "file.txt").toPath()));
+        assertTrue(visitor.getPaths().contains(new File(baseLocation, "ListFilesFileVisitorTest.class").toPath()));
     }
 }

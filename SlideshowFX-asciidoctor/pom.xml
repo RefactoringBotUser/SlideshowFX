@@ -22,6 +22,7 @@
         <dependency>
             <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-markup</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>

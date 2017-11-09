@@ -114,7 +114,7 @@
         <dependency.felix.version>5.6.8</dependency.felix.version>
         <dependency.freemarker.version>2.3.26-incubating</dependency.freemarker.version>
         <dependency.jsoup.version>1.10.3</dependency.jsoup.version>
-        <dependency.junit.version>5.0.0</dependency.junit.version>
+        <dependency.junit.version>5.0.1</dependency.junit.version>
         <dependency.markdown.version>0.13</dependency.markdown.version>
         <dependency.mockito.version>2.10.0</dependency.mockito.version>
         <dependency.rxJava.version>2.1.3</dependency.rxJava.version>
@@ -408,5 +408,24 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.platform</groupId>
+                        <artifactId>junit-platform-surefire-provider</artifactId>
+                        <version>1.0.1</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.junit.jupiter</groupId>
+                        <artifactId>junit-jupiter-engine</artifactId>
+                        <version>${dependency.junit.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
     </build>
 </project>
