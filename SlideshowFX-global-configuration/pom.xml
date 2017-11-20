@@ -5,14 +5,14 @@
     <parent>
         <groupId>com.twasyl</groupId>
         <artifactId>slideshowfx</artifactId>
-        <version>@@NEXT-VERSION@@</version>
+        <version>1.5-SNAPSHOT</version>
     </parent>
 
     <name>SlideshowFX global configuration</name>
     <description>Module defining the global configuration of SlideshowFX</description>
 
     <artifactId>slideshowfx-global-configuration</artifactId>
-    <version>${project.slideshowfx.global.configuration.version}</version>
+    <version>1.1-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
@@ -29,4 +29,15 @@
             <artifactId>mockito-core</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

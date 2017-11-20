@@ -5,7 +5,7 @@
     <name>SlideshowFX</name>
     <groupId>com.twasyl</groupId>
     <artifactId>slideshowfx</artifactId>
-    <version>@@NEXT-VERSION@@</version>
+    <version>1.5-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <scm>
@@ -13,6 +13,13 @@
         <developerConnection>scm:git:https://github.io/twasyl/SlideshowFX</developerConnection>
         <url>https://github.io/twasyl/SlideshowFX</url>
     </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>bintray</id>
+            <url>${bintray.base.repository.url}</url>
+        </repository>
+    </distributionManagement>
 
     <developers>
         <developer>
@@ -84,24 +91,9 @@
     </modules>
 
     <properties>
-        <project.slideshowfx.asciidoctor.version>1.1</project.slideshowfx.asciidoctor.version>
-        <project.slideshowfx.app.version>1.5-SNAPSHOT</project.slideshowfx.app.version>
-        <project.slideshowfx.content.extension.version>1.1</project.slideshowfx.content.extension.version>
-        <project.slideshowfx.engines.version>1.2</project.slideshowfx.engines.version>
-        <project.slideshowfx.global.configuration.version>1.1</project.slideshowfx.global.configuration.version>
-        <project.slideshowfx.hosting.connector.version>1.1</project.slideshowfx.hosting.connector.version>
-        <project.slideshowfx.html.version>1.0</project.slideshowfx.html.version>
-        <project.slideshowfx.icons.version>1.0</project.slideshowfx.icons.version>
-        <project.slideshowfx.logs.version>1.0</project.slideshowfx.logs.version>
-        <project.slideshowfx.markdown.version>1.0</project.slideshowfx.markdown.version>
-        <project.slideshowfx.markup.version>1.0</project.slideshowfx.markup.version>
-        <project.slideshowfx.plugin.version>1.0</project.slideshowfx.plugin.version>
-        <project.slideshowfx.osgi.version>1.2</project.slideshowfx.osgi.version>
-        <project.slideshowfx.server.version>1.1</project.slideshowfx.server.version>
-        <project.slideshowfx.snippet.executor.version>1.0</project.slideshowfx.snippet.executor.version>
-        <project.slideshowfx.textile.version>1.2</project.slideshowfx.textile.version>
-        <project.slideshowfx.ui.controls.version>1.3</project.slideshowfx.ui.controls.version>
-        <project.slideshowfx.utils.version>1.2</project.slideshowfx.utils.version>
+        <bintray.skip.deploy>true</bintray.skip.deploy>
+        <bintray.base.repository.url>https://api.bintray.com/maven/twasyl/maven/${project.artifactId}/;publish=1
+        </bintray.base.repository.url>
 
         <plugin.antrun.version>1.8</plugin.antrun.version>
         <plugin.assembly.version>3.1.0</plugin.assembly.version>
@@ -114,7 +106,7 @@
         <dependency.felix.version>5.6.8</dependency.felix.version>
         <dependency.freemarker.version>2.3.26-incubating</dependency.freemarker.version>
         <dependency.jsoup.version>1.10.3</dependency.jsoup.version>
-        <dependency.junit.version>5.0.1</dependency.junit.version>
+        <dependency.junit.version>5.0.2</dependency.junit.version>
         <dependency.markdown.version>0.13</dependency.markdown.version>
         <dependency.mockito.version>2.10.0</dependency.mockito.version>
         <dependency.rxJava.version>2.1.3</dependency.rxJava.version>
@@ -127,9 +119,12 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <slideshowfx.configuration.localization.dir>${user.home}</slideshowfx.configuration.localization.dir>
-        <slideshowfx.configuration.dir>${slideshowfx.configuration.localization.dir}/.SlideshowFX</slideshowfx.configuration.dir>
-        <slideshowfx.configuration.plugins.dir>${slideshowfx.configuration.dir}/plugins</slideshowfx.configuration.plugins.dir>
-        <slideshowfx.configuration.template.library.dir>${slideshowfx.configuration.dir}/templateLibrary</slideshowfx.configuration.template.library.dir>
+        <slideshowfx.configuration.dir>${slideshowfx.configuration.localization.dir}/.SlideshowFX
+        </slideshowfx.configuration.dir>
+        <slideshowfx.configuration.plugins.dir>${slideshowfx.configuration.dir}/plugins
+        </slideshowfx.configuration.plugins.dir>
+        <slideshowfx.configuration.template.library.dir>${slideshowfx.configuration.dir}/templateLibrary
+        </slideshowfx.configuration.template.library.dir>
         <slideshowfx.isNotPlugin>true</slideshowfx.isNotPlugin>
     </properties>
 
@@ -139,24 +134,23 @@
             <dependency>
                 <groupId>com.twasyl</groupId>
                 <artifactId>slideshowfx-asciidoctor</artifactId>
-                <version>${project.slideshowfx.asciidoctor.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.twasyl</groupId>
                 <artifactId>slideshowfx-app</artifactId>
-                <version>${project.slideshowfx.app.version}</version>
+                <version>1.5-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.twasyl</groupId>
                 <artifactId>slideshowfx-app</artifactId>
-                <version>${project.slideshowfx.app.version}</version>
+                <version>1.5-SNAPSHOT</version>
                 <classifier>bundle</classifier>
                 <type>zip</type>
             </dependency>
             <dependency>
                 <groupId>com.twasyl</groupId>
                 <artifactId>slideshowfx-content-extension</artifactId>
-                <version>${project.slideshowfx.content.extension.version}</version>
+                <version>1.1</version>
             </dependency>
             <dependency>
                 <groupId>com.twasyl</groupId>
@@ -175,77 +169,77 @@
             <dependency>
                 <groupId>com.twasyl</groupId>
                 <artifactId>slideshowfx-engines</artifactId>
-                <version>${project.slideshowfx.engines.version}</version>
+                <version>1.2</version>
             </dependency>
             <dependency>
                 <groupId>com.twasyl</groupId>
                 <artifactId>slideshowfx-global-configuration</artifactId>
-                <version>${project.slideshowfx.global.configuration.version}</version>
+                <version>1.1</version>
             </dependency>
             <dependency>
                 <groupId>com.twasyl</groupId>
                 <artifactId>slideshowfx-hosting-connector</artifactId>
-                <version>${project.slideshowfx.hosting.connector.version}</version>
+                <version>1.1</version>
             </dependency>
             <dependency>
                 <groupId>com.twasyl</groupId>
                 <artifactId>slideshowfx-html</artifactId>
-                <version>${project.slideshowfx.html.version}</version>
+                <version>1.0</version>
             </dependency>
             <dependency>
                 <groupId>com.twasyl</groupId>
                 <artifactId>slideshowfx-icons</artifactId>
-                <version>${project.slideshowfx.icons.version}</version>
+                <version>1.0</version>
             </dependency>
             <dependency>
                 <groupId>com.twasyl</groupId>
                 <artifactId>slideshowfx-logs</artifactId>
-                <version>${project.slideshowfx.logs.version}</version>
+                <version>1.0</version>
             </dependency>
             <dependency>
                 <groupId>com.twasyl</groupId>
                 <artifactId>slideshowfx-markdown</artifactId>
-                <version>${project.slideshowfx.markdown.version}</version>
+                <version>1.0</version>
             </dependency>
             <dependency>
                 <groupId>com.twasyl</groupId>
                 <artifactId>slideshowfx-markup</artifactId>
-                <version>${project.slideshowfx.markup.version}</version>
+                <version>1.0</version>
             </dependency>
             <dependency>
                 <groupId>com.twasyl</groupId>
                 <artifactId>slideshowfx-plugin</artifactId>
-                <version>${project.slideshowfx.plugin.version}</version>
+                <version>1.0</version>
             </dependency>
             <dependency>
                 <groupId>com.twasyl</groupId>
                 <artifactId>slideshowfx-osgi</artifactId>
-                <version>${project.slideshowfx.osgi.version}</version>
+                <version>1.2</version>
             </dependency>
             <dependency>
                 <groupId>com.twasyl</groupId>
                 <artifactId>slideshowfx-server</artifactId>
-                <version>${project.slideshowfx.server.version}</version>
+                <version>1.1</version>
             </dependency>
             <dependency>
                 <groupId>com.twasyl</groupId>
                 <artifactId>slideshowfx-snippet-executor</artifactId>
-                <version>${project.slideshowfx.snippet.executor.version}</version>
+                <version>1.0</version>
             </dependency>
             <dependency>
                 <groupId>com.twasyl</groupId>
                 <artifactId>slideshowfx-textile</artifactId>
-                <version>${project.slideshowfx.textile.version}</version>
+                <version>1.2</version>
             </dependency>
             <dependency>
                 <groupId>com.twasyl</groupId>
                 <artifactId>slideshowfx-ui-controls</artifactId>
-                <version>${project.slideshowfx.ui.controls.version}</version>
+                <version>1.3</version>
             </dependency>
             <dependency>
                 <groupId>com.twasyl</groupId>
                 <artifactId>slideshowfx-utils</artifactId>
-                <version>${project.slideshowfx.utils.version}</version>
+                <version>1.2</version>
             </dependency>
 
             <!-- Regular dependencies -->
@@ -330,7 +324,8 @@
                             <configuration>
                                 <skip>${slideshowfx.isNotPlugin}</skip>
                                 <target>
-                                    <copy file="${project.build.directory}/${project.build.finalName}.${project.packaging}" toDir="${slideshowfx.configuration.plugins.dir}" />
+                                    <copy file="${project.build.directory}/${project.build.finalName}.${project.packaging}"
+                                          toDir="${slideshowfx.configuration.plugins.dir}"/>
                                 </target>
                             </configuration>
                         </execution>
@@ -390,6 +385,11 @@
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>2.8.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>${plugin.jar.version}</version>
                     <configuration>
@@ -406,18 +406,28 @@
                         <encoding>UTF-8</encoding>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.19</version>
+                </plugin>
             </plugins>
         </pluginManagement>
 
         <plugins>
             <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.19</version>
                 <dependencies>
                     <dependency>
                         <groupId>org.junit.platform</groupId>
                         <artifactId>junit-platform-surefire-provider</artifactId>
-                        <version>1.0.1</version>
+                        <version>1.0.2</version>
                     </dependency>
                     <dependency>
                         <groupId>org.junit.jupiter</groupId>

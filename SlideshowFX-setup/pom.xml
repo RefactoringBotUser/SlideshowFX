@@ -5,14 +5,14 @@
     <parent>
         <groupId>com.twasyl</groupId>
         <artifactId>slideshowfx</artifactId>
-        <version>@@NEXT-VERSION@@</version>
+        <version>1.5-SNAPSHOT</version>
     </parent>
 
     <name>SlideshowFX setup</name>
     <description>Module for the installer of SlideshowFX</description>
 
     <artifactId>slideshowfx-setup</artifactId>
-    <version>1.2</version>
+    <version>1.2-SNAPSHOT</version>
 
     <properties>
         <setup.package.dir>${project.build.directory}${file.separator}dependency${file.separator}package</setup.package.dir>
@@ -74,6 +74,7 @@
             <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-asciidoctor</artifactId>
             <scope>runtime</scope>
+            <version>1.1</version>
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
@@ -346,7 +347,7 @@
                                 <property name="deployOutFile" value="SlideshowFXSetup"/>
                                 <property name="deployResourcesDir" value="${project.build.directory}/dependency"/>
                                 <property name="classpath" value="${JAVA_HOME}/lib/ant-javafx.jar"/>
-                                <property name="applicationVersion" value="${project.slideshowfx.app.version}" />
+                                <property name="applicationVersion" value="${project.version}" />
                                 <copy file="${project.build.directory}/${project.build.finalName}.${project.packaging}"
                                       todir="${deployResourcesDir}"/>
                                 <ant antfile="${project.basedir}/src/assembly/javafx/SlideshowFX-setup.xml"

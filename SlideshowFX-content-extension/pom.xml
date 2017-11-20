@@ -5,14 +5,14 @@
     <parent>
         <groupId>com.twasyl</groupId>
         <artifactId>slideshowfx</artifactId>
-        <version>@@NEXT-VERSION@@</version>
+        <version>1.5-SNAPSHOT</version>
     </parent>
 
     <name>SlideshowFX code extension</name>
     <description>Module defining how a content extension plugin should be developed</description>
 
     <artifactId>slideshowfx-content-extension</artifactId>
-    <version>1.1</version>
+    <version>1.1-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
@@ -41,4 +41,15 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

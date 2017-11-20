@@ -5,14 +5,14 @@
     <parent>
         <groupId>com.twasyl</groupId>
         <artifactId>slideshowfx</artifactId>
-        <version>@@NEXT-VERSION@@</version>
+        <version>1.5-SNAPSHOT</version>
     </parent>
 
     <name>SlideshowFX application</name>
     <description>The SlideshowFX application</description>
 
     <artifactId>slideshowfx-app</artifactId>
-    <version>${project.slideshowfx.app.version}</version>
+    <version>1.5-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
@@ -52,10 +52,6 @@
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
-            <artifactId>slideshowfx-plugin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-osgi</artifactId>
         </dependency>
         <dependency>
@@ -69,10 +65,6 @@
         <dependency>
             <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-snippet-executor</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.twasyl</groupId>
-            <artifactId>slideshowfx-utils</artifactId>
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
@@ -128,12 +120,6 @@
                             <outputDirectory>${project.build.outputDirectory}/com/twasyl/slideshowfx/documentation</outputDirectory>
                         </configuration>
                     </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
                     <execution>
                         <goals>
                             <goal>copy-dependencies</goal>

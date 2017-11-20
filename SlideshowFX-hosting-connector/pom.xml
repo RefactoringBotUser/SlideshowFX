@@ -5,14 +5,14 @@
     <parent>
         <groupId>com.twasyl</groupId>
         <artifactId>slideshowfx</artifactId>
-        <version>@@NEXT-VERSION@@</version>
+        <version>1.5-SNAPSHOT</version>
     </parent>
 
     <name>SlideshowFX hosting connector</name>
     <description>Module defining a hosting connector allowing to connect to remote cloud service</description>
 
     <artifactId>slideshowfx-hosting-connector</artifactId>
-    <version>${project.slideshowfx.hosting.connector.version}</version>
+    <version>1.1-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
@@ -36,4 +36,15 @@
             <artifactId>junit-jupiter-api</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

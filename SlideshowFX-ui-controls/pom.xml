@@ -5,14 +5,14 @@
     <parent>
         <groupId>com.twasyl</groupId>
         <artifactId>slideshowfx</artifactId>
-        <version>@@NEXT-VERSION@@</version>
+        <version>1.5-SNAPSHOT</version>
     </parent>
 
     <name>SlideshowFX UI controls</name>
     <description>Module defining controls to be used within the SlideshowFX app</description>
 
     <artifactId>slideshowfx-ui-controls</artifactId>
-    <version>${project.slideshowfx.ui.controls.version}</version>
+    <version>1.3-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
@@ -31,4 +31,15 @@
             <artifactId>junit-jupiter-api</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
