@@ -19,13 +19,6 @@
         <bintray.skip.deploy>false</bintray.skip.deploy>
     </properties>
 
-    <distributionManagement>
-        <repository>
-            <id>bintray</id>
-            <url>${bintray.base.repository.url}</url>
-        </repository>
-    </distributionManagement>
-
     <dependencies>
         <dependency>
             <groupId>com.twasyl</groupId>

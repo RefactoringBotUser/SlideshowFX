@@ -57,6 +57,8 @@
                 <fx:jvmarg value="-Djava.util.logging.config.file=@@LOGGING_CONFIGURATION_FILE@@" />
             </fx:platform>
 
+            <fx:bundleArgument arg="icon" value="${basedir}/src/assembly/javafx/package/windows/SlideshowFX.ico" />
+
             <fx:resources>
                 <fx:fileset dir="${deployResourcesDir}" />
             </fx:resources>
@@ -90,6 +92,8 @@
                 <fx:jvmarg value="-Dfile.encoding=UTF-8" />
                 <fx:jvmarg value="-Djava.util.logging.config.file=@@LOGGING_CONFIGURATION_FILE@@" />
             </fx:platform>
+
+            <fx:bundleArgument arg="icon" value="${basedir}/src/assembly/javafx/package/macosx/SlideshowFX.icns" />
 
             <fx:resources>
                 <fx:fileset dir="${deployResourcesDir}" />

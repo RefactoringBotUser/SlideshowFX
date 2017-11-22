@@ -15,6 +15,8 @@
     <version>1.2-SNAPSHOT</version>
 
     <properties>
+        <bintray.skip.deploy>false</bintray.skip.deploy>
+
         <setup.package.dir>${project.build.directory}${file.separator}dependency${file.separator}package</setup.package.dir>
         <setup.package.documentations.dir>${setup.package.dir}${file.separator}documentations</setup.package.documentations.dir>
         <setup.package.documentations.html.dir>${setup.package.documentations.dir}${file.separator}html</setup.package.documentations.html.dir>
@@ -74,7 +76,6 @@
             <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-asciidoctor</artifactId>
             <scope>runtime</scope>
-            <version>1.1</version>
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
@@ -94,116 +95,98 @@
         <dependency>
             <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-box-hosting-connector</artifactId>
-            <version>1.2</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-drive-hosting-connector</artifactId>
-            <version>1.3</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-dropbox-hosting-connector</artifactId>
-            <version>1.2</version>
             <scope>runtime</scope>
         </dependency>
         <!-- Content extension plugins -->
         <dependency>
             <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-alert-extension</artifactId>
-            <version>1.2</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-code-extension</artifactId>
-            <version>1.2</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-image-extension</artifactId>
-            <version>1.3</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-link-extension</artifactId>
-            <version>1.2</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-quiz-extension</artifactId>
-            <version>1.1</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-quote-extension</artifactId>
-            <version>1.1</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-sequence-diagram-extension</artifactId>
-            <version>1.1</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-shape-extension</artifactId>
-            <version>1.0</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-snippet-extension</artifactId>
-            <version>1.2</version>
+            <scope>runtime</scope>
         </dependency>
         <!-- Snippet executor plugins -->
         <dependency>
             <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-go-executor</artifactId>
-            <version>1.0</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-golo-executor</artifactId>
-            <version>1.0</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-groovy-executor</artifactId>
-            <version>1.0</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-java-executor</artifactId>
-            <version>1.0</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-javascript-executor</artifactId>
-            <version>1.0</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-kotlin-executor</artifactId>
-            <version>1.0</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.twasyl</groupId>
             <artifactId>slideshowfx-scala-executor</artifactId>
-            <version>1.0</version>
             <scope>runtime</scope>
         </dependency>
 
@@ -250,7 +233,9 @@
                         </goals>
                         <phase>prepare-package</phase>
                         <configuration>
-                            <includeArtifactIds>slideshowfx-asciidoctor,slideshowfx-html,slideshowfx-markdown,slideshowfx-textile</includeArtifactIds>
+                            <includeArtifactIds>
+                                slideshowfx-asciidoctor,slideshowfx-html,slideshowfx-markdown,slideshowfx-textile
+                            </includeArtifactIds>
                             <outputDirectory>${setup.package.markups.dir}</outputDirectory>
                             <excludeTransitive>true</excludeTransitive>
                         </configuration>
@@ -262,7 +247,9 @@
                         </goals>
                         <phase>prepare-package</phase>
                         <configuration>
-                            <includeArtifactIds>slideshowfx-box-hosting-connector,slideshowfx-drive-hosting-connector,slideshowfx-dropbox-hosting-connector</includeArtifactIds>
+                            <includeArtifactIds>
+                                slideshowfx-box-hosting-connector,slideshowfx-drive-hosting-connector,slideshowfx-dropbox-hosting-connector
+                            </includeArtifactIds>
                             <outputDirectory>${setup.package.hostingConnectors.dir}</outputDirectory>
                             <excludeTransitive>true</excludeTransitive>
                         </configuration>
@@ -274,7 +261,9 @@
                         </goals>
                         <phase>prepare-package</phase>
                         <configuration>
-                            <includeArtifactIds>slideshowfx-alert-extension,slideshowfx-code-extension,slideshowfx-image-extension,slideshowfx-link-extension,slideshowfx-quiz-extension,slideshowfx-quote-extension,slideshowfx-sequence-diagram-extension,slideshowfx-shape-extension,slideshowfx-snippet-extension</includeArtifactIds>
+                            <includeArtifactIds>
+                                slideshowfx-alert-extension,slideshowfx-code-extension,slideshowfx-image-extension,slideshowfx-link-extension,slideshowfx-quiz-extension,slideshowfx-quote-extension,slideshowfx-sequence-diagram-extension,slideshowfx-shape-extension,slideshowfx-snippet-extension
+                            </includeArtifactIds>
                             <outputDirectory>${setup.package.extensions.dir}</outputDirectory>
                             <excludeTransitive>true</excludeTransitive>
                         </configuration>
@@ -286,7 +275,9 @@
                         </goals>
                         <phase>prepare-package</phase>
                         <configuration>
-                            <includeArtifactIds>slideshowfx-go-executor,slideshowfx-golo-executor,slideshowfx-groovy-executor,slideshowfx-java-executor,slideshowfx-javascript-executor,slideshowfx-kotlin-executor,slideshowfx-scala-executor</includeArtifactIds>
+                            <includeArtifactIds>
+                                slideshowfx-go-executor,slideshowfx-golo-executor,slideshowfx-groovy-executor,slideshowfx-java-executor,slideshowfx-javascript-executor,slideshowfx-kotlin-executor,slideshowfx-scala-executor
+                            </includeArtifactIds>
                             <outputDirectory>${setup.package.executors.dir}</outputDirectory>
                             <excludeTransitive>true</excludeTransitive>
                         </configuration>
@@ -317,7 +308,8 @@
                             <Implementation-Version>${project.version}</Implementation-Version>
                             <Implementation-Vendor>Thierry Wasylczenko</Implementation-Vendor>
                             <Main-Class>com.twasyl.slideshowfx.setup.app.SlideshowFXSetup</Main-Class>
-                            <JavaFX-Application-Class>com.twasyl.slideshowfx.setup.app.SlideshowFXSetup</JavaFX-Application-Class>
+                            <JavaFX-Application-Class>com.twasyl.slideshowfx.setup.app.SlideshowFXSetup
+                            </JavaFX-Application-Class>
                             <JavaFX-Version>8.0+</JavaFX-Version>
                         </manifestEntries>
                     </archive>
@@ -335,34 +327,54 @@
                         <configuration>
                             <target name="Bundling ${project.artifactId} package">
                                 <condition property="buildTarget" value="deployOSX">
-                                    <os family="mac" />
+                                    <os family="mac"/>
                                 </condition>
                                 <condition property="buildTarget" value="deployWindows">
-                                    <os family="windows" />
+                                    <os family="windows"/>
                                 </condition>
                                 <condition property="buildTarget" value="deployUnknown">
-                                    <os family="unix" />
+                                    <os family="unix"/>
                                 </condition>
+
+                                <condition property="platform" value="osx">
+                                    <os family="mac"/>
+                                </condition>
+                                <condition property="platform" value="windows">
+                                    <os family="windows"/>
+                                </condition>
+                                <condition property="platform" value="unix">
+                                    <os family="unix"/>
+                                </condition>
+
                                 <property name="deployOutDir" value="${project.build.directory}/distributions"/>
                                 <property name="deployOutFile" value="SlideshowFXSetup"/>
                                 <property name="deployResourcesDir" value="${project.build.directory}/dependency"/>
                                 <property name="classpath" value="${JAVA_HOME}/lib/ant-javafx.jar"/>
-                                <property name="applicationVersion" value="${project.version}" />
+                                <property name="applicationVersion" value="${project.version}"/>
                                 <copy file="${project.build.directory}/${project.build.finalName}.${project.packaging}"
                                       todir="${deployResourcesDir}"/>
                                 <ant antfile="${project.basedir}/src/assembly/javafx/SlideshowFX-setup.xml"
                                      target="${buildTarget}"/>
                                 <delete>
-                                    <fileset dir="${deployOutDir}" excludes="bundles/**" />
+                                    <fileset dir="${deployOutDir}" excludes="bundles/**"/>
                                 </delete>
-                                <zip  destfile="${project.build.directory}${file.separator}${deployOutFile}.zip">
-                                    <fileset dir="${deployOutDir}${file.separator}bundles" includes="${deployOutFile}*/**" excludes="*.html,*.jnlp"/>
+                                <zip destfile="${project.build.directory}${file.separator}${deployOutFile}.zip">
+                                    <fileset dir="${deployOutDir}${file.separator}bundles"
+                                             includes="${deployOutFile}*/**" excludes="*.html,*.jnlp"/>
                                 </zip>
-                                <attachartifact file="${project.build.directory}${file.separator}${deployOutFile}.zip" classifier="bundle" type="zip"/>
+                                <attachartifact file="${project.build.directory}${file.separator}${deployOutFile}.zip"
+                                                classifier="${platform}-${os.arch}" type="zip"/>
                             </target>
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <inherited>false</inherited>
+                <configuration>
+                    <skip>${bintray.skip.deploy}</skip>
+                </configuration>
             </plugin>
         </plugins>
     </build>

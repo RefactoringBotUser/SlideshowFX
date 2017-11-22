@@ -30,6 +30,7 @@
             <artifactId>slideshowfx-utils</artifactId>
             <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>org.twitter4j</groupId>
             <artifactId>twitter4j-stream</artifactId>

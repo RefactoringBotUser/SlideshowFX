@@ -27,6 +27,8 @@
                 <fx:jvmarg value="-Dsetup.application.version=${applicationVersion}" />
             </fx:platform>
 
+            <fx:bundleArgument arg="icon" value="${basedir}/src/assembly/javafx/package/macosx/SlideshowFX.icns" />
+
             <fx:resources>
                 <fx:fileset dir="${deployResourcesDir}" />
             </fx:resources>
@@ -58,6 +60,8 @@
                 <fx:jvmarg value="-Dsetup.application.name=SlideshowFX" />
                 <fx:jvmarg value="-Dsetup.application.version=${applicationVersion}" />
             </fx:platform>
+
+            <fx:bundleArgument arg="icon" value="${basedir}/src/assembly/javafx/package/windows/SlideshowFX.ico" />
 
             <fx:resources>
                 <fx:fileset dir="${deployResourcesDir}" />
