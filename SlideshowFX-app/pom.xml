@@ -164,6 +164,16 @@
                         <phase>package</phase>
                         <configuration>
                             <target name="Bundling ${project.artifactId} package">
+                                <condition property="buildTarget" value="deployOSX">
+                                    <os family="mac"/>
+                                </condition>
+                                <condition property="buildTarget" value="deployWindows">
+                                    <os family="windows"/>
+                                </condition>
+                                <condition property="buildTarget" value="deployUnknown">
+                                    <os family="unix"/>
+                                </condition>
+
                                 <property name="deployOutDir"
                                           value="${project.build.directory}${file.separator}distributions"/>
                                 <property name="deployOutFile" value="SlideshowFX"/>
@@ -173,12 +183,14 @@
                                 <copy file="${project.build.directory}/${project.build.finalName}.${project.packaging}"
                                       todir="${deployResourcesDir}"/>
                                 <ant antfile="${project.basedir}${file.separator}src${file.separator}assembly${file.separator}javafx${file.separator}SlideshowFX-app.xml"
-                                     target="deployOSX"/>
+                                     target="${buildTarget}"/>
                                 <delete>
                                     <fileset dir="${deployOutDir}" excludes="bundles/**"/>
                                 </delete>
-                                <zip basedir="${deployOutDir}${file.separator}bundles"
-                                     destfile="${project.build.directory}${file.separator}${deployOutFile}.zip"/>
+                                <zip destfile="${project.build.directory}${file.separator}${deployOutFile}.zip">
+                                    <fileset dir="${deployOutDir}${file.separator}bundles"
+                                             includes="${deployOutFile}*/**" excludes="*.html,*.jnlp"/>
+                                </zip>
                                 <attachartifact file="${project.build.directory}${file.separator}${deployOutFile}.zip"
                                                 classifier="bundle" type="zip"/>
                             </target>
