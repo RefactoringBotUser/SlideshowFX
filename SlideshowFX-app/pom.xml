@@ -188,8 +188,9 @@
                                     <fileset dir="${deployOutDir}" excludes="bundles/**"/>
                                 </delete>
                                 <zip destfile="${project.build.directory}${file.separator}${deployOutFile}.zip">
-                                    <fileset dir="${deployOutDir}${file.separator}bundles"
-                                             includes="${deployOutFile}*/**" excludes="*.html,*.jnlp"/>
+                                    <zipfileset dir="${deployOutDir}${file.separator}bundles"
+                                             includes="${deployOutFile}*/**" excludes="*.html,*.jnlp"
+                                             filemode="755" />
                                 </zip>
                                 <attachartifact file="${project.build.directory}${file.separator}${deployOutFile}.zip"
                                                 classifier="bundle" type="zip"/>
