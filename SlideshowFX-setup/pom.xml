@@ -12,7 +12,7 @@
     <description>Module for the installer of SlideshowFX</description>
 
     <artifactId>slideshowfx-setup</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.5-SNAPSHOT</version>
 
     <properties>
         <bintray.skip.deploy>false</bintray.skip.deploy>
