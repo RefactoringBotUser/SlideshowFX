@@ -4,7 +4,6 @@ import com.twasyl.slideshowfx.utils.io.IOUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.web.WebView;
-import org.asciidoctor.*;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -38,44 +37,15 @@ public class HelpViewController implements Initializable {
     }
 
     protected String getUserDocumentation() {
-        return this.getDocumentation("/com/twasyl/slideshowfx/documentation/SlideshowFX_user.asciidoc");
+        return this.getDocumentation("/com/twasyl/slideshowfx/documentation/html/SlideshowFX_user.html");
     }
 
     protected String getDeveloperDocumentation() {
-        return this.getDocumentation("/com/twasyl/slideshowfx/documentation/SlideshowFX_developer.asciidoc");
+        return this.getDocumentation("/com/twasyl/slideshowfx/documentation/html/SlideshowFX_developer.html");
     }
 
     protected String getDocumentation(final String documentationFile) {
-        final String documentationOriginalContent = IOUtils.read(HelpViewController.class.getResourceAsStream(documentationFile));
-        final String documentation = this.getAsciidoctorConverter().convert(documentationOriginalContent, this.getAsciidoctorOptions());
+        final String documentation = IOUtils.read(HelpViewController.class.getResourceAsStream(documentationFile));
         return documentation;
-    }
-
-    protected Asciidoctor getAsciidoctorConverter() {
-        final Asciidoctor asciidoctor = Asciidoctor.Factory.create(HelpViewController.class.getClassLoader());
-        return asciidoctor;
-    }
-
-    protected Options getAsciidoctorOptions() {
-        final Options options = OptionsBuilder.options()
-                .attributes(getAsciidoctorAttributes())
-                .headerFooter(true)
-                .get();
-
-        return options;
-    }
-
-    protected Attributes getAsciidoctorAttributes() {
-        final Attributes attributes = AttributesBuilder.attributes()
-                .backend("html5")
-                .linkCss(false)
-                .experimental(true)
-                .tableOfContents(Placement.LEFT)
-                .styleSheetName("slideshowfx.css")
-                .stylesDir(HelpViewController.class.getResource("/com/twasyl/slideshowfx/documentation/css").toExternalForm())
-                .noFooter(true)
-                .get();
-
-        return attributes;
     }
 }

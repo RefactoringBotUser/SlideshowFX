@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.twasyl</groupId>
+        <artifactId>slideshowfx</artifactId>
+        <version>1.5-SNAPSHOT</version>
+    </parent>
+
+    <name>SlideshowFX Box hosting connector</name>
+    <description>Hosting connector allowing to open and save presentations from and to Box</description>
+
+    <artifactId>slideshowfx-box-hosting-connector</artifactId>
+    <version>1.2-SNAPSHOT</version>
+
+    <properties>
+        <slideshowfx.isNotPlugin>false</slideshowfx.isNotPlugin>
+        <bintray.skip.deploy>false</bintray.skip.deploy>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-engines</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-global-configuration</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-hosting-connector</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-plugin</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.box</groupId>
+            <artifactId>box-java-sdk</artifactId>
+            <version>2.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.framework</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+                            <Bundle-Name>SlideshowFX Box hosting connector</Bundle-Name>
+                            <Bundle-SymbolicName>com.twasyl.slideshowfx.hosting.connector.box</Bundle-SymbolicName>
+                            <Bundle-Description>Support for connecting to Box</Bundle-Description>
+                            <Bundle-Version>${project.version}</Bundle-Version>
+                            <Bundle-Activator>
+                                com.twasyl.slideshowfx.hosting.connector.box.activator.BoxHostingConnectorActivator
+                            </Bundle-Activator>
+                            <Bundle-Classpath>${osgi.bundle.classpath},.</Bundle-Classpath>
+                            <Bundle-Vendor>Thierry Wasylczenko</Bundle-Vendor>
+                            <Export-Package>
+                                com.twasyl.slideshowfx.hosting.connector.box,com.twasyl.slideshowfx.hosting.connector.box.activator
+                            </Export-Package>
+                            <Import-Package>org.osgi.framework</Import-Package>
+                            <Setup-Wizard-Label>Box</Setup-Wizard-Label>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <inherited>false</inherited>
+                <configuration>
+                    <skip>${bintray.skip.deploy}</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

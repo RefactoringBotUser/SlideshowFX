@@ -1,7 +1,0 @@
-version = '1.0'
-
-dependencies {
-    testRuntime "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
-}
-
-tasks.bintrayUpload.enabled = false

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.logging.Logger;
@@ -23,9 +24,9 @@ public class ZipUtilsTest {
     private static File resourcesDir;
 
     @BeforeAll
-    public static void beforeClass() {
+    public static void beforeClass() throws URISyntaxException {
 
-        testResultsDir = new File(System.getProperty("testResultsDir", "build"));
+        testResultsDir = new File(ZipUtilsTest.class.getResource("/").toURI()).getParentFile();
         resourcesDir = new File("src/test/resources/com/twasyl/slideshowfx/utils/zip/test.txt").getParentFile();
 
         assertTrue(resourcesDir.exists());

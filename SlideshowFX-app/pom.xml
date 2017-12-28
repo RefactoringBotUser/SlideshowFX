@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.twasyl</groupId>
+        <artifactId>slideshowfx</artifactId>
+        <version>1.5-SNAPSHOT</version>
+    </parent>
+
+    <name>SlideshowFX application</name>
+    <description>The SlideshowFX application</description>
+
+    <artifactId>slideshowfx-app</artifactId>
+    <version>1.5-SNAPSHOT</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-content-extension</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-documentation</artifactId>
+            <type>zip</type>
+            <classifier>html</classifier>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-engines</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-global-configuration</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-hosting-connector</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-icons</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-logs</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-markup</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-osgi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-plugin</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-snippet-executor</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-ui-controls</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-utils</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.framework</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.reactivex.rxjava2</groupId>
+            <artifactId>rxjava</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-documentation</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeArtifactIds>slideshowfx-documentation</includeArtifactIds>
+                            <outputDirectory>${project.build.outputDirectory}/com/twasyl/slideshowfx/documentation</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <excludeScope>test</excludeScope>
+                            <includeScope>compile</includeScope>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                        </manifest>
+                        <manifestEntries>
+                            <Implementation-Title>SlideshowFX</Implementation-Title>
+                            <Implementation-Version>${project.version}</Implementation-Version>
+                            <Implementation-Vendor>Thierry Wasylczenko</Implementation-Vendor>
+                            <JavaFX-Preloader-Class>com.twasyl.slideshowfx.app.SlideshowFXPreloader
+                            </JavaFX-Preloader-Class>
+                            <Main-Class>com.twasyl.slideshowfx.app.SlideshowFX</Main-Class>
+                            <JavaFX-Application-Class>com.twasyl.slideshowfx.app.SlideshowFX</JavaFX-Application-Class>
+                            <JavaFX-Version>8.0+</JavaFX-Version>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <target name="Bundling ${project.artifactId} package">
+                                <condition property="buildTarget" value="deployOSX">
+                                    <os family="mac"/>
+                                </condition>
+                                <condition property="buildTarget" value="deployWindows">
+                                    <os family="windows"/>
+                                </condition>
+                                <condition property="buildTarget" value="deployUnknown">
+                                    <os family="unix"/>
+                                </condition>
+
+                                <property name="deployOutDir"
+                                          value="${project.build.directory}${file.separator}distributions"/>
+                                <property name="deployOutFile" value="SlideshowFX"/>
+                                <property name="deployResourcesDir"
+                                          value="${project.build.directory}${file.separator}dependency"/>
+                                <property name="classpath" value="${JAVA_HOME}/lib/ant-javafx.jar"/>
+                                <copy file="${project.build.directory}/${project.build.finalName}.${project.packaging}"
+                                      todir="${deployResourcesDir}"/>
+                                <ant antfile="${project.basedir}${file.separator}src${file.separator}assembly${file.separator}javafx${file.separator}SlideshowFX-app.xml"
+                                     target="${buildTarget}"/>
+                                <delete>
+                                    <fileset dir="${deployOutDir}" excludes="bundles/**"/>
+                                </delete>
+                                <zip destfile="${project.build.directory}${file.separator}${deployOutFile}.zip">
+                                    <zipfileset dir="${deployOutDir}${file.separator}bundles"
+                                             includes="${deployOutFile}*/**" excludes="*.html,*.jnlp"
+                                             filemode="755" />
+                                </zip>
+                                <attachartifact file="${project.build.directory}${file.separator}${deployOutFile}.zip"
+                                                classifier="bundle" type="zip"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

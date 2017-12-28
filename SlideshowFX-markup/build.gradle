@@ -1,9 +1,0 @@
-version = '1.0'
-
-dependencies {
-    compile project(':SlideshowFX-plugin')
-
-    testRuntime "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
-}
-
-tasks.bintrayUpload.enabled = false
