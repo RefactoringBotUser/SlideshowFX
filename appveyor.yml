@@ -2,8 +2,8 @@ version: 1.0.{build}
 
 environment:
   MAVEN_VERSION: 3.5.2
-  MAVEN_INSTALLATION_DIR_ROOT: C:\maven
-  M2_HOME: C:\maven\apache-maven-$MAVEN_VERSION
+  MAVEN_INSTALLATIONS_ROOT_DIR: C:\maven
+  M2_HOME: $MAVEN_INSTALLATIONS_ROOT_DIR\apache-maven-$MAVEN_VERSION
 
 branches:
   only:
@@ -27,8 +27,8 @@ install:
       Add-Type -AssemblyName System.IO.Compression.FileSystem
         if (!(Test-Path -Path "$env:M2_HOME" )) {
           Write-Host "Downloading Maven $env:MAVEN_VERSION"
-          (new-object System.Net.WebClient).DownloadFile("https://repo1.maven.org/maven2/org/apache/maven/apache-maven/$env:MAVEN_VERSION/apache-maven-$env:MAVEN_VERSION-bin.zip", '$env:MAVEN_INSTALLATION_ROOT_DIR\maven-bin.zip')
-          [System.IO.Compression.ZipFile]::ExtractToDirectory("$env:MAVEN_INSTALLATION_ROOT_DIR\maven-bin.zip", "$env:MAVEN_INSTALLATION_DIR_ROOT")
+          (new-object System.Net.WebClient).DownloadFile("https://repo1.maven.org/maven2/org/apache/maven/apache-maven/$env:MAVEN_VERSION/apache-maven-$env:MAVEN_VERSION-bin.zip", '$env:MAVEN_INSTALLATIONS_ROOT_DIR\maven-bin.zip')
+          [System.IO.Compression.ZipFile]::ExtractToDirectory("$env:MAVEN_INSTALLATIONS_ROOT_DIR\maven-bin.zip", "$env:MAVEN_INSTALLATION_DIR_ROOT")
         }
 
 platform:
