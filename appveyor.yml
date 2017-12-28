@@ -27,6 +27,7 @@ install:
       Add-Type -AssemblyName System.IO.Compression.FileSystem
         if (!(Test-Path -Path "$env:M2_HOME" )) {
           Write-Host "Downloading Maven $env:MAVEN_VERSION"
+          Write-Host "https://repo1.maven.org/maven2/org/apache/maven/apache-maven/$env:MAVEN_VERSION/apache-maven-$env:MAVEN_VERSION-bin.zip"
           (new-object System.Net.WebClient).DownloadFile("https://repo1.maven.org/maven2/org/apache/maven/apache-maven/$env:MAVEN_VERSION/apache-maven-$env:MAVEN_VERSION-bin.zip", '$env:MAVEN_INSTALLATIONS_ROOT_DIR\maven-bin.zip')
           [System.IO.Compression.ZipFile]::ExtractToDirectory("$env:MAVEN_INSTALLATIONS_ROOT_DIR\maven-bin.zip", "$env:MAVEN_INSTALLATIONS_ROOT_DIR")
         }
