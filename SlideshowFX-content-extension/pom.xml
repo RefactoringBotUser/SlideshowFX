@@ -8,7 +8,7 @@
         <version>1.5-SNAPSHOT</version>
     </parent>
 
-    <name>SlideshowFX code extension</name>
+    <name>SlideshowFX content extension</name>
     <description>Module defining how a content extension plugin should be developed</description>
 
     <artifactId>slideshowfx-content-extension</artifactId>
