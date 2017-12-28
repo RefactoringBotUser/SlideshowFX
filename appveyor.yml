@@ -1,5 +1,10 @@
 version: 1.0.{build}
 
+environment:
+  MAVEN_VERSION: 3.5.2
+  MAVEN_INSTALLATIONS_ROOT_DIR: C:\maven
+  M2_HOME: $MAVEN_INSTALLATIONS_ROOT_DIR\apache-maven-$MAVEN_VERSION
+
 branches:
   only:
     - master
@@ -17,6 +22,15 @@ image: Visual Studio 2017
 
 clone_depth: 5
 
+install:
+  - ps: |
+      Add-Type -AssemblyName System.IO.Compression.FileSystem
+        if (!(Test-Path -Path "$env:M2_HOME" )) {
+          Write-Host "Downloading Maven $env:MAVEN_VERSION"
+          (New-Object Net.WebClient).DownloadFile("https://repo1.maven.org/maven2/org/apache/maven/apache-maven/$env:MAVEN_VERSION/apache-maven-$env:MAVEN_VERSION-bin.zip", "$env:MAVEN_INSTALLATIONS_ROOT_DIR\maven-bin.zip")
+          [System.IO.Compression.ZipFile]::ExtractToDirectory("$env:MAVEN_INSTALLATIONS_ROOT_DIR\maven-bin.zip", "$env:MAVEN_INSTALLATIONS_ROOT_DIR")
+        }
+
 platform:
   - x86
   - x64
@@ -24,7 +38,7 @@ platform:
 before_build:
   - IF "%PLATFORM%" == "x86" (SET JAVA_HOME="C:\Program Files (x86)\Java\jdk1.8.0")
   - IF "%PLATFORM%" == "x64" (SET JAVA_HOME="C:\Program Files\Java\jdk1.8.0")
-  - SET PATH=%JAVA_HOME%\bin;%PATH%
+  - SET PATH=%M2_HOME%\bin;%JAVA_HOME%\bin;%PATH%
   - java -version
   - mvn -version
 
