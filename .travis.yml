@@ -29,7 +29,7 @@ before_install:
 install: true
 
 script:
-  - if [[ "$TRAVIS_BRANCH" == "master" ]]; then mvn clean deploy; else mvn clean install; fi
+  - if [[ "$TRAVIS_BRANCH" == "master" ]]; then mvn -s settings.xml clean deploy; else mvn -s settings.xml clean install; fi
 
 cache:
   directories:
