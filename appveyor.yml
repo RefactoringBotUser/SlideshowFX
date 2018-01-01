@@ -26,7 +26,7 @@ platform:
 before_build:
   - IF "%PLATFORM%" == "x86" (SET JAVA_HOME="C:\Program Files (x86)\Java\jdk1.8.0")
   - IF "%PLATFORM%" == "x64" (SET JAVA_HOME="C:\Program Files\Java\jdk1.8.0")
-  - SET PATH=%JAVA_HOME%\bin;%PATH%
+  - SET PATH="%JAVA_HOME%\bin;%PATH%"
 
 build_script:
   - IF "%APPVEYOR_REPO_BRANCH%" == "master" (mvn -s settings.xml clean deploy)
