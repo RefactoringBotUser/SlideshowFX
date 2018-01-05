@@ -104,17 +104,17 @@
         <plugin.surefire.version>2.20.1</plugin.surefire.version>
 
         <dependency.asciidoctorj.version>1.5.6</dependency.asciidoctorj.version>
-        <dependency.felix.version>5.6.8</dependency.felix.version>
-        <dependency.freemarker.version>2.3.26-incubating</dependency.freemarker.version>
-        <dependency.jsoup.version>1.10.3</dependency.jsoup.version>
+        <dependency.felix.version>5.6.10</dependency.felix.version>
+        <dependency.freemarker.version>2.3.27-incubating</dependency.freemarker.version>
+        <dependency.jsoup.version>1.11.2</dependency.jsoup.version>
         <dependency.junit.version>5.0.2</dependency.junit.version>
         <dependency.markdown.version>0.13</dependency.markdown.version>
         <dependency.mockito.version>2.10.0</dependency.mockito.version>
-        <dependency.rxJava.version>2.1.3</dependency.rxJava.version>
+        <dependency.rxJava.version>2.1.8</dependency.rxJava.version>
         <dependency.twitter.version>4.0.6</dependency.twitter.version>
-        <dependency.vertx.version>3.4.2</dependency.vertx.version>
-        <dependency.wikitext.version>3.0.18</dependency.wikitext.version>
-        <dependency.zxing.version>3.3.0</dependency.zxing.version>
+        <dependency.vertx.version>3.5.0</dependency.vertx.version>
+        <dependency.wikitext.version>3.0.20</dependency.wikitext.version>
+        <dependency.zxing.version>3.3.1</dependency.zxing.version>
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>

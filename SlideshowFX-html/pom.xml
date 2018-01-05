@@ -16,6 +16,7 @@
 
     <properties>
         <slideshowfx.isNotPlugin>false</slideshowfx.isNotPlugin>
+        <bundle.version>1.0</bundle.version>
         <bintray.skip.deploy>false</bintray.skip.deploy>
     </properties>
 
@@ -54,7 +55,7 @@
                             <Bundle-Name>SlideshowFX HTML support</Bundle-Name>
                             <Bundle-SymbolicName>com.twasyl.slideshowfx.markup.html</Bundle-SymbolicName>
                             <Bundle-Description>Support HTML for defining slide's content</Bundle-Description>
-                            <Bundle-Version>${project.version}</Bundle-Version>
+                            <Bundle-Version>${bundle.version}</Bundle-Version>
                             <Bundle-Activator>
                                 com.twasyl.slideshowfx.markup.html.activator.HtmlActivator
                             </Bundle-Activator>

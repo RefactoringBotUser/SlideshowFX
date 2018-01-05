@@ -16,6 +16,7 @@
 
     <properties>
         <slideshowfx.isNotPlugin>false</slideshowfx.isNotPlugin>
+        <bundle.version>1.0</bundle.version>
         <bintray.skip.deploy>false</bintray.skip.deploy>
     </properties>
     
@@ -64,7 +65,7 @@
                             <Bundle-Name>SlideshowFX Groovy executor</Bundle-Name>
                             <Bundle-SymbolicName>com.twasyl.slideshowfx.snippet.executor.groovy</Bundle-SymbolicName>
                             <Bundle-Description>Allow to execute Groovy code inside a presentation</Bundle-Description>
-                            <Bundle-Version>${project.version}</Bundle-Version>
+                            <Bundle-Version>${bundle.version}</Bundle-Version>
                             <Bundle-Activator>
                                 com.twasyl.slideshowfx.snippet.executor.groovy.activator.GroovySnippetExecutorActivator
                             </Bundle-Activator>

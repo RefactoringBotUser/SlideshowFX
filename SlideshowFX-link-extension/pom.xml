@@ -16,6 +16,7 @@
 
     <properties>
         <slideshowfx.isNotPlugin>false</slideshowfx.isNotPlugin>
+        <bundle.version>1.2</bundle.version>
         <bintray.skip.deploy>false</bintray.skip.deploy>
     </properties>
 
@@ -88,7 +89,7 @@
                             <Bundle-Name>SlideshowFX link extension</Bundle-Name>
                             <Bundle-SymbolicName>com.twasyl.slideshowfx.content.extension.link</Bundle-SymbolicName>
                             <Bundle-Description>Support for inserting links in slides</Bundle-Description>
-                            <Bundle-Version>${project.version}</Bundle-Version>
+                            <Bundle-Version>${bundle.version}</Bundle-Version>
                             <Bundle-Activator>
                                 com.twasyl.slideshowfx.content.extension.link.activator.LinkContentExtensionActivator
                             </Bundle-Activator>

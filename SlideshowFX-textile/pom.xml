@@ -16,6 +16,7 @@
 
     <properties>
         <slideshowfx.isNotPlugin>false</slideshowfx.isNotPlugin>
+        <bundle.version>1.2</bundle.version>
         <bintray.skip.deploy>false</bintray.skip.deploy>
     </properties>
 
@@ -38,7 +39,7 @@
         <dependency>
             <groupId>org.eclipse.mylyn.docs</groupId>
             <artifactId>org.eclipse.mylyn.wikitext.textile</artifactId>
-            <version>3.0.18</version>
+            <version>${dependency.wikitext.version}</version>
         </dependency>
 
         <dependency>
@@ -63,7 +64,7 @@
                             <Bundle-Name>SlideshowFX Textile support</Bundle-Name>
                             <Bundle-SymbolicName>com.twasyl.slideshowfx.markup.textile</Bundle-SymbolicName>
                             <Bundle-Description>Support Textile for defining slide's content</Bundle-Description>
-                            <Bundle-Version>${project.version}</Bundle-Version>
+                            <Bundle-Version>${bundle.version}</Bundle-Version>
                             <Bundle-Activator>
                                 com.twasyl.slideshowfx.markup.textile.activator.TextileActivator
                             </Bundle-Activator>

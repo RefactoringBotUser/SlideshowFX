@@ -16,6 +16,7 @@
 
     <properties>
         <slideshowfx.isNotPlugin>false</slideshowfx.isNotPlugin>
+        <bundle.version>1.0</bundle.version>
         <bintray.skip.deploy>false</bintray.skip.deploy>
     </properties>
 
@@ -54,7 +55,7 @@
                             <Bundle-Name>SlideshowFX JavaScript executor</Bundle-Name>
                             <Bundle-SymbolicName>com.twasyl.slideshowfx.snippet.executor.javascript</Bundle-SymbolicName>
                             <Bundle-Description>Allow to execute JavaScript code inside a presentation</Bundle-Description>
-                            <Bundle-Version>${project.version}</Bundle-Version>
+                            <Bundle-Version>${bundle.version}</Bundle-Version>
                             <Bundle-Activator>
                                 com.twasyl.slideshowfx.snippet.executor.javascript.activator.JavaScriptSnippetExecutorActivator
                             </Bundle-Activator>

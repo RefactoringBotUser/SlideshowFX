@@ -16,6 +16,7 @@
 
     <properties>
         <slideshowfx.isNotPlugin>false</slideshowfx.isNotPlugin>
+        <bundle.version>1.1</bundle.version>
         <bintray.skip.deploy>false</bintray.skip.deploy>
     </properties>
 
@@ -64,7 +65,7 @@
                             <Bundle-Name>SlideshowFX quote extension</Bundle-Name>
                             <Bundle-SymbolicName>com.twasyl.slideshowfx.content.extension.quote</Bundle-SymbolicName>
                             <Bundle-Description>Support for inserting quote in slides</Bundle-Description>
-                            <Bundle-Version>${project.version}</Bundle-Version>
+                            <Bundle-Version>${bundle.version}</Bundle-Version>
                             <Bundle-Activator>
                                 com.twasyl.slideshowfx.content.extension.quote.activator.QuoteContentExtensionActivator
                             </Bundle-Activator>
