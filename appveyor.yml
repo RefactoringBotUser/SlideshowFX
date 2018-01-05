@@ -24,9 +24,8 @@ platform:
   - x64
 
 before_build:
-  - IF "%PLATFORM%" == "x86" (SET JAVA_HOME=%ProgramFiles(x86)%\Java\jdk1.8.0)
-  - IF "%PLATFORM%" == "x64" (SET JAVA_HOME=%ProgramFiles%\Java\jdk1.8.0)
-  - SET PATH="%JAVA_HOME%\bin;%PATH%"
+  - IF "%PLATFORM%" == "x86" (SET JAVA_HOME="%ProgramFiles(x86)%\Java\jdk1.8.0")
+  - IF "%PLATFORM%" == "x64" (SET JAVA_HOME="%ProgramFiles%\Java\jdk1.8.0")
 
 build_script:
   - IF "%APPVEYOR_REPO_BRANCH%" == "master" (C:\ProgramData\chocolatey\bin\mvn.exe -s settings.xml clean deploy)
