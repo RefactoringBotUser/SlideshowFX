@@ -25,11 +25,12 @@ matrix:
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export JAVA_HOME=$(/usr/libexec/java_home); fi
+  - chmod +x mvnw
 
 install: true
 
 script:
-  - if [[ "$TRAVIS_BRANCH" == "master" ]]; then mvn -s settings.xml clean deploy; else mvn -s settings.xml clean install; fi
+  - if [[ "$TRAVIS_BRANCH" == "master" ]]; then mvnw -s settings.xml clean deploy; else mvnw -s settings.xml clean install; fi
 
 cache:
   directories:
