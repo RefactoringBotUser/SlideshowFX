@@ -21,10 +21,10 @@ platform:
   - x64
 
 before_build:
-  - IF "%PLATFORM%" == "x86" (SET JAVA_HOME=%ProgramFiles(x86)%\Java\jdk1.8.0)
-  - IF "%PLATFORM%" == "x64" (SET JAVA_HOME=%ProgramFiles%\Java\jdk1.8.0)
+  - IF "%PLATFORM%" == "x86" (SET JAVA_HOME="%ProgramFiles(x86)%\Java\jdk1.8.0")
+  - IF "%PLATFORM%" == "x64" (SET JAVA_HOME="%ProgramFiles%\Java\jdk1.8.0")
   - ECHO %JAVA_HOME%
 
 build_script:
-  - cmd: IF "%APPVEYOR_REPO_BRANCH%" == "master" (mvnw.cmd -s settings.xml clean deploy)
-  - cmd: IF NOT "%APPVEYOR_REPO_BRANCH%" == "master" (mvnw.cmd -s settings.xml clean package)
+  - cmd: IF "%APPVEYOR_REPO_BRANCH%" == "master" (mvnw.cmd --settings settings.xml clean deploy)
+  - cmd: IF NOT "%APPVEYOR_REPO_BRANCH%" == "master" (mvnw.cmd --settings settings.xml clean package)
