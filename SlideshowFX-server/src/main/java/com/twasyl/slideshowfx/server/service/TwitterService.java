@@ -47,15 +47,18 @@ import static java.util.logging.Level.WARNING;
 public class TwitterService extends AbstractSlideshowFXService {
     private static final Logger LOGGER = Logger.getLogger(TwitterService.class.getName());
 
-    protected static final String ACCESS_TOKEN_PARAMETER = "service.twitter.accessToken";
-    protected static final String ACCESS_TOKEN_SECRET_PARAMETER = "service.twitter.accessTokenSecret";
+    protected static final String PROPERTY_PREFIX = "service.twitter.";
+    protected static final String CONSUMER_KEY = PROPERTY_PREFIX + "consumerKey";
+    protected static final String CONSUMER_KEY_SECRET = PROPERTY_PREFIX + "consumerKeySecret";
+    protected static final String ACCESS_TOKEN_PARAMETER = PROPERTY_PREFIX + "accessToken";
+    protected static final String ACCESS_TOKEN_SECRET_PARAMETER = PROPERTY_PREFIX + "accessTokenSecret";
     protected static final String HMAC_SHA1 = "HMAC-SHA1";
 
     protected long nonce;
     protected long timestampInSeconds;
 
-    protected String consumerKey = "5luxVGxswd42RgTfbF02g";
-    protected String consumerSecret = "winWDhMbeJZ4m66gABqpohkclLDixnyeOINuVtPWs";
+    protected String consumerKey;
+    protected String consumerSecret;
 
     protected String oauthToken;
     protected String oauthTokenSecret;
@@ -74,36 +77,59 @@ public class TwitterService extends AbstractSlideshowFXService {
         this.loadTokens();
     }
 
+    /**
+     * Load the access token and the access token secret from the configuration.
+     */
     protected void loadTokens() {
+        this.consumerKey = GlobalConfiguration.getProperty(CONSUMER_KEY);
+        this.consumerSecret = GlobalConfiguration.getProperty(CONSUMER_KEY_SECRET);
         this.accessToken = GlobalConfiguration.getProperty(ACCESS_TOKEN_PARAMETER);
         this.accessTokenSecret = GlobalConfiguration.getProperty(ACCESS_TOKEN_SECRET_PARAMETER);
     }
 
+    /**
+     * Save the access token and the access token secret to the configuration.
+     */
     protected void saveTokens() {
         GlobalConfiguration.setProperty(ACCESS_TOKEN_PARAMETER, this.accessToken);
         GlobalConfiguration.setProperty(ACCESS_TOKEN_SECRET_PARAMETER, this.accessTokenSecret);
     }
 
-    protected boolean isAuthenticated() {
-        boolean authenticated = this.accessToken != null && this.accessTokenSecret != null
+    /**
+     * Check if the credentials to authenticated the user are valid. The check consists in :
+     * <p>
+     * <ul>
+     * <li>verifying if both access token and acces token secret aren't {@code null} nor empty;</li>
+     * <li>if both access token and access token secret can be used to verify the credentials on Twitter (using the {@link #buildVerifyCredentialsURL()})</li>
+     * </ul>
+     *
+     * @return {@code true} if the credentials allow to authenticate to Twitter, {@code false} otherwise.
+     */
+    protected boolean canAuthenticate() {
+        boolean canAuthenticate = this.accessToken != null && this.accessTokenSecret != null
                 && !this.accessToken.isEmpty() && !this.accessTokenSecret.isEmpty();
 
-        if (authenticated) {
+        if (canAuthenticate) {
             final HttpURLConnection connection = this.buildVerifyCredentialsURL();
 
             try {
-                authenticated = connection.getResponseCode() == 200;
+                canAuthenticate = connection.getResponseCode() == 200;
             } catch (IOException e) {
-                LOGGER.log(Level.WARNING, "Can not determine if the user is authenticated", e);
-                authenticated = false;
+                LOGGER.log(WARNING, "Can not determine if the user is authenticated", e);
+                canAuthenticate = false;
             } finally {
                 connection.disconnect();
             }
         }
 
-        return authenticated;
+        return canAuthenticate;
     }
 
+    /**
+     * Start the authentication process to Twitter.
+     *
+     * @throws TwitterException If the user can be authenticated, or don't allow the application to access Twitter.
+     */
     protected void authenticate() throws TwitterException {
         this.currentConnection = this.buildRequestTokenURL();
 
@@ -185,6 +211,11 @@ public class TwitterService extends AbstractSlideshowFXService {
         }
     }
 
+    /**
+     * Build the connection with correct headers to obtain a request token.
+     *
+     * @return A properly ready to use connection to obtain a request token.
+     */
     protected HttpURLConnection buildRequestTokenURL() {
         try {
             final URL url = new URL("https://api.twitter.com/oauth/request_token");
@@ -200,6 +231,11 @@ public class TwitterService extends AbstractSlideshowFXService {
         return null;
     }
 
+    /**
+     * Build the connection with correct headers to obtain a PIN code and authenticate the user.
+     *
+     * @return A properly ready to use connection to obtain a PIN code and authenticate the user.
+     */
     protected HttpURLConnection buildAuthenticateURL() {
         try {
             final URL url = new URL("https://api.twitter.com/oauth/authenticate?oauth_token=" + this.oauthToken);
@@ -215,6 +251,11 @@ public class TwitterService extends AbstractSlideshowFXService {
         return null;
     }
 
+    /**
+     * Build the connection with correct headers and body to obtain an access token.
+     *
+     * @return A properly ready to use connection to obtain an access token.
+     */
     protected HttpURLConnection buildAccessTokenURL() {
         try {
             final URL url = new URL("https://api.twitter.com/oauth/access_token");
@@ -241,6 +282,11 @@ public class TwitterService extends AbstractSlideshowFXService {
         return null;
     }
 
+    /**
+     * Build the connection with correct headers to verify an access token and access token secret.
+     *
+     * @return A properly ready to use connection to verify an access token and access token secret.
+     */
     protected HttpURLConnection buildVerifyCredentialsURL() {
         try {
             final URL url = new URL("https://api.twitter.com/1.1/account/verify_credentials.json");
@@ -257,6 +303,11 @@ public class TwitterService extends AbstractSlideshowFXService {
         return null;
     }
 
+    /**
+     * Build the connection with correct headers to obtain and filter the Twitter statuses for a track term.
+     *
+     * @return A properly ready to use connection to obtain and filter the Twitter statuses for a track term.
+     */
     protected HttpURLConnection buildStatusesURL() {
         try {
             final URL url = new URL("https://stream.twitter.com/1.1/statuses/filter.json?track=" + SlideshowFXServer.getSingleton().getTwitterHashtag());
@@ -275,6 +326,13 @@ public class TwitterService extends AbstractSlideshowFXService {
         return null;
     }
 
+    /**
+     * Start a WebView for allowing the user to authenticate to Twitter and obtain a PIN code.
+     * If the user properly authenticate and authorize the application, the PIN code will be returned. Otherwise the
+     * return {@link CompletableFuture} will complete exceptionally.
+     *
+     * @return a {@link CompletableFuture} with the PIN code.
+     */
     protected CompletableFuture<String> obtainPinCode() {
         final CompletableFuture<String> future = new CompletableFuture<>();
         future.supplyAsync(() -> {
@@ -336,6 +394,13 @@ public class TwitterService extends AbstractSlideshowFXService {
         return future;
     }
 
+    /**
+     * Reads the response from a connection.
+     *
+     * @param connection The connection to read the response.
+     * @return The body of the connection.
+     * @throws IOException
+     */
     protected String readResponse(HttpURLConnection connection) throws IOException {
         final StringBuilder response = new StringBuilder();
 
@@ -370,7 +435,14 @@ public class TwitterService extends AbstractSlideshowFXService {
         return token;
     }
 
-    private String buildAuthorizationHeaderValue(final HttpURLConnection connection) throws UnsupportedEncodingException {
+    /**
+     * This method will build the correct <b>Authorization</b> header for the given connection.
+     *
+     * @param connection The connection for which create the <b>Authorization</b> header.
+     * @return The value of the <b>Authorization</b> header.
+     * @throws UnsupportedEncodingException
+     */
+    protected String buildAuthorizationHeaderValue(final HttpURLConnection connection) throws UnsupportedEncodingException {
         final StringBuilder value = new StringBuilder("OAuth ")
                 .append("oauth_consumer_key=\"").append(consumerKey).append("\", ")
                 .append("oauth_nonce=\"").append(this.nonce).append("\", ")
@@ -392,7 +464,13 @@ public class TwitterService extends AbstractSlideshowFXService {
         return value.toString();
     }
 
-    private String buildSignature(HttpURLConnection connection) {
+    /**
+     * Build the OAuth <b>oauth_signature</b> parameter to be included in the <b>Authorization</b> header.
+     *
+     * @param connection The connection for which build the <b>oauth_signature</b> parameter.
+     * @return The value of the <b>oauth_signature</b>.
+     */
+    protected String buildSignature(HttpURLConnection connection) {
         try {
             final URL url = connection.getURL();
             final String rawURL = url.getProtocol() + "://" + url.getAuthority() + url.getPath();
@@ -424,7 +502,15 @@ public class TwitterService extends AbstractSlideshowFXService {
         }
     }
 
-    private String getBaseParamQueryString(HttpURLConnection connection) {
+    /**
+     * Build the parameter string to be used in the process of creating the signature. This method will take care of
+     * using the correct oauth token as well as include the query string of the given connection.
+     *
+     * @param connection The connection for which create the parameter string.
+     * @return The base parameter query string.
+     * @see #buildSignature(HttpURLConnection)
+     */
+    protected String getBaseParamQueryString(HttpURLConnection connection) {
         final StringBuilder queryString = new StringBuilder("oauth_consumer_key=").append(consumerKey).append("&")
                 .append("oauth_nonce=").append(nonce).append("&")
                 .append("oauth_signature_method=").append(HMAC_SHA1).append("&")
@@ -447,7 +533,7 @@ public class TwitterService extends AbstractSlideshowFXService {
             try {
                 queryString.append("&track=").append(encode(SlideshowFXServer.getSingleton().getTwitterHashtag(), UTF_8.toString()));
             } catch (UnsupportedEncodingException e) {
-                LOGGER.log(Level.WARNING, "Can not add the track element", e);
+                LOGGER.log(WARNING, "Can not add the track element", e);
             }
         }
         LOGGER.fine("Base parameter string: " + queryString);
@@ -460,41 +546,51 @@ public class TwitterService extends AbstractSlideshowFXService {
         final String twitterHashtag = SlideshowFXServer.getSingleton().getTwitterHashtag();
 
         if (twitterHashtag != null && !twitterHashtag.trim().isEmpty()) {
-            if (!isAuthenticated()) {
-                authenticate();
+
+            boolean authenticated = canAuthenticate();
+
+            if (!authenticated) {
+                try {
+                    authenticate();
+                    authenticated = true;
+                } catch (TwitterException e) {
+                    LOGGER.log(WARNING, "The user is not authenticated", e);
+                }
             }
 
-            final Runnable work = () -> {
-                this.currentConnection = this.buildStatusesURL();
+            if (authenticated) {
+                final Runnable work = () -> {
+                    this.currentConnection = this.buildStatusesURL();
 
-                try {
-                    final int responseCode = this.currentConnection.getResponseCode();
+                    try {
+                        final int responseCode = this.currentConnection.getResponseCode();
 
-                    if (200 == responseCode) {
-                        final StringBuilder tweet = new StringBuilder();
-                        final InputStream inputStream = this.currentConnection.getInputStream();
-                        final byte[] buffer = new byte[512];
-                        int bytesRead;
+                        if (200 == responseCode) {
+                            final StringBuilder tweet = new StringBuilder();
+                            final InputStream inputStream = this.currentConnection.getInputStream();
+                            final byte[] buffer = new byte[512];
+                            int bytesRead;
 
-                        while ((bytesRead = inputStream.read(buffer)) != -1) {
-                            final String str = new String(buffer, 0, bytesRead, UTF_8);
-                            tweet.append(str);
+                            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                                final String str = new String(buffer, 0, bytesRead, UTF_8);
+                                tweet.append(str);
 
-                            if (str.endsWith("\n") && !tweet.toString().trim().isEmpty()) {
-                                broadcastTweet(tweet.toString().trim());
-                                tweet.setLength(0);
+                                if (str.endsWith("\n") && !tweet.toString().trim().isEmpty()) {
+                                    broadcastTweet(tweet.toString().trim());
+                                    tweet.setLength(0);
+                                }
                             }
                         }
+                    } catch (IOException e) {
+                        LOGGER.log(Level.SEVERE, "Error when reading tweets", e);
+                    } finally {
+                        LOGGER.fine("Disconnected from the streaming API");
                     }
-                } catch (IOException e) {
-                    LOGGER.log(Level.SEVERE, "Error when reading tweets", e);
-                } finally {
-                    LOGGER.fine("Disconnected from the streaming API");
-                }
-            };
+                };
 
-            this.statusesConsumer = new Thread(work);
-            this.statusesConsumer.start();
+                this.statusesConsumer = new Thread(work);
+                this.statusesConsumer.start();
+            }
         }
     }
 
