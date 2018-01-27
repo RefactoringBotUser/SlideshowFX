@@ -5,6 +5,11 @@ branches:
     - master
     - development
 
+environment:
+  MAVEN_HOME: C:\maven\apache-maven-3.5.2
+  PATH: C:\maven\apache-maven-3.5.2\bin;$(JAVA_HOME)\bin;C:\Program Files (x86)\Windows Kits\10\bin\x64;$(PATH)
+  M2: $(USERPROFILE)\.m2
+
 cache:
   - '%USERPROFILE%\.m2'
 
@@ -17,7 +22,15 @@ image: Visual Studio 2017
 clone_depth: 5
 
 install:
-  - cinst maven
+  - ps: |
+      Add-Type -AssemblyName System.IO.Compression.FileSystem
+      if (!(Test-Path -Path "C:\maven" )) {
+        (new-object System.Net.WebClient).DownloadFile(
+          'http://www.us.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.zip',
+          'C:\maven-bin.zip'
+        )
+        [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\maven-bin.zip", "C:\maven")
+      }
 
 platform:
   - x86
@@ -27,8 +40,7 @@ before_build:
   - IF "%PLATFORM%" == "x86" (SET JAVA_HOME="%ProgramFiles(x86)%\Java\jdk1.8.0")
   - IF "%PLATFORM%" == "x64" (SET JAVA_HOME="%ProgramFiles%\Java\jdk1.8.0")
   - ECHO %JAVA_HOME%
-  - C:\ProgramData\chocolatey\bin\mvn.exe --version
 
 build_script:
-  - IF "%APPVEYOR_REPO_BRANCH%" == "master" (C:\ProgramData\chocolatey\bin\mvn.exe -s settings.xml clean deploy)
-  - IF NOT "%APPVEYOR_REPO_BRANCH%" == "master" (C:\ProgramData\chocolatey\bin\mvn.exe -s settings.xml clean package)
+  - IF "%APPVEYOR_REPO_BRANCH%" == "master" (mvn -s settings.xml clean deploy)
+  - IF NOT "%APPVEYOR_REPO_BRANCH%" == "master" (mvn -s settings.xml clean package)
