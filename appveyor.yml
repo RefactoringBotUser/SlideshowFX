@@ -26,5 +26,5 @@ before_build:
   - ECHO %JAVA_HOME%
 
 build_script:
-  - IF "%APPVEYOR_REPO_BRANCH%" == "master" (mvnw.cmd -s settings.xml clean deploy)
-  - IF NOT "%APPVEYOR_REPO_BRANCH%" == "master" (mvnw.cmd -s settings.xml clean package)
+  - cmd: IF "%APPVEYOR_REPO_BRANCH%" == "master" (mvnw.cmd -s settings.xml clean deploy)
+  - cmd: IF NOT "%APPVEYOR_REPO_BRANCH%" == "master" (mvnw.cmd -s settings.xml clean package)
