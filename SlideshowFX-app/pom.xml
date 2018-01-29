@@ -14,6 +14,41 @@
     <artifactId>slideshowfx-app</artifactId>
     <version>1.5-SNAPSHOT</version>
 
+    <properties>
+        <build.ant.target>deployOSX</build.ant.target>
+        <build.platform>osx</build.platform>
+        <build.deploy.out.dir>${project.build.directory}/distributions</build.deploy.out.dir>
+        <build.deploy.out.file>SlideshowFX</build.deploy.out.file>
+        <build.deploy.resources.dir>${project.build.directory}/dependency</build.deploy.resources.dir>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>windows</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                </os>
+            </activation>
+            <properties>
+                <build.ant.target>deployWindows</build.ant.target>
+                <build.platform>windows</build.platform>
+            </properties>
+        </profile>
+        <profile>
+            <id>unix</id>
+            <activation>
+                <os>
+                    <family>unix</family>
+                </os>
+            </activation>
+            <properties>
+                <build.ant.target>deployUnknown</build.ant.target>
+                <build.platform>unix</build.platform>
+            </properties>
+        </profile>
+    </profiles>
+
     <dependencies>
         <dependency>
             <groupId>com.twasyl</groupId>
@@ -117,7 +152,8 @@
                         </goals>
                         <configuration>
                             <includeArtifactIds>slideshowfx-documentation</includeArtifactIds>
-                            <outputDirectory>${project.build.outputDirectory}/com/twasyl/slideshowfx/documentation</outputDirectory>
+                            <outputDirectory>${project.build.outputDirectory}/com/twasyl/slideshowfx/documentation
+                            </outputDirectory>
                         </configuration>
                     </execution>
                     <execution>
@@ -164,35 +200,20 @@
                         <phase>package</phase>
                         <configuration>
                             <target name="Bundling ${project.artifactId} package">
-                                <condition property="buildTarget" value="deployOSX">
-                                    <os family="mac"/>
-                                </condition>
-                                <condition property="buildTarget" value="deployWindows">
-                                    <os family="windows"/>
-                                </condition>
-                                <condition property="buildTarget" value="deployUnknown">
-                                    <os family="unix"/>
-                                </condition>
-
-                                <property name="deployOutDir"
-                                          value="${project.build.directory}${file.separator}distributions"/>
-                                <property name="deployOutFile" value="SlideshowFX"/>
-                                <property name="deployResourcesDir"
-                                          value="${project.build.directory}${file.separator}dependency"/>
                                 <property name="classpath" value="${JAVA_HOME}/lib/ant-javafx.jar"/>
                                 <copy file="${project.build.directory}/${project.build.finalName}.${project.packaging}"
-                                      todir="${deployResourcesDir}"/>
+                                      todir="${build.deploy.resources.dir}"/>
                                 <ant antfile="${project.basedir}${file.separator}src${file.separator}assembly${file.separator}javafx${file.separator}SlideshowFX-app.xml"
-                                     target="${buildTarget}"/>
+                                     target="${build.ant.target}"/>
                                 <delete>
-                                    <fileset dir="${deployOutDir}" excludes="bundles/**"/>
+                                    <fileset dir="${build.deploy.out.dir}" excludes="bundles/**"/>
                                 </delete>
-                                <zip destfile="${project.build.directory}${file.separator}${deployOutFile}.zip">
-                                    <zipfileset dir="${deployOutDir}${file.separator}bundles"
-                                             includes="${deployOutFile}*/**" excludes="*.html,*.jnlp"
-                                             filemode="755" />
+                                <zip destfile="${project.build.directory}${file.separator}${build.deploy.out.file}.zip">
+                                    <zipfileset dir="${build.deploy.out.dir}${file.separator}bundles"
+                                                includes="${build.deploy.out.file}*/**" excludes="*.html,*.jnlp"
+                                                filemode="755"/>
                                 </zip>
-                                <attachartifact file="${project.build.directory}${file.separator}${deployOutFile}.zip"
+                                <attachartifact file="${project.build.directory}${file.separator}${build.deploy.out.file}.zip"
                                                 classifier="bundle" type="zip"/>
                             </target>
                         </configuration>

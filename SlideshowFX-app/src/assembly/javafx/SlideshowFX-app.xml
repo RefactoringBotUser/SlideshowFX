@@ -6,7 +6,7 @@
                  uri="javafx:com.sun.javafx.tools.ant"
                  classpath=".:${classpath}"/>
 
-        <fx:deploy nativeBundles="image" outdir="${deployOutDir}" outfile="${deployOutFile}">
+        <fx:deploy nativeBundles="image" outdir="${build.deploy.out.dir}" outfile="${build.deploy.out.file}">
             <fx:application id="application"
                             name="SlideshowFX"
                             mainClass="com.twasyl.slideshowfx.app.SlideshowFX"
@@ -32,7 +32,7 @@
             <fx:bundleArgument arg="icon" value="${basedir}/src/assembly/javafx/package/macosx/SlideshowFX.icns" />
 
             <fx:resources>
-                <fx:fileset dir="${deployResourcesDir}" />
+                <fx:fileset dir="${build.deploy.resources.dir}" />
             </fx:resources>
         </fx:deploy>
     </target>
@@ -42,7 +42,7 @@
                  uri="javafx:com.sun.javafx.tools.ant"
                  classpath=".:${classpath}"/>
 
-        <fx:deploy nativeBundles="all" outdir="${deployOutDir}" outfile="${deployOutFile}">
+        <fx:deploy nativeBundles="all" outdir="${build.deploy.out.dir}" outfile="${build.deploy.out.file}">
             <fx:application id="application"
                             name="SlideshowFX"
                             mainClass="com.twasyl.slideshowfx.app.SlideshowFX"
@@ -65,7 +65,7 @@
             <fx:bundleArgument arg="icon" value="${basedir}/src/assembly/javafx/package/windows/SlideshowFX.ico" />
 
             <fx:resources>
-                <fx:fileset dir="${deployResourcesDir}" />
+                <fx:fileset dir="${build.deploy.resources.dir}" />
             </fx:resources>
         </fx:deploy>
     </target>
@@ -75,7 +75,7 @@
                  uri="javafx:com.sun.javafx.tools.ant"
                  classpath=".:${classpath}"/>
 
-        <fx:deploy nativeBundles="all" outdir="${deployOutDir}" outfile="${deployOutFile}">
+        <fx:deploy nativeBundles="all" outdir="${build.deploy.out.dir}" outfile="${build.deploy.out.file}">
             <fx:application id="application"
                             name="SlideshowFX"
                             mainClass="com.twasyl.slideshowfx.app.SlideshowFX"
@@ -96,7 +96,7 @@
             </fx:platform>
 
             <fx:resources>
-                <fx:fileset dir="${deployResourcesDir}" />
+                <fx:fileset dir="${build.deploy.resources.dir}" />
             </fx:resources>
         </fx:deploy>
     </target>

@@ -26,7 +26,49 @@
         <setup.package.extensions.dir>${setup.package.plugins.dir}${file.separator}extensions</setup.package.extensions.dir>
         <setup.package.executors.dir>${setup.package.plugins.dir}${file.separator}executors</setup.package.executors.dir>
         <setup.package.hostingConnectors.dir>${setup.package.plugins.dir}${file.separator}hostingConnectors</setup.package.hostingConnectors.dir>
+
+        <build.ant.target>deployOSX</build.ant.target>
+        <build.platform>osx</build.platform>
+        <build.deploy.out.dir>${project.build.directory}/distributions</build.deploy.out.dir>
+        <build.deploy.out.file>SlideshowFXSetup</build.deploy.out.file>
+        <build.deploy.resources.dir>${project.build.directory}/dependency</build.deploy.resources.dir>
+
+        <setup.application.name>SlideshowFX</setup.application.name>
+        <setup.application.version>${project.version}</setup.application.version>
+        <setup.application.artifact>./package/SlideshowFX.app</setup.application.artifact>
+
+        <setup.service.twitter.consumerKey></setup.service.twitter.consumerKey>
+        <setup.service.twitter.consumerKeySecret></setup.service.twitter.consumerKeySecret>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>windows</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                </os>
+            </activation>
+            <properties>
+                <build.ant.target>deployWindows</build.ant.target>
+                <build.platform>windows</build.platform>
+                <setup.application.artifact>./package/SlideshowFX</setup.application.artifact>
+            </properties>
+        </profile>
+        <profile>
+            <id>unix</id>
+            <activation>
+                <os>
+                    <family>unix</family>
+                </os>
+            </activation>
+            <properties>
+                <build.ant.target>deployUnknown</build.ant.target>
+                <build.platform>unix</build.platform>
+                <setup.application.artifact>./package/SlideshowFX</setup.application.artifact>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencies>
         <dependency>
@@ -197,6 +239,12 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -326,45 +374,21 @@
                         <phase>package</phase>
                         <configuration>
                             <target name="Bundling ${project.artifactId} package">
-                                <condition property="buildTarget" value="deployOSX">
-                                    <os family="mac"/>
-                                </condition>
-                                <condition property="buildTarget" value="deployWindows">
-                                    <os family="windows"/>
-                                </condition>
-                                <condition property="buildTarget" value="deployUnknown">
-                                    <os family="unix"/>
-                                </condition>
-
-                                <condition property="platform" value="osx">
-                                    <os family="mac"/>
-                                </condition>
-                                <condition property="platform" value="windows">
-                                    <os family="windows"/>
-                                </condition>
-                                <condition property="platform" value="unix">
-                                    <os family="unix"/>
-                                </condition>
-
-                                <property name="deployOutDir" value="${project.build.directory}/distributions"/>
-                                <property name="deployOutFile" value="SlideshowFXSetup"/>
-                                <property name="deployResourcesDir" value="${project.build.directory}/dependency"/>
                                 <property name="classpath" value="${JAVA_HOME}/lib/ant-javafx.jar"/>
-                                <property name="applicationVersion" value="${project.version}"/>
                                 <copy file="${project.build.directory}/${project.build.finalName}.${project.packaging}"
-                                      todir="${deployResourcesDir}"/>
+                                      todir="${build.deploy.resources.dir}"/>
                                 <ant antfile="${project.basedir}/src/assembly/javafx/SlideshowFX-setup.xml"
-                                     target="${buildTarget}"/>
+                                     target="${build.ant.target}"/>
                                 <delete>
-                                    <fileset dir="${deployOutDir}" excludes="bundles/**"/>
+                                    <fileset dir="${build.deploy.out.dir}" excludes="bundles/**"/>
                                 </delete>
-                                <zip destfile="${project.build.directory}${file.separator}${deployOutFile}.zip">
-                                    <zipfileset dir="${deployOutDir}${file.separator}bundles"
-                                             includes="${deployOutFile}*/**" excludes="*.html,*.jnlp"
+                                <zip destfile="${project.build.directory}${file.separator}${build.deploy.out.file}.zip">
+                                    <zipfileset dir="${build.deploy.out.dir}${file.separator}bundles"
+                                             includes="${build.deploy.out.file}*/**" excludes="*.html,*.jnlp"
                                              filemode="755" />
                                 </zip>
-                                <attachartifact file="${project.build.directory}${file.separator}${deployOutFile}.zip"
-                                                classifier="${platform}-${os.arch}" type="zip"/>
+                                <attachartifact file="${project.build.directory}${file.separator}${build.deploy.out.file}.zip"
+                                                classifier="${build.platform}-${os.arch}" type="zip"/>
                             </target>
                         </configuration>
                     </execution>

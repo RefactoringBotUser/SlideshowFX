@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 /**
  * Application class used to perform the setup of the application on the client's computer.
@@ -27,6 +29,9 @@ public class SlideshowFXSetup extends Application {
     protected File documentationsFolder;
     protected String applicationName;
     protected String applicationVersion;
+    protected String twitterConsumerKey;
+    protected String twitterConsumerSecret;
+
     protected SetupViewController controller;
 
     protected Parent getRootNode() throws IOException {
@@ -49,11 +54,18 @@ public class SlideshowFXSetup extends Application {
     public void init() throws Exception {
         super.init();
 
-        this.pluginsDirectory = new File(System.getProperty("setup.plugins.directory"));
-        this.applicationArtifact = new File(System.getProperty("setup.application.artifact"));
-        this.documentationsFolder = new File(System.getProperty("setup.documentations.directory"));
-        this.applicationName = System.getProperty("setup.application.name");
-        this.applicationVersion = System.getProperty("setup.application.version");
+        final Properties properties = new Properties();
+        try (final InputStream input = getClass().getResourceAsStream("/com/twasyl/slideshowfx/setup/setup.properties")) {
+            properties.load(input);
+        }
+
+        this.pluginsDirectory = new File(properties.getProperty("setup.plugins.directory"));
+        this.applicationArtifact = new File(properties.getProperty("setup.application.artifact"));
+        this.documentationsFolder = new File(properties.getProperty("setup.documentations.directory"));
+        this.applicationName = properties.getProperty("setup.application.name");
+        this.applicationVersion = properties.getProperty("setup.application.version");
+        this.twitterConsumerKey = properties.getProperty("setup.service.twitter.consumerKey");
+        this.twitterConsumerSecret = properties.getProperty("setup.service.twitter.consumerSecret");
     }
 
     @Override

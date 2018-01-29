@@ -49,7 +49,7 @@ public class TwitterService extends AbstractSlideshowFXService {
 
     protected static final String PROPERTY_PREFIX = "service.twitter.";
     protected static final String CONSUMER_KEY = PROPERTY_PREFIX + "consumerKey";
-    protected static final String CONSUMER_KEY_SECRET = PROPERTY_PREFIX + "consumerKeySecret";
+    protected static final String CONSUMER_SECRET = PROPERTY_PREFIX + "consumerSecret";
     protected static final String ACCESS_TOKEN_PARAMETER = PROPERTY_PREFIX + "accessToken";
     protected static final String ACCESS_TOKEN_SECRET_PARAMETER = PROPERTY_PREFIX + "accessTokenSecret";
     protected static final String HMAC_SHA1 = "HMAC-SHA1";
@@ -82,7 +82,7 @@ public class TwitterService extends AbstractSlideshowFXService {
      */
     protected void loadTokens() {
         this.consumerKey = GlobalConfiguration.getProperty(CONSUMER_KEY);
-        this.consumerSecret = GlobalConfiguration.getProperty(CONSUMER_KEY_SECRET);
+        this.consumerSecret = GlobalConfiguration.getProperty(CONSUMER_SECRET);
         this.accessToken = GlobalConfiguration.getProperty(ACCESS_TOKEN_PARAMETER);
         this.accessTokenSecret = GlobalConfiguration.getProperty(ACCESS_TOKEN_SECRET_PARAMETER);
     }
