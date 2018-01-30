@@ -27,18 +27,18 @@
         <setup.package.executors.dir>${setup.package.plugins.dir}${file.separator}executors</setup.package.executors.dir>
         <setup.package.hostingConnectors.dir>${setup.package.plugins.dir}${file.separator}hostingConnectors</setup.package.hostingConnectors.dir>
 
-        <build.ant.target>deployOSX</build.ant.target>
-        <build.platform>osx</build.platform>
+        <build.ant.target></build.ant.target>
+        <build.platform></build.platform>
         <build.deploy.out.dir>${project.build.directory}/distributions</build.deploy.out.dir>
         <build.deploy.out.file>SlideshowFXSetup</build.deploy.out.file>
         <build.deploy.resources.dir>${project.build.directory}/dependency</build.deploy.resources.dir>
 
         <setup.application.name>SlideshowFX</setup.application.name>
         <setup.application.version>${project.version}</setup.application.version>
-        <setup.application.artifact>./package/SlideshowFX.app</setup.application.artifact>
+        <setup.application.artifact></setup.application.artifact>
 
         <setup.service.twitter.consumerKey></setup.service.twitter.consumerKey>
-        <setup.service.twitter.consumerKeySecret></setup.service.twitter.consumerKeySecret>
+        <setup.service.twitter.consumerSecret></setup.service.twitter.consumerSecret>
     </properties>
 
     <profiles>
@@ -66,6 +66,19 @@
                 <build.ant.target>deployUnknown</build.ant.target>
                 <build.platform>unix</build.platform>
                 <setup.application.artifact>./package/SlideshowFX</setup.application.artifact>
+            </properties>
+        </profile>
+        <profile>
+            <id>osx</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                </os>
+            </activation>
+            <properties>
+                <build.ant.target>deployOSX</build.ant.target>
+                <build.platform>osx</build.platform>
+                <setup.application.artifact>./package/SlideshowFX.app</setup.application.artifact>
             </properties>
         </profile>
     </profiles>

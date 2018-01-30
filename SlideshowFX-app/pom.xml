@@ -15,8 +15,8 @@
     <version>1.5-SNAPSHOT</version>
 
     <properties>
-        <build.ant.target>deployOSX</build.ant.target>
-        <build.platform>osx</build.platform>
+        <build.ant.target></build.ant.target>
+        <build.platform></build.platform>
         <build.deploy.out.dir>${project.build.directory}/distributions</build.deploy.out.dir>
         <build.deploy.out.file>SlideshowFX</build.deploy.out.file>
         <build.deploy.resources.dir>${project.build.directory}/dependency</build.deploy.resources.dir>
@@ -45,6 +45,18 @@
             <properties>
                 <build.ant.target>deployUnknown</build.ant.target>
                 <build.platform>unix</build.platform>
+            </properties>
+        </profile>
+        <profile>
+            <id>osx</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                </os>
+            </activation>
+            <properties>
+                <build.ant.target>deployOSX</build.ant.target>
+                <build.platform>osx</build.platform>
             </properties>
         </profile>
     </profiles>
