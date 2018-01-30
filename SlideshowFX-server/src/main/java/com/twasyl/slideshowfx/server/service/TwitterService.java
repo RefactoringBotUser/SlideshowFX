@@ -48,8 +48,6 @@ public class TwitterService extends AbstractSlideshowFXService {
     private static final Logger LOGGER = Logger.getLogger(TwitterService.class.getName());
 
     protected static final String PROPERTY_PREFIX = "service.twitter.";
-    protected static final String CONSUMER_KEY = PROPERTY_PREFIX + "consumerKey";
-    protected static final String CONSUMER_SECRET = PROPERTY_PREFIX + "consumerSecret";
     protected static final String ACCESS_TOKEN_PARAMETER = PROPERTY_PREFIX + "accessToken";
     protected static final String ACCESS_TOKEN_SECRET_PARAMETER = PROPERTY_PREFIX + "accessTokenSecret";
     protected static final String HMAC_SHA1 = "HMAC-SHA1";
@@ -81,8 +79,8 @@ public class TwitterService extends AbstractSlideshowFXService {
      * Load the access token and the access token secret from the configuration.
      */
     protected void loadTokens() {
-        this.consumerKey = GlobalConfiguration.getProperty(CONSUMER_KEY);
-        this.consumerSecret = GlobalConfiguration.getProperty(CONSUMER_SECRET);
+        this.consumerKey = GlobalConfiguration.getTwitterConsumerKey();
+        this.consumerSecret = GlobalConfiguration.getTwitterConsumerSecret();
         this.accessToken = GlobalConfiguration.getProperty(ACCESS_TOKEN_PARAMETER);
         this.accessTokenSecret = GlobalConfiguration.getProperty(ACCESS_TOKEN_SECRET_PARAMETER);
     }

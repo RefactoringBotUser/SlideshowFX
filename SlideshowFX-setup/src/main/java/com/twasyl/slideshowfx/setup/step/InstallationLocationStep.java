@@ -6,6 +6,7 @@ import com.twasyl.slideshowfx.setup.exceptions.SetupStepException;
 import com.twasyl.slideshowfx.utils.OSUtils;
 import com.twasyl.slideshowfx.utils.io.CopyFileVisitor;
 import com.twasyl.slideshowfx.utils.io.DeleteFileVisitor;
+import com.twasyl.slideshowfx.utils.io.IOUtils;
 import javafx.fxml.FXMLLoader;
 
 import java.io.*;
@@ -25,25 +26,33 @@ import java.util.stream.Collectors;
  */
 public class InstallationLocationStep extends AbstractSetupStep {
 
+    private boolean applicationDirectoryCreatedDuringSetup = false;
+    private boolean configurationFileCreatedDuringSetup = false;
     final String applicationName;
     final String applicationVersion;
     final File applicationArtifact;
     final File documentationsFolder;
     File installationLocation;
+    final String twitterConsumerKey;
+    final String twitterConsumerSecret;
 
     /**
      * Create an instance of the step.
      *
-     * @param appName             The name of the application.
-     * @param appVersion          The version of the application.
-     * @param applicationArtifact The file or directory containing the application.
+     * @param appName               The name of the application.
+     * @param appVersion            The version of the application.
+     * @param applicationArtifact   The file or directory containing the application.
+     * @param twitterConsumerKey    The Twitter consumer key for the application
+     * @param twitterConsumerSecret The Twitter consumer secret for the application
      */
-    public InstallationLocationStep(final String appName, final String appVersion, final File applicationArtifact, final File documentationsFolder) {
+    public InstallationLocationStep(final String appName, final String appVersion, final File applicationArtifact, final File documentationsFolder, String twitterConsumerKey, String twitterConsumerSecret) {
         this.title("Installation location");
         this.applicationName = appName;
         this.applicationVersion = appVersion;
         this.applicationArtifact = applicationArtifact;
         this.documentationsFolder = documentationsFolder;
+        this.twitterConsumerKey = twitterConsumerKey;
+        this.twitterConsumerSecret = twitterConsumerSecret;
 
         final FXMLLoader loader = new FXMLLoader(InstallationLocationStep.class.getResource("/com/twasyl/slideshowfx/setup/fxml/InstallationLocationView.fxml"));
 
@@ -77,6 +86,7 @@ public class InstallationLocationStep extends AbstractSetupStep {
         copyDocumentation(versionFolder);
         createLoggingConfigurationFile(applicationFolder);
         patchApplicationCfgFile(new File(versionFolder, this.applicationArtifact.getName()));
+        createApplicationConfigurationFile();
     }
 
     protected File createApplicationFolder() {
@@ -157,6 +167,13 @@ public class InstallationLocationStep extends AbstractSetupStep {
         }
     }
 
+    protected void createApplicationConfigurationFile() {
+        this.applicationDirectoryCreatedDuringSetup = GlobalConfiguration.createApplicationDirectory();
+        this.configurationFileCreatedDuringSetup = GlobalConfiguration.createConfigurationFile();
+        GlobalConfiguration.setTwitterConsumerKey(this.twitterConsumerKey);
+        GlobalConfiguration.setTwitterConsumerSecret(this.twitterConsumerSecret);
+    }
+
     @Override
     public void rollback() throws SetupStepException {
         final File versionFolder = this.getVersionFolderSetup();
@@ -171,6 +188,18 @@ public class InstallationLocationStep extends AbstractSetupStep {
         final File applicationFolder = this.getApplicationFolderSetup();
         if (applicationFolder.list().length == 0) {
             applicationFolder.delete();
+        }
+
+        if (this.configurationFileCreatedDuringSetup) {
+            GlobalConfiguration.getConfigurationFile().delete();
+        }
+
+        if (this.applicationDirectoryCreatedDuringSetup) {
+            try {
+                IOUtils.deleteDirectory(GlobalConfiguration.getApplicationDirectory());
+            } catch (IOException e) {
+                throw new SetupStepException("Can not delete application configuration directory", e);
+            }
         }
     }
 

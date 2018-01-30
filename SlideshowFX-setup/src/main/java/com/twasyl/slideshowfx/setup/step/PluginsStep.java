@@ -25,17 +25,17 @@ import static com.twasyl.slideshowfx.global.configuration.GlobalConfiguration.ge
  * During the {@link #rollback()} method, all installed plugins are removed.
  *
  * @author Thierry Wasylczenko
- * @since SlideshowFX 1.0
  * @version 1.1
+ * @since SlideshowFX 1.0
  */
 public class PluginsStep extends AbstractSetupStep {
     private static final Logger LOGGER = Logger.getLogger(PluginsStep.class.getName());
 
-    private boolean applicationDirectoryCreatedDuringSetup = false;
     private boolean pluginsDirectoryCreatedDuringSetup = false;
 
     /**
      * Create an instance of the step.
+     *
      * @param pluginsDirectory The directory containing all plugins that can be installed.
      */
     public PluginsStep(final File pluginsDirectory) {
@@ -60,17 +60,13 @@ public class PluginsStep extends AbstractSetupStep {
     public void execute() throws SetupStepException {
         final List<File> pluginsToInstall = ((PluginsViewController) this.controller).getPluginsToInstall();
 
-        this.applicationDirectoryCreatedDuringSetup = false;
-        this.pluginsDirectoryCreatedDuringSetup = false;
-
-        if(!pluginsToInstall.isEmpty()) {
-            this.applicationDirectoryCreatedDuringSetup = GlobalConfiguration.createApplicationDirectory();
+        if (!pluginsToInstall.isEmpty()) {
             this.pluginsDirectoryCreatedDuringSetup = GlobalConfiguration.createPluginsDirectory();
 
             pluginsToInstall.forEach(plugin -> {
                 try {
                     final Path destination = new File(getPluginsDirectory(), plugin.getName()).toPath();
-                    Files.copy(plugin.toPath(),destination, StandardCopyOption.REPLACE_EXISTING);
+                    Files.copy(plugin.toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
                 } catch (IOException e) {
                     LOGGER.log(Level.SEVERE, "Can not copy plugin to plugins directory", e);
                 }
@@ -82,24 +78,16 @@ public class PluginsStep extends AbstractSetupStep {
     public void rollback() throws SetupStepException {
         final List<File> pluginsToInstall = ((PluginsViewController) this.controller).getPluginsToInstall();
 
-        if(!pluginsToInstall.isEmpty()) {
+        if (!pluginsToInstall.isEmpty()) {
             pluginsToInstall.forEach(plugin -> {
                 plugin.delete();
             });
 
-            if(this.pluginsDirectoryCreatedDuringSetup) {
+            if (this.pluginsDirectoryCreatedDuringSetup) {
                 try {
                     IOUtils.deleteDirectory(getPluginsDirectory());
                 } catch (IOException e) {
                     throw new SetupStepException("Can not delete plugins directory", e);
-                }
-            }
-
-            if(this.applicationDirectoryCreatedDuringSetup) {
-                try {
-                    IOUtils.deleteDirectory(GlobalConfiguration.getApplicationDirectory());
-                } catch (IOException e) {
-                    throw new SetupStepException("Can not delete application configuration directory", e);
                 }
             }
         }

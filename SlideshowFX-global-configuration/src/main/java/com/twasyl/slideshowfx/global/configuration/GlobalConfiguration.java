@@ -71,9 +71,20 @@ public class GlobalConfiguration {
     protected static final String MAX_RECENT_PRESENTATIONS = "application.max.recentpresentations";
 
     /**
+     * Name of the parameter used to specify the Twitter consumer key.
+     */
+    protected static final String TWITTER_CONSUMER_KEY = "service.twitter.consumerKey";
+
+    /**
+     * Name of the parameter used to specify the Twitter consumer secret.
+     */
+    protected static final String TWITTER_CONSUMER_SECRET = "service.twitter.consumerSecret";
+
+    /**
      * The default {@link Charset} used by the application when writing files, readings files and converting strings.
      */
     protected static final Charset DEFAULT_CHARSET = UTF_8;
+
 
     /**
      * Name of the parameter for defining the log level.
@@ -782,6 +793,42 @@ public class GlobalConfiguration {
      */
     public static void removeMaxRecentPresentations() {
         removeProperty(MAX_RECENT_PRESENTATIONS);
+    }
+
+    /**
+     * Get the Twitter consumer key.
+     *
+     * @return The Twitter consumer key stored in the configuration.
+     */
+    public static String getTwitterConsumerKey() {
+        return getProperty(TWITTER_CONSUMER_KEY);
+    }
+
+    /**
+     * Set the Twitter consumer key.
+     *
+     * @param twitterConsumerKey The Twitter consumer key to store.
+     */
+    public static void setTwitterConsumerKey(final String twitterConsumerKey) {
+        setProperty(TWITTER_CONSUMER_KEY, twitterConsumerKey);
+    }
+
+    /**
+     * Get the Twitter consumer secret.
+     *
+     * @return The Twitter consumer secret stored in the configuration.
+     */
+    public static String getTwitterConsumerSecret() {
+        return getProperty(TWITTER_CONSUMER_SECRET);
+    }
+
+    /**
+     * Set the Twitter consumer secret.
+     *
+     * @param twitterConsumerSecret The Twitter consumer secret to store.
+     */
+    public static void setTwitterConsumerSecret(final String twitterConsumerSecret) {
+        setProperty(TWITTER_CONSUMER_SECRET, twitterConsumerSecret);
     }
 
     /**

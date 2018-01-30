@@ -43,7 +43,7 @@ public class SlideshowFXSetup extends Application {
 
         controller.addStep(new WelcomeStep(this.applicationName, this.applicationVersion))
                 .addStep(new LicenseStep(license))
-                .addStep(new InstallationLocationStep(this.applicationName, this.applicationVersion, this.applicationArtifact, this.documentationsFolder))
+                .addStep(new InstallationLocationStep(this.applicationName, this.applicationVersion, this.applicationArtifact, this.documentationsFolder, this.twitterConsumerKey, this.twitterConsumerSecret))
                 .addStep(new PluginsStep(this.pluginsDirectory))
                 .addStep(new FinishStep(this.applicationName, this.applicationVersion));
 

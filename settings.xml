@@ -9,4 +9,17 @@
             <password>${BINTRAY_API_KEY}</password>
         </server>
     </servers>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <setup.service.twitter.consumerKey>${TWITTER_CONSUMER_KEY}</setup.service.twitter.consumerKey>
+                <setup.service.twitter.consumerKeySecret>${TWITTER_CONSUMER_SECRET}</setup.service.twitter.consumerKeySecret>
+            </properties>
+        </profile>
+    </profiles>
 </settings>
