@@ -19,6 +19,7 @@ h4. New and noteworthy
 * Allow to re-open recent presentations
 * Uses ACE 1.2.8 in the slide content editor
 * Alert content extension plugin uses new version of SweetAlert
+* Twitter integration has been improved
 
 h4. Bug fixes
 
