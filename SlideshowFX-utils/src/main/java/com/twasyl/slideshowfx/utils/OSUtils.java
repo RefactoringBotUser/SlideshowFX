@@ -5,7 +5,7 @@ package com.twasyl.slideshowfx.utils;
  *
  * @author Thierry Wasylczenko
  * @version 1.0
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 2.0
  */
 public class OSUtils {
     private static String OS = System.getProperty("os.name").toLowerCase();

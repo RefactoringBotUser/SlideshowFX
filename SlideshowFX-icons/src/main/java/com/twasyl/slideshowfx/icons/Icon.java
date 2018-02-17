@@ -2,7 +2,7 @@ package com.twasyl.slideshowfx.icons;
 
 /**
  * @author Thierry Wasylczenko
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 2.0
  */
 public enum Icon {
     ARCHIVE("\uf187"),

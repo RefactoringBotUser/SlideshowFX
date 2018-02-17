@@ -99,7 +99,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
-                <version>${plugin.antrun.version}</version>
                 <executions>
                     <execution>
                         <id>package-documentation</id>

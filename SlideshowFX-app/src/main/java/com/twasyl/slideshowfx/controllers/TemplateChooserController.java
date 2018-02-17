@@ -36,7 +36,7 @@ import static com.twasyl.slideshowfx.io.SlideshowFXFileFilters.TEMPLATE_FILE_FIL
  *
  * @author Thierry Wasylczenko
  * @version 1.0
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 2.0
  */
 public class TemplateChooserController implements Initializable {
 

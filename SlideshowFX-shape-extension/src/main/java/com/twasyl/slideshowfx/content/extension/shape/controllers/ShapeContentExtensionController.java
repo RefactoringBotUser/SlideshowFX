@@ -30,7 +30,7 @@ import static javafx.scene.input.TransferMode.MOVE;
  *
  * @author Thierry Wasylczenko
  * @version 1.0
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 2.0
  */
 public class ShapeContentExtensionController extends AbstractContentExtensionController {
     private static DataFormat NODE_DATA_FORMAT = new DataFormat("sfx-node");

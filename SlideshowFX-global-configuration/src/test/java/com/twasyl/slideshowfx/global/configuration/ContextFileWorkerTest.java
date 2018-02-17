@@ -34,7 +34,7 @@ import static org.mockito.Mockito.when;
 
 /**
  * @author Thierry Wasylczenko
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 2.0
  */
 public class ContextFileWorkerTest {
 

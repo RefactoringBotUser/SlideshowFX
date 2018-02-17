@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author Thierry Wasylczenko
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 2.0
  */
 public class GlobalConfigurationDefaultValuesTest {
 

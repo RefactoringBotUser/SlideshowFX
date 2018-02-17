@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 
 /**
  * @author Thierry Wasylczenko
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 2.0
  */
 public class DrawingContentExtensionTest extends Application {
     @Override

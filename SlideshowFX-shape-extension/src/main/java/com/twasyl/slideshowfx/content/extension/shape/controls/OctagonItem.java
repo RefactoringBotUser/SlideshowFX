@@ -8,7 +8,7 @@ import com.twasyl.slideshowfx.content.extension.shape.beans.Octagon;
  *
  * @author Thierry Wasylczenko
  * @version 1.0
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 2.0
  */
 public class OctagonItem extends AbstractShapeItem<Octagon> {
     public OctagonItem() {

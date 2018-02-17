@@ -7,7 +7,7 @@ import javafx.scene.control.ListCell;
  *
  * @author Thierry Wasylczenko
  * @version 1.0
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 2.0
  */
 public class ShapeCell extends ListCell<IShapeItem> {
 

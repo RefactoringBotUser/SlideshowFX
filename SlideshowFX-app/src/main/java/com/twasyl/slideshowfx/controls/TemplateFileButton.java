@@ -28,7 +28,7 @@ import static java.util.zip.ZipFile.OPEN_READ;
  *
  * @author Thierry Wasylczenko
  * @version 1.0
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 2.0
  */
 public class TemplateFileButton extends ToggleButton {
     private static Logger LOGGER = Logger.getLogger(TemplateFileButton.class.getName());

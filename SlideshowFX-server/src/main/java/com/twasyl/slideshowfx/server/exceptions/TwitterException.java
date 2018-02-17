@@ -5,7 +5,7 @@ package com.twasyl.slideshowfx.server.exceptions;
  *
  * @author Thierry Wasylczenko
  * @version 1.0
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 2.0
  */
 public class TwitterException extends RuntimeException {
     public enum ErrorCodes {

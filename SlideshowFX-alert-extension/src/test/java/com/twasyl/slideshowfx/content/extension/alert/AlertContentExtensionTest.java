@@ -4,7 +4,6 @@ import com.twasyl.slideshowfx.content.extension.alert.controllers.AlertContentEx
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.text.MessageFormat;
 
@@ -14,7 +13,7 @@ import static org.mockito.Mockito.*;
 /**
  * @author Thierry Wasylczenko
  * @version 1.0
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 2.0
  */
 public class AlertContentExtensionTest {
     public static String EXPECTED_SCRIPT_WITH_TEXT_FORMAT = "<button id=\"{0}\">My button</button>\n" +

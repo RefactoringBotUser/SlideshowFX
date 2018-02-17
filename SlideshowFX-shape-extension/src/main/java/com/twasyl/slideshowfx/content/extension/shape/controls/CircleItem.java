@@ -8,7 +8,7 @@ import com.twasyl.slideshowfx.content.extension.shape.beans.Circle;
  *
  * @author Thierry Wasylczenko
  * @version 1.0
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 2.0
  */
 public class CircleItem extends AbstractShapeItem<Circle> {
 

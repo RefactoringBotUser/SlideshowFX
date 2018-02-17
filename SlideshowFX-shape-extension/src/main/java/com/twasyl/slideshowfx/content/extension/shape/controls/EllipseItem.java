@@ -8,7 +8,7 @@ import com.twasyl.slideshowfx.content.extension.shape.beans.Ellipse;
  *
  * @author Thierry Wasylczenko
  * @version 1.0
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 2.0
  */
 public class EllipseItem extends AbstractShapeItem<Ellipse> {
 

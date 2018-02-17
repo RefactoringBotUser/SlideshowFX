@@ -23,7 +23,7 @@ import static com.twasyl.slideshowfx.icons.Icon.STAR_HALF_ALT;
  *
  * @author Thierry Wasylczenko
  * @version 1.0
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 2.0
  */
 public class ShapeContentExtension extends AbstractContentExtension {
     private static final Logger LOGGER = Logger.getLogger(ShapeContentExtension.class.getName());

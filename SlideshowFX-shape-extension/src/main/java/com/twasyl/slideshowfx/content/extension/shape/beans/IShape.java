@@ -8,7 +8,7 @@ import javafx.scene.Node;
  *
  * @author Thierry Wasylczenko
  * @version 1.0
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 2.0
  */
 public interface IShape {
 

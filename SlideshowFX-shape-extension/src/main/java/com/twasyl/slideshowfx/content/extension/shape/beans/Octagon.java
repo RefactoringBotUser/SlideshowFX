@@ -15,7 +15,7 @@ import static java.lang.Math.*;
  *
  * @author Thierry Wasylczenko
  * @version 1.0
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 2.0
  */
 public class Octagon extends AbstractShape {
     private ExtendedTextField x;

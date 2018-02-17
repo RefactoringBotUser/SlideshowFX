@@ -7,7 +7,7 @@ import com.twasyl.slideshowfx.content.extension.shape.beans.IShape;
  *
  * @author Thierry Wasylczenko
  * @version 1.0
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 2.0
  */
 public abstract class AbstractShapeItem<T extends IShape> implements IShapeItem<T> {
     private String label;

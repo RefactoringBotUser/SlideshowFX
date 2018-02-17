@@ -12,7 +12,7 @@ import java.util.Hashtable;
  *
  * @author Thierry Wasylczenko
  * @version 1.0
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 2.0
  */
 public class ShapeContentExtensionActivator implements BundleActivator {
 

@@ -12,7 +12,7 @@ import static com.twasyl.slideshowfx.ui.controls.validators.Validators.isInteger
  *
  * @author Thierry Wasylczenko
  * @version 1.0
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 2.0
  */
 public class Triangle extends AbstractShape {
     private ExtendedTextField x;

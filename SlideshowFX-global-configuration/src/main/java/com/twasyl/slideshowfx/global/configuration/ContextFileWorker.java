@@ -35,7 +35,7 @@ import static javax.xml.xpath.XPathConstants.NODE;
  *
  * @author Thierry Wasylczenko
  * @version 1.0
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 2.0
  */
 public class ContextFileWorker {
     private static final Logger LOGGER = Logger.getLogger(ContextFileWorker.class.getName());

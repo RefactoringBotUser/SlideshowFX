@@ -6,7 +6,7 @@ import static com.twasyl.slideshowfx.engine.template.TemplateEngine.DEFAULT_DOTT
 
 /**
  * @author Thierry Wasylczenko
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 2.0
  */
 public interface SlideshowFXFileFilters {
 

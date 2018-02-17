@@ -4,11 +4,12 @@ p. Changes to the SlideshowFX software are listed by version within this documen
 
 h2. Versions
 
-h3(#NEXT_VERSION). "Version @@NEXT-VERSION@@":#NEXT_VERSION
+h3(#2_0). "Version 2.0":#2_0
 
 h4. New and noteworthy
 
 * Update the SlideshowFX-textile plugin ("#32":https://github.com/twasyl/SlideshowFX/issues/32)
+* New Shape plugin allowing to insert shapes in a presentation
 * Change the Windows default installation location
 * Take the log configuration in consideration
 * Creating a new presentation displays a template's library allowing to create presentations from previously used templates

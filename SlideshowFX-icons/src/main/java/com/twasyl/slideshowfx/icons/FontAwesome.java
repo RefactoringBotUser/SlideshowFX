@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  *
  * @author Thierry Wasylczenko
  * @version 1.0
- * @since SlideshowFX @@NEXT-VERSION@@
+ * @since SlideshowFX 2.0
  */
 public class FontAwesome extends Text {
     private static final Logger LOGGER = Logger.getLogger(FontAwesome.class.getName());
