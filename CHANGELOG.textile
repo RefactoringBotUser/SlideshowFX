@@ -9,6 +9,8 @@ h3(#2_0). "Version 2.0":#2_0
 h4. New and noteworthy
 
 * Update the SlideshowFX-textile plugin ("#32":https://github.com/twasyl/SlideshowFX/issues/32)
+* Update the code and snippet extension to support new programming language
+* Alert content extension plugin uses new version of SweetAlert
 * New Shape plugin allowing to insert shapes in a presentation
 * Change the Windows default installation location
 * Take the log configuration in consideration
@@ -19,7 +21,6 @@ h4. New and noteworthy
 * Introduction of version for templates
 * Allow to re-open recent presentations
 * Uses ACE 1.3.1 in the slide content editor
-* Alert content extension plugin uses new version of SweetAlert
 * Twitter integration has been improved
 
 h4. Bug fixes

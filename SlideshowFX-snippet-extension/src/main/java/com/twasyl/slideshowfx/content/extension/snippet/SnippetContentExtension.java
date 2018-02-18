@@ -41,8 +41,8 @@ public class SnippetContentExtension extends AbstractContentExtension {
 
         // Add URL
         this.putResource(ResourceType.CSS_FILE, baseURL.concat("font-awesome-4.6.3/css/font-awesome.min.css"));
-        this.putResource(ResourceType.CSS_FILE, baseURL.concat("prism/prism.css"));
-        this.putResource(ResourceType.JAVASCRIPT_FILE, baseURL.concat("prism/prism.js"));
+        this.putResource(ResourceType.CSS_FILE, baseURL.concat("prism/1.11.0/prism.css"));
+        this.putResource(ResourceType.JAVASCRIPT_FILE, baseURL.concat("prism/1.11.0/prism.js"));
     }
 
     @Override
