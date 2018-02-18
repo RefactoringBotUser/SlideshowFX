@@ -27,6 +27,7 @@
         <setup.package.executors.dir>${setup.package.plugins.dir}${file.separator}executors</setup.package.executors.dir>
         <setup.package.hostingConnectors.dir>${setup.package.plugins.dir}${file.separator}hostingConnectors</setup.package.hostingConnectors.dir>
 
+        <javafxPackaging.skip>false</javafxPackaging.skip>
         <build.ant.target></build.ant.target>
         <build.platform></build.platform>
         <build.deploy.out.dir>${project.build.directory}/distributions</build.deploy.out.dir>
@@ -386,6 +387,7 @@
                         </goals>
                         <phase>package</phase>
                         <configuration>
+                            <skip>${javafxPackaging.skip}</skip>
                             <target name="Bundling ${project.artifactId} package">
                                 <property name="classpath" value="${JAVA_HOME}/lib/ant-javafx.jar"/>
                                 <copy file="${project.build.directory}/${project.build.finalName}.${project.packaging}"

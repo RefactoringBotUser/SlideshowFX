@@ -102,10 +102,10 @@
         <dependency.junit.version>5.0.3</dependency.junit.version>
         <dependency.markdown.version>0.13</dependency.markdown.version>
         <dependency.mockito.version>2.10.0</dependency.mockito.version>
-        <dependency.rxJava.version>2.1.8</dependency.rxJava.version>
-        <dependency.vertx.version>3.5.0</dependency.vertx.version>
-        <dependency.wikitext.version>3.0.20</dependency.wikitext.version>
-        <dependency.zxing.version>3.3.1</dependency.zxing.version>
+        <dependency.rxJava.version>2.1.9</dependency.rxJava.version>
+        <dependency.vertx.version>3.5.1</dependency.vertx.version>
+        <dependency.wikitext.version>3.0.23</dependency.wikitext.version>
+        <dependency.zxing.version>3.3.2</dependency.zxing.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

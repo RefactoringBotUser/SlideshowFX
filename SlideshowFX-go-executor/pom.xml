@@ -17,7 +17,7 @@
     <properties>
         <slideshowfx.isNotPlugin>false</slideshowfx.isNotPlugin>
         <bundle.version>1.0</bundle.version>
-        <bintray.skip.deploy>false</bintray.skip.deploy>
+        <bintray.skip.deploy>true</bintray.skip.deploy>
     </properties>
 
     <dependencies>

@@ -15,6 +15,7 @@
     <version>1.5-SNAPSHOT</version>
 
     <properties>
+        <javafxPackaging.skip>false</javafxPackaging.skip>
         <build.ant.target></build.ant.target>
         <build.platform></build.platform>
         <build.deploy.out.dir>${project.build.directory}/distributions</build.deploy.out.dir>
@@ -211,6 +212,7 @@
                         </goals>
                         <phase>package</phase>
                         <configuration>
+                            <skip>${javafxPackaging.skip}</skip>
                             <target name="Bundling ${project.artifactId} package">
                                 <property name="classpath" value="${JAVA_HOME}/lib/ant-javafx.jar"/>
                                 <copy file="${project.build.directory}/${project.build.finalName}.${project.packaging}"

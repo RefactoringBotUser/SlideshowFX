@@ -55,20 +55,20 @@
                         <slideshowfx_version>${project.version}</slideshowfx_version>
                         <asciidoctor-source>${project.basedir}${file.separator}src${file.separator}asciidoc
                         </asciidoctor-source>
-                        <javafx-version>8 update 144</javafx-version>
-                        <jdk-version>8 update 144</jdk-version>
-                        <maven-version>3.5.0</maven-version>
+                        <javafx-version>8 update 162</javafx-version>
+                        <jdk-version>8 update 162</jdk-version>
+                        <maven-version>3.5.2</maven-version>
                         <asciidoctorj-version>${dependency.asciidoctorj.version}</asciidoctorj-version>
                         <apache-felix-version>${dependency.felix.version}</apache-felix-version>
                         <freemarker-version>${dependency.freemarker.version}</freemarker-version>
                         <jsoup-version>${dependency.jsoup.version}</jsoup-version>
                         <wikitext-textile-core-version>${dependency.wikitext.version}</wikitext-textile-core-version>
-                        <twitter4j-version>${dependency.twitter.version}</twitter4j-version>
                         <txtmark-version>${dependency.markdown.version}</txtmark-version>
                         <vertx-version>${dependency.vertx.version}</vertx-version>
                         <zxing-core-version>${dependency.zxing.version}</zxing-core-version>
                         <zxing-jse-version>${dependency.zxing.version}</zxing-jse-version>
-                        <ace-version>1.2.8</ace-version>
+                        <rxJava.version>${dependency.rxJava.version}</rxJava.version>
+                        <ace-version>1.3.1</ace-version>
                     </attributes>
                 </configuration>
                 <executions>
