@@ -99,7 +99,7 @@
                             </Export-Package>
                             <Import-Package>org.osgi.framework</Import-Package>
                             <Setup-Wizard-Label>Shape</Setup-Wizard-Label>
-                            <Setup-Wizard-Icon-Name>STAR_HALF_ALT</Setup-Wizard-Icon-Name>
+                            <Setup-Wizard-Icon-Name>STAR</Setup-Wizard-Icon-Name>
                         </manifestEntries>
                     </archive>
                 </configuration>

@@ -20,7 +20,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.effect.BlendMode;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
@@ -28,6 +27,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+
+import static com.twasyl.slideshowfx.icons.Icon.*;
 
 /**
  * This class allows to create a guided tour for a given screen. A list of {@link Step}
@@ -258,11 +259,11 @@ public class Tour extends StackPane {
      * @return The Node containing all the instructions necessary to use the tour.
      */
     private Node getInstructionsNode() {
-        final ImageView escKey = new ImageView(Tour.class.getResource("/com/twasyl/slideshowfx/images/esc_key.png").toExternalForm());
-        final ImageView leftKey = new ImageView(Tour.class.getResource("/com/twasyl/slideshowfx/images/left_key.png").toExternalForm());
-        final ImageView rightKey = new ImageView(Tour.class.getResource("/com/twasyl/slideshowfx/images/right_key.png").toExternalForm());
+        final FontAwesome escKey = new FontAwesome(SIGN_OUT_ALT, 75d);
+        final FontAwesome leftKey = new FontAwesome(ARROW_ALT_CIRCLE_LEFT, 75d);
+        final FontAwesome rightKey = new FontAwesome(ARROW_ALT_CIRCLE_RIGHT, 75d);
 
-        final Label escLabel = new Label("Exit the tour");
+        final Label escLabel = new Label("Exit the tour with the Escape key");
         escLabel.setLabelFor(escKey);
         escLabel.setStyle("-fx-text-fill: white;");
 
@@ -275,6 +276,8 @@ public class Tour extends StackPane {
         rightLabel.setStyle("-fx-text-fill: white;");
 
         final GridPane instructionsPane = new GridPane();
+        instructionsPane.setVgap(20);
+        instructionsPane.setHgap(20);
         instructionsPane.addColumn(0, escKey, leftKey, rightKey);
         instructionsPane.addColumn(1, escLabel, leftLabel, rightLabel);
 
@@ -287,8 +290,7 @@ public class Tour extends StackPane {
      * @return The Node for displaying the reload screen.
      */
     private Node getReloadNode() {
-        final FontAwesome reloadIcon = new FontAwesome(Icon.REFRESH);
-        reloadIcon.setSize("48");
+        final FontAwesome reloadIcon = new FontAwesome(Icon.REFRESH, 48d);
         reloadIcon.setColor("white");
 
         final Button reloadButton = new Button();

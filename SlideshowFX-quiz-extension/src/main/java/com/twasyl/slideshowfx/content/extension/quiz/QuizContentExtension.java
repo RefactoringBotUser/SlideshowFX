@@ -41,7 +41,8 @@ public class QuizContentExtension extends AbstractContentExtension {
         final String baseURL = "quiz/";
 
         // Add URL
-        this.putResource(ResourceType.CSS_FILE, baseURL.concat("font-awesome-4.6.3/css/font-awesome.min.css"));
+        this.putResource(ResourceType.CSS_FILE, baseURL.concat("font-awesome-5.0.6/css/fa-svg-with-js.css"));
+        this.putResource(ResourceType.JAVASCRIPT_FILE, baseURL.concat("font-awesome-5.0.6/js/fontawesome-all.min.js"));
     }
 
     @Override

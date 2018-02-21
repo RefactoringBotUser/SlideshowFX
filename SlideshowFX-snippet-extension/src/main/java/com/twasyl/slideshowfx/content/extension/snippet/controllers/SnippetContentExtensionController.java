@@ -97,7 +97,7 @@ public class SnippetContentExtensionController extends AbstractContentExtensionC
 
     @Override
     public ReadOnlyBooleanProperty areInputsValid() {
-        final ReadOnlyBooleanWrapper property = new ReadOnlyBooleanWrapper();
+        final ReadOnlyBooleanWrapper property = new ReadOnlyBooleanWrapper(true);
         property.bind(this.code.validProperty().and(this.language.getSelectionModel().selectedIndexProperty().isNotEqualTo(-1)));
 
         return property;

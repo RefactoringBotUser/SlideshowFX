@@ -73,7 +73,7 @@
         </MenuItem>
 
         <!-- Global ToolBar buttons -->
-        <Button fx:id="openPresentation" onAction="#openPresentation" styleClass="image">
+        <Button fx:id="openPresentation" onAction="#openPresentation" >
             <tooltip>
                 <Tooltip text="Open presentation"/>
             </tooltip>

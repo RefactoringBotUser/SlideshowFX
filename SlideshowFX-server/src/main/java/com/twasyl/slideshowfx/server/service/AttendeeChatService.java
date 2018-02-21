@@ -62,7 +62,7 @@ public class AttendeeChatService extends AbstractSlideshowFXService {
         router.get(FONT_AWESOME_PREFIX.concat("*")).handler(routingContext -> {
             final String file = routingContext.request().path().substring(FONT_AWESOME_PREFIX.length());
 
-            try (final InputStream in = AttendeeChatService.class.getResourceAsStream("/com/twasyl/slideshowfx/webapp/font-awesome/4.6.3/".concat(file))) {
+            try (final InputStream in = AttendeeChatService.class.getResourceAsStream("/com/twasyl/slideshowfx/webapp/font-awesome/5.0.6/".concat(file))) {
 
                 byte[] imageBuffer = new byte[1028];
                 int numberOfBytesRead;

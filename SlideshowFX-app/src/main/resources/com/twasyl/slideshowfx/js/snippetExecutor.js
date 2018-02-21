@@ -25,7 +25,7 @@ function executeCodeSnippet(snippetExecutorCode, codeSnippet, codeSnippetId) {
         if(document.getElementById("code-snippet-refresh-" + codeSnippetId) == undefined) {
             var refreshButton = document.createElement("i");
             refreshButton.id = "code-snippet-refresh-" + codeSnippetId;
-            refreshButton.className = "fa fa-refresh fa-fw";
+            refreshButton.className = "fas fa-sync-alt fa-fw";
             refreshButton.onclick = function() {
                 codeSnippetOutputElement.style.display = "none";
                 codeSnippetConsoleElement.style.display = "block";

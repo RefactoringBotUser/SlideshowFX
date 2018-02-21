@@ -1055,7 +1055,7 @@ public class SlideshowFXController implements Initializable {
             SlideshowFXServer.getSingleton().stop();
 
             icon = new FontAwesome(Icon.PLAY);
-            icon.setSize("20");
+            icon.setSize(20d);
             icon.setColor("green");
 
             tooltip.setText("Start the server");
@@ -1085,7 +1085,7 @@ public class SlideshowFXController implements Initializable {
             );
 
             icon = new FontAwesome(Icon.POWER_OFF);
-            icon.setSize("20");
+            icon.setSize(20d);
             icon.setColor("app-color-orange");
 
             tooltip.setText("Stop the server");

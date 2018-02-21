@@ -112,15 +112,15 @@ public class SlideshowPane extends StackPane implements Actor {
      */
     private final void initializeCollapsibleToolPane() {
         final FontAwesome qrCodeIcon = new FontAwesome(Icon.QRCODE);
-        qrCodeIcon.setSize("32");
+        qrCodeIcon.setSize(32d);
         qrCodeIcon.setColor("app-color-orange");
 
         final FontAwesome chatIcon = new FontAwesome(Icon.COMMENTS_O);
-        chatIcon.setSize("32");
+        chatIcon.setSize(32d);
         chatIcon.setColor("app-color-orange");
 
         final FontAwesome quizIcon = new FontAwesome(Icon.QUESTION);
-        quizIcon.setSize("32");
+        quizIcon.setSize(32d);
         quizIcon.setColor("app-color-orange");
 
         this.collapsibleToolPane.addContent(qrCodeIcon, new QRCodePanel())

@@ -139,7 +139,7 @@ public class Notification extends MenuItem {
         });
         statusIcon.iconProperty().bind(new TaskStatusIconBinding(this.task.get()));
         statusIcon.colorProperty().bind(new TaskStatusIconColorBinding(this.task.get()));
-        statusIcon.setSize("20");
+        statusIcon.setSize(20d);
 
         return statusIcon;
     }
@@ -151,7 +151,7 @@ public class Notification extends MenuItem {
      */
     private Button getDeleteButton() {
         final FontAwesome deleteIcon = new FontAwesome(Icon.TIMES);
-        deleteIcon.setSize("10");
+        deleteIcon.setSize(10d);
 
         final Button deleteButton = new Button();
         deleteButton.getStyleClass().add("notification");

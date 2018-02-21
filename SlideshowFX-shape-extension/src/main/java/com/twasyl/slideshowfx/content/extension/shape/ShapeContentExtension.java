@@ -13,7 +13,7 @@ import java.util.StringJoiner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.twasyl.slideshowfx.icons.Icon.STAR_HALF_ALT;
+import static com.twasyl.slideshowfx.icons.Icon.STAR;
 
 /**
  * The {@link ShapeContentExtension} extends the {@link AbstractContentExtension}. It allows to build a content
@@ -33,7 +33,7 @@ public class ShapeContentExtension extends AbstractContentExtension {
     public ShapeContentExtension() {
         super("SHAPE",
                 ShapeContentExtension.class.getResource("/com/twasyl/slideshowfx/content/extension/shape/resources/snapsvg.zip"),
-                STAR_HALF_ALT,
+                STAR,
                 "Insert shapes",
                 "Insert shapes");
 

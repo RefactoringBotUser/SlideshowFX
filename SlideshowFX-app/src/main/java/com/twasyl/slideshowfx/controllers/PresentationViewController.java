@@ -322,7 +322,7 @@ public class PresentationViewController implements Initializable {
         button.setTooltip(new Tooltip(contentExtension.getToolTip()));
         button.getStyleClass().add("image");
 
-        final FontAwesome icon = new FontAwesome(contentExtension.getIcon(), "20");
+        final FontAwesome icon = new FontAwesome(contentExtension.getIcon(), 20d);
         icon.setColor("app-color-orange;");
 
         button.setGraphic(icon);
