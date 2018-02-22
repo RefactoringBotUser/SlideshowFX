@@ -6,10 +6,10 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Logger;
-
-import static com.twasyl.slideshowfx.icons.FontType.SOLID;
 
 /**
  * Class defining FontAwesome icons.
@@ -44,9 +44,8 @@ public class FontAwesome extends Text {
     }
 
     private static final Logger LOGGER = Logger.getLogger(FontAwesome.class.getName());
-    private final static String SOLID_FONT_PATH = "/com/twasyl/slideshowfx/icons/fonts/fontawesome-solid-5.0.6.otf";
-    private final static String REGULAR_FONT_PATH = "/com/twasyl/slideshowfx/icons/fonts/fontawesome-regular-5.0.6.otf";
-    private final static String BRAND_FONT_PATH = "/com/twasyl/slideshowfx/icons/fonts/fontawesome-brand-5.0.6.otf";
+    private static final String FONTAWESOME_ROOT = "/com/twasyl/slideshowfx/icons/fontawesome/5.0.6/";
+    private static final String FONTAWESOME_FONTS_ROOT = FONTAWESOME_ROOT + "fonts/";
     private static final Map<FontCacheKey, Font> FONT_CACHE = new HashMap<>();
 
     private final ObjectProperty<Icon> icon = new SimpleObjectProperty<>(Icon.FOLDER_OPEN);
@@ -80,18 +79,7 @@ public class FontAwesome extends Text {
                 font = FONT_CACHE.get(key);
             } else {
                 LOGGER.fine("Font not found in cache for size " + size);
-                final String fontPath;
-                switch(icon.getType()) {
-                    case SOLID:
-                        fontPath = SOLID_FONT_PATH;
-                        break;
-                    case REGULAR:
-                        fontPath = REGULAR_FONT_PATH;
-                        break;
-                    default:
-                        fontPath = BRAND_FONT_PATH;
-                }
-                try (final InputStream stream = FontAwesome.class.getResource(fontPath).openStream()) {
+                try (final InputStream stream = FontAwesome.getFontAwesomeFontFile(icon.getType())) {
                     font = Font.loadFont(stream, size);
                     FONT_CACHE.put(key, font);
                 } catch (IOException ex) {
@@ -156,5 +144,47 @@ public class FontAwesome extends Text {
 
     protected void recomputeStyle() {
         setStyle(String.format("-fx-fill: %s;", getColor()));
+    }
+
+    /**
+     * Get the font file for the desired type.
+     *
+     * @param type The type of the desired font.
+     * @return The {@link InputStream} of the font file.
+     */
+    public static InputStream getFontAwesomeFontFile(final FontType type) {
+        final StringBuilder path = new StringBuilder("fonts/fontawesome-")
+                .append(type.name().toLowerCase()).append("-5.0.6.otf");
+
+        return getFontAwesomeFile(path.toString());
+    }
+
+    /**
+     * Get the CSS file of FontAwesome.
+     *
+     * @return The {@link InputStream} of the CSS font file.
+     */
+    public static InputStream getFontAwesomeCSSFile() {
+        return getFontAwesomeFile("css/fa-svg-with-js.css");
+    }
+
+    /**
+     * Get the JavaScript file of FontAwesome.
+     *
+     * @return The {@link InputStream} of the JavaScript font file.
+     */
+    public static InputStream getFontAwesomeJSFile() {
+        return getFontAwesomeFile("js/fontawesome-all.min.js");
+    }
+
+    /**
+     * <p></p>Get a FontAwesome file from a given relative path. The path is relative from the <i>root</i> package
+     * where all FontAwesome files are stored within the JAR.</p>
+     *
+     * @param relativePath The relative path of the file to get
+     * @return The {@link InputStream} of the FontAwesome file.
+     */
+    public static InputStream getFontAwesomeFile(final String relativePath) {
+        return FontAwesome.class.getResourceAsStream(FONTAWESOME_ROOT + relativePath);
     }
 }

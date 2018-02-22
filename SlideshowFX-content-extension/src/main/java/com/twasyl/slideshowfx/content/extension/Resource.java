@@ -5,7 +5,7 @@ package com.twasyl.slideshowfx.content.extension;
  * or a CSS fragment. It has a content and a type.
  *
  * @author Thierry Wasylczenko
- * @version 1.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class Resource {
@@ -40,7 +40,7 @@ public class Resource {
         } else if(this.getType() == ResourceType.CSS_FILE) {
             builder.append("<link rel=\"stylesheet\" href=\"").append(location).append("/").append(this.getContent()).append("\">");
         } else if(this.getType() == ResourceType.CSS) {
-            builder.append("<style>").append(this.getContent()).append("</script>");
+            builder.append("<style>").append(this.getContent()).append("</style>");
         }
 
         return builder.toString();

@@ -40,6 +40,11 @@
             <artifactId>slideshowfx-utils</artifactId>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

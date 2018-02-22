@@ -1,5 +1,6 @@
 package com.twasyl.slideshowfx.server.service;
 
+import com.twasyl.slideshowfx.icons.FontAwesome;
 import com.twasyl.slideshowfx.server.SlideshowFXServer;
 import com.twasyl.slideshowfx.server.beans.chat.ChatMessage;
 import com.twasyl.slideshowfx.server.beans.chat.ChatMessageAction;
@@ -62,7 +63,7 @@ public class AttendeeChatService extends AbstractSlideshowFXService {
         router.get(FONT_AWESOME_PREFIX.concat("*")).handler(routingContext -> {
             final String file = routingContext.request().path().substring(FONT_AWESOME_PREFIX.length());
 
-            try (final InputStream in = AttendeeChatService.class.getResourceAsStream("/com/twasyl/slideshowfx/webapp/font-awesome/5.0.6/".concat(file))) {
+            try (final InputStream in = FontAwesome.getFontAwesomeFile(file)) {
 
                 byte[] imageBuffer = new byte[1028];
                 int numberOfBytesRead;
@@ -74,7 +75,7 @@ public class AttendeeChatService extends AbstractSlideshowFXService {
 
                 routingContext.response().setChunked(true).write(buffer).end();
             } catch (IOException e) {
-                LOGGER.log(Level.WARNING, "Can not send the font awesome css", e);
+                LOGGER.log(Level.WARNING, "Can not send the font awesome file", e);
             }
         });
         // Get the JavaScript resources
