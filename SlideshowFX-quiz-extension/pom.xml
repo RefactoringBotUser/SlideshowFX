@@ -31,6 +31,11 @@
             <artifactId>slideshowfx-content-extension</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.twasyl</groupId>
+            <artifactId>slideshowfx-icons</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.felix</groupId>

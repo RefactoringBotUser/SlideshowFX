@@ -12,6 +12,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static com.twasyl.slideshowfx.content.extension.ResourceLocation.INTERNAL;
+
 /**
  * This class defines the basic behavior of a content extension.
  *
@@ -70,7 +72,9 @@ public abstract class AbstractContentExtension extends AbstractPlugin implements
     }
 
     /**
-     * This method allows to declare resources for this content extension and return this content extension.
+     * This method allows to declare resources for this content extension and return this content extension. The
+     * {@link ResourceLocation location} of the resource will be {@link ResourceLocation#INTERNAL}. The resource URL
+     * will be set to {@code null}.
      *
      * @param type    The type of the resource
      * @param content The content that will be added to the presentation of the resource.
@@ -79,6 +83,23 @@ public abstract class AbstractContentExtension extends AbstractPlugin implements
     protected AbstractContentExtension putResource(ResourceType type, String content) {
         if (content != null && !content.isEmpty()) {
             this.resources.add(new Resource(type, content));
+        }
+
+        return this;
+    }
+
+    /**
+     * This method allows to declare resources for this content extension and return this content extension. The
+     * {@link Resource#getLocation() location} will be set to {@link ResourceLocation#EXTERNAL}.
+     *
+     * @param type        The type of the resource
+     * @param content     The content that will be added to the presentation of the resource.
+     * @param resourceUrl The type of location for this resource.
+     * @return This content extension.
+     */
+    protected AbstractContentExtension putResource(ResourceType type, String content, final URL resourceUrl) {
+        if (content != null && !content.isEmpty() && resourceUrl != null) {
+            this.resources.add(new Resource(type, content, ResourceLocation.EXTERNAL, resourceUrl));
         }
 
         return this;
@@ -102,6 +123,12 @@ public abstract class AbstractContentExtension extends AbstractPlugin implements
                 LOGGER.log(Level.SEVERE, "Can not extract the resources", e);
             }
         }
+
+        this.resources.stream()
+                .filter(resource -> resource.getLocation() == ResourceLocation.EXTERNAL)
+                .forEach(resource -> {
+
+                });
     }
 
     @Override

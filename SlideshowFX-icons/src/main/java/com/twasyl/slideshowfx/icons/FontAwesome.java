@@ -44,8 +44,8 @@ public class FontAwesome extends Text {
     }
 
     private static final Logger LOGGER = Logger.getLogger(FontAwesome.class.getName());
-    private static final String FONTAWESOME_ROOT = "/com/twasyl/slideshowfx/icons/fontawesome/5.0.6/";
-    private static final String FONTAWESOME_FONTS_ROOT = FONTAWESOME_ROOT + "fonts/";
+    private static final String FONTAWESOME_VERSION = "5.0.6";
+    private static final String FONTAWESOME_ROOT = "/com/twasyl/slideshowfx/icons/fontawesome/" + FONTAWESOME_VERSION + "/";
     private static final Map<FontCacheKey, Font> FONT_CACHE = new HashMap<>();
 
     private final ObjectProperty<Icon> icon = new SimpleObjectProperty<>(Icon.FOLDER_OPEN);
@@ -147,6 +147,15 @@ public class FontAwesome extends Text {
     }
 
     /**
+     * Get the FontAwesome version provided by SlideshowFX.
+     *
+     * @return The version of FontAwesome.
+     */
+    public static String getFontAwesomeVersion() {
+        return FONTAWESOME_VERSION;
+    }
+
+    /**
      * Get the font file for the desired type.
      *
      * @param type The type of the desired font.
@@ -154,7 +163,7 @@ public class FontAwesome extends Text {
      */
     public static InputStream getFontAwesomeFontFile(final FontType type) {
         final StringBuilder path = new StringBuilder("fonts/fontawesome-")
-                .append(type.name().toLowerCase()).append("-5.0.6.otf");
+                .append(type.name().toLowerCase()).append("-").append(getFontAwesomeVersion()).append(".otf");
 
         return getFontAwesomeFile(path.toString());
     }
@@ -165,7 +174,16 @@ public class FontAwesome extends Text {
      * @return The {@link InputStream} of the CSS font file.
      */
     public static InputStream getFontAwesomeCSSFile() {
-        return getFontAwesomeFile("css/fa-svg-with-js.css");
+        return getFontAwesomeFile("css/" + getFontAwesomeCSSFilename());
+    }
+
+    /**
+     * Get the name of the FontAwesome CSS file. The returned named doesn't contain any path.
+     *
+     * @return The name of the FontAwesome CSS file.
+     */
+    public static String getFontAwesomeCSSFilename() {
+        return "fa-svg-with-js.css";
     }
 
     /**
@@ -174,7 +192,16 @@ public class FontAwesome extends Text {
      * @return The {@link InputStream} of the JavaScript font file.
      */
     public static InputStream getFontAwesomeJSFile() {
-        return getFontAwesomeFile("js/fontawesome-all.min.js");
+        return getFontAwesomeFile("js/" + getFontAwesomeJSFilename());
+    }
+
+    /**
+     * Get the name of the FontAwesome JavaScript file. The returned named doesn't contain any path.
+     *
+     * @return The name of the FontAwesome JavaScript file.
+     */
+    public static String getFontAwesomeJSFilename() {
+        return "fontawesome-all.min.js";
     }
 
     /**
