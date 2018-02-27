@@ -63,7 +63,7 @@ public class AttendeeChatService extends AbstractSlideshowFXService {
         router.get(FONT_AWESOME_PREFIX.concat("*")).handler(routingContext -> {
             final String file = routingContext.request().path().substring(FONT_AWESOME_PREFIX.length());
 
-            try (final InputStream in = FontAwesome.getFontAwesomeFile(file)) {
+            try (final InputStream in = FontAwesome.getFontAwesomeFile(file).openStream()) {
 
                 byte[] imageBuffer = new byte[1028];
                 int numberOfBytesRead;

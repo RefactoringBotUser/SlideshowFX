@@ -18,49 +18,49 @@ public class FontAwesomeTest {
 
     @Test
     public void obtainRegularFontFile() throws IOException {
-        try (final InputStream stream = FontAwesome.getFontAwesomeFontFile(REGULAR)) {
+        try (final InputStream stream = FontAwesome.getFontAwesomeFontFile(REGULAR).openStream()) {
             assertNotNull(stream);
         }
     }
 
     @Test
     public void obtainSolidFontFile() throws IOException {
-        try (final InputStream stream = FontAwesome.getFontAwesomeFontFile(SOLID)) {
+        try (final InputStream stream = FontAwesome.getFontAwesomeFontFile(SOLID).openStream()) {
             assertNotNull(stream);
         }
     }
 
     @Test
     public void obtainBrandFontFile() throws IOException {
-        try (final InputStream stream = FontAwesome.getFontAwesomeFontFile(BRAND)) {
+        try (final InputStream stream = FontAwesome.getFontAwesomeFontFile(BRAND).openStream()) {
             assertNotNull(stream);
         }
     }
 
     @Test
     public void obtainCSSFontFile() throws IOException {
-        try (final InputStream stream = FontAwesome.getFontAwesomeCSSFile()) {
+        try (final InputStream stream = FontAwesome.getFontAwesomeCSSFile().openStream()) {
             assertNotNull(stream);
         }
     }
 
     @Test
     public void obtainJavaScriptFontFile() throws IOException {
-        try (final InputStream stream = FontAwesome.getFontAwesomeJSFile()) {
+        try (final InputStream stream = FontAwesome.getFontAwesomeJSFile().openStream()) {
             assertNotNull(stream);
         }
     }
 
     @Test
     public void obtainJavaScriptFileFromRelativePath() throws IOException {
-        try (final InputStream stream = FontAwesome.getFontAwesomeFile("js/fontawesome-all.min.js")) {
+        try (final InputStream stream = FontAwesome.getFontAwesomeFile("js/fontawesome-all.min.js").openStream()) {
             assertNotNull(stream);
         }
     }
 
     @Test
     public void obtainCSSFileFromRelativePath() throws IOException {
-        try (final InputStream stream = FontAwesome.getFontAwesomeFile("css/fa-svg-with-js.css")) {
+        try (final InputStream stream = FontAwesome.getFontAwesomeFile("css/fa-svg-with-js.css").openStream()) {
             assertNotNull(stream);
         }
     }

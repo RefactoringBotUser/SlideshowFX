@@ -5,14 +5,16 @@ import com.twasyl.slideshowfx.plugin.AbstractPlugin;
 import com.twasyl.slideshowfx.utils.ZipUtils;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.twasyl.slideshowfx.content.extension.ResourceLocation.INTERNAL;
+import static com.twasyl.slideshowfx.content.extension.ResourceLocation.EXTERNAL;
 
 /**
  * This class defines the basic behavior of a content extension.
@@ -76,7 +78,7 @@ public abstract class AbstractContentExtension extends AbstractPlugin implements
      * {@link ResourceLocation location} of the resource will be {@link ResourceLocation#INTERNAL}. The resource URL
      * will be set to {@code null}.
      *
-     * @param type    The type of the resource
+     * @param type    The type of the resource.
      * @param content The content that will be added to the presentation of the resource.
      * @return This content extension.
      */
@@ -90,16 +92,17 @@ public abstract class AbstractContentExtension extends AbstractPlugin implements
 
     /**
      * This method allows to declare resources for this content extension and return this content extension. The
-     * {@link Resource#getLocation() location} will be set to {@link ResourceLocation#EXTERNAL}.
+     * {@link Resource#getLocation() location} will be set to {@link ResourceLocation#EXTERNAL}. The given URL must
+     * correspond to a file and not a directory.
      *
-     * @param type        The type of the resource
-     * @param content     The content that will be added to the presentation of the resource.
-     * @param resourceUrl The type of location for this resource.
+     * @param type           The type of the resource.
+     * @param content        The content that will be added to the presentation of the resource.
+     * @param resourceUrl The {@link URL} of the resource.
      * @return This content extension.
      */
     protected AbstractContentExtension putResource(ResourceType type, String content, final URL resourceUrl) {
         if (content != null && !content.isEmpty() && resourceUrl != null) {
-            this.resources.add(new Resource(type, content, ResourceLocation.EXTERNAL, resourceUrl));
+            this.resources.add(new Resource(type, content, EXTERNAL, resourceUrl));
         }
 
         return this;
@@ -125,9 +128,33 @@ public abstract class AbstractContentExtension extends AbstractPlugin implements
         }
 
         this.resources.stream()
-                .filter(resource -> resource.getLocation() == ResourceLocation.EXTERNAL)
+                .filter(resource -> resource.getLocation() == EXTERNAL)
                 .forEach(resource -> {
+                    final File resourceFile = new File(directory, resource.getContent());
+                    final File destinationDirectory = resourceFile.getParentFile();
 
+                    boolean destinationDirExists = destinationDirectory.exists();
+                    if (!destinationDirExists) {
+                        destinationDirExists = destinationDirectory.mkdirs();
+                    }
+
+                    if (destinationDirExists) {
+                        try (final InputStream stream = resource.getResourceUrl().openStream();
+                             final FileOutputStream output = new FileOutputStream(resourceFile)) {
+                            final byte[] buffer = new byte[512];
+                            int bytesRead;
+
+                            while ((bytesRead = stream.read(buffer)) != -1) {
+                                output.write(buffer, 0, bytesRead);
+                            }
+
+                            output.flush();
+                        } catch (IOException e) {
+                            LOGGER.log(Level.SEVERE, "Can't extract external resource: " + resourceFile.getAbsolutePath(), e);
+                        }
+                    } else {
+                        LOGGER.severe("The destination directory for the external doesn't exist or can't be created: " + destinationDirectory.getAbsolutePath());
+                    }
                 });
     }
 

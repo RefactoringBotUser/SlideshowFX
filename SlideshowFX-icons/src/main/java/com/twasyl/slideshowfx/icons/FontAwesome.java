@@ -6,6 +6,7 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -79,7 +80,7 @@ public class FontAwesome extends Text {
                 font = FONT_CACHE.get(key);
             } else {
                 LOGGER.fine("Font not found in cache for size " + size);
-                try (final InputStream stream = FontAwesome.getFontAwesomeFontFile(icon.getType())) {
+                try (final InputStream stream = FontAwesome.getFontAwesomeFontFile(icon.getType()).openStream()) {
                     font = Font.loadFont(stream, size);
                     FONT_CACHE.put(key, font);
                 } catch (IOException ex) {
@@ -159,9 +160,9 @@ public class FontAwesome extends Text {
      * Get the font file for the desired type.
      *
      * @param type The type of the desired font.
-     * @return The {@link InputStream} of the font file.
+     * @return The {@link URL} of the font file.
      */
-    public static InputStream getFontAwesomeFontFile(final FontType type) {
+    public static URL getFontAwesomeFontFile(final FontType type) {
         final StringBuilder path = new StringBuilder("fonts/fontawesome-")
                 .append(type.name().toLowerCase()).append("-").append(getFontAwesomeVersion()).append(".otf");
 
@@ -173,7 +174,7 @@ public class FontAwesome extends Text {
      *
      * @return The {@link InputStream} of the CSS font file.
      */
-    public static InputStream getFontAwesomeCSSFile() {
+    public static URL getFontAwesomeCSSFile() {
         return getFontAwesomeFile("css/" + getFontAwesomeCSSFilename());
     }
 
@@ -189,9 +190,9 @@ public class FontAwesome extends Text {
     /**
      * Get the JavaScript file of FontAwesome.
      *
-     * @return The {@link InputStream} of the JavaScript font file.
+     * @return The {@link URL} of the JavaScript font file.
      */
-    public static InputStream getFontAwesomeJSFile() {
+    public static URL getFontAwesomeJSFile() {
         return getFontAwesomeFile("js/" + getFontAwesomeJSFilename());
     }
 
@@ -205,13 +206,13 @@ public class FontAwesome extends Text {
     }
 
     /**
-     * <p></p>Get a FontAwesome file from a given relative path. The path is relative from the <i>root</i> package
+     * <p>Get a FontAwesome file from a given relative path. The path is relative from the <i>root</i> package
      * where all FontAwesome files are stored within the JAR.</p>
      *
      * @param relativePath The relative path of the file to get
-     * @return The {@link InputStream} of the FontAwesome file.
+     * @return The {@link URL} of the FontAwesome file.
      */
-    public static InputStream getFontAwesomeFile(final String relativePath) {
-        return FontAwesome.class.getResourceAsStream(FONTAWESOME_ROOT + relativePath);
+    public static URL getFontAwesomeFile(final String relativePath) {
+        return FontAwesome.class.getResource(FONTAWESOME_ROOT + relativePath);
     }
 }

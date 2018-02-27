@@ -1,10 +1,7 @@
 package com.twasyl.slideshowfx.content.extension.quiz;
 
 import com.twasyl.slideshowfx.content.extension.AbstractContentExtension;
-import com.twasyl.slideshowfx.content.extension.ResourceLocation;
-import com.twasyl.slideshowfx.content.extension.ResourceType;
 import com.twasyl.slideshowfx.content.extension.quiz.controllers.QuizContentExtensionController;
-import com.twasyl.slideshowfx.icons.FontAwesome;
 import com.twasyl.slideshowfx.markup.IMarkup;
 import com.twasyl.slideshowfx.server.beans.quiz.Quiz;
 import javafx.beans.property.ReadOnlyBooleanProperty;
@@ -16,7 +13,10 @@ import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static com.twasyl.slideshowfx.content.extension.ResourceType.CSS_FILE;
+import static com.twasyl.slideshowfx.content.extension.ResourceType.JAVASCRIPT_FILE;
 import static com.twasyl.slideshowfx.global.configuration.GlobalConfiguration.getDefaultCharset;
+import static com.twasyl.slideshowfx.icons.FontAwesome.*;
 import static com.twasyl.slideshowfx.icons.Icon.QUESTION;
 
 /**
@@ -35,16 +35,14 @@ public class QuizContentExtension extends AbstractContentExtension {
     private QuizContentExtensionController controller;
 
     public QuizContentExtension() {
-        super("QUIZ", QuizContentExtension.class.getResource("/com/twasyl/slideshowfx/content/extension/quiz/resources/quiz.zip"),
+        super("QUIZ", null,
                 QUESTION,
                 "Insert a quiz",
                 "Insert a quiz");
 
-        final String baseURL = "quiz/";
-
         // Add URL
-        this.putResource(ResourceType.CSS_FILE, baseURL.concat("font-awesome-5.0.6/css/fa-svg-with-js.css"));
-        this.putResource(ResourceType.JAVASCRIPT_FILE, baseURL.concat("font-awesome-5.0.6/js/fontawesome-all.min.js"));
+        this.putResource(CSS_FILE, String.format("quiz/font-awesome/%s/css/%s", getFontAwesomeVersion(), getFontAwesomeCSSFilename()), getFontAwesomeCSSFile());
+        this.putResource(JAVASCRIPT_FILE, String.format("quiz/font-awesome/%s/js/%s", getFontAwesomeVersion(), getFontAwesomeJSFilename()), getFontAwesomeJSFile());
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.twasyl.slideshowfx.content.extension.snippet;
 
 import com.twasyl.slideshowfx.content.extension.AbstractContentExtension;
-import com.twasyl.slideshowfx.content.extension.ResourceType;
 import com.twasyl.slideshowfx.content.extension.snippet.controllers.SnippetContentExtensionController;
 import com.twasyl.slideshowfx.markup.IMarkup;
 import javafx.beans.property.ReadOnlyBooleanProperty;
@@ -13,7 +12,10 @@ import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static com.twasyl.slideshowfx.content.extension.ResourceType.CSS_FILE;
+import static com.twasyl.slideshowfx.content.extension.ResourceType.JAVASCRIPT_FILE;
 import static com.twasyl.slideshowfx.global.configuration.GlobalConfiguration.getDefaultCharset;
+import static com.twasyl.slideshowfx.icons.FontAwesome.*;
 import static com.twasyl.slideshowfx.icons.Icon.TERMINAL;
 
 /**
@@ -40,10 +42,10 @@ public class SnippetContentExtension extends AbstractContentExtension {
         final String baseURL = "snippet-executor/";
 
         // Add URL
-        this.putResource(ResourceType.CSS_FILE, baseURL.concat("font-awesome-5.0.6/css/fa-svg-with-js.css"));
-        this.putResource(ResourceType.CSS_FILE, baseURL.concat("prism/1.11.0/prism.css"));
-        this.putResource(ResourceType.JAVASCRIPT_FILE, baseURL.concat("font-awesome-5.0.6/js/fontawesome-all.min.js"));
-        this.putResource(ResourceType.JAVASCRIPT_FILE, baseURL.concat("prism/1.11.0/prism.js"));
+        this.putResource(CSS_FILE, String.format("%sfont-awesome/%s/css/%s", baseURL, getFontAwesomeVersion(), getFontAwesomeCSSFilename()), getFontAwesomeCSSFile());
+        this.putResource(CSS_FILE, baseURL.concat("prism/1.11.0/prism.css"));
+        this.putResource(JAVASCRIPT_FILE, String.format("%sfont-awesome/%s/js/%s", baseURL, getFontAwesomeVersion(), getFontAwesomeJSFilename()), getFontAwesomeJSFile());
+        this.putResource(JAVASCRIPT_FILE, baseURL.concat("prism/1.11.0/prism.js"));
     }
 
     @Override

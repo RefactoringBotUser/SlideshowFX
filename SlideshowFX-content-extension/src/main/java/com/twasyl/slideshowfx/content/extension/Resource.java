@@ -20,7 +20,7 @@ public class Resource {
         this(type, content, ResourceLocation.INTERNAL, null);
     }
 
-    public Resource(ResourceType type, String content, final ResourceLocation location, final URL resourceUrl) {
+    public Resource(final ResourceType type, final String content, final ResourceLocation location, final URL resourceUrl) {
         this.content = content;
         this.type = type;
         this.location = location;
