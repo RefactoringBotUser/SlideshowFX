@@ -43,10 +43,7 @@ import javax.xml.transform.TransformerException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Base64;
-import java.util.Iterator;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -393,7 +390,7 @@ public class PresentationViewController implements Initializable {
         // Creating RadioButtons for each markup bundle installed
         MarkupManager.getInstalledMarkupSyntax().stream()
                 .sorted((markup1, markup2) -> markup1.getName().compareToIgnoreCase(markup2.getName()))
-                .forEach(markup -> createRadioButtonForMakup(markup));
+                .forEach(this::createRadioButtonForMakup);
     }
 
     /**
@@ -412,8 +409,8 @@ public class PresentationViewController implements Initializable {
         // Creating Buttons for each extension bundle installed
         OSGiManager.getInstance().getInstalledServices(IContentExtension.class)
                 .stream()
-                .sorted((extension1, extension2) -> extension1.getCode().compareTo(extension2.getCode()))
-                .forEach(extension -> createButtonForContentExtension(extension));
+                .sorted(Comparator.comparing(IContentExtension::getCode))
+                .forEach(this::createButtonForContentExtension);
     }
 
     /**
@@ -562,8 +559,8 @@ public class PresentationViewController implements Initializable {
         // Creating buttons for each content extension bundle installed
         OSGiManager.getInstance().getInstalledServices(IContentExtension.class)
                 .stream()
-                .sorted((contentExtension1, contentExtension2) -> contentExtension1.getCode().compareTo(contentExtension2.getCode()))
-                .forEach(contentExtension -> createButtonForContentExtension(contentExtension));
+                .sorted(Comparator.comparing(IContentExtension::getCode))
+                .forEach(this::createButtonForContentExtension);
 
         // Change the mode for the content editor as the selection for markup language changes
         this.markupContentType.selectedToggleProperty().addListener((value, oldToggle, newToggle) -> {

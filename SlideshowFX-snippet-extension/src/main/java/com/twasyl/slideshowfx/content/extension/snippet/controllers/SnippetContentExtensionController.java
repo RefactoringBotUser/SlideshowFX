@@ -14,7 +14,10 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 
 import java.net.URL;
+import java.util.Comparator;
 import java.util.ResourceBundle;
+
+import static com.twasyl.slideshowfx.ui.controls.validators.Validators.isNotEmpty;
 
 /**
  * This class is the controller used by the {@code SnippetContentExtension.fxml} file.
@@ -57,7 +60,7 @@ public class SnippetContentExtensionController extends AbstractContentExtensionC
     public void initialize(URL location, ResourceBundle resources) {
         OSGiManager.getInstance().getInstalledServices(ISnippetExecutor.class)
                 .stream()
-                .sorted((snippet1, snippet2) -> snippet1.getCode().compareTo(snippet2.getCode()))
+                .sorted(Comparator.comparing(ISnippetExecutor::getCode))
                 .forEach(ref -> this.language.getItems().add(ref));
 
         this.language.setCellFactory((ListView<ISnippetExecutor> param) -> {
@@ -87,6 +90,8 @@ public class SnippetContentExtensionController extends AbstractContentExtensionC
                 }
             }
         });
+
+        this.code.setValidator(isNotEmpty());
 
         // Each time the code in the ZoomTextArea changes, reflect it to the CodeSnippet
         this.code.textProperty().addListener((textValue, oldText, newText) -> {

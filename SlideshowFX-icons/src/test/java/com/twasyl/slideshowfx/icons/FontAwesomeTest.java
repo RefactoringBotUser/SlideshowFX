@@ -2,11 +2,13 @@ package com.twasyl.slideshowfx.icons;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import static com.twasyl.slideshowfx.icons.FontType.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test of class {@link FontAwesome}.
@@ -16,52 +18,44 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 public class FontAwesomeTest {
 
-    @Test
-    public void obtainRegularFontFile() throws IOException {
-        try (final InputStream stream = FontAwesome.getFontAwesomeFontFile(REGULAR).openStream()) {
-            assertNotNull(stream);
-        }
+    protected void assertFontAwesomeUrl(final URL url) throws URISyntaxException {
+        assertNotNull(url);
+        final File file = new File(url.toURI());
+        assertTrue(file.exists(), "URL doesn't exist: " + url.toExternalForm());
     }
 
     @Test
-    public void obtainSolidFontFile() throws IOException {
-        try (final InputStream stream = FontAwesome.getFontAwesomeFontFile(SOLID).openStream()) {
-            assertNotNull(stream);
-        }
+    public void obtainRegularFontFile() throws URISyntaxException {
+        assertFontAwesomeUrl(FontAwesome.getFontAwesomeFontFile(REGULAR));
     }
 
     @Test
-    public void obtainBrandFontFile() throws IOException {
-        try (final InputStream stream = FontAwesome.getFontAwesomeFontFile(BRAND).openStream()) {
-            assertNotNull(stream);
-        }
+    public void obtainSolidFontFile() throws URISyntaxException {
+        assertFontAwesomeUrl(FontAwesome.getFontAwesomeFontFile(SOLID));
     }
 
     @Test
-    public void obtainCSSFontFile() throws IOException {
-        try (final InputStream stream = FontAwesome.getFontAwesomeCSSFile().openStream()) {
-            assertNotNull(stream);
-        }
+    public void obtainBrandFontFile() throws URISyntaxException {
+        assertFontAwesomeUrl(FontAwesome.getFontAwesomeFontFile(BRAND));
     }
 
     @Test
-    public void obtainJavaScriptFontFile() throws IOException {
-        try (final InputStream stream = FontAwesome.getFontAwesomeJSFile().openStream()) {
-            assertNotNull(stream);
-        }
+    public void obtainCSSFontFile() throws URISyntaxException {
+        assertFontAwesomeUrl(FontAwesome.getFontAwesomeCSSFile());
     }
 
     @Test
-    public void obtainJavaScriptFileFromRelativePath() throws IOException {
-        try (final InputStream stream = FontAwesome.getFontAwesomeFile("js/fontawesome-all.min.js").openStream()) {
-            assertNotNull(stream);
-        }
+    public void obtainJavaScriptFontFile() throws URISyntaxException {
+        assertFontAwesomeUrl(FontAwesome.getFontAwesomeJSFile());
     }
 
     @Test
-    public void obtainCSSFileFromRelativePath() throws IOException {
-        try (final InputStream stream = FontAwesome.getFontAwesomeFile("css/fa-svg-with-js.css").openStream()) {
-            assertNotNull(stream);
-        }
+    public void obtainJavaScriptFileFromRelativePath() throws URISyntaxException {
+        assertFontAwesomeUrl(FontAwesome.getFontAwesomeFile("js/fontawesome-all.min.js"));
+    }
+
+    @Test
+    public void obtainCSSFileFromRelativePath() throws URISyntaxException {
+        assertFontAwesomeUrl(FontAwesome.getFontAwesomeFile("css/fa-svg-with-js.css"));
     }
 }

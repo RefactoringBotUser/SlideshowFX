@@ -1,6 +1,7 @@
 package com.twasyl.slideshowfx.content.extension;
 
 import java.net.URL;
+import java.util.Objects;
 
 /**
  * This class represents a resource of a content extension. It could be a JavaScript file, a CSS file, a JavaScript script
@@ -80,5 +81,18 @@ public class Resource {
         }
 
         return builder.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Resource resource = (Resource) o;
+        return Objects.equals(content, resource.content);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(content);
     }
 }
