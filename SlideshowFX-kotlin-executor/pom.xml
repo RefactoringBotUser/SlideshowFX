@@ -12,12 +12,12 @@
     <description>Snippet executor allowing to execute some Kotlin inside a SlideshowFX presentation</description>
 
     <artifactId>slideshowfx-kotlin-executor</artifactId>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
 
     <properties>
         <slideshowfx.isNotPlugin>false</slideshowfx.isNotPlugin>
-        <bundle.version>1.0</bundle.version>
-        <bintray.skip.deploy>true</bintray.skip.deploy>
+        <bundle.version>1.1</bundle.version>
+        <bintray.skip.deploy>false</bintray.skip.deploy>
     </properties>
 
     <dependencies>

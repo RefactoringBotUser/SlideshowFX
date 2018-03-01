@@ -82,7 +82,7 @@ public class DateTimeUtilsTest {
 
         assertNotNull(filesToDelete);
         assertFalse(filesToDelete.isEmpty());
-        assertEquals(2, filesToDelete.size());
+        assertEquals(2, filesToDelete.size(), filesToDelete.toString());
 
         assertEquals(file_15_daysOld, filesToDelete.get(0));
         assertEquals(file_10_daysOld, filesToDelete.get(1));

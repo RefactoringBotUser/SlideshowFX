@@ -9,14 +9,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * This tasks saves a SlideshowFX presentation. It takes a {@link com.twasyl.slideshowfx.engine.presentation.PresentationEngine}
- * that hosts the presentation to save. {@link com.twasyl.slideshowfx.engine.presentation.PresentationEngine#saveArchive()}
- * is called in order to save the presentation. If {@link com.twasyl.slideshowfx.engine.presentation.PresentationEngine#getArchive()}
- * returns {@code null} or if {@link com.twasyl.slideshowfx.engine.presentation.PresentationEngine} is {@code null}, the
+ * This tasks saves a SlideshowFX presentation. It takes a {@link PresentationEngine}
+ * that hosts the presentation to save. {@link PresentationEngine#saveArchive()}
+ * is called in order to save the presentation. If {@link PresentationEngine#getArchive()}
+ * returns {@code null} or if {@link PresentationEngine} is {@code null}, the
  * task is considered as failed and {@link Task#failed} is called.
  *
  * @author Thierry Wasylczenko
- * @version 1.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class SavePresentationTask extends SlideshowFXTask<Void> {
@@ -27,7 +27,7 @@ public class SavePresentationTask extends SlideshowFXTask<Void> {
     public SavePresentationTask(final PresentationEngine presentation) {
         this.presentation = presentation;
 
-        if(this.presentation.getArchive() != null) {
+        if (this.presentation.getArchive() != null) {
             ((SimpleStringProperty) this.titleProperty()).set(String.format("Saving presentation: %1$s", this.presentation.getArchive().getName()));
         }
     }
@@ -35,11 +35,15 @@ public class SavePresentationTask extends SlideshowFXTask<Void> {
     @Override
     protected Void call() throws Exception {
         // Ensure the presentation has already been saved
-        if(this.presentation == null) throw new NullPointerException("The presentation is null");
-        if(this.presentation.getArchive() == null) throw new NullPointerException("The presentation archive is null");
+        if (this.presentation == null) throw new NullPointerException("The presentation is null");
+        if (this.presentation.isPresentationAlreadySaved() && this.presentation.getArchive() == null)
+            throw new NullPointerException("The presentation archive is null");
 
-        this.presentation.saveArchive();
-        this.succeeded();
+        if (this.presentation.isPresentationAlreadySaved() && this.presentation.isModifiedSinceLatestSave()) {
+            this.presentation.saveArchive();
+        } else {
+            LOGGER.fine("The presentation hasn't been modified since it's latest save.");
+        }
 
         return null;
     }

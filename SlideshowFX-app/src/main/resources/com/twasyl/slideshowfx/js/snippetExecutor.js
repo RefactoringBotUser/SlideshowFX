@@ -23,17 +23,22 @@ function executeCodeSnippet(snippetExecutorCode, codeSnippet, codeSnippetId) {
 
         // Insert the refresh button if not already present
         if(document.getElementById("code-snippet-refresh-" + codeSnippetId) == undefined) {
+            var buttonBar = document.getElementById("code-snippet-" + codeSnippetId);
+
+            var refreshButtonContainer = document.createElement("span");
+            refreshButtonContainer.id = "code-snippet-refresh-" + codeSnippetId;
+
             var refreshButton = document.createElement("i");
-            refreshButton.id = "code-snippet-refresh-" + codeSnippetId;
             refreshButton.className = "fas fa-sync-alt fa-fw";
-            refreshButton.onclick = function() {
+
+            refreshButtonContainer.onclick = function() {
                 codeSnippetOutputElement.style.display = "none";
                 codeSnippetConsoleElement.style.display = "block";
-                refreshButton.parentElement.removeChild(refreshButton);
+                buttonBar.removeChild(refreshButtonContainer);
             };
 
-            var executeButton = document.getElementById("code-snippet-execute-" + codeSnippetId);
-            executeButton.parentElement.appendChild(refreshButton);
+            refreshButtonContainer.appendChild(refreshButton);
+            buttonBar.appendChild(refreshButtonContainer);
         }
     }
 

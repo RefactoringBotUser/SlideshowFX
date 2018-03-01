@@ -1,5 +1,6 @@
 package com.twasyl.slideshowfx.snippet.executor.kotlin;
 
+import com.sun.javafx.PlatformUtil;
 import com.twasyl.slideshowfx.global.configuration.GlobalConfiguration;
 import com.twasyl.slideshowfx.snippet.executor.AbstractSnippetExecutor;
 import com.twasyl.slideshowfx.snippet.executor.CodeSnippet;
@@ -25,7 +26,7 @@ import java.util.logging.Logger;
  * This implementation is identified with the code {@code KOTLIN}.
  *
  * @author Thierry Wasyczenko
- * @version 1.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class KotlinSnippetExecutor extends AbstractSnippetExecutor<KotlinSnippetExecutorOptions> {
@@ -141,7 +142,10 @@ public class KotlinSnippetExecutor extends AbstractSnippetExecutor<KotlinSnippet
 
             // Compile the Kotlin class
             final String jarFile = "Snippet.jar";
-            final File koltincExecutable = new File(this.getOptions().getKotlinHome(), "bin/kotlinc");
+
+            final File koltincExecutable = PlatformUtil.isWindows() ?
+                    new File(this.getOptions().getKotlinHome(), "bin/kotlinc.bat") :
+                    new File(this.getOptions().getKotlinHome(), "bin/kotlinc");
 
             final String[] compilationCommand = {koltincExecutable.getAbsolutePath(), codeFile.getName(),
             "-include-runtime", "-d", jarFile};
@@ -175,7 +179,10 @@ public class KotlinSnippetExecutor extends AbstractSnippetExecutor<KotlinSnippet
             // Execute the Kotlin class only if the compilation was successful
             if(process != null && process.exitValue() == 0) {
 
-                final File kotlinExecutable = new File(this.getOptions().getKotlinHome(), "bin/kotlin");
+                final File kotlinExecutable = PlatformUtil.isWindows() ?
+                        new File(this.getOptions().getKotlinHome(), "bin/kotlin.bat") :
+                        new File(this.getOptions().getKotlinHome(), "bin/kotlin");
+
                 final String[] executionCommand = {kotlinExecutable.getAbsolutePath(), jarFile};
 
                 try {
