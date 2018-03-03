@@ -8,12 +8,16 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.attribute.FileTime;
+import java.time.Clock;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import static java.time.temporal.ChronoUnit.DAYS;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -32,20 +36,23 @@ public class DateTimeUtilsTest {
 
     @BeforeAll
     public static void setUp() throws IOException {
-        final TimeUnit daysUnit = TimeUnit.DAYS;
-        final Instant now = Instant.now();
+        final Instant now = Instant.now(Clock.systemUTC());
 
+        file_10_daysOld.deleteOnExit();
         file_10_daysOld.mkdir();
-        Files.setLastModifiedTime(file_10_daysOld.toPath(), FileTime.from(now.minusSeconds(daysUnit.toSeconds(10))));
+        Files.setLastModifiedTime(file_10_daysOld.toPath(), FileTime.from(now.minus(10, DAYS)));
 
+        file_15_daysOld.deleteOnExit();
         file_15_daysOld.mkdir();
-        Files.setLastModifiedTime(file_15_daysOld.toPath(), FileTime.from(now.minusSeconds(daysUnit.toSeconds(30))));
+        Files.setLastModifiedTime(file_15_daysOld.toPath(), FileTime.from(now.minus(15, DAYS)));
 
+        file_10_daysMoreRecent.deleteOnExit();
         file_10_daysMoreRecent.mkdir();
-        Files.setLastModifiedTime(file_10_daysMoreRecent.toPath(), FileTime.from(now.plusSeconds(daysUnit.toSeconds(10))));
+        Files.setLastModifiedTime(file_10_daysMoreRecent.toPath(), FileTime.from(now.plus(10, DAYS)));
 
+        file_15_daysMoreRecent.deleteOnExit();
         file_15_daysMoreRecent.mkdir();
-        Files.setLastModifiedTime(file_15_daysMoreRecent.toPath(), FileTime.from(now.plusSeconds(daysUnit.toSeconds(15))));
+        Files.setLastModifiedTime(file_15_daysMoreRecent.toPath(), FileTime.from(now.plus(15, DAYS)));
     }
 
     @AfterAll
