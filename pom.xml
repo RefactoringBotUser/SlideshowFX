@@ -546,9 +546,6 @@
                             <version>${dependency.junit.version}</version>
                         </dependency>
                     </dependencies>
-                    <configuration>
-                        <reuseForks>false</reuseForks>
-                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
