@@ -1,0 +1,77 @@
+allprojects {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+}
+
+def stripProjectVersion(String version) {
+    if (version.contains("-SNAPSHOT")) {
+        return version.replace("-SNAPSHOT", "")
+    } else {
+        return version
+    }
+}
+
+ext.dependencies = [
+        asciidoctorj: [version: '1.5.6'],
+        felix       : [version: '5.6.10'],
+        freemarker  : [version: '2.3.27-incubating'],
+        jsoup       : [version: '1.11.2'],
+        junit       : [version: '5.1.0'],
+        vertx       : [version: '3.5.1']
+]
+
+subprojects {
+    afterEvaluate { project ->
+        if (project.pluginManager.hasPlugin('java') || project.pluginManager.hasPlugin('java-library')) {
+            dependencies {
+                testImplementation "org.junit.jupiter:junit-jupiter-api:${rootProject.ext.dependencies.junit.version}"
+                testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${rootProject.ext.dependencies.junit.version}"
+            }
+
+            test {
+                useJUnitPlatform()
+            }
+        }
+
+        if (project.findProperty('isPlugin') ?: false) {
+            dependencies {
+                implementation "org.apache.felix:org.apache.felix.framework:${rootProject.ext.dependencies.felix.version}"
+            }
+        }
+    }
+
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
+
+    tasks.withType(Jar) { task ->
+        afterEvaluate { project ->
+            Map<String, ?> manifestAttributes = ['Implementation-Vendor': 'Thierry Wasylczenko']
+
+            if (project.findProperty("isPlugin") ?: false) {
+                manifestAttributes += [
+                        'Bundle-ManifestVersion': '2',
+                        'Bundle-Name'           : project.ext.bundle.name,
+                        'Bundle-SymbolicName'   : project.ext.bundle.symbolicName,
+                        'Bundle-Version'        : stripProjectVersion(project.version),
+                        'Bundle-Description'    : project.ext.bundle.description,
+                        'Bundle-Activator'      : project.ext.bundle.activator,
+                        'Bundle-ClassPath'      : project.ext.bundle.classPath ?: '.',
+                        'Bundle-Vendor'         : 'Thierry Wasylczenko',
+                        'Export-Package'        : project.ext.bundle.exportPackage,
+                        'Setup-Wizard-Label'    : project.ext.bundle.setupWizardLabel,
+                        'Import-Package'        : 'org.osgi.framework'
+                ]
+            }
+
+            jar {
+                manifest {
+                    attributes(manifestAttributes)
+                }
+            }
+        }
+    }
+}
+

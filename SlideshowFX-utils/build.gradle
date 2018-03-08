@@ -1,0 +1,12 @@
+description = 'Module defining utilities to be used in the SlideshowFX application'
+version = '1.2-SNAPSHOT'
+
+apply plugin: 'java'
+
+dependencies {
+    implementation project(':slideshowfx-global-configuration')
+
+    compile "org.freemarker:freemarker:${rootProject.ext.dependencies.freemarker.version}"
+    compile "org.jsoup:jsoup:${rootProject.ext.dependencies.jsoup.version}"
+    compile "io.vertx:vertx-core:${rootProject.ext.dependencies.version}"
+}

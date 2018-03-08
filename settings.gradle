@@ -1,0 +1,9 @@
+rootProject.name = 'slideshowfx'
+
+include 'slideshowfx-global-configuration'
+include 'slideshowfx-plugin'
+include 'slideshowfx-markup'
+include 'slideshowfx-utils'
+
+// Markup plugins
+include 'slideshowfx-asciidoctor', 'slideshowfx-html', 'slideshowfx-markdown', 'slideshowfx-textile'
