@@ -8,5 +8,5 @@ dependencies {
 
     compile "org.freemarker:freemarker:${rootProject.ext.dependencies.freemarker.version}"
     compile "org.jsoup:jsoup:${rootProject.ext.dependencies.jsoup.version}"
-    compile "io.vertx:vertx-core:${rootProject.ext.dependencies.version}"
+    compile "io.vertx:vertx-core:${rootProject.ext.dependencies.vertx.version}"
 }

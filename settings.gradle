@@ -1,9 +1,21 @@
 rootProject.name = 'slideshowfx'
 
+include 'slideshowfx-content-extension'
+include 'slideshowfx-engines'
 include 'slideshowfx-global-configuration'
-include 'slideshowfx-plugin'
+include 'slideshowfx-hosting-connector'
+include 'slideshowfx-icons'
+include 'slideshowfx-logs'
 include 'slideshowfx-markup'
+include 'slideshowfx-osgi'
+include 'slideshowfx-plugin'
+include 'slideshowfx-server'
+include 'slideshowfx-snippet-executor'
+include 'slideshowfx-ui-controls'
 include 'slideshowfx-utils'
+
+// Content extension plugin
+include 'slideshowfx-alert-extension', 'slideshowfx-code-extension', 'slideshowfx-image-extension', 'slideshowfx-link-extension', 'slideshowfx-quiz-extension'
 
 // Markup plugins
 include 'slideshowfx-asciidoctor', 'slideshowfx-html', 'slideshowfx-markdown', 'slideshowfx-textile'

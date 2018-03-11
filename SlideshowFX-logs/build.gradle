@@ -1,0 +1,4 @@
+description = 'Module allowing to define the log mechanism for the application'
+version = '1.0'
+
+apply plugin: 'java-library'

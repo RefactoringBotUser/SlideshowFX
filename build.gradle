@@ -19,6 +19,7 @@ ext.dependencies = [
         freemarker  : [version: '2.3.27-incubating'],
         jsoup       : [version: '1.11.2'],
         junit       : [version: '5.1.0'],
+        mockito     : [version: '2.10.0'],
         vertx       : [version: '3.5.1']
 ]
 
@@ -64,6 +65,10 @@ subprojects {
                         'Setup-Wizard-Label'    : project.ext.bundle.setupWizardLabel,
                         'Import-Package'        : 'org.osgi.framework'
                 ]
+
+                if (project.ext.bundle.containsKey('setupWizardIconName')) {
+                    manifestAttributes += ['Setup-Wizard-Icon-Name': project.ext.bundle.setupWizardIconName]
+                }
             }
 
             jar {

@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -69,12 +71,11 @@ public class ListFilesFileVisitorTest {
         final File emptyDir = baseLocation;
         Files.walkFileTree(emptyDir.toPath(), visitor);
 
-        assertEquals(6, visitor.getPaths().size(), visitor.getPaths().toString());
+        assertEquals(5, visitor.getPaths().size(), visitor.getPaths().stream().map(Path::toString).collect(Collectors.joining(System.lineSeparator())));
         assertTrue(visitor.getPaths().contains(new File(baseLocation, "dir/dir2").toPath()));
         assertTrue(visitor.getPaths().contains(new File(baseLocation, "dir/dir3/file2.txt").toPath()));
         assertTrue(visitor.getPaths().contains(new File(baseLocation, "dir/file1.txt").toPath()));
         assertTrue(visitor.getPaths().contains(new File(baseLocation, "emptyDir").toPath()));
         assertTrue(visitor.getPaths().contains(new File(baseLocation, "file.txt").toPath()));
-        assertTrue(visitor.getPaths().contains(new File(baseLocation, "ListFilesFileVisitorTest.class").toPath()));
     }
 }

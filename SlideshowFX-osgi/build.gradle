@@ -1,0 +1,12 @@
+description = 'Module allowing to add OSGi support in the application'
+version = '1.2-SNAPSHOT'
+
+apply plugin: 'java-library'
+
+dependencies {
+    implementation project(':slideshowfx-engines')
+    implementation project(':slideshowfx-global-configuration')
+    implementation project(':slideshowfx-plugin')
+
+    api "org.apache.felix:org.apache.felix.framework:${rootProject.ext.dependencies.felix.version}"
+}
