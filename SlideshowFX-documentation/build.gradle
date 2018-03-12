@@ -1,0 +1,23 @@
+description = 'SlideshowFX documentation to be included within the application and the setup package'
+version = '1.0-SNAPSHOT'
+
+apply plugin: 'distribution'
+apply plugin : 'org.asciidoctor.convert'
+
+asciidoctor {
+    sources {
+        include 'src/asciidoc/*.adoc'
+    }
+    backends = [ 'html5', 'pdf' ]
+}
+
+build.dependsOn 'asciidoctor'
+
+distributions {
+    main {
+        baseName = 'slideshowfx-documentation'
+        contents {
+            from { 'src/readme' }
+        }
+    }
+}

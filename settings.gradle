@@ -1,21 +1,46 @@
 rootProject.name = 'slideshowfx'
 
-include 'slideshowfx-content-extension'
-include 'slideshowfx-engines'
-include 'slideshowfx-global-configuration'
-include 'slideshowfx-hosting-connector'
-include 'slideshowfx-icons'
-include 'slideshowfx-logs'
-include 'slideshowfx-markup'
-include 'slideshowfx-osgi'
-include 'slideshowfx-plugin'
-include 'slideshowfx-server'
-include 'slideshowfx-snippet-executor'
-include 'slideshowfx-ui-controls'
-include 'slideshowfx-utils'
+include 'slideshowfx-content-extension',
+        'slideshowfx-engines',
+        'slideshowfx-global-configuration',
+        'slideshowfx-hosting-connector',
+        'slideshowfx-icons',
+        'slideshowfx-logs',
+        'slideshowfx-markup',
+        'slideshowfx-osgi',
+        'slideshowfx-plugin',
+        'slideshowfx-server',
+        'slideshowfx-snippet-executor',
+        'slideshowfx-ui-controls',
+        'slideshowfx-utils',
 
 // Content extension plugin
-include 'slideshowfx-alert-extension', 'slideshowfx-code-extension', 'slideshowfx-image-extension', 'slideshowfx-link-extension', 'slideshowfx-quiz-extension'
+        'slideshowfx-alert-extension',
+        'slideshowfx-code-extension',
+        'slideshowfx-image-extension',
+        'slideshowfx-link-extension',
+        'slideshowfx-quiz-extension',
+        'slideshowfx-quote-extension',
+        'slideshowfx-sequence-diagram-extension',
+        'slideshowfx-shape-extension',
+        'slideshowfx-snippet-extension',
+
+// Hosting connector plugins
+        'slideshowfx-box-hosting-connector',
+        'slideshowfx-drive-hosting-connector',
+        'slideshowfx-dropbox-hosting-connector',
 
 // Markup plugins
-include 'slideshowfx-asciidoctor', 'slideshowfx-html', 'slideshowfx-markdown', 'slideshowfx-textile'
+        'slideshowfx-asciidoctor',
+        'slideshowfx-html',
+        'slideshowfx-markdown',
+        'slideshowfx-textile',
+
+// Snippet executor plugins
+        'slideshowfx-go-executor',
+        'slideshowfx-golo-executor',
+        'slideshowfx-groovy-executor',
+        'slideshowfx-java-executor',
+        'slideshowfx-javascript-executor',
+        'slideshowfx-kotlin-executor',
+        'slideshowfx-scala-executor'

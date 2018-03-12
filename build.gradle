@@ -44,6 +44,10 @@ subprojects {
     }
 
     tasks.withType(JavaCompile) {
+        compileJava {
+            sourceCompatibility = JavaVersion.VERSION_1_8
+        }
+
         options.encoding = "UTF-8"
     }
 
