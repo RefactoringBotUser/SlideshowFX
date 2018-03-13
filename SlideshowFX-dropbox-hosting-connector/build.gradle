@@ -4,7 +4,7 @@ version = '1.2-SNAPSHOT'
 apply plugin: 'java-library'
 
 dependencies {
-    compile 'com.dropbox.core:dropbox-core-sdk:3.0.6'
+    compile "com.dropbox.core:dropbox-core-sdk:${rootProject.ext.dependencies.dropbox.version}"
     implementation project(':slideshowfx-engines')
     implementation project(':slideshowfx-global-configuration')
     implementation project(':slideshowfx-hosting-connector')

@@ -1,0 +1,79 @@
+description = 'The SlideshowFX application'
+version = '2.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+dependencies {
+    compile project(':slideshowfx-content-extension')
+    compile project(':slideshowfx-documentation')
+    compile project(':slideshowfx-engines')
+    compile project(':slideshowfx-global-configuration')
+    compile project(':slideshowfx-hosting-connector')
+    compile project(':slideshowfx-icons')
+    compile project(':slideshowfx-logs')
+    compile project(':slideshowfx-markup')
+    compile project(':slideshowfx-osgi')
+    compile project(':slideshowfx-plugin')
+    compile project(':slideshowfx-server')
+    compile project(':slideshowfx-snippet-executor')
+    compile project(':slideshowfx-ui-controls')
+    compile project(':slideshowfx-utils')
+
+    compile "io.reactivex.rxjava2:rxjava:${rootProject.ext.dependencies.rxJava.version}"
+    compile "com.google.zxing:javase:${rootProject.ext.dependencies.zxing.version}"
+
+    testCompile "org.mockitomockito-core:${rootProject.ext.dependencies.mockito.version}"
+}
+
+jar {
+    manifest {
+        attributes += [
+                'Implementation-Title'    : 'SlideshowFX',
+                'Implementation-Version'  : "${version}",
+                'Class-Path'              : configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class'              : 'com.twasyl.slideshowfx.app.SlideshowFX',
+                'JavaFX-Preloader-Class'  : 'com.twasyl.slideshowfx.app.SlideshowFXPreloader',
+                'JavaFX-Application-Class': 'com.twasyl.slideshowfx.app.SlideshowFX',
+                'JavaFX-Version'          : '8.0+'
+        ]
+    }
+}
+
+task prepareBundle(type: Copy) {
+    from configurations.compile
+    from jar
+
+    into "${buildDir}/tmp/bundles"
+}
+
+task createBundle() {
+    doLast {
+        def deployOutDir = new File("${buildDir}/bundle")
+        def deployResourcesDir = new File("${buildDir}/tmp/bundles")
+
+        ant.importBuild "${projectDir}/src/assembly/javafx/SlideshowFX-app.xml"
+        ant.classpath = "${System.env['JAVA_HOME']}/lib/ant-javafx.jar"
+        ant['build.deploy.out.dir'] = deployOutDir.absolutePath
+        ant['build.deploy.out.file'] = "SlideshowFX"
+        ant['build.deploy.resources.dir'] = deployResourcesDir.absolutePath
+
+        if (!new File(ant['build.deploy.out.dir']).exists()) {
+            new File(ant['build.deploy.out.dir']).mkdirs()
+        }
+
+        def platform = rootProject.getPlatform();
+
+        if (platform == rootProject.ext.os.MAC) {
+            deployOSX.execute()
+        } else if (platform == rootProject.ext.os.WINDOWS) {
+            deployWindows.execute()
+        } else {
+            deployUnknown.execute()
+        }
+
+        deployResourcesDir.deleteDir()
+    }
+}
+
+prepareBundle.dependsOn jar
+createBundle.dependsOn prepareBundle

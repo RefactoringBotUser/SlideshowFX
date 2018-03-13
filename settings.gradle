@@ -1,6 +1,8 @@
 rootProject.name = 'slideshowfx'
 
-include 'slideshowfx-content-extension',
+include 'slideshowfx-app',
+        'slideshowfx-content-extension',
+        'slideshowfx-documentation',
         'slideshowfx-engines',
         'slideshowfx-global-configuration',
         'slideshowfx-hosting-connector',
@@ -10,6 +12,7 @@ include 'slideshowfx-content-extension',
         'slideshowfx-osgi',
         'slideshowfx-plugin',
         'slideshowfx-server',
+        'slideshowfx-setup',
         'slideshowfx-snippet-executor',
         'slideshowfx-ui-controls',
         'slideshowfx-utils',

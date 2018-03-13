@@ -4,7 +4,7 @@ version = '1.2-SNAPSHOT'
 apply plugin: 'java-library'
 
 dependencies {
-    compile 'com.box:box-java-sdk:2.14.1'
+    compile "com.box:box-java-sdk:${rootProject.ext.dependencies.box.version}"
     implementation project(':slideshowfx-engines')
     implementation project(':slideshowfx-global-configuration')
     implementation project(':slideshowfx-hosting-connector')

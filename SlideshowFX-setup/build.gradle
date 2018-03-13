@@ -1,0 +1,25 @@
+description = 'Module for the installer of SlideshowFX'
+version = '2.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+dependencies {
+    compile project(':slideshowfx-global-configuration')
+    compile project(':slideshowfx-icons')
+    compile project(':slideshowfx-logs')
+    compile project(':slideshowfx-ui-controls')
+    compile project(':slideshowfx-utils')
+}
+
+jar {
+    manifest {
+        attributes += [
+                'Implementation-Title': 'SlideshowFX-setup',
+                'Implementation-Version': "${version}",
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class': 'com.twasyl.slideshowfx.setup.app.SlideshowFXSetup',
+                'JavaFX-Application-Class': 'com.twasyl.slideshowfx.setup.app.SlideshowFXSetup',
+                'JavaFX-Version': '8.0+'
+        ]
+    }
+}

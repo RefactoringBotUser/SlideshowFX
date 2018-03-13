@@ -6,7 +6,7 @@ apply plugin: 'java-library'
 dependencies {
     implementation project(':slideshowfx-markup')
 
-    compile 'com.github.rjeschke:txtmark:0.13'
+    compile "com.github.rjeschke:txtmark:${rootProject.ext.dependencies.markdown.version}"
 }
 
 ext.isPlugin = true

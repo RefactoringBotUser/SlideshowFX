@@ -6,7 +6,7 @@ apply plugin: 'java-library'
 dependencies {
     implementation project(':slideshowfx-markup')
 
-    compile 'org.eclipse.mylyn.docs:org.eclipse.mylyn.wikitext.textile:3.0.23'
+    compile "org.eclipse.mylyn.docs:org.eclipse.mylyn.wikitext.textile:${rootProject.ext.dependencies.wikitext.version}"
 }
 
 ext.isPlugin = true
