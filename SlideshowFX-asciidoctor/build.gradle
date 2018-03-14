@@ -11,6 +11,7 @@ dependencies {
 }
 
 ext.isPlugin = true
+ext.isMarkupPlugin = true
 ext.bundle = [
         name            : 'SlideshowFX asciidoctor support',
         symbolicName    : 'com.twasyl.slideshowfx.markup.asciidoctor',

@@ -8,6 +8,7 @@ dependencies {
 }
 
 ext.isPlugin = true
+ext.isMarkupPlugin = true
 ext.bundle = [
         name            : 'SlideshowFX HTML support',
         symbolicName    : 'com.twasyl.slideshowfx.markup.html',

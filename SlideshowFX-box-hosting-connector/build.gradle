@@ -12,6 +12,7 @@ dependencies {
 }
 
 ext.isPlugin = true
+ext.isHostingConnector = true
 ext.bundle = [
         name            : 'SlideshowFX Box hosting connector',
         symbolicName    : 'com.twasyl.slideshowfx.hosting.connector.box',

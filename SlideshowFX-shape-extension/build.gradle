@@ -15,6 +15,7 @@ dependencies {
 }
 
 ext.isPlugin = true
+ext.isContentExtension = true
 ext.bundle = [
         name               : 'SlideshowFX shape extension',
         symbolicName       : 'com.twasyl.slideshowfx.content.extension.shape',

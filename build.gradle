@@ -31,6 +31,42 @@ def getArchitecture() {
 
 }
 
+def isPlugin(Project project) {
+    return project.findProperty('isPlugin') ?: false
+}
+
+def isMarkupPlugin(Project project) {
+    if(isPlugin(project)) {
+        return project.findProperty('isMarkupPlugin') ?: false
+    } else {
+        return false
+    }
+}
+
+def isSnippetExecutorPlugin(Project project) {
+    if (isPlugin(project)) {
+        return project.findProperty('isSnippetExecutor') ?: false
+    } else {
+        return false
+    }
+}
+
+def isHostingConnectorPlugin(Project project) {
+    if(isPlugin(project)) {
+        return project.findProperty('isHostingConnector') ?: false
+    } else {
+        return false
+    }
+}
+
+def isContentExtensionPlugin(Project project) {
+    if(isPlugin(project)) {
+        return project.findProperty('isContentExtension') ?: false
+    } else {
+        return false
+    }
+}
+
 ext.os = [
         MAC    : 'mac',
         WINDOWS: 'windows',

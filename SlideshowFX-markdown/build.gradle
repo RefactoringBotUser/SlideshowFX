@@ -10,6 +10,7 @@ dependencies {
 }
 
 ext.isPlugin = true
+ext.isMarkupPlugin = true
 ext.bundle = [
         name            : 'SlideshowFX markdown support',
         symbolicName    : 'com.twasyl.slideshowfx.markup.markdown',

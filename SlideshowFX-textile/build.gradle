@@ -1,4 +1,4 @@
-description = 'Extension allowing to define slide\'s content using the markdown syntax'
+description = 'Extension allowing to define slide\'s content using the textile syntax'
 version = '1.2-SNAPSHOT'
 
 apply plugin: 'java-library'
@@ -10,6 +10,7 @@ dependencies {
 }
 
 ext.isPlugin = true
+ext.isMarkupPlugin = true
 ext.bundle = [
         name            : 'SlideshowFX Textile support',
         symbolicName    : 'com.twasyl.slideshowfx.markup.textile',
@@ -22,6 +23,6 @@ ext.bundle = [
 
 jar {
     from(configurations.compile.resolve().collect()) {
-        include '**/*.jar'
+        include '*'
     }
 }

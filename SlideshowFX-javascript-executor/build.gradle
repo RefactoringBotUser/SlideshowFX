@@ -9,6 +9,7 @@ dependencies {
 }
 
 ext.isPlugin = true
+ext.isSnippetExecutor = true
 ext.bundle = [
         name            : 'SlideshowFX JavaScript executor',
         symbolicName    : 'com.twasyl.slideshowfx.snippet.executor.javascript',

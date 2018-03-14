@@ -14,12 +14,88 @@ dependencies {
 jar {
     manifest {
         attributes += [
-                'Implementation-Title': 'SlideshowFX-setup',
-                'Implementation-Version': "${version}",
-                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
-                'Main-Class': 'com.twasyl.slideshowfx.setup.app.SlideshowFXSetup',
+                'Implementation-Title'    : 'SlideshowFX-setup',
+                'Implementation-Version'  : "${version}",
+                'Class-Path'              : configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class'              : 'com.twasyl.slideshowfx.setup.app.SlideshowFXSetup',
                 'JavaFX-Application-Class': 'com.twasyl.slideshowfx.setup.app.SlideshowFXSetup',
-                'JavaFX-Version': '8.0+'
+                'JavaFX-Version'          : '8.0+'
         ]
     }
 }
+
+task prepareBundle() {
+    doLast {
+        copy {
+            from configurations.compile
+            from jar
+            into "${buildDir}/tmp/bundles"
+        }
+
+        rootProject.subprojects.each { project ->
+            String destination
+            if (rootProject.isMarkupPlugin(project)) {
+                destination = "${buildDir}/tmp/bundles/package/plugins/markups"
+            } else if (rootProject.isSnippetExecutorPlugin(project)) {
+                destination = "${buildDir}/tmp/bundles/package/plugins/executors"
+            } else if (rootProject.isHostingConnectorPlugin(project)) {
+                destination = "${buildDir}/tmp/bundles/package/plugins/hostingConnectors"
+            } else if(rootProject.isContentExtensionPlugin(project)) {
+                destination = "${buildDir}/tmp/bundles/package/plugins/extensions"
+            }
+
+            if (destination != null) {
+                copy {
+                    from project.jar
+                    into destination
+                }
+            }
+        }
+    }
+}
+
+task createBundle() {
+    doLast {
+        def deployOutDir = new File("${buildDir}/bundle")
+        def deployResourcesDir = new File("${buildDir}/tmp/bundles")
+
+        ant.importBuild "${projectDir}/src/assembly/javafx/SlideshowFX-app.xml"
+        ant.classpath = "${System.env['JAVA_HOME']}/lib/ant-javafx.jar"
+        ant['build.deploy.out.dir'] = deployOutDir.absolutePath
+        ant['build.deploy.out.file'] = "SlideshowFX"
+        ant['build.deploy.resources.dir'] = deployResourcesDir.absolutePath
+
+        if (!new File(ant['build.deploy.out.dir']).exists()) {
+            new File(ant['build.deploy.out.dir']).mkdirs()
+        }
+
+        def platform = rootProject.getPlatform();
+
+        if (platform == rootProject.ext.os.MAC) {
+            deployOSX.execute()
+        } else if (platform == rootProject.ext.os.WINDOWS) {
+            deployWindows.execute()
+        } else {
+            deployUnknown.execute()
+        }
+
+        deployResourcesDir.deleteDir()
+    }
+}
+
+prepareBundle.dependsOn jar
+
+rootProject.subprojects.each { project ->
+    afterEvaluate {
+        def isMarkup = rootProject.isMarkupPlugin(project)
+        def isSnippetExecutor = rootProject.isSnippetExecutorPlugin(project)
+        def isHostingConnector = rootProject.isHostingConnectorPlugin(project)
+        def isContentExtension = rootProject.isContentExtensionPlugin(project)
+
+        if (isMarkup || isSnippetExecutor || isHostingConnector || isContentExtension) {
+            prepareBundle.dependsOn project.jar
+        }
+    }
+}
+
+createBundle.dependsOn prepareBundle
