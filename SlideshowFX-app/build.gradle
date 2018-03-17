@@ -47,6 +47,7 @@ task prepareBundle(type: Copy) {
 }
 
 task createBundle() {
+    outputs.files("${buildDir}/bundle/bundles/SlideshowFX.app")
     doLast {
         def deployOutDir = new File("${buildDir}/bundle")
         def deployResourcesDir = new File("${buildDir}/tmp/bundles")
@@ -72,6 +73,8 @@ task createBundle() {
         }
 
         deployResourcesDir.deleteDir()
+
+
     }
 }
 

@@ -12,6 +12,16 @@ dependencies {
 }
 
 jar {
+    doFirst {
+        ant.propertyfile(file: "${buildDir}/resources/main/com/twasyl/slideshowfx/setup/setup.properties") {
+            entry(key: 'setup.application.name', value: 'SlideshowFX')
+            entry(key: 'setup.application.version', value: "${version}")
+            entry(key: 'setup.application.artifact', value: './package/SlideshowFX.app')
+            entry(key: 'setup.service.twitter.consumerKey', value: "${System.env['TWITTER_CONSUMER_KEY']}")
+            entry(key: 'setup.service.twitter.consumerSecret', value: "${System.env['TWITTER_CONSUMER_SECRET']}")
+        }
+    }
+
     manifest {
         attributes += [
                 'Implementation-Title'    : 'SlideshowFX-setup',
@@ -23,6 +33,7 @@ jar {
         ]
     }
 }
+
 
 task prepareBundle() {
     doLast {
@@ -40,7 +51,7 @@ task prepareBundle() {
                 destination = "${buildDir}/tmp/bundles/package/plugins/executors"
             } else if (rootProject.isHostingConnectorPlugin(project)) {
                 destination = "${buildDir}/tmp/bundles/package/plugins/hostingConnectors"
-            } else if(rootProject.isContentExtensionPlugin(project)) {
+            } else if (rootProject.isContentExtensionPlugin(project)) {
                 destination = "${buildDir}/tmp/bundles/package/plugins/extensions"
             }
 
@@ -51,18 +62,28 @@ task prepareBundle() {
                 }
             }
         }
+
+        project(':slideshowfx-documentation').unzipDocumentationsIn("${buildDir}/tmp/bundles/package/documentations", true)
+
+        project(':slideshowfx-app').createBundle.outputs.files.each { file ->
+            copy {
+                from file
+                into "${buildDir}/tmp/bundles/package/${file.name}"
+            }
+        }
     }
 }
 
 task createBundle() {
+    outputs.files("${buildDir}/bundle/bundles/SlideshowFXSetup.app")
     doLast {
         def deployOutDir = new File("${buildDir}/bundle")
         def deployResourcesDir = new File("${buildDir}/tmp/bundles")
 
-        ant.importBuild "${projectDir}/src/assembly/javafx/SlideshowFX-app.xml"
+        ant.importBuild "${projectDir}/src/assembly/javafx/SlideshowFX-setup.xml"
         ant.classpath = "${System.env['JAVA_HOME']}/lib/ant-javafx.jar"
         ant['build.deploy.out.dir'] = deployOutDir.absolutePath
-        ant['build.deploy.out.file'] = "SlideshowFX"
+        ant['build.deploy.out.file'] = "SlideshowFXSetup"
         ant['build.deploy.resources.dir'] = deployResourcesDir.absolutePath
 
         if (!new File(ant['build.deploy.out.dir']).exists()) {
@@ -83,7 +104,7 @@ task createBundle() {
     }
 }
 
-prepareBundle.dependsOn jar
+prepareBundle.dependsOn jar, project(':slideshowfx-documentation').distZip, project(':slideshowfx-app').createBundle
 
 rootProject.subprojects.each { project ->
     afterEvaluate {

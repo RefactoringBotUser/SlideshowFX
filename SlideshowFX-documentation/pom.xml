@@ -44,7 +44,7 @@
                     </dependency>
                 </dependencies>
                 <configuration>
-                    <sourceDirectory>${project.basedir}${file.separator}src${file.separator}asciidoc</sourceDirectory>
+                    <sourceDirectory>${project.basedir}${file.separator}src${file.separator}docs${file.separator}asciidoc</sourceDirectory>
                     <attributes>
                         <source-highlighter>coderay</source-highlighter>
                         <toc>left</toc>

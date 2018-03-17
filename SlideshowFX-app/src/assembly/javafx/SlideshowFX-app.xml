@@ -17,9 +17,9 @@
             <fx:info title="SlideshowFX" vendor="Thierry Wasylczenko"
                      copyright="Copyright SlideshowFX" license="Apache 2 license">
                 <fx:association extension="sfxt" mimetype="application/sfxt" description="SlideshowFX templates"
-                                icon="${basedir}/src/assembly/javafx/package/macosx/SlideshowFX.icns"/>
+                                icon="${projectDir}/src/assembly/javafx/package/macosx/SlideshowFX.icns"/>
                 <fx:association extension="sfx" mimetype="application/sfx" description="SlideshowFX presentations"
-                                icon="${basedir}/src/assembly/javafx/package/macosx/SlideshowFX.icns"/>
+                                icon="${projectDir}/src/assembly/javafx/package/macosx/SlideshowFX.icns"/>
             </fx:info>
 
             <fx:platform javafx="8.0+" j2se="8.0">
@@ -29,7 +29,7 @@
                 <fx:jvmarg value="-Djava.util.logging.config.file=@@LOGGING_CONFIGURATION_FILE@@"/>
             </fx:platform>
 
-            <fx:bundleArgument arg="icon" value="${basedir}/src/assembly/javafx/package/macosx/SlideshowFX.icns"/>
+            <fx:bundleArgument arg="icon" value="${projectDir}/src/assembly/javafx/package/macosx/SlideshowFX.icns"/>
 
             <fx:resources>
                 <fx:fileset dir="${build.deploy.resources.dir}"/>
