@@ -27,4 +27,4 @@ before_build:
 
 build_script:
   - cmd: IF "%APPVEYOR_REPO_BRANCH%" == "master" (gradlew clean build)
-  - cmd: IF NOT "%APPVEYOR_REPO_BRANCH%" == "master" (gradlew clean build)
+  - cmd: IF NOT "%APPVEYOR_REPO_BRANCH%" == "master" (gradlew clean build bintrayUpload)

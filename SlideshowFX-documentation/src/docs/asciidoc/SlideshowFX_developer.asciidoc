@@ -90,17 +90,17 @@ SlideshowFX contains the following modules:
 - *SlideshowFX-kotlin-executor* which defines the base classes for creating an OSGi module for executing Kotlin code snippet in a presentation ;
 - *SlideshowFX-scala-executor* which defines the base classes for creating an OSGi module for executing Scala code snippet in a presentation ;
 
-=== Maven
+=== Gradle
 
-SlideshowFX uses http://maven.apache.org/[maven] as build system. The version used is {maven-version}.
+SlideshowFX uses https://gradle.org/[gradle] as build system. The version used is {gradle-version}.
 
 ==== Particularities
 
-The documentation provided within the SlideshowFX application is the same as the one provided by the setup. In order to avoid duplicate files, the `slideshowfx-app` module unpacks the `slideshowfx-documentation` HTML documentation in its own sources. In order to update the documentation within the application and display it the following maven command should be used:
+The documentation provided within the SlideshowFX application is the same as the one provided by the setup. In order to avoid duplicate files, the `slideshowfx-app` module unpacks the `slideshowfx-documentation` HTML documentation in its own sources. In order to update the documentation within the application and display it in the application during development, the following command could be used:
 
 [source]
 ----
-mvn generate-resources -pl com.twasyl:slideshowfx-app
+gradlew :slideshowfx-app:processResources
 ----
 
 === Set up your environment

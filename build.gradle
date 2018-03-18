@@ -1,3 +1,12 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.0'
+    }
+}
+
 allprojects {
     repositories {
         jcenter()
@@ -28,7 +37,14 @@ def getPlatform() {
 }
 
 def getArchitecture() {
+    return System.properties['os.arch']
+}
 
+/**
+ * Determine the suffix for a package according the platform and the architecture.
+ */
+def getPlatformAndArchitecture() {
+    return "${getPlatform()}-${getArchitecture()}"
 }
 
 def isPlugin(Project project) {
@@ -36,7 +52,7 @@ def isPlugin(Project project) {
 }
 
 def isMarkupPlugin(Project project) {
-    if(isPlugin(project)) {
+    if (isPlugin(project)) {
         return project.findProperty('isMarkupPlugin') ?: false
     } else {
         return false
@@ -52,7 +68,7 @@ def isSnippetExecutorPlugin(Project project) {
 }
 
 def isHostingConnectorPlugin(Project project) {
-    if(isPlugin(project)) {
+    if (isPlugin(project)) {
         return project.findProperty('isHostingConnector') ?: false
     } else {
         return false
@@ -60,7 +76,7 @@ def isHostingConnectorPlugin(Project project) {
 }
 
 def isContentExtensionPlugin(Project project) {
-    if(isPlugin(project)) {
+    if (isPlugin(project)) {
         return project.findProperty('isContentExtension') ?: false
     } else {
         return false
@@ -68,7 +84,7 @@ def isContentExtensionPlugin(Project project) {
 }
 
 ext.os = [
-        MAC    : 'mac',
+        MAC    : 'osx',
         WINDOWS: 'windows',
         UNIX   : 'unix',
         UNKNOWN: 'unknown'
@@ -94,6 +110,7 @@ ext.dependencies = [
 subprojects {
     afterEvaluate { project ->
         def isJavaProject = project.pluginManager.hasPlugin('java') || project.pluginManager.hasPlugin('java-library')
+        def isPlugin = rootProject.isPlugin(project)
 
         if (isJavaProject) {
             dependencies {
@@ -106,7 +123,43 @@ subprojects {
             }
         }
 
-        if (project.findProperty('isPlugin') ?: false) {
+        if (isPlugin || project.name.equals('slideshowfx-setup')) {
+            project.pluginManager.apply('com.jfrog.bintray')
+
+            bintray {
+                user = project.findProperty('bintray_user_name') ?: System.env['BINTRAY_USER_NAME']
+                key = project.findProperty('bintray_api_key') ?: System.env['BINTRAY_API_KEY']
+
+                configurations = ['archives']
+
+                pkg {
+                    repo = 'SlideshowFX'
+                    name = project.name
+                    websiteUrl = 'https://slideshowfx.github.io'
+                    issueTrackerUrl = 'https://github.com/twasyl/SlideshowFX/issues'
+                    vcsUrl = 'https://github.com/twasyl/SlideshowFX.git'
+
+                    desc = project.description
+
+                    licenses = ['Apache-2.0']
+
+                    githubRepo = 'twasyl/SlideshowFX'
+                    githubReleaseNotesFile = 'CHANGELOG.textile'
+
+                    version {
+                        name = rootProject.stripProjectVersion(project.version)
+                        desc = project.description
+                        released = new Date()
+                        vcsTag = "v${rootProject.stripProjectVersion(project.version)}"
+                    }
+                }
+            }
+
+            bintrayUpload.enabled = project.version.contains('-SNAPSHOT')
+        }
+
+        if (isPlugin) {
+
             dependencies {
                 implementation "org.apache.felix:org.apache.felix.framework:${rootProject.ext.dependencies.felix.version}"
             }
@@ -132,7 +185,7 @@ subprojects {
         afterEvaluate { project ->
             Map<String, ?> manifestAttributes = ['Implementation-Vendor': 'Thierry Wasylczenko']
 
-            if (project.findProperty("isPlugin") ?: false) {
+            if (rootProject.isPlugin(project)) {
                 manifestAttributes += [
                         'Bundle-ManifestVersion': '2',
                         'Bundle-Name'           : project.ext.bundle.name,
@@ -160,4 +213,3 @@ subprojects {
         }
     }
 }
-
