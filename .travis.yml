@@ -31,7 +31,7 @@ before_install:
 install: true
 
 script:
-  - if [[ "$TRAVIS_BRANCH" == "master" ]]; then ./gradlew clean build; else ./gradlew --debug clean build bintrayUpload; fi
+  - if [[ "$TRAVIS_BRANCH" == "master" ]]; then ./gradlew clean build; else ./gradlew clean build bintrayUpload; fi
 
 cache:
   directories:
