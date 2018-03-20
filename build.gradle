@@ -127,8 +127,8 @@ subprojects {
             project.pluginManager.apply('com.jfrog.bintray')
 
             bintray {
-                user = project.findProperty('bintray_user_name') ?: System.env['BINTRAY_USER_NAME']
-                key = project.findProperty('bintray_api_key') ?: System.env['BINTRAY_API_KEY']
+                user = System.properties['bintrayUserName'] ?: System.env['BINTRAY_USER_NAME']
+                key = System.properties['bintrayApiKey'] ?: System.env['BINTRAY_API_KEY']
 
                 configurations = ['archives']
 
