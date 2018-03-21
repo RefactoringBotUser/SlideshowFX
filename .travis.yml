@@ -14,25 +14,36 @@ matrix:
   include:
     - os: linux
       dist: trusty
-      jdk: oraclejdk8
       addons:
         apt:
           packages:
             - fakeroot
-            - oracle-java8-installer
     - os: osx
-      osx_image: xcode9.3beta
+      osx_image: xcode9.2
 
 
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export JAVA_HOME=$(/usr/libexec/java_home); fi
-  - chmod +x gradlew
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then \
+      export JAVA_HOME=$(/usr/libexec/java_home) \
+    else \
+      chmod +x travis.sh \
+      ./travis.sh \
+      export JAVA_HOME=~/jvm/jdk1.8.0_162 \
+    fi \
+    chmod +x gradlew
 
 install: true
 
 script:
-  - if [[ "$TRAVIS_BRANCH" == "master" ]]; then ./gradlew clean build; else ./gradlew clean build; fi
+  - |
+    if [[ "$TRAVIS_BRANCH" == "master" ]]; then \
+      ./gradlew clean build \
+    else \
+      ./gradlew clean build \
+    fi
 
 cache:
   directories:
     - $HOME/.gradle/
+    - $HOME/jvm/

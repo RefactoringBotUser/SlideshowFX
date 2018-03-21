@@ -57,10 +57,9 @@ task prepareBundle(type: Copy) {
 }
 
 task createBundle() {
-    outputs.files("${buildDir}/bundle/bundles/SlideshowFX.app")
+    outputs.files("${buildDir}/bundle/bundles/SlideshowFX${project.ext.packaging.extension}")
     doLast {
         def deployOutDir = new File("${buildDir}/bundle")
-        def packageDir = new File(deployOutDir, "package")
         def deployResourcesDir = new File("${buildDir}/tmp/bundles")
 
         ant.importBuild "${projectDir}/src/assembly/javafx/SlideshowFX-app.xml"
@@ -84,8 +83,9 @@ task createBundle() {
         }
 
         deployResourcesDir.deleteDir()
-        packageDir.deleteDir()
+        new File(deployOutDir, "package").deleteDir()
         delete fileTree(dir: deployOutDir, exclude: 'bundles')
+        delete fileTree(dir: "${buildDir}/bundle/bundles", exclude: "SlideshowFX${project.ext.packaging.extension}")
     }
 }
 

@@ -84,9 +84,9 @@ def isContentExtensionPlugin(Project project) {
 }
 
 ext.os = [
-        MAC    : 'osx',
+        MAC: 'osx',
         WINDOWS: 'windows',
-        UNIX   : 'unix',
+        UNIX: 'unix',
         UNKNOWN: 'unknown'
 ]
 
@@ -110,7 +110,7 @@ ext.dependencies = [
 subprojects {
     afterEvaluate { project ->
         def isJavaProject = project.pluginManager.hasPlugin('java') || project.pluginManager.hasPlugin('java-library')
-        def isPlugin = rootProject.isPlugin(project)
+        def isProjectPlugin = rootProject.isPlugin(project)
 
         if (isJavaProject) {
             dependencies {
@@ -123,7 +123,7 @@ subprojects {
             }
         }
 
-        if (isPlugin || project.name.equals('slideshowfx-setup')) {
+        if (isProjectPlugin || project.name.equals('slideshowfx-setup')) {
             project.pluginManager.apply('com.jfrog.bintray')
 
             bintray {
@@ -158,7 +158,7 @@ subprojects {
             bintrayUpload.enabled = project.version.contains('-SNAPSHOT')
         }
 
-        if (isPlugin) {
+        if (isProjectPlugin) {
 
             dependencies {
                 implementation "org.apache.felix:org.apache.felix.framework:${rootProject.ext.dependencies.felix.version}"
