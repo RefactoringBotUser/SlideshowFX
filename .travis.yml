@@ -29,9 +29,9 @@ before_install:
 install: true
 
 script:
-  - if [[ "$TRAVIS_BRANCH" == "master" ]]; then ./gradlew clean build; else ./gradlew clean build; fi
+  - if [[ "$TRAVIS_BRANCH" == "master" ]]; then ./gradlew clean build -x :slideshowfx-icons:test; else ./gradlew clean build -x :slideshowfx-icons:test; fi
 
 cache:
   directories:
-    - $HOME/.gradle/
-    - $HOME/jvm/
+    - $HOME/.gradle
+    - $HOME/jvm
