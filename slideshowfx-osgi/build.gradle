@@ -1,5 +1,5 @@
 description = 'Module allowing to add OSGi support in the application'
-version = '1.2-SNAPSHOT'
+version = '1.2'
 
 apply plugin: 'java-library'
 

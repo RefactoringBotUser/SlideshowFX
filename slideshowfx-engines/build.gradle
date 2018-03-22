@@ -1,5 +1,5 @@
 description = 'Module defining engines used by SlideshowFX'
-version = '1.2-SNAPSHOT'
+version = '1.2'
 
 apply plugin: 'java-library'
 

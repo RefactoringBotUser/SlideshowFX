@@ -1,5 +1,5 @@
 description = 'Extension allowing to insert code snippets inside a SlideshowFX presentation'
-version = '1.2-SNAPSHOT'
+version = '1.2'
 
 apply plugin: 'java-library'
 

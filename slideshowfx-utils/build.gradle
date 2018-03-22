@@ -1,5 +1,5 @@
 description = 'Module defining utilities to be used in the SlideshowFX application'
-version = '1.2-SNAPSHOT'
+version = '1.2'
 
 apply plugin: 'java'
 

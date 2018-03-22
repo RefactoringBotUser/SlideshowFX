@@ -83,10 +83,19 @@ def isContentExtensionPlugin(Project project) {
     }
 }
 
+/**
+ * Get all projects that have a SNAPSHOT version.
+ * @return The list of snapshot projects.
+ */
+def getSnapshotProjects() {
+    return allprojects.findAll { it.version.contains('-SNAPSHOT') }
+}
+
+
 ext.os = [
-        MAC: 'osx',
+        MAC    : 'osx',
         WINDOWS: 'windows',
-        UNIX: 'unix',
+        UNIX   : 'unix',
         UNKNOWN: 'unknown'
 ]
 
@@ -155,7 +164,7 @@ subprojects {
                 }
             }
 
-            bintrayUpload.enabled = project.version.contains('-SNAPSHOT')
+            bintrayUpload.enabled = System.properties["${project.name}.publish"] ?: false
         }
 
         if (isProjectPlugin) {
@@ -209,6 +218,30 @@ subprojects {
                 manifest {
                     attributes(manifestAttributes)
                 }
+            }
+        }
+    }
+}
+
+/**
+ * Task listing the projects that have a SNAPSHOT a version. These projects will be printed on the console with their
+ * version.
+ */
+task listSnapshotProjects {
+    doLast {
+        getSnapshotProjects().each { println "${it.name} => ${it.version}" }
+    }
+}
+
+/**
+ * Save as system properties in {@code gradle.properties} file the project that should be published. This task uses
+ * {@link #getSnapshotProjects()} to determine which project should be published.
+ */
+task saveProjectsToBePublished {
+    doLast {
+        new File("$rootProject.projectDir/gradle.properties").withWriter { out ->
+            getSnapshotProjects().findAll { rootProject.isPlugin(it) || it.name.equals('slideshowfx-setup') } each {
+                out.println "systemProp.${it.name}.publish=true"
             }
         }
     }

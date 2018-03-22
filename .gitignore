@@ -7,11 +7,10 @@ out
 # Application stuff
 felix-cache
 plugins
+.vertx
 
 # gradle files
 .gradle/
-gradle.properties
-**/gradle.properties
 build
 **/build/
 

@@ -10,7 +10,7 @@ plugins {
 }
 
 description = 'SlideshowFX documentation to be included within the application and the setup package'
-version = '1.0-SNAPSHOT'
+version = '1.0'
 
 asciidoctorj {
     version = '1.5.6'
