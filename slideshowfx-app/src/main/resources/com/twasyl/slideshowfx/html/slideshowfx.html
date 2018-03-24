@@ -64,19 +64,19 @@
             
             function displayContent(source) {
                 var containers = document.querySelectorAll('#content>section');
-                var activeClassName = " active";
+                var activeClassName = "active";
                 for(var index in containers) {
                     if(source === containers[index].id) {
                         containers[index].className = "show";
                         var icon = document.getElementById(source + '-menu-entry');
                         if(icon !== null) {
-                            icon.className += activeClassName;
+                            icon.className = activeClassName;
                         }
                     } else {
                         containers[index].className = "hide";
                         var icon = document.getElementById(containers[index].id + '-menu-entry');
                         if(icon !== null) {
-                            icon.className = icon.className.replace(activeClassName, "");
+                            icon.className = "";
                         }
                     }
                 }
@@ -220,8 +220,8 @@
                 border-bottom-width: 0;
             }
 
-            #menu i.active,
-            #menu i:hover {
+            #menu span.active,
+            #menu span:hover {
                 border-bottom-style: solid;
                 border-bottom-width: 5px;
                 padding-bottom: 12px;
@@ -344,9 +344,9 @@
             <div id="header" class="header-background">
                 <div><img src="/slideshowfx/images/logo.svg" height="64" /></div>
                 <div id="menu" class="hide">
-                    <i id="chat-container-menu-entry" class="far fa-comments fa-2x fa-fw" onclick="javascript:displayContent('chat-container');"></i>
-                    <i id="quiz-container-menu-entry" class="fas fa-question fa-2x fa-fw" onclick="javascript:displayContent('quiz-container');"></i>
-                    <i id="logout-menu-entry" class="fas fa-sign-out-alt fa-2x fa-fw" onclick="javascript:logout();"></i>
+                    <span id="chat-container-menu-entry" onclick="javascript:displayContent('chat-container');"><i class="far fa-comments fa-2x fa-fw"></i></span>
+                    <span id="quiz-container-menu-entry" onclick="javascript:displayContent('quiz-container');"><i class="fas fa-question fa-2x fa-fw"></i></span>
+                    <span id="logout-menu-entry" onclick="javascript:logout();"><i class="fas fa-sign-out-alt fa-2x fa-fw"></i></span>
                     </article>
                 </div>
             </div>

@@ -1,21 +1,19 @@
 function quiz(src, encodedQuiz) {
     if(sfxServer) {
-        var icon = src.querySelector('i');
-        var quizIsStopped = icon.className.indexOf('fa-play') != -1;
+        var quizIsStopped = src.className === 'start-quiz';
 
         if(quizIsStopped) {
+            var sibling = src.parentElement.querySelector("span.stop-quiz");
             var data = '{ "service" : "slideshowfx.quiz.start", "data" : { "encoded-quiz" : "' + encodedQuiz + '" } }';
             sfxServer.callService(data);
-
-            icon.className = 'fas fa-stop fa-fw';
-            icon.title = 'Stop the quiz';
         } else {
+            var sibling = src.parentElement.querySelector("span.start-quiz");
             var decodedQuiz = decodeURIComponent(escape(window.atob(encodedQuiz)));
             var data = '{ "service" : "slideshowfx.quiz.stop", "data" : { "id" : ' + JSON.parse(decodedQuiz).id + ' } }';
             sfxServer.callService(data);
-
-            icon.className = 'fas fa-play fa-fw';
-            icon.title = 'Start the quiz';
         }
+
+        src.style.display = "none";
+        sibling.style.display = "inline";
     }
 }

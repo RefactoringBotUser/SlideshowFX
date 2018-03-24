@@ -70,11 +70,16 @@ public class QuizContentExtension extends AbstractContentExtension {
     public String buildDefaultContentString() {
         final Quiz quiz = controller.getQuiz();
 
+        final String encodedQuiz = Base64.getEncoder().encodeToString(quiz.toJSONString().getBytes(getDefaultCharset()));
+
         final StringBuilder builder = new StringBuilder("<div id=\"quiz-").append(quiz.getId()).append("\" class=\"slideshowfx-quiz\" style=\"width: 100%\">\n");
         builder.append("\t<span id=\"").append(System.currentTimeMillis()).append("\" style=\"display: block; width: 100%; background-color: #ECECEC; border-radius: 10px 10px 0 0\">\n")
-                .append("\t\t<span id=\"quiz-action-button-").append(quiz.getId()).append("\" onclick=\"javascript:quiz(this, '")
-                .append(Base64.getEncoder().encodeToString(quiz.toJSONString().getBytes(getDefaultCharset()))).append("');\">")
-                .append("<i class=\"fa fa-play fa-fw\" title=\"Start the quiz\"></i></span>\n\t\t&nbsp;")
+                .append("\t\t<span id=\"start-quiz-action-button-").append(quiz.getId()).append("\" class=\"start-quiz\" onclick=\"javascript:quiz(this, '")
+                .append(encodedQuiz).append("');\">")
+                .append("<i class=\"fa fa-play fa-fw\" title=\"Start the quiz\"></i></span>")
+                .append("<span id=\"stop-quiz-action-button-").append(quiz.getId()).append("\" class=\"stop-quiz\" style=\"display:none\" onclick=\"javascript:quiz(this, '")
+                .append(encodedQuiz).append("');\">")
+                .append("<i class=\"fa fa-stop fa-fw\" title=\"Stop the quiz\"></i></span>\n\t\t&nbsp;")
                 .append(quiz.getQuestion().getText()).append("\n\t</span>\n");
         builder.append("\t<ul>");
 
