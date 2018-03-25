@@ -35,13 +35,11 @@ But SlideshowFX isn't just another simple presentation engine. It brings much mo
 
 | org.eclipse.mylyn.wikitext.textile.core | {wikitext-textile-core-version} | Library used for textile support
 
-| RxJava | {rxJava.version} |
+| RxJava | {rxJava-version} |
 
 | txtmark | {txtmark-version} | Library used for the markdown support
 
 | vertx-core | {vertx-version} |
-
-| zxing-core | {zxing-core-version} |
 
 | zxing-jse | {zxing-jse-version} |
 
@@ -102,6 +100,14 @@ The documentation provided within the SlideshowFX application is the same as the
 ----
 gradlew :slideshowfx-app:processResources
 ----
+
+==== Custom tasks
+
+Some gradle tasks are provided to help the developer :
+
+- *installPlugin* provided for all plugins and allowing to deploy the plugin directly to the folder : `~/.SlideshowFX/plugins` ;
+- *listSnapshotProjects* allowing to list projects having a `SNAPSHOT` version. This is particularly useful for knowing which project should update it's version before publishing ;
+- *saveProjectsToBePublished* allowing to save within the `gradle.properties` file the projects having a `SNAPSHOT` version and that should be published on bintray.
 
 === Set up your environment
 

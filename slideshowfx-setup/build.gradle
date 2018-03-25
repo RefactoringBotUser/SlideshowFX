@@ -115,7 +115,7 @@ task createBundle() {
         deployResourcesDir.deleteDir()
         new File(deployOutDir, "package").deleteDir()
         delete fileTree(dir: deployOutDir, exclude: 'bundles')
-        delete fileTree(dir: "${buildDir}/bundle/bundles", exclude: "SlideshowFXSetup${project.ext.packaging.extension}")
+        delete fileTree(dir: "${buildDir}/bundle/bundles", excludes: ["documentations", "SlideshowFXSetup${project.ext.packaging.extension}"])
     }
 }
 
@@ -128,20 +128,31 @@ distributions {
     }
 }
 
-prepareBundle.dependsOn jar, project(':slideshowfx-documentation').distZip, project(':slideshowfx-app').createBundle
-
-rootProject.subprojects.each { project ->
-    project.afterEvaluate {
-        def isMarkup = rootProject.isMarkupPlugin(project)
-        def isSnippetExecutor = rootProject.isSnippetExecutorPlugin(project)
-        def isHostingConnector = rootProject.isHostingConnectorPlugin(project)
-        def isContentExtension = rootProject.isContentExtensionPlugin(project)
-
-        if (isMarkup || isSnippetExecutor || isHostingConnector || isContentExtension) {
-            prepareBundle.dependsOn project.jar
-        }
-    }
-}
+prepareBundle.dependsOn jar,
+        ':slideshowfx-documentation:distZip',
+        ':slideshowfx-app:createBundle',
+        ':slideshowfx-alert-extension:jar',
+        ':slideshowfx-box-hosting-connector:jar',
+        ':slideshowfx-code-extension:jar',
+        ':slideshowfx-drive-hosting-connector:jar',
+        ':slideshowfx-dropbox-hosting-connector:jar',
+        ':slideshowfx-go-executor:jar',
+        ':slideshowfx-golo-executor:jar',
+        ':slideshowfx-groovy-executor:jar',
+        ':slideshowfx-html:jar',
+        ':slideshowfx-image-extension:jar',
+        ':slideshowfx-java-executor:jar',
+        ':slideshowfx-javascript-executor:jar',
+        ':slideshowfx-kotlin-executor:jar',
+        ':slideshowfx-link-extension:jar',
+        ':slideshowfx-markdown:jar',
+        ':slideshowfx-quiz-extension:jar',
+        ':slideshowfx-quote-extension:jar',
+        ':slideshowfx-scala-executor:jar',
+        ':slideshowfx-sequence-diagram-extension:jar',
+        ':slideshowfx-shape-extension:jar',
+        ':slideshowfx-snippet-extension:jar',
+        ':slideshowfx-textile:jar'
 
 createBundle.dependsOn prepareBundle
 distZip.dependsOn createBundle
