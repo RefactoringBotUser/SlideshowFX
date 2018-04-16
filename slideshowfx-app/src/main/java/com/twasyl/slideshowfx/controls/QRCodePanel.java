@@ -1,10 +1,5 @@
 package com.twasyl.slideshowfx.controls;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.WriterException;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
 import com.twasyl.slideshowfx.server.SlideshowFXServer;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
@@ -13,9 +8,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -67,26 +59,26 @@ public class QRCodePanel extends VBox {
     public byte[] generateQRCode(int size) {
         byte[] qrCode = null;
 
-        if (SlideshowFXServer.getSingleton() != null) {
-
-            final String qrCodeData = String.format("http://%1$s:%2$s%3$s",
-                    SlideshowFXServer.getSingleton().getHost(),
-                    SlideshowFXServer.getSingleton().getPort(),
-                    "/slideshowfx");
-
-            try (final ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-
-                final QRCodeWriter qrWriter = new QRCodeWriter();
-                final BitMatrix matrix = qrWriter.encode(qrCodeData, BarcodeFormat.QR_CODE, size, size);
-
-                MatrixToImageWriter.writeToStream(matrix, "png", out);
-
-                out.flush();
-                qrCode = out.toByteArray();
-            } catch (WriterException | IOException e) {
-                LOGGER.log(Level.WARNING, "Can not generate QR Code", e);
-            }
-        }
+//        if (SlideshowFXServer.getSingleton() != null) {
+//
+//            final String qrCodeData = String.format("http://%1$s:%2$s%3$s",
+//                    SlideshowFXServer.getSingleton().getHost(),
+//                    SlideshowFXServer.getSingleton().getPort(),
+//                    "/slideshowfx");
+//
+//            try (final ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+//
+//                final QRCodeWriter qrWriter = new QRCodeWriter();
+//                final BitMatrix matrix = qrWriter.encode(qrCodeData, BarcodeFormat.QR_CODE, size, size);
+//
+//                MatrixToImageWriter.writeToStream(matrix, "png", out);
+//
+//                out.flush();
+//                qrCode = out.toByteArray();
+//            } catch (WriterException | IOException e) {
+//                LOGGER.log(Level.WARNING, "Can not generate QR Code", e);
+//            }
+//        }
 
         return qrCode;
     }

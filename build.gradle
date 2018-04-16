@@ -14,6 +14,10 @@ allprojects {
     }
 }
 
+def getModuleName(String name) {
+    return name.replaceAll('-', '.')
+}
+
 def stripProjectVersion(String version) {
     if (version.contains("-SNAPSHOT")) {
         return version.replace("-SNAPSHOT", "")
@@ -117,9 +121,9 @@ ext.dependencies = [
 ]
 
 subprojects {
-    afterEvaluate { project ->
-        def isJavaProject = project.pluginManager.hasPlugin('java') || project.pluginManager.hasPlugin('java-library')
-        def isProjectPlugin = rootProject.isPlugin(project)
+    afterEvaluate { proj ->
+        def isJavaProject = proj.pluginManager.hasPlugin('java') || proj.pluginManager.hasPlugin('java-library')
+        def isProjectPlugin = rootProject.isPlugin(proj)
 
         if (isJavaProject) {
             dependencies {
@@ -127,13 +131,26 @@ subprojects {
                 testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${rootProject.ext.dependencies.junit.version}"
             }
 
+            compileJava {
+                sourceCompatibility = JavaVersion.VERSION_1_10
+                inputs.property("moduleName", getModuleName(proj.name))
+                doFirst {
+                    options.compilerArgs = [
+                            '--module-path', classpath.asPath,
+                    ]
+                    classpath = files()
+                }
+
+                options.encoding = "UTF-8"
+            }
+
             test {
                 useJUnitPlatform()
             }
         }
 
-        if (isProjectPlugin || project.name.equals('slideshowfx-setup')) {
-            project.pluginManager.apply('com.jfrog.bintray')
+        if (isProjectPlugin || proj.name.equals('slideshowfx-setup')) {
+            proj.pluginManager.apply('com.jfrog.bintray')
 
             bintray {
                 user = System.properties['bintrayUserName'] ?: System.env['BINTRAY_USER_NAME']
@@ -143,38 +160,45 @@ subprojects {
 
                 pkg {
                     repo = 'SlideshowFX'
-                    name = project.name
+                    name = proj.name
                     websiteUrl = 'https://slideshowfx.github.io'
                     issueTrackerUrl = 'https://github.com/twasyl/SlideshowFX/issues'
                     vcsUrl = 'https://github.com/twasyl/SlideshowFX.git'
 
-                    desc = project.description
+                    desc = proj.description
 
                     licenses = ['Apache-2.0']
 
                     githubRepo = 'twasyl/SlideshowFX'
-                    githubReleaseNotesFile = 'CHANGELOG.textile'
+                    githubReleaseNotesFile = 'CHANGELOG.md'
 
                     version {
-                        name = rootProject.stripProjectVersion(project.version)
-                        desc = project.description
+                        name = rootProject.stripProjectVersion(proj.version)
+                        desc = proj.description
                         released = new Date()
-                        vcsTag = "v${rootProject.stripProjectVersion(project.version)}"
+                        vcsTag = "v${rootProject.stripProjectVersion(proj.version)}"
                     }
                 }
             }
 
-            bintrayUpload.enabled = System.properties["${project.name}.publish"] ?: false
+            bintrayUpload.enabled = System.properties["${proj.name}.publish"] ?: false
         }
 
         if (isProjectPlugin) {
 
             dependencies {
+                implementation project(':slideshowfx-plugin')
                 implementation "org.apache.felix:org.apache.felix.framework:${rootProject.ext.dependencies.felix.version}"
             }
 
+            if (rootProject.isMarkupPlugin(proj)) {
+                dependencies {
+                    implementation project(':slideshowfx-markup')
+                }
+            }
+
             task installPlugin(type: Copy) {
-                from project.jar
+                from proj.jar
                 into "${System.properties['user.home']}/.SlideshowFX/plugins"
             }
 
@@ -182,17 +206,14 @@ subprojects {
         }
     }
 
-    tasks.withType(JavaCompile) {
-        compileJava {
-            sourceCompatibility = JavaVersion.VERSION_1_8
-        }
 
-        options.encoding = "UTF-8"
-    }
 
     tasks.withType(Jar) { task ->
         afterEvaluate { project ->
-            Map<String, ?> manifestAttributes = ['Implementation-Vendor': 'Thierry Wasylczenko']
+            Map<String, ?> manifestAttributes = [
+                    'Implementation-Vendor': 'Thierry Wasylczenko',
+                    'Automatic-Module-Name': getModuleName(project.name)
+            ]
 
             if (rootProject.isPlugin(project)) {
                 manifestAttributes += [
@@ -215,6 +236,7 @@ subprojects {
             }
 
             jar {
+                inputs.property("moduleName", getModuleName(project.name))
                 manifest {
                     attributes(manifestAttributes)
                 }

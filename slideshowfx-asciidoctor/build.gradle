@@ -4,8 +4,6 @@ version = '1.1'
 apply plugin: 'java-library'
 
 dependencies {
-    implementation project(':slideshowfx-markup')
-
     compile "org.asciidoctor:asciidoctorj:${rootProject.ext.dependencies.asciidoctorj.version}"
     compile 'org.jruby:jruby-complete:1.7.26'
 }

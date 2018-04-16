@@ -242,10 +242,10 @@ public class PresentationViewController implements Initializable {
 
     /**
      * Test if the given {@code contentCode} is supported.
-     * @param contentCode The code of the {@link com.twasyl.slideshowfx.markup.IMarkup} to test if it is supported.
+     * @param contentCode The code of the {@link IMarkup} to test if it is supported.
      * @return {@code true} if there is an OSGi bundle having the given code, {@code false} otherwise.
      */
-    public boolean isContentSupported(final String contentCode) {
+    private boolean isContentSupported(final String contentCode) {
         boolean supported = false;
 
         List<IMarkup> services = OSGiManager.getInstance().getInstalledServices(IMarkup.class);
@@ -408,8 +408,7 @@ public class PresentationViewController implements Initializable {
         }
 
         // Creating RadioButtons for each markup bundle installed
-        OSGiManager.getInstance().getInstalledServices(IMarkup.class)
-                .stream()
+        OSGiManager.getInstance().getInstalledServices(IMarkup.class).stream()
                 .sorted((markup1, markup2) -> markup1.getName().compareToIgnoreCase(markup2.getName()))
                 .forEach(this::createRadioButtonForMakup);
     }

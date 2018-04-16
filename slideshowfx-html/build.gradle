@@ -3,10 +3,6 @@ version = '1.0'
 
 apply plugin: 'java-library'
 
-dependencies {
-    implementation project(':slideshowfx-markup')
-}
-
 ext.isPlugin = true
 ext.isMarkupPlugin = true
 ext.bundle = [
