@@ -1,9 +1,9 @@
 package com.twasyl.slideshowfx.snippet.executor.golo;
 
-import com.sun.javafx.PlatformUtil;
 import com.twasyl.slideshowfx.global.configuration.GlobalConfiguration;
 import com.twasyl.slideshowfx.snippet.executor.AbstractSnippetExecutor;
 import com.twasyl.slideshowfx.snippet.executor.CodeSnippet;
+import com.twasyl.slideshowfx.utils.OSUtils;
 import com.twasyl.slideshowfx.utils.beans.converter.FileStringConverter;
 import com.twasyl.slideshowfx.utils.io.DefaultCharsetReader;
 import javafx.collections.FXCollections;
@@ -21,12 +21,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * An implementation of {@link com.twasyl.slideshowfx.snippet.executor.AbstractSnippetExecutor} that allows to execute
+ * An implementation of {@link AbstractSnippetExecutor} that allows to execute
  * Golo code snippets.
  * This implementation is identified with the code {@code GOLO}.
  *
  * @author Thierry Wasyczenko
- * @version 1.0
+ * @version 1.1
  * @since SlideshowFX 1.0
  */
 public class GoloSnippetExecutor extends AbstractSnippetExecutor<GoloSnippetExecutorOptions> {
@@ -141,7 +141,7 @@ public class GoloSnippetExecutor extends AbstractSnippetExecutor<GoloSnippetExec
                 consoleOutput.add("ERROR: ".concat(e.getMessage()));
             }
 
-            final File executable = PlatformUtil.isWindows() ?
+            final File executable = OSUtils.isWindows() ?
                     new File(this.getOptions().getGoloHome(), "bin/golo.bat") :
                     new File(this.getOptions().getGoloHome(), "bin/golo");
 

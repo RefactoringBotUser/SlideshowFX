@@ -7,6 +7,7 @@ module slideshowfx.utils {
     exports com.twasyl.slideshowfx.utils.keys;
     exports com.twasyl.slideshowfx.utils.io;
     exports com.twasyl.slideshowfx.utils.time;
+    exports com.twasyl.slideshowfx.utils.beans.converter;
     requires javafx.graphics;
     requires java.logging;
     requires vertx.core;

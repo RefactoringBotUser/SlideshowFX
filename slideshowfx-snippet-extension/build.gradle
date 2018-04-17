@@ -4,14 +4,8 @@ version = '1.2'
 apply plugin: 'java-library'
 
 dependencies {
-    api project(':slideshowfx-content-extension')
-    implementation project(':slideshowfx-global-configuration')
-    implementation project(':slideshowfx-icons')
-    api project(':slideshowfx-markup')
     implementation project(':slideshowfx-osgi')
-    api project(':slideshowfx-plugin')
     implementation project(':slideshowfx-snippet-executor')
-    api project(':slideshowfx-ui-controls')
 }
 
 ext.isPlugin = true

@@ -4,12 +4,6 @@ version = '1.2'
 apply plugin: 'java-library'
 
 dependencies {
-    api project(':slideshowfx-content-extension')
-    implementation project(':slideshowfx-icons')
-    api project(':slideshowfx-markup')
-    api project(':slideshowfx-plugin')
-    api project(':slideshowfx-ui-controls')
-
     testCompile "org.mockito:mockito-core:${rootProject.ext.dependencies.mockito.version}"
     testCompile project(':slideshowfx-html')
     testCompile project(':slideshowfx-markdown')

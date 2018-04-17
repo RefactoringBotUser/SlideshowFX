@@ -5,10 +5,6 @@ apply plugin: 'java-library'
 
 dependencies {
     compile "com.box:box-java-sdk:${rootProject.ext.dependencies.box.version}"
-    implementation project(':slideshowfx-engines')
-    implementation project(':slideshowfx-global-configuration')
-    implementation project(':slideshowfx-hosting-connector')
-    api project(':slideshowfx-plugin')
 }
 
 ext.isPlugin = true

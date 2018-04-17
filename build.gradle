@@ -195,6 +195,26 @@ subprojects {
                 dependencies {
                     implementation project(':slideshowfx-markup')
                 }
+            } else if (rootProject.isContentExtensionPlugin(proj)) {
+                dependencies {
+                    api project(':slideshowfx-icons')
+                    api project(':slideshowfx-ui-controls')
+                    implementation project(':slideshowfx-markup')
+                    implementation project(':slideshowfx-content-extension')
+                    implementation project(':slideshowfx-global-configuration')
+                }
+            } else if (rootProject.isHostingConnectorPlugin(proj)) {
+                dependencies {
+                    implementation project(':slideshowfx-hosting-connector')
+                    implementation project(':slideshowfx-engines')
+                    implementation project(':slideshowfx-global-configuration')
+                }
+            } else if (rootProject.isSnippetExecutorPlugin(proj)) {
+                dependencies {
+                    implementation project(':slideshowfx-snippet-executor')
+                    implementation project(':slideshowfx-global-configuration')
+                    implementation project(':slideshowfx-utils')
+                }
             }
 
             task installPlugin(type: Copy) {
