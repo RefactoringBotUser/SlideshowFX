@@ -126,6 +126,8 @@ subprojects {
         def isProjectPlugin = rootProject.isPlugin(proj)
 
         if (isJavaProject) {
+            proj.ext.moduleName = getModuleName(proj.name)
+
             dependencies {
                 testImplementation "org.junit.jupiter:junit-jupiter-api:${rootProject.ext.dependencies.junit.version}"
                 testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${rootProject.ext.dependencies.junit.version}"
@@ -133,10 +135,10 @@ subprojects {
 
             compileJava {
                 sourceCompatibility = JavaVersion.VERSION_1_10
-                inputs.property("moduleName", getModuleName(proj.name))
+                inputs.property("moduleName", proj.moduleName)
                 doFirst {
                     options.compilerArgs = [
-                            '--module-path', classpath.asPath,
+                            '--module-path', classpath.asPath
                     ]
                     classpath = files()
                 }
@@ -144,8 +146,31 @@ subprojects {
                 options.encoding = "UTF-8"
             }
 
+            compileTestJava {
+                inputs.property("moduleName", proj.moduleName)
+                doFirst {
+                    options.compilerArgs = [
+                            '--module-path', classpath.asPath,
+                            '--add-modules', 'org.junit.jupiter.api',
+                            '--add-reads', "${proj.moduleName}=org.junit.jupiter.api",
+                            '--patch-module', "${proj.moduleName}=" + files(sourceSets.test.java.srcDirs).asPath,
+                    ]
+                    classpath = files()
+                }
+            }
+
             test {
                 useJUnitPlatform()
+                inputs.property("moduleName", proj.moduleName)
+                doFirst {
+                    jvmArgs = [
+                            '--module-path', classpath.asPath,
+                            '--add-modules', 'ALL-MODULE-PATH',
+                            '--add-reads', "${proj.moduleName}=org.junit.jupiter.api",
+                            '--patch-module', "${proj.moduleName}=" + files(sourceSets.test.java.outputDir).asPath,
+                    ]
+                    classpath = files()
+                }
             }
         }
 
@@ -231,8 +256,7 @@ subprojects {
     tasks.withType(Jar) { task ->
         afterEvaluate { project ->
             Map<String, ?> manifestAttributes = [
-                    'Implementation-Vendor': 'Thierry Wasylczenko',
-                    'Automatic-Module-Name': getModuleName(project.name)
+                    'Implementation-Vendor': 'Thierry Wasylczenko'
             ]
 
             if (rootProject.isPlugin(project)) {

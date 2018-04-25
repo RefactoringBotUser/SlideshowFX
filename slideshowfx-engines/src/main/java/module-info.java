@@ -8,7 +8,7 @@ module slideshowfx.engines {
     requires freemarker;
     requires slideshowfx.content.extension;
     requires javafx.swing;
-    requires jsoup;
+    requires org.jsoup;
     exports com.twasyl.slideshowfx.engine.presentation;
     exports com.twasyl.slideshowfx.engine.template.configuration;
     exports com.twasyl.slideshowfx.engine.presentation.configuration;

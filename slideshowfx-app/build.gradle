@@ -64,10 +64,10 @@ task createBundle() {
         def deployResourcesDir = new File("${buildDir}/tmp/bundles")
 
         ant.importBuild "${projectDir}/src/assembly/javafx/SlideshowFX-app.xml"
-        ant.classpath = "${System.env['JAVA_HOME']}/lib/ant-javafx.jar"
-        ant['build.deploy.out.dir'] = deployOutDir.absolutePath
-        ant['build.deploy.out.file'] = "SlideshowFX"
-        ant['build.deploy.resources.dir'] = deployResourcesDir.absolutePath
+        ant.properties['classpath'] = "${System.env['JAVA_HOME']}/lib/ant-javafx.jar"
+        ant.properties['build.deploy.out.dir'] = deployOutDir.absolutePath
+        ant.properties['build.deploy.out.file'] = "SlideshowFX"
+        ant.properties['build.deploy.resources.dir'] = deployResourcesDir.absolutePath
 
         if (!new File(ant['build.deploy.out.dir']).exists()) {
             new File(ant['build.deploy.out.dir']).mkdirs()

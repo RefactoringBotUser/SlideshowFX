@@ -28,7 +28,7 @@ module slideshowfx.app {
     opens com.twasyl.slideshowfx.images;
 
     opens com.twasyl.slideshowfx.app to javafx.graphics, javafx.fxml;
-    opens com.twasyl.slideshowfx.controllers /*to javafx.graphics, javafx.fxml*/;
+    opens com.twasyl.slideshowfx.controllers to javafx.graphics, javafx.fxml, javafx.web;
     opens com.twasyl.slideshowfx.controls to javafx.fxml;
     opens com.twasyl.slideshowfx.controls.notification to javafx.fxml;
 

@@ -12,7 +12,7 @@ module slideshowfx.utils {
     requires java.logging;
     requires vertx.core;
     requires javafx.controls;
-    requires jsoup;
     requires freemarker;
+    requires org.jsoup;
     requires slideshowfx.global.configuration;
 }

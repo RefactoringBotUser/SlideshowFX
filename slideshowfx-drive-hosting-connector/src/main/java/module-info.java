@@ -3,7 +3,7 @@ module slideshowfx.drive.hosting.connector {
     requires google.api.client;
     requires google.http.client;
     requires google.http.client.jackson2;
-    requires google.api.services.drive.v3.rev103;
+    requires google.api.services.drive.v3.rev111;
     requires slideshowfx.engines;
     requires slideshowfx.global.configuration;
     requires slideshowfx.hosting.connector;
