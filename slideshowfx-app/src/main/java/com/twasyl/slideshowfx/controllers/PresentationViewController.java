@@ -1,13 +1,19 @@
 package com.twasyl.slideshowfx.controllers;
 
+import com.twasyl.slideshowfx.concurrent.ReloadPresentationViewAndGoToTask;
+import com.twasyl.slideshowfx.concurrent.ReloadPresentationViewTask;
 import com.twasyl.slideshowfx.content.extension.IContentExtension;
+import com.twasyl.slideshowfx.controls.CollapsibleToolPane;
 import com.twasyl.slideshowfx.controls.PresentationBrowser;
 import com.twasyl.slideshowfx.controls.PresentationVariablesPanel;
 import com.twasyl.slideshowfx.controls.SlideContentEditor;
+import com.twasyl.slideshowfx.controls.outline.PresentationOutline;
+import com.twasyl.slideshowfx.dao.TaskDAO;
 import com.twasyl.slideshowfx.engine.presentation.PresentationEngine;
 import com.twasyl.slideshowfx.engine.presentation.Presentations;
 import com.twasyl.slideshowfx.engine.presentation.configuration.Slide;
 import com.twasyl.slideshowfx.engine.presentation.configuration.SlideElement;
+import com.twasyl.slideshowfx.engine.template.configuration.SlideTemplate;
 import com.twasyl.slideshowfx.global.configuration.GlobalConfiguration;
 import com.twasyl.slideshowfx.icons.FontAwesome;
 import com.twasyl.slideshowfx.markup.IMarkup;
@@ -18,10 +24,8 @@ import com.twasyl.slideshowfx.utils.DialogHelper;
 import com.twasyl.slideshowfx.utils.PlatformHelper;
 import com.twasyl.slideshowfx.utils.beans.Pair;
 import com.twasyl.slideshowfx.utils.beans.binding.FilenameBinding;
-import javafx.beans.property.ReadOnlyBooleanProperty;
-import javafx.beans.property.ReadOnlyStringProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.binding.DoubleBinding;
+import javafx.beans.property.*;
 import javafx.beans.property.adapter.JavaBeanObjectProperty;
 import javafx.beans.property.adapter.JavaBeanObjectPropertyBuilder;
 import javafx.collections.ListChangeListener;
@@ -31,10 +35,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -47,22 +51,26 @@ import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static java.lang.Double.NaN;
+import static java.util.logging.Level.SEVERE;
+
 /**
  * This class is the controller of the {@code PresentationView.fxml} file. It defines all actions possible inside the view
  * represented by the FXML.
  *
  * @author Thierry Wasyczenko
- * @version 1.4
+ * @version 1.5-SNAPSHOT
  * @since SlideshowFX 1.0
  */
 public class PresentationViewController implements Initializable {
     private static final Logger LOGGER = Logger.getLogger(PresentationViewController.class.getName());
 
-    private SlideshowFXController parent;
     private PresentationEngine presentationEngine;
     private final ReadOnlyStringProperty presentationName = new SimpleStringProperty();
     private final ReadOnlyBooleanProperty presentationModified = new SimpleBooleanProperty(false);
 
+    @FXML
+    private SplitPane root;
     @FXML
     private PresentationBrowser browser;
     @FXML
@@ -81,6 +89,9 @@ public class PresentationViewController implements Initializable {
     private Button defineContent;
     @FXML
     private TextArea speakerNotes;
+    @FXML
+    public CollapsibleToolPane presentationOutlinePane;
+    public PresentationOutline presentationOutline;
 
     /* All methods called by the FXML */
 
@@ -135,6 +146,91 @@ public class PresentationViewController implements Initializable {
     }
 
     /**
+     * Add the given {@link SlideTemplate template} after the current displayed slide.
+     *
+     * @param template The slide to add.
+     * @return The added slide or {@code null} if something went wrong.
+     */
+    public Slide addSlide(final SlideTemplate template) {
+        Slide slide = null;
+
+        try {
+            slide = this.presentationEngine.addSlide(template, this.getCurrentSlideNumber());
+            this.presentationOutline.addPreview(slide.getId());
+
+            TaskDAO.getInstance().startTask(new ReloadPresentationViewAndGoToTask(this, slide.getId()));
+        } catch (IOException e) {
+            LOGGER.log(SEVERE, "Error when adding a slide", e);
+        } finally {
+            return slide;
+        }
+    }
+
+    /**
+     * Copy the currently displayed slide.
+     */
+    public void copySlide() {
+        final Slide source = this.presentationEngine.getConfiguration().getSlideById(this.getCurrentSlideId());
+
+        try {
+            final Slide copiedSlide = this.presentationEngine.duplicateSlide(source);
+            this.presentationOutline.addPreview(copiedSlide.getId());
+
+            TaskDAO.getInstance().startTask(new ReloadPresentationViewTask(this));
+        } catch (IOException e) {
+            LOGGER.log(Level.WARNING, "Error when copying the slide", e);
+        }
+    }
+
+    /**
+     * Delete the currently displayed slide.
+     */
+    public void deleteSlide() {
+        final String slideNumberToDelete = getCurrentSlideNumber();
+
+        if (slideNumberToDelete != null) {
+            final ButtonType answer = DialogHelper.showConfirmationAlert("Delete slide", "Are you sure you want to delete the slide?");
+
+            if (answer == ButtonType.YES) {
+                final Slide slideBefore = this.presentationEngine.getConfiguration().getSlideBefore(slideNumberToDelete);
+
+                this.presentationEngine.deleteSlide(slideNumberToDelete);
+                this.presentationOutline.deletePreview(getCurrentSlideId());
+
+                if (slideBefore == null) this.reloadPresentation();
+                else reloadPresentationAndGoToSlide(slideBefore.getId());
+            }
+        }
+    }
+
+    /**
+     * Delete the slide identified by the given {@code slideId}.
+     *
+     * @param slideId The slide to delete.
+     */
+    public void deleteSlide(final String slideId) {
+        if (slideId != null) {
+            final ButtonType answer = DialogHelper.showConfirmationAlert("Delete slide", "Are you sure you want to delete the slide?");
+
+            if (answer == ButtonType.YES) {
+                final Slide slideToDelete = this.presentationEngine.getConfiguration().getSlideById(slideId);
+                this.presentationEngine.deleteSlide(slideToDelete.getSlideNumber());
+                this.presentationOutline.deletePreview(slideId);
+
+                final String currentSlideId = getCurrentSlideId();
+                if (slideId.equals(currentSlideId)) {
+                    final Slide slideBefore = this.presentationEngine.getConfiguration().getSlideBefore(slideToDelete.getSlideNumber());
+
+                    if (slideBefore == null) this.reloadPresentation();
+                    else reloadPresentationAndGoToSlide(slideBefore.getId());
+                } else {
+                    this.reloadPresentation();
+                }
+            }
+        }
+    }
+
+    /**
      * This method updates a slide of the presentation. The <code>markup</code> and the <code>originalContent</code> are
      * deduced from the user interface. If all parameters can be deduced, then {@link #updateSlide(IMarkup, String)} is
      * called, otherwise nothing is performed.
@@ -183,11 +279,7 @@ public class PresentationViewController implements Initializable {
 
         this.browser.defineContent(this.slideNumber.getText(), this.fieldName.getText(), htmlContent);
 
-        // Take a thumbnail of the slide
-        WritableImage thumbnail = this.browser.snapshot(null, null);
-        this.presentationEngine.getConfiguration().updateSlideThumbnail(this.slideNumber.getText(), thumbnail);
-
-        if (this.parent != null) this.parent.updateSlideSplitMenu();
+        this.presentationOutline.updatePreview(slideToUpdate.getId());
 
         this.presentationEngine.setModifiedSinceLatestSave(true);
     }
@@ -208,12 +300,12 @@ public class PresentationViewController implements Initializable {
         if (slide != null) {
             final SlideElement element = slide.getElement(slideNumber + "-" + field);
 
-            /**
+            /*
              * Prefill the content either with the element's content if it is not null, either with the given
              * <code>currentElementContent</code>.
              */
             if (element != null) {
-                /**
+                /*
                  * Prefill the content with either the original content is it is still supported either
                  * the HTML content.
                  */
@@ -242,6 +334,7 @@ public class PresentationViewController implements Initializable {
 
     /**
      * Test if the given {@code contentCode} is supported.
+     *
      * @param contentCode The code of the {@link IMarkup} to test if it is supported.
      * @return {@code true} if there is an OSGi bundle having the given code, {@code false} otherwise.
      */
@@ -250,8 +343,8 @@ public class PresentationViewController implements Initializable {
 
         List<IMarkup> services = OSGiManager.getInstance().getInstalledServices(IMarkup.class);
 
-        if(services != null) {
-            Optional<IMarkup> iMarkup =  services.stream()
+        if (services != null) {
+            Optional<IMarkup> iMarkup = services.stream()
                     .filter(service -> contentCode.equals(service.getCode()))
                     .findFirst();
 
@@ -291,7 +384,6 @@ public class PresentationViewController implements Initializable {
                         while (change.next()) {
                             if (change.wasAdded()) {
                                 change.getAddedSubList()
-                                        .stream()
                                         .forEach(line -> this.browser.updateCodeSnippetConsole(consoleOutputId, line));
                             }
                         }
@@ -434,6 +526,31 @@ public class PresentationViewController implements Initializable {
     }
 
     /**
+     * Reloads the presentation.
+     */
+    public void reloadPresentation() {
+        reloadPresentationAndGoToSlide(null);
+    }
+
+    /**
+     * Reloads the presentation and then go to a given slide identified by its id. If the provided ID is {@code null},
+     * the presentation will only be reloaded.
+     *
+     * @param id The ID of the slide to go to when the presentation has been successfully reloaded.
+     */
+    public void reloadPresentationAndGoToSlide(final String id) {
+        final ReloadPresentationViewTask task;
+
+        if (id != null && !id.isEmpty()) {
+            task = new ReloadPresentationViewAndGoToTask(this, id);
+        } else {
+            task = new ReloadPresentationViewTask(this);
+        }
+
+        TaskDAO.getInstance().startTask(task);
+    }
+
+    /**
      * Reload the browser displaying the presentation.
      *
      * @return A {@link CompletableFuture} which will be completed when the browser is no more loading it's content.
@@ -451,6 +568,106 @@ public class PresentationViewController implements Initializable {
                 && this.presentationEngine.getConfiguration().getPresentationFile().exists()) {
             this.browser.loadPresentation(this.presentationEngine);
         }
+    }
+
+    /**
+     * Initialize the {@link #presentationOutlinePane}. It will define the behaviour of the pane and how it affects
+     * elements within it.
+     */
+    private void initializePresentationOutlinePane() {
+        final ObservableList<SplitPane.Divider> dividers = this.root.getDividers();
+
+        if (!dividers.isEmpty()) {
+            final SplitPane.Divider divider = dividers.get(0);
+            final DoubleProperty dividerWidth = new SimpleDoubleProperty(NaN);
+
+            this.root.getChildrenUnmodifiable().addListener((ListChangeListener<Node>) event -> {
+                if (event.next() && event.wasAdded() && dividerWidth.getValue().isNaN()) {
+                    final Node node = event.getAddedSubList().get(0);
+
+                    if (node.getStyleClass().contains("split-pane-divider")) {
+                        dividerWidth.bind(((Region) node).widthProperty());
+                        event.reset();
+                    }
+                }
+            });
+
+            final DoubleProperty openedDividerPosition = new SimpleDoubleProperty(NaN);
+
+            final DoubleBinding contentWidth = divider.positionProperty()
+                    .multiply(this.root.widthProperty())
+                    .subtract(this.presentationOutlinePane.toolbarWidthProperty())
+                    .subtract(dividerWidth);
+            this.presentationOutlinePane.contentWidthProperty().bind(contentWidth);
+
+            this.presentationOutlinePane.collapsedProperty().addListener((value, wasCollapsed, isCollapsed) -> {
+                final double position;
+
+                if (isCollapsed) {
+                    position = this.presentationOutlinePane.getToolbarWidth() / this.root.getWidth();
+                    openedDividerPosition.set(divider.getPosition());
+                } else if (openedDividerPosition.getValue().isNaN()) {
+                    position = 0.3;
+                } else {
+                    position = openedDividerPosition.get();
+                }
+
+                if (divider.positionProperty().isBound()) {
+                    divider.positionProperty().unbind();
+                }
+
+                divider.setPosition(position);
+            });
+
+            // Initial position
+            this.presentationOutlinePane.toolbarWidthProperty().addListener((widthValue, oldWidth, newWidth) -> {
+                divider.setPosition(newWidth.doubleValue() / this.root.getWidth());
+            });
+        }
+    }
+
+    /**
+     * Initialize the presentation outline by :
+     * <ul>
+     * <li>filling it with slides' preview ;</li>
+     * <li>registering listeners for the selection change ;</li>
+     * <li>registering a listener when a slide is moved ;</li>
+     * <li>registering a listener when a slide is deleted.</li>
+     * </ul>
+     */
+    private void initializePresentationOutline() {
+        this.presentationOutline = new PresentationOutline();
+        this.presentationOutline.prefHeightProperty().bind(this.root.heightProperty());
+
+        this.presentationOutline.setOnSlideMoved(event -> {
+            final Slide slideToMove = this.presentationEngine.getConfiguration().getSlideById(event.getSourceSlideId());
+            final Slide beforeSlide = this.presentationEngine.getConfiguration().getSlideById(event.getTargetSlideId());
+            this.presentationEngine.moveSlide(slideToMove, beforeSlide);
+
+            final ReloadPresentationViewTask task = new ReloadPresentationViewTask(this);
+            TaskDAO.getInstance().startTask(task);
+        });
+
+        this.presentationOutline.setOnSlideDeletionRequested(event -> {
+            this.deleteSlide(event.getSourceSlideId());
+        });
+
+        this.presentationOutline.getSelectionModel().selectedIndexProperty().addListener((value, oldIndex, newIndex) -> {
+            if (newIndex != null) {
+                final String slideId = this.presentationOutline.getSlideIdAtIndex(newIndex.intValue());
+
+                if (slideId != null) {
+                    this.goToSlide(slideId);
+                }
+            }
+        });
+
+        this.presentationOutlinePane.addContent("Outline", this.presentationOutline);
+
+        final Thread thread = new Thread(() -> PlatformHelper.run(() -> this.presentationOutline.setPresentation(this.presentationEngine)));
+
+        thread.setName("filling-slides-preview");
+        thread.start();
     }
 
     /**
@@ -484,8 +701,11 @@ public class PresentationViewController implements Initializable {
 
             ((SimpleBooleanProperty) this.presentationModified).bind(presentationModifiedSinceLatestSave);
         } catch (NoSuchMethodException e) {
-            LOGGER.log(Level.SEVERE, "Can not create the property for the name of the presentation", e);
+            LOGGER.log(SEVERE, "Can not create the property for the name of the presentation", e);
         }
+
+        this.initializePresentationOutlinePane();
+        this.initializePresentationOutline();
     }
 
     /**
@@ -569,7 +789,6 @@ public class PresentationViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         // Make this controller available to JavaScript
         this.browser.setPresentation(this.presentationEngine);
         this.browser.setBackend(this);
@@ -602,7 +821,7 @@ public class PresentationViewController implements Initializable {
                 try {
                     this.updateSlide();
                 } catch (Exception e) {
-                    LOGGER.log(Level.SEVERE, "Can not define content", e);
+                    LOGGER.log(SEVERE, "Can not define content", e);
                 }
             }
         });
