@@ -821,7 +821,7 @@ public class PresentationViewController implements Initializable {
                 try {
                     this.updateSlide();
                 } catch (Exception e) {
-                    LOGGER.log(SEVERE, "Can not define content", e);
+                    LOGGER.log(Level.SEVERE, "Can not define content", e);
                 }
             }
         });
